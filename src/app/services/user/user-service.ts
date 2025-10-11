@@ -2,15 +2,9 @@ import { inject, Injectable } from '@angular/core';
 import { HttpClient, HttpParams } from '@angular/common/http';
 import { Observable } from 'rxjs';
 import { UserResponseDTO, UserCreateDTO, UserUpdateDTO } from '../../models/user-models';
-import { PagedModel, EntityModel } from '../../models/hateoas-models';
+import { PagedModel, EntityModel, Pageable } from '../../models/hateoas-models';
 
 const API = 'http://localhost:8080/users'; 
-
-interface Pageable {
-  page: number;
-  size: number;
-  sort?: string;
-}
 
 @Injectable({
   providedIn: 'root'

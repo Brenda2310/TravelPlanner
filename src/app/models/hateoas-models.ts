@@ -18,3 +18,9 @@ export interface PagedModel<T> {
   _links: any;
   page: PageMetadata;
 }
+
+export interface Pageable {
+  page: number;
+  size: number;
+  sort?: string;
+}
