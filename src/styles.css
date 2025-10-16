@@ -1,1 +1,23 @@
-/* You can add global styles to this file, and also import other style files */
+@import url('https://fonts.googleapis.com/css2?family=Raleway:wght@400;600&display=swap');
+
+*{
+    box-sizing: border-box;
+    margin: 0;
+}
+
+:root{
+    --background-color: #FFFFFA;
+    --header-color: #07494F;
+    --footer-color: #0D5C63;
+    --color1: #008C9E;
+    --color2: #EAF4F4;
+    --color3: #EAF4F4; 
+    --font-color: #f8f8ea;
+    --font-primary: 'Poppins', sans-serif;
+    --font-secondary: 'Playfair Display', serif;
+}
+
+body{
+    background-color: var(--background-color);
+    font-family: var(--font-primary);
+}
