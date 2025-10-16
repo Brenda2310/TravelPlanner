@@ -1,0 +1,9 @@
+:host {
+    display: block;
+    min-height: 100vh;
+    padding-top: 300px; 
+    background-image: url('../../../assets/viajero-con-mapa-y-tiro-medio-de-telefono-movil.jpg');
+    background-size: cover;
+    background-repeat: no-repeat;
+    background-attachment: fixed;  
+}  
