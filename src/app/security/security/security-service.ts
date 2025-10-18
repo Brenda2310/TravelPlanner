@@ -1,9 +1,8 @@
 import { Injectable, inject } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
-import { Observable, tap } from 'rxjs';
-import { AuthRequest, AuthResponse, RefreshTokenRequest } from '../../models/security-models';
+import { tap } from 'rxjs';
+import { AuthRequest, AuthResponse, RefreshTokenRequest } from '../security-models';
 
-const API = 'http://localhost:8080/auth';
 const ACCESS_TOKEN_KEY = 'accessToken';
 const REFRESH_TOKEN_KEY = 'refreshToken';
 
@@ -12,7 +11,8 @@ const REFRESH_TOKEN_KEY = 'refreshToken';
 })
 
 export class SecurityService {
-  private http = inject(HttpClient);
+  private readonly http = inject(HttpClient);
+  private readonly api = 'http://localhost:8080/auth';
 
   private saveTokens(response: AuthResponse): void {
     localStorage.setItem(ACCESS_TOKEN_KEY, response.accessToken);
@@ -45,22 +45,22 @@ export class SecurityService {
     return decoded.roles || [];
   }
 
-  authenticateUser(authRequest: AuthRequest): Observable<AuthResponse> {
+  authenticateUser(authRequest: AuthRequest) {
     return this.http
-      .post<AuthResponse>(API, authRequest)
+      .post<AuthResponse>(this.api, authRequest)
       .pipe(tap((response) => this.saveTokens(response)));
   }
 
-  refreshToken(refreshToken: string): Observable<AuthResponse> {
+  refreshToken(refreshToken: string) {
     const request: RefreshTokenRequest = { refreshToken };
     return this.http
-      .post<AuthResponse>(`${API}/refresh`, request)
+      .post<AuthResponse>(`${this.api}/refresh`, request)
       .pipe(tap((response) => this.saveTokens(response)));
   }
 
-  logout(): Observable<string> {
+  logout(){
     return this.http
-      .post(`${API}/logout`, null, { responseType: 'text' })
+      .post(`${this.api}/logout`, null, { responseType: 'text' })
       .pipe(tap(() => this.clearTokens()));
   }
 }

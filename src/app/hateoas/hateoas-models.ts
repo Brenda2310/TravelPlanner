@@ -1,4 +1,3 @@
-// Interfaces para manejar la respuesta paginada y HATEOAS
 export interface EntityModel<T> {
   content: T;
   _links: any; 
@@ -23,4 +22,17 @@ export interface Pageable {
   page: number;
   size: number;
   sort?: string;
+}
+
+export interface PaginationInfo {
+  totalElements: number;
+  totalPages: number;
+  currentPage: number;
+  pageSize: number;
+}
+
+export interface CollectionState<T> {
+  list: T[]; 
+  loading: boolean;
+  pageInfo: PaginationInfo;
 }
