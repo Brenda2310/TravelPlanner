@@ -7,11 +7,12 @@ import {
   CheckListCreateDTO,
   CheckListUpdateDTO,
   CheckListFilterDTO } from '../checklist-models';
+import { BaseStore } from '../../BaseStore';
 
 @Injectable({
   providedIn: 'root'
 })
-export class ChecklistStore {
+export class ChecklistStore extends BaseStore{
   private readonly client = inject(ChecklistService);
   private readonly _checklist = signal<CollectionState<CheckListResponseDTO>>({
       list: [], 
@@ -22,14 +23,9 @@ export class ChecklistStore {
   private readonly _loading = signal<boolean>(false);
   private readonly _error = signal<string | null>(null);
 
-  private readonly checklist = this._checklist.asReadonly();
+  public readonly checklist = this._checklist.asReadonly();
   public readonly loading = this._loading.asReadonly();
   public readonly error = this._error.asReadonly();
-
-  private unwrapEntities<T>(pagedResponse: { _embedded?: any }): T[] {
-      return ((Object.values(pagedResponse._embedded ?? {})[0] as EntityModel<T>[] | undefined) ?? [])
-        .map(e => e.content ?? e) as T[];
-    }
 
   private setChecklist(list: CheckListResponseDTO[], page: any) {
     this._checklist.set({

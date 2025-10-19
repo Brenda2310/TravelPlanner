@@ -13,11 +13,12 @@ import {
   ActivityFilterDTO,
   CompanyActivityFilterParams,
 } from '../activity-models';
+import { BaseStore } from '../../BaseStore';
 
 @Injectable({
   providedIn: 'root',
 })
-export class ActivityStore {
+export class ActivityStore extends BaseStore{
   private readonly client = inject(ActivityService);
   private readonly _activities = signal<CollectionState<ActivityResponseDTO>>({
       list: [], 
@@ -45,11 +46,6 @@ export class ActivityStore {
   public readonly userActivities = this._userActivities.asReadonly();
   public readonly loading = this._loading.asReadonly();
   public readonly error = this._error.asReadonly();
-
-  private unwrapEntities<T>(pagedResponse: { _embedded?: any }): T[] {
-    return ((Object.values(pagedResponse._embedded ?? {})[0] as EntityModel<T>[] | undefined) ?? [])
-      .map(e => e.content ?? e) as T[];
-  }
 
   loadAllActivities(pageable: Pageable) {
     this._loading.set(true);

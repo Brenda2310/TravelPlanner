@@ -7,17 +7,18 @@ import {
   Pageable,
   PaginationInfo,
 } from '../../../hateoas/hateoas-models';
-import { 
-  CheckListItemResponseDTO, 
+import {
+  CheckListItemResponseDTO,
   CheckListItemFilterDTO,
   CheckListItemUpdateDTO,
-  CheckListItemCreateDTO
- } from '../../checklist-models';
+  CheckListItemCreateDTO,
+} from '../../checklist-models';
+import { BaseStore } from '../../../BaseStore';
 
 @Injectable({
   providedIn: 'root',
 })
-export class ChecklistItemStore {
+export class ChecklistItemStore extends BaseStore {
   private readonly client = inject(ChecklistItemService);
   private readonly _checklistItem = signal<CollectionState<CheckListItemResponseDTO>>({
     list: [],
@@ -28,29 +29,22 @@ export class ChecklistItemStore {
   private readonly _loading = signal<boolean>(false);
   private readonly _error = signal<string | null>(null);
 
-  private readonly checklistItem = this._checklistItem.asReadonly();
+  public readonly checklistItem = this._checklistItem.asReadonly();
   public readonly loading = this._loading.asReadonly();
   public readonly error = this._error.asReadonly();
 
-  private unwrapEntities<T>(pagedResponse: { _embedded?: any }): T[] {
-    return (
-      (Object.values(pagedResponse._embedded ?? {})[0] as EntityModel<T>[] | undefined) ?? []
-    ).map((e) => e.content ?? e) as T[];
-  }
-
   private setChecklistItems(list: CheckListItemResponseDTO[], page: any) {
-  this._checklistItem.set({
-    list,
-    loading: false,
-    pageInfo: {
-      totalElements: page.totalElements,
-      totalPages: page.totalPages,
-      currentPage: page.number,
-      pageSize: page.size,
-    } as PaginationInfo
-  });
-}
-
+    this._checklistItem.set({
+      list,
+      loading: false,
+      pageInfo: {
+        totalElements: page.totalElements,
+        totalPages: page.totalPages,
+        currentPage: page.number,
+        pageSize: page.size,
+      } as PaginationInfo,
+    });
+  }
 
   loadAllItems(pageable: Pageable, completed?: boolean): void {
     this._loading.set(true);
@@ -87,54 +81,54 @@ export class ChecklistItemStore {
   }
 
   createItem(dto: CheckListItemCreateDTO): Observable<CheckListItemResponseDTO> {
-        return this.client.create(dto).pipe(
-            tap((newItem) => {
-                this._checklistItem.update(state => ({
-                    ...state,
-                    list: [newItem, ...state.list], 
-                    pageInfo: {
-                        ...state.pageInfo,
-                        totalElements: state.pageInfo.totalElements + 1 
-                    }
-                }));
-            })
-        );
-    }
-   
-    updateItem(id: number, dto: CheckListItemUpdateDTO): Observable<CheckListItemResponseDTO> {
-        return this.client.update(id, dto).pipe(
-            tap((updatedItem) => {
-                this._checklistItem.update(state => ({
-                    ...state,
-                    list: state.list.map(item => (item.id === id ? updatedItem : item))
-                }));
-            })
-        );
-    }
+    return this.client.create(dto).pipe(
+      tap((newItem) => {
+        this._checklistItem.update((state) => ({
+          ...state,
+          list: [newItem, ...state.list],
+          pageInfo: {
+            ...state.pageInfo,
+            totalElements: state.pageInfo.totalElements + 1,
+          },
+        }));
+      })
+    );
+  }
 
-    toggleItemCompleted(id: number, completed: boolean): Observable<CheckListItemResponseDTO> {
-        return this.client.toggleCompleted(id, completed).pipe(
-            tap((toggledItem) => {
-                this._checklistItem.update(state => ({
-                    ...state,
-                    list: state.list.map(item => (item.id === id ? toggledItem : item))
-                }));
-            })
-        );
-    }
+  updateItem(id: number, dto: CheckListItemUpdateDTO): Observable<CheckListItemResponseDTO> {
+    return this.client.update(id, dto).pipe(
+      tap((updatedItem) => {
+        this._checklistItem.update((state) => ({
+          ...state,
+          list: state.list.map((item) => (item.id === id ? updatedItem : item)),
+        }));
+      })
+    );
+  }
 
-    deleteItem(id: number): Observable<void> {
-        return this.client.delete(id).pipe(
-            tap(() => {
-                this._checklistItem.update(state => ({
-                    ...state,
-                    list: state.list.filter(item => item.id !== id),
-                    pageInfo: {
-                        ...state.pageInfo,
-                        totalElements: state.pageInfo.totalElements - 1 
-                    }
-                }));
-            })
-        );
-    }
+  toggleItemCompleted(id: number, completed: boolean): Observable<CheckListItemResponseDTO> {
+    return this.client.toggleCompleted(id, completed).pipe(
+      tap((toggledItem) => {
+        this._checklistItem.update((state) => ({
+          ...state,
+          list: state.list.map((item) => (item.id === id ? toggledItem : item)),
+        }));
+      })
+    );
+  }
+
+  deleteItem(id: number): Observable<void> {
+    return this.client.delete(id).pipe(
+      tap(() => {
+        this._checklistItem.update((state) => ({
+          ...state,
+          list: state.list.filter((item) => item.id !== id),
+          pageInfo: {
+            ...state.pageInfo,
+            totalElements: state.pageInfo.totalElements - 1,
+          },
+        }));
+      })
+    );
+  }
 }
