@@ -2,11 +2,16 @@
     <nav>
         <ul>
             <a routerLink="/">TravelPlanner</a>
+            
+            @if (isAuthenticated()) {
             <a routerLink="/">Viajes</a> 
             <a routerLink="/">Itinerarios</a>
             <a routerLink="/">Actividades</a>
             <a routerLink="/">CheckLists</a>
             <a routerLink="/">Gastos</a>
+            }
+        
+            <app-auth-status></app-auth-status>
         </ul>
     </nav>
 </header>

@@ -1,4 +1,4 @@
-import { UserPreference } from './user-models'; 
+import { UserPreference } from "../users/user-models";
 
 export interface TripResponseDTO {
   id: number;

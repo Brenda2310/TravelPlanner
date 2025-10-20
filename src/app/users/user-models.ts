@@ -1,7 +1,4 @@
-/**
- * Mapea el Enum UserPreferences de Java.
- * Usamos 'type' para definir la lista fija de strings.
- */
+
 export type UserPreference =
   | 'CULTURAL'
   | 'HISTORIC'

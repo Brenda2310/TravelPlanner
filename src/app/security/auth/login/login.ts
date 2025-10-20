@@ -6,9 +6,10 @@ import { AuthRequest } from '../../security-models';
 
 @Component({
   selector: 'app-login',
+  standalone: true,
   imports: [ReactiveFormsModule],
   templateUrl: './login.html',
-  styleUrl: './login.css'
+  styleUrls: ['./login.css']
 })
 export class Login implements OnInit{
   public readonly store = inject(SecurityStore);

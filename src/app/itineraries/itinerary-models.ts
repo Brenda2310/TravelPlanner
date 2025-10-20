@@ -1,4 +1,4 @@
-import { ActivityResumeDTO } from "./activity-models";
+import { ActivityResumeDTO } from "../activities/activity-models";
 
 export interface ItineraryResponseDTO {
   id: number;
