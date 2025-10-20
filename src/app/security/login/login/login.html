@@ -1,0 +1,47 @@
+<div class="login-container">
+    <h2>Iniciar Sesión</h2>
+
+    @if (store.error()) {
+        <div class="error-message">
+            {{store.error()}}
+        </div>
+    }
+
+    <form [formGroup]="loginForm" (ngSubmit)="ngOnInit()">
+        <div class="form-group">
+            <label for="email">Email</label>
+            <input type="email" id="email" formControlName="email" 
+            [class.is-invalid]="loginForm.get('email')?.invalid && loginForm.get('email')?.touched">
+
+            @if (loginForm.get('email')?.hasError('required') && loginForm.get('email')?.touched) {
+                <div class="validation-error">El email es obligatorio.</div>
+            }
+            @else if (loginForm.get('email')?.hasError('email') && loginForm.get('email')?.touched) {
+                <div class="validation-error">Formato de email inválido.</div>
+            }
+        </div>
+
+        <div class="form-group">
+            <label for="password">Password</label>
+            <input type="password" id="password" formControlName="password" 
+            [class.is-invalid]="loginForm.get('password')?.invalid && loginForm.get('password')?.touched">
+
+            @if (loginForm.get('password')?.hasError('required') && loginForm.get('password')?.touched) {
+                <div class="validation-error">La contraseña es obligatoria.</div>
+            }
+            @else if (loginForm.get('password')?.hasError('minlength') && loginForm.get('password')?.touched) {
+                <div class="validation-error">La contraseña debe tener al menos 8 caracteres.</div>
+            }
+
+        </div>
+
+        <button type="submit" [disabled]="loginForm.invalid || store.loading()">
+            @if (store.loading()) {
+                Cargando...
+            } @else {
+                Acceder
+            }
+        </button>
+    </form>
+
+</div>
