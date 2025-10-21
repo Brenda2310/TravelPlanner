@@ -35,7 +35,7 @@ export class Login implements OnInit{
     password: this.loginForm.get('password')?.value ?? ''
   };
 
-  console.log('Payload enviado:', authRequest); // debug
+  console.log('Payload enviado:', authRequest);
 
   this.store.authenticateUser(authRequest).subscribe({
     next: () => {
@@ -45,6 +45,10 @@ export class Login implements OnInit{
       console.error('Login error', err);
     },
   });
+}
+
+register(){
+  this.router.navigateByUrl('/register');
 }
  }
 

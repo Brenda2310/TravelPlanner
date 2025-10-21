@@ -1,0 +1,9 @@
+.register-prompt a.register-link {
+    color: var(--color-primary-blue, #194B80); 
+    cursor: pointer;
+    text-decoration: none;
+    transition: text-decoration 0.3s ease; 
+}
+.register-prompt a.register-link:hover {
+    text-decoration: underline;
+}
