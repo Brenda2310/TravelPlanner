@@ -1,0 +1,65 @@
+<div class="register-container">
+    <h2>Registro de Usuario</h2>
+    
+    @if (errorMessage) {
+        <div class="alert-error">{{ errorMessage }}</div>
+    }
+
+    <form [formGroup]="registerForm" (ngSubmit)="onSubmit()">
+        
+        <div class="form-group">
+            <label for="username">Nombre de Usuario:</label>
+            <input id="username" type="text" formControlName="username">
+            </div>
+
+        <div class="form-group">
+            <label for="email">Email:</label>
+            <input id="email" type="email" formControlName="email">
+            </div>
+
+        <div class="form-group">
+            <label for="dni">DNI:</label>
+            <input id="dni" type="text" formControlName="dni">
+            </div>
+
+        <div class="form-group">
+            <label for="password">Contraseña:</label>
+            <input id="password" type="password" formControlName="password">
+            </div>
+
+        <div class="form-group">
+            <label for="confirmPassword">Confirmar Contraseña:</label>
+            <input id="confirmPassword" type="password" formControlName="confirmPassword">
+            @if (registerForm.hasError('mismatch')) {
+                <div class="validation-error">Las contraseñas no coinciden.</div>
+            }
+        </div>
+        
+        <div class="form-group">
+             <label>Preferencias de Viaje:</label>
+             <select 
+        id="preferences" 
+        formControlName="preferences" 
+        multiple 
+        size="5" 
+        [class.is-invalid]="registerForm.get('preferences')?.invalid && registerForm.get('preferences')?.touched">
+        
+        @for (pref of allPreferences; track pref) {
+            <option [ngValue]="pref">{{ pref }}</option>
+        }
+    </select>
+    
+    @if (registerForm.get('preferences')?.hasError('required') && registerForm.get('preferences')?.touched) {
+        <div class="validation-error">Debe seleccionar al menos una preferencia.</div>
+    }
+        </div>
+
+        <button type="submit" [disabled]="registerForm.invalid || loading">
+            @if (loading) {
+                Registrando...
+            } @else {
+                Registrarse
+            }
+        </button>
+    </form>
+</div>

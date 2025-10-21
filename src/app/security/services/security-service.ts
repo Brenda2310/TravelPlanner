@@ -14,9 +14,14 @@ export class SecurityService {
   private readonly http = inject(HttpClient);
   private readonly api = 'http://localhost:8080/auth';
 
-  private saveTokens(response: AuthResponse): void {
-    localStorage.setItem(ACCESS_TOKEN_KEY, response.accessToken);
-    localStorage.setItem(REFRESH_TOKEN_KEY, response.refreshToken);
+  public saveTokens(response: AuthResponse): void {
+    const accessToken = (response as any).AccessToken;
+    const refreshToken = response.RefreshToken;
+    
+    if (!accessToken) return;
+  
+    localStorage.setItem(ACCESS_TOKEN_KEY, accessToken);
+    localStorage.setItem(REFRESH_TOKEN_KEY, refreshToken);
   }
 
   public clearTokens(): void {
@@ -36,18 +41,30 @@ export class SecurityService {
     return !!this.getAccessToken();
   }
 
-  getRoles(): string[] {
-    const token = this.getAccessToken();
-    if (!token) return [];
+private decodeJwt(token: string): any {
+  if (!token) return null;
 
+  try {
     const payload = token.split('.')[1];
-    const decoded = JSON.parse(atob(payload));
-    return decoded.roles || [];
+    return JSON.parse(atob(payload.replace(/-/g, '+').replace(/_/g, '/')));
+  } catch (err) {
+    console.error('JWT decode error', err);
+    return null;
   }
+}
+
+getRoles(): string[] {
+  const token = this.getAccessToken();
+  if (!token) return [];
+  
+  const decoded = this.decodeJwt(token);
+  return decoded?.roles || [];
+}
+
 
   authenticateUser(authRequest: AuthRequest) {
     return this.http
-      .post<AuthResponse>(this.api, authRequest)
+      .post<AuthResponse>(this.api, authRequest, {headers: { 'Content-Type': 'application/json' }})
       .pipe(tap((response) => this.saveTokens(response)));
   }
 

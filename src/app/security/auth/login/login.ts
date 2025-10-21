@@ -21,23 +21,34 @@ export class Login implements OnInit{
     password: ['', [Validators.required, Validators.minLength(8)]]
   });
 
-   ngOnInit(): void {
+  ngOnInit(): void {
     if (this.store.auth().isAuthenticated) {
       this.router.navigate(['/']);
     }
-
-    const authRequest: AuthRequest = { 
-        email: this.loginForm.value.email!,
-        password: this.loginForm.value.password! 
-    };
-
-    this.store.authenticateUser(authRequest).subscribe({
-      next: () => {
-        this.router.navigate(['/']); 
-      },
-      error: () => {
-        console.log("Error handled by signal display.");
-      }
-    });
   }
+
+  onSubmit() {
+  if (this.loginForm.invalid) return;
+
+  const authRequest: AuthRequest = {
+    username: this.loginForm.get('email')?.value ?? '',
+    password: this.loginForm.get('password')?.value ?? ''
+  };
+
+  console.log('Payload enviado:', authRequest);
+
+  this.store.authenticateUser(authRequest).subscribe({
+    next: () => {
+      this.router.navigate(['/']);
+    },
+    error: (err) => {
+      console.error('Login error', err);
+    },
+  });
 }
+
+register(){
+  this.router.navigateByUrl('/register');
+}
+ }
+

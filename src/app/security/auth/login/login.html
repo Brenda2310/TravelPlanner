@@ -7,7 +7,7 @@
         </div>
     }
 
-    <form [formGroup]="loginForm" (ngSubmit)="ngOnInit()">
+    <form [formGroup]="loginForm" (ngSubmit)="onSubmit()">
         <div class="form-group">
             <label for="email">Email</label>
             <input type="email" id="email" formControlName="email" 
@@ -42,6 +42,10 @@
                 Acceder
             }
         </button>
+        <div class="register-prompt">
+        ¿No tenés cuenta? 
+        <a (click)="register()" class="register-link">Registrate aquí</a>
+    </div>
     </form>
 
 </div>

@@ -50,7 +50,7 @@ export interface UserCreateDTO {
   email: string;
   password: string;
   dni: string;
-  preferencias: UserPreference[]; 
+  preferences: UserPreference[]; 
 }
 
 /**
