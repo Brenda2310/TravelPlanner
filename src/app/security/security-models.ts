@@ -3,11 +3,11 @@ export interface RefreshTokenRequest {
 }
 
 export interface AuthRequest {
-  email: string;
-  password?: string; 
+  username: string;
+  password: string; 
 }
 
 export interface AuthResponse {
-  accessToken: string;
-  refreshToken: string;
+  AccessToken: string;
+  RefreshToken: string;
 }
