@@ -19,11 +19,13 @@ export class UserStore extends BaseStore {
   private readonly _profile = signal<UserResponseDTO | null>(null);
   private readonly _loading = signal<boolean>(false);
   private readonly _error = signal<string | null>(null);
+  private readonly _userToEdit = signal<UserResponseDTO | null>(null);
 
   public readonly users = this._users.asReadonly();
   public readonly profile = this._profile.asReadonly();
   public readonly loading = this._loading.asReadonly();
   public readonly error = this._error.asReadonly();
+  public readonly userToEdit = this._userToEdit.asReadonly();
   
   private setUsers(list: UserResponseDTO[], page: any) {
     this._users.set({
@@ -78,6 +80,22 @@ export class UserStore extends BaseStore {
             },
             error: (err) => {
                 this._error.set(err.message ?? 'Store Error: Failed to load profile.');
+                this._loading.set(false);
+            },
+        });
+    }
+
+    loadUserById(id: number): void {
+        this._loading.set(true);
+        this._userToEdit.set(null);
+        this.client.getUserById(id).subscribe({
+            next: (entityModel) => {
+                const userEdit = (entityModel as any).content || entityModel;
+                this._userToEdit.set(userEdit);
+                this._loading.set(false);
+            },
+            error: (err) => {
+                this._error.set(err.message ?? `Store Error: Failed to load user ${id} for editing.`);
                 this._loading.set(false);
             },
         });

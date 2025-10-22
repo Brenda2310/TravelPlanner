@@ -64,5 +64,5 @@ export interface UserUpdateDTO {
   email?: string;
   password?: string;
   dni?: string;
-  preferencias?: UserPreference[]; 
+  preferences?: UserPreference[]; 
 }

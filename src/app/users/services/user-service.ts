@@ -12,7 +12,7 @@ export class UserService extends BaseService{
   private readonly http = inject(HttpClient);
   private readonly api = 'http://localhost:8080/users'; 
   
-  getAllUsers(pageable: Pageable) {
+getAllUsers(pageable: Pageable) {
   let params = this.buildParams(pageable);
   return this.http.get<PagedModel<UserResponseDTO>>(`${this.api}`, { params });
 }
