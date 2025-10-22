@@ -1,94 +1,171 @@
-.register-prompt a.register-link {
-    color: var(--color-primary-blue, #194B80); 
-    cursor: pointer;
-    text-decoration: none;
-    transition: text-decoration 0.3s ease; 
+body {
+    background-color: #f8f8f8; 
+    margin: 0;
+    font-family: Arial, sans-serif;
+    min-height: 100vh;
+    display: flex;
+    flex-direction: column; 
 }
-.register-prompt a.register-link:hover {
-    text-decoration: underline;
+
+.page-wrapper {
+    flex-grow: 1; 
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    position: relative;
+    padding-top: 80px;
+}
+
+.content-wrapper { 
+    display: flex;
+    width: 90%; 
+    max-width: 1100px; 
+    height: 800px; 
+    background-color: #fff;
+    box-shadow: 0 4px 20px rgba(0, 0, 0, 0.1);
+    border-radius: 4px; 
+    overflow: hidden;
+}
+
+.image-half {
+    flex: 1; 
+    background-image: url('/jake-blucker-tMzCrBkM99Y-unsplash.jpg'); 
+    background-size: cover;
+    background-position: center;
+}
+
+.form-half {
+    flex: 1;
+    background-color: #fff; 
+    padding: 30px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+}
+
+.logo-header {
+    position: absolute; 
+    top: 0px; 
+    left: 50%; 
+    transform: translateX(-50%) translateX(-550px); 
+    padding: 20px; 
+    width: auto;
+    z-index: 100; 
+}
+
+.logo {
+    font-size: 1.2em;
+    font-weight: bold;
+    color: #333;
+    display: block; 
 }
 
 .login-container {
-  max-width: 400px;
-  margin: 80px auto;
-  background: #ffffffcc;
-  padding: 40px 50px;
-  border-radius: 16px;
-  box-shadow: 0 6px 20px rgba(0, 0, 0, 0.1);
-  text-align: center;
-  backdrop-filter: blur(8px);
+    width: 100%;
+    max-width: 320px; 
+    text-align: center;
 }
 
-h2 {
-  color: #0D5C63;
-  font-family: "Inter", sans-serif;
-  margin-bottom: 25px;
+.login-container h2 {
+    font-size: 1.8em;
+    font-weight: 600;
+    margin-bottom: 35px;
+    text-align: left;
+}
+
+form {
+    width: 100%;
 }
 
 .form-group {
-  margin-bottom: 20px;
-  text-align: left;
+    margin-bottom: 15px; 
+    text-align: left;
 }
 
-label {
-  display: block;
-  margin-bottom: 5px;
-  font-weight: 500;
-  color: #333;
+.form-group label {
+    display: block;
+    font-size: 0.85em;
+    font-weight: 500;
+    color: #555;
+    margin-bottom: 5px;
 }
 
-input {
-  width: 100%;
-  padding: 10px 12px;
-  border: 1px solid #ccc;
-  border-radius: 6px;
-  font-family: "Inter", sans-serif;
+.form-group input {
+    width: 100%;
+    padding: 10px 12px;
+    border: 1px solid #ddd;
+    border-radius: 4px;
+    background-color: white; 
+    box-sizing: border-box; 
+    font-size: 1em;
 }
 
-input:focus {
-  border-color: #0D5C63;
-  outline: none;
+button[type="submit"] {
+    width: 100%;
+    padding: 12px;
+    background-color: #e0e0e0; 
+    color: #333; 
+    border: none;
+    border-radius: 4px;
+    font-weight: 600;
+    margin-top: 25px; 
+    cursor: pointer;
+    transition: background-color 0.2s;
 }
 
-.is-invalid {
-  border-color: #e74c3c;
-}
-
-.validation-error {
-  color: #e74c3c;
-  font-size: 0.85rem;
-  margin-top: 4px;
-}
-
-button {
-  width: 100%;
-  background-color: #0D5C63;
-  color: #fff;
-  border: none;
-  padding: 12px;
-  border-radius: 8px;
-  font-size: 1rem;
-  cursor: pointer;
-  transition: all 0.3s ease;
-}
-
-button:hover {
-  background-color: #12858e;
-  transform: translateY(-2px);
+button[type="submit"]:hover:not(:disabled) {
+    background-color: #d3d3d3;
 }
 
 .register-prompt {
-  margin-top: 20px;
-  font-size: 0.9rem;
+    font-size: 0.85em;
+    color: #777;
+    margin-top: 15px;
 }
 
 .register-link {
-  color: #0D5C63;
-  font-weight: 600;
-  text-decoration: none;
-  cursor: pointer;
+    color: #007bff; 
+    text-decoration: none;
+    cursor: pointer;
 }
 
 .register-link:hover {
-  text-decoration: underline;
+    text-decoration: underline;
+}
+
+.validation-error {
+    color: #d9534f;
+    font-size: 0.8em;
+    margin-top: 5px;
+}
+
+input.is-invalid {
+    border-color: #d9534f;
+}
+
+.error-message {
+    background-color: #fce8e8;
+    color: #a94442;
+    padding: 10px;
+    border-radius: 4px;
+    margin-bottom: 15px;
+    font-size: 0.9em;
+}
+
+.top-right-nav {
+    position: fixed; 
+    top: 0px;
+    right: 20px;
+    font-size: 1em;
+    padding: 20px 0;  
+    z-index: 100;
+}
+
+.top-right-nav a {
+    text-decoration: none;
+    color: #337ab7; 
+    padding: 8px 15px;
+    border: none; 
+    background-color: transparent; 
 }
