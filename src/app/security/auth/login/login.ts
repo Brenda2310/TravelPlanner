@@ -1,13 +1,13 @@
 import { Component, inject, OnInit } from '@angular/core';
 import { FormBuilder, ReactiveFormsModule, Validators } from '@angular/forms';
 import { SecurityStore } from '../../services/security-store';
-import { Router } from '@angular/router';
+import { Router, RouterLink } from '@angular/router';
 import { AuthRequest } from '../../security-models';
 
 @Component({
   selector: 'app-login',
   standalone: true,
-  imports: [ReactiveFormsModule],
+  imports: [ReactiveFormsModule, RouterLink],
   templateUrl: './login.html',
   styleUrls: ['./login.css']
 })
