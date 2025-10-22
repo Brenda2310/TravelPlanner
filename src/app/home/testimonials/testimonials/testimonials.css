@@ -34,6 +34,10 @@ h1{
     flex-direction: column;
     justify-content: space-between; 
     min-height: 330px; 
+    box-shadow: 0 4px 15px rgba(0, 0, 0, 0.08), 
+                0 2px 5px rgba(0, 0, 0, 0.04);
+    transition: transform 0.3s ease, box-shadow 0.3s ease;
+
 }
 
 .nombre {
@@ -45,6 +49,9 @@ h1{
 
 .card:hover {
     transform: translateY(-5px);
+    transform: translateY(-5px);
+    box-shadow: 0 10px 25px rgba(0, 0, 0, 0.12),
+                0 4px 10px rgba(0, 0, 0, 0.08);
 }
 
 .card img {

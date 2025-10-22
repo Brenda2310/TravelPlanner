@@ -1,53 +1,68 @@
-header{
+header {
     position: fixed;
     top: 0;
     left: 0;
     width: 100%;
-    z-index: 1000; 
-    height: 70px;
+    height: 80px; 
     background: rgba(255,255,255,0.65);
     backdrop-filter: blur(8px);
     -webkit-backdrop-filter: blur(8px);
     border-bottom: 1px solid rgba(13,92,99,0.15);
     box-shadow: 0 4px 14px rgba(0,0,0,0.08);
-    padding: 18px 32px;
-}
-nav{
+    z-index: 1000;
+    padding: 0 30px;
     display: flex;
-    flex-direction: row;
-    justify-content: space-between;
-    border-bottom: 2px solid transparent;
     align-items: center;
 }
 
-header nav a{
-    position: relative; 
-    display: inline-block;
-    color: var(--font-color);
-    padding-bottom: 8px; 
-    text-decoration: none;
-    border-bottom: 1.5px solid transparent; 
-    transition: border-color 0.5s ease;
+nav {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    width: 100%;
 }
 
-header nav a::after {
+.logo {
+    display: flex;
+    align-items: center;
+}
+
+.logo img {
+    height: 150px; 
+    width: auto;
+    object-fit: contain;
+    display: block;
+}
+
+.nav-links {
+    display: flex;
+    gap: 30px; 
+}
+
+.nav-links a {
+    color: var(--font-color);
+    text-decoration: none;
+    font-weight: 500;
+    position: relative;
+    transition: color 0.3s ease;
+}
+
+.nav-links a::after {
     content: "";
     position: absolute;
     left: 0;
-    bottom: 0;
+    bottom: -4px;
     width: 0%;
-    height: 2px; 
+    height: 2px;
     background-color: var(--font-color);
-    transition: width 0.4s ease; 
-    border-radius: 4px; 
+    border-radius: 4px;
+    transition: width 0.3s ease;
 }
 
-header nav a:hover::after {
-    width: 100%; 
+.nav-links a:hover::after {
+    width: 100%;
 }
 
-header nav a:hover {
-    color: var(--font-color);
+.nav-links a:hover {
+    color: #0D5C63;
 }
-
-
