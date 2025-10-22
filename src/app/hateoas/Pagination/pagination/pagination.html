@@ -1,0 +1,43 @@
+<nav aria-label="Paginación de la tabla" class="pagination-container">
+  
+  <button 
+    class="pagination-button" 
+    [disabled]="currentPage === 0" 
+    (click)="goToPage(0)"
+    title="Primera página">
+    &laquo;
+  </button>
+  
+  <button 
+    class="pagination-button" 
+    [disabled]="currentPage === 0" 
+    (click)="goToPage(currentPage - 1)"
+    title="Página anterior">
+    &lsaquo;
+  </button>
+
+  @for (page of pages; track page) {
+    <button 
+      class="pagination-button" 
+      [class.active]="page === currentPage" 
+      (click)="goToPage(page)">
+      {{ page + 1 }} 
+    </button>
+  }
+  
+  <button 
+    class="pagination-button" 
+    [disabled]="currentPage === totalPages - 1 || totalPages === 0" 
+    (click)="goToPage(currentPage + 1)"
+    title="Página siguiente">
+    &rsaquo;
+  </button>
+
+  <button 
+    class="pagination-button" 
+    [disabled]="currentPage === totalPages - 1 || totalPages === 0" 
+    (click)="goToPage(totalPages - 1)"
+    title="Última página">
+    &raquo;
+  </button>
+</nav>

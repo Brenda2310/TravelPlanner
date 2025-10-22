@@ -1,0 +1,22 @@
+<div class="trip-list-container">
+    <h2>Mis Viajes</h2>
+
+    @if (store.loading()) {
+        <p>Cargando viajes...</p>
+    } @else {
+        @for (trip of store.trips().list; track trip.id) {
+            <div class="trip-card">
+                <h3>{{ trip.name }} ({{ trip.destination }})</h3>
+                <p>Fecha: {{ trip.startDate }}</p>
+                <button (click)="router.navigate(['/trips', trip.id])">Ver Detalle</button>
+                <button (click)="onDelete(trip.id)">Eliminar</button>
+            </div>
+        }
+
+        <app-pagination 
+            [currentPage]="store.trips().pageInfo.currentPage"
+            [totalPages]="store.trips().pageInfo.totalPages"
+            (pageChange)="onPageChange($event)">
+        </app-pagination>
+    }
+</div>
