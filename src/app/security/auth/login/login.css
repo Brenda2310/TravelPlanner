@@ -7,3 +7,88 @@
 .register-prompt a.register-link:hover {
     text-decoration: underline;
 }
+
+.login-container {
+  max-width: 400px;
+  margin: 80px auto;
+  background: #ffffffcc;
+  padding: 40px 50px;
+  border-radius: 16px;
+  box-shadow: 0 6px 20px rgba(0, 0, 0, 0.1);
+  text-align: center;
+  backdrop-filter: blur(8px);
+}
+
+h2 {
+  color: #0D5C63;
+  font-family: "Inter", sans-serif;
+  margin-bottom: 25px;
+}
+
+.form-group {
+  margin-bottom: 20px;
+  text-align: left;
+}
+
+label {
+  display: block;
+  margin-bottom: 5px;
+  font-weight: 500;
+  color: #333;
+}
+
+input {
+  width: 100%;
+  padding: 10px 12px;
+  border: 1px solid #ccc;
+  border-radius: 6px;
+  font-family: "Inter", sans-serif;
+}
+
+input:focus {
+  border-color: #0D5C63;
+  outline: none;
+}
+
+.is-invalid {
+  border-color: #e74c3c;
+}
+
+.validation-error {
+  color: #e74c3c;
+  font-size: 0.85rem;
+  margin-top: 4px;
+}
+
+button {
+  width: 100%;
+  background-color: #0D5C63;
+  color: #fff;
+  border: none;
+  padding: 12px;
+  border-radius: 8px;
+  font-size: 1rem;
+  cursor: pointer;
+  transition: all 0.3s ease;
+}
+
+button:hover {
+  background-color: #12858e;
+  transform: translateY(-2px);
+}
+
+.register-prompt {
+  margin-top: 20px;
+  font-size: 0.9rem;
+}
+
+.register-link {
+  color: #0D5C63;
+  font-weight: 600;
+  text-decoration: none;
+  cursor: pointer;
+}
+
+.register-link:hover {
+  text-decoration: underline;
+}

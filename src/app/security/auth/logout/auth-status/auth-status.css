@@ -1,0 +1,31 @@
+.login-btn {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 8px;
+    background: transparent;
+    color: var(--font-color);
+    border: 1.5px solid var(--background-color);
+    border-radius: 50px;
+    padding: 8px 18px;
+    font-family: "Inter", sans-serif;
+    font-size: 0.95rem;
+    font-weight: 600;
+    cursor: pointer;
+    transition: all 0.3s ease;
+}
+
+.login-btn i {
+    font-size: 1rem;
+}
+
+.login-btn:hover {
+    border-color: var(--font-color);
+    background: rgba(177, 161, 161, 0.1);
+    transform: translateY(-2px);
+}
+
+.login-btn:active {
+    transform: translateY(0);
+    background: rgba(130, 117, 117, 0.2);
+}
