@@ -1,0 +1,37 @@
+<div class="preference-selector-modal">
+    
+    <h2>Elige tus intereses de viaje</h2>
+    <p class="subtitle">Selecciona al menos una preferencia para que podamos personalizar tus resultados.</p>
+
+    @if (selectionError) {
+        <div class="alert-error">{{ selectionError }}</div>
+    }
+
+    <div class="preferences-grid">
+        @for (pref of allPreferences; track pref) {
+            
+            <button 
+                type="button"
+                class="preference-card"
+                [class.selected]="selectedPreferences.includes(pref)"
+                (click)="togglePreference(pref)"
+                [disabled]="loading">
+                
+                
+                <span class="pref-label">{{ pref }}</span>
+                
+                @if (selectedPreferences.includes(pref)) {
+                    <i class="fas fa-check check-indicator"></i>
+                }
+            </button>
+        }
+    </div>
+
+    <button class="final-submit-btn" (click)="onFinalSubmit()" [disabled]="loading">
+        @if (loading) {
+            Guardando {{ selectedPreferences.length }} intereses...
+        } @else {
+            Confirmar y Finalizar
+        }
+    </button>
+</div>

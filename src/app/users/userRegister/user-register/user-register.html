@@ -40,32 +40,9 @@
                 <div class="validation-error">Las contraseñas no coinciden.</div>
             }
         </div>
-        
-        <div class="form-group">
-             <label>Preferencias de Viaje:</label>
-             <select 
-        id="preferences" 
-        formControlName="preferences" 
-        multiple 
-        size="5" 
-        [class.is-invalid]="registerForm.get('preferences')?.invalid && registerForm.get('preferences')?.touched">
-        
-        @for (pref of allPreferences; track pref) {
-            <option [ngValue]="pref">{{ pref }}</option>
-        }
-    </select>
-    
-    @if (registerForm.get('preferences')?.hasError('required') && registerForm.get('preferences')?.touched) {
-        <div class="validation-error">Debe seleccionar al menos una preferencia.</div>
-    }
-        </div>
 
         <button type="submit" [disabled]="registerForm.invalid || loading">
-            @if (loading) {
-                Registrando...
-            } @else {
-                {{ isEditing ? 'Actualizar' : 'Registrarse' }}
-            }
+            {{ isEditing ? 'Continuar y Actualizar Preferencias' : 'Continuar y Elegir Preferencias' }}
         </button>
     </form>
 </div>
