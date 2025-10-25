@@ -2,7 +2,7 @@ import { inject } from '@angular/core';
 import { CanActivateFn, Router } from '@angular/router';
 import { SecurityService } from '../../security/services/security-service';
 
-/*export const authGuard = (allowedRoles: string[]): CanActivateFn => {
+export const authGuard = (allowedRoles: string[]): CanActivateFn => {
   return (route, state) => {
     const authService = inject(SecurityService);
     const router = inject(Router);
@@ -20,5 +20,3 @@ import { SecurityService } from '../../security/services/security-service';
     return router.createUrlTree(['/unauthorized']);
   };
 };
-
-*/

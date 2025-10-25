@@ -1,8 +1,9 @@
-import { Component, inject, OnInit } from '@angular/core';
+import { Component, inject, Input, OnInit } from '@angular/core';
 import { TripStore } from '../../services/trip-store';
 import { Pageable } from '../../../hateoas/hateoas-models';
 import { Router, RouterModule } from '@angular/router';
 import { Pagination } from "../../../hateoas/Pagination/pagination/pagination";
+import { SecurityStore } from '../../../security/services/security-store';
 
 @Component({
   selector: 'app-trip-list',
@@ -13,15 +14,32 @@ import { Pagination } from "../../../hateoas/Pagination/pagination/pagination";
 export class TripList implements OnInit{
   public readonly store = inject(TripStore);
   public readonly router = inject(Router);
+  public readonly security = inject(SecurityStore);
   public pageable: Pageable ={page: 0, size: 10, sort: 'startDate,desc'};
+
+  @Input() mode: 'admin-all' | 'user-own' = 'user-own';
 
   ngOnInit(): void {
     this.loadTrips();
   }
 
   loadTrips(){
-    this.store.loadAllTrips(this.pageable);
-  }
+    if(this.mode === "admin-all"){
+      this.store.loadAllTrips(this.pageable);
+    }
+    else{
+      const currentUserId = this.security.getId();
+
+        if(currentUserId !== null){
+          const filters = {}; 
+          this.store.loadTripsByUserId(currentUserId, filters, this.pageable);
+        }
+        else {
+            console.log("Error: Usuario no autenticado.");
+        }
+      }
+    }
+  
 
   onPageChange(newPage: number): void {
     this.pageable.page = newPage;

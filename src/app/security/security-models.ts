@@ -11,3 +11,10 @@ export interface AuthResponse {
   AccessToken: string;
   RefreshToken: string;
 }
+
+export interface AuthState {
+  isAuthenticated: boolean;
+  userRoles: string[];
+  userId: number | null;
+  username: string | null;
+}
