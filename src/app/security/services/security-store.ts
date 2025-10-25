@@ -6,6 +6,7 @@ import { AuthResponse, AuthRequest } from '../security-models';
 interface SessionState {
   isAuthenticated: boolean;
   userRoles: string[];
+  userId: number | null;
 }
 
 @Injectable({
@@ -16,6 +17,7 @@ export class SecurityStore {
   private readonly _auth = signal<SessionState>({
     isAuthenticated: this.client.isAuthenticated(),
     userRoles: [],
+    userId: this.client.getUserId()
   });
 
   private readonly _loading = signal<boolean>(false);
@@ -30,9 +32,14 @@ export class SecurityStore {
     this._auth.set({
       isAuthenticated: this.client.isAuthenticated(),
       userRoles: this.client.getRoles(),
+      userId: this.client.getUserId()
     });
   }
 
+  getId(){
+    return this.client.getUserId();
+  }
+  
   authenticateUser(authRequest: AuthRequest): Observable<AuthResponse> {
     this._loading.set(true);
     this._error.set(null);
