@@ -140,23 +140,26 @@ export class TripStore extends BaseStore {
     }
 
     loadFilteredRecommendations(userId: number, tripId: number, pageable: Pageable): void {
-        this._loading.set(true);
-        this.client.getFilteredRecommendations(userId, tripId, pageable).subscribe({
-            next: (response) => {
-                if (typeof response === 'string') {
-                    this._error.set(response); 
-                    this.setRecommendations([], { totalElements: 0, totalPages: 0, number: 0, size: pageable.size });
-                } else {
-                    const list = this.unwrapEntities<RecommendationDTO>(response);
-                    this.setRecommendations(list, response.page);
-                }
-                this._loading.set(false);
-            },
-            error: (err) => {
-                this._error.set(err.message ?? 'Store Error: Failed to load filtered recommendations.');
-                this._loading.set(false);
-            },
-        });
+    this._loading.set(true);
+    this.client.getFilteredRecommendations(userId, tripId, pageable).subscribe({
+        next: (response) => {
+            if (typeof response === 'string') {
+                this._error.set(response); 
+                
+                this.setRecommendations([], { 
+                    totalElements: 0, totalPages: 0, number: 0, size: pageable.size 
+                } as any); 
+            } else {
+                const list = this.unwrapEntities<RecommendationDTO>(response);
+                this.setRecommendations(list, response.page);
+            }
+            this._loading.set(false); 
+        },
+        error: (err) => {
+            this._error.set(err.message ?? 'Store Error: Failed to load filtered recommendations.');
+            this._loading.set(false);
+        },
+    });
     }
 
     createTrip(dto: TripCreateDTO): Observable<TripResponseDTO> {

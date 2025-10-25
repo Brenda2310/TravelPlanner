@@ -1,0 +1,23 @@
+<div class="trip-detail-container">
+  @if (store.loading()) {
+  <p>Cargando detalles del viaje...</p>
+  } @else if (currentTrip$()?.id === tripId) {
+
+  <section class="trip-info">
+    <h1>{{ currentTrip$()?.name }} a {{ currentTrip$()?.destination }}</h1>
+    <p>Presupuesto Estimado: {{ currentTrip$()?.estimatedBudget | currency }}</p>
+    <p>Fechas: {{ currentTrip$()?.startDate }} - {{ currentTrip$()?.endDate }}</p>
+    <button (click)="router.navigate(['/trips/edit', tripId])">Editar Datos del Viaje</button>
+    <button (click)="onDeleteTrip()" class="btn-delete">Eliminar Viaje</button>
+  </section>
+
+  <hr />
+
+  <section class="expenses-section">
+    <h2>Gestión de Gastos</h2>
+  </section>
+
+  } @else {
+  <p>No se encontró el viaje o no tienes permiso.</p>
+  }
+</div>
