@@ -16,6 +16,7 @@ import { SecurityStore } from '../../../security/services/security-store';
 
 @Component({
   selector: 'app-trip-create-edit',
+  standalone: true,
   imports: [ReactiveFormsModule, FormsModule],
   templateUrl: './trip-create-edit.html',
   styleUrl: './trip-create-edit.css',

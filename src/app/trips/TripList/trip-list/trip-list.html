@@ -21,6 +21,10 @@
                 </div>
             }
 
+            <div class="create">
+                <a routerLink="/trips/create" class="btn btn-primary">Crear Nuevo Viaje</a>
+            </div>
+
             <app-pagination 
                 [currentPage]="store.trips().pageInfo.currentPage"
                 [totalPages]="store.trips().pageInfo.totalPages"
