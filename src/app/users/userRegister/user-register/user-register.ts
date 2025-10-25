@@ -1,4 +1,4 @@
-import { Component, inject, Input, OnInit } from '@angular/core';
+import { ChangeDetectorRef, Component, inject, Input, OnInit } from '@angular/core';
 import { FormBuilder, ReactiveFormsModule, Validators } from '@angular/forms';
 import { ActivatedRoute, Router } from '@angular/router';
 import { UserStore } from '../../services/user-store';
@@ -6,6 +6,9 @@ import { PasswordValidators } from '../../validators/PasswordValidators';
 import { UserCreateDTO, UserPreference, UserResponseDTO, UserUpdateDTO} from '../../user-models';
 import { filter, Observable, take } from 'rxjs';
 import { toObservable } from '@angular/core/rxjs-interop';
+import { MatDialogModule } from '@angular/material/dialog';
+import { MatDialog } from '@angular/material/dialog';
+import { PreferenceSelector } from '../../PreferenceSelector/preference-selector/preference-selector';
 
 export const ALL_PREFERENCES: UserPreference[] = [
   'CULTURAL', 'HISTORIC', 'RELIGION', 'NATURAL', 'BEACHES', 'SPORT', 'FOODS', 
@@ -15,7 +18,7 @@ export const ALL_PREFERENCES: UserPreference[] = [
 @Component({
   selector: 'app-user-register',
   standalone: true,
-  imports: [ReactiveFormsModule],
+  imports: [ReactiveFormsModule, MatDialogModule],
   templateUrl: './user-register.html',
   styleUrls: ['./user-register.css']
 })
@@ -24,6 +27,8 @@ export class UserRegister implements OnInit {
   private readonly router = inject(Router);
   private readonly store = inject(UserStore);
   private readonly route = inject(ActivatedRoute);
+  private readonly dialog = inject(MatDialog);
+  private readonly cdr = inject(ChangeDetectorRef);
 
   private profile$ = toObservable(this.store.profile);
   private userDetails$ = toObservable(this.store.userToEdit);
@@ -42,7 +47,7 @@ export class UserRegister implements OnInit {
     dni:['', [Validators.required, Validators.pattern(/^[0-9]{7,8}$/)]],
     password:['', [Validators.required, PasswordValidators.strongPassword]],
     confirmPassword:['', [Validators.required]],
-    preferences:[[] as any, [Validators.required]]
+    preferences:[[] as any]
   },
   {
     validators: PasswordValidators.match('password', 'confirmPassword')
@@ -80,8 +85,6 @@ export class UserRegister implements OnInit {
       return;
     }
 
-    let action$: Observable<any>;
-    
     this.loading = true;
     this.errorMessage = null;
 
@@ -91,36 +94,33 @@ export class UserRegister implements OnInit {
     const userDto: UserUpdateDTO = {
         username: formValue.username!,
         email: formValue.email!,
-        dni: formValue.dni!,
-        preferences: formValue.preferences! 
+        dni: formValue.dni!, 
     };
 
     if (!this.isEditing || (this.isEditing && passwordValue)) {
         userDto.password = passwordValue!;
     }
 
-    if (this.isOwnProfile) {
-            action$ = this.store.updateOwnAccount(userDto);
-        } 
-        else if (this.userId) {
-            action$ = this.store.updateUser(this.userId, userDto);
-        } 
-        else {
-            action$ = this.store.createUser(userDto as UserCreateDTO);
+    const dialogRef = this.dialog.open(PreferenceSelector, {
+        data: { 
+            userData: userDto, 
+            isEditing: this.isEditing, 
+            userId: this.userId
         }
+    });
 
-     action$.subscribe({
-        next: () => {
-            const successMessage = this.isEditing ? 'Usuario actualizado exitosamente.' : 'Registro exitoso. Por favor, inicie sesión.';
-            alert(successMessage);
-            
+    dialogRef.afterClosed().subscribe(result => {
+      setTimeout(() => {
+          this.loading = false; 
+          this.cdr.detectChanges(); 
+        });
+
+        if (result && result.success) {
+            alert(result.message);
             const targetRoute = this.isEditing ? '/users' : '/login'; 
             this.router.navigate([targetRoute]);
-        },
-        error: (err) => {
-            this.errorMessage = err.error?.message || 'Ocurrió un error inesperado. Inténtelo de nuevo.';
-            this.loading = false;
         }
+        this.loading = false; 
     });
   }
 
