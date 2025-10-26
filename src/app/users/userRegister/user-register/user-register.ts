@@ -1,6 +1,6 @@
 import { ChangeDetectorRef, Component, inject, Input, OnInit } from '@angular/core';
 import { FormBuilder, ReactiveFormsModule, Validators } from '@angular/forms';
-import { ActivatedRoute, Router } from '@angular/router';
+import { ActivatedRoute, Router, RouterLink } from '@angular/router';
 import { UserStore } from '../../services/user-store';
 import { PasswordValidators } from '../../validators/PasswordValidators';
 import { UserCreateDTO, UserPreference, UserResponseDTO, UserUpdateDTO} from '../../user-models';
@@ -18,7 +18,7 @@ export const ALL_PREFERENCES: UserPreference[] = [
 @Component({
   selector: 'app-user-register',
   standalone: true,
-  imports: [ReactiveFormsModule, MatDialogModule],
+  imports: [ReactiveFormsModule, MatDialogModule, RouterLink],
   templateUrl: './user-register.html',
   styleUrls: ['./user-register.css']
 })

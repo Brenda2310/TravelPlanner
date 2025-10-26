@@ -15,10 +15,16 @@ export class Layout {
   protected readonly title = signal('TravelPlanner');
   private readonly currentUrl = signal<string>('/');
 
-  readonly isLoginPage = computed(() => {
-    const url = this.currentUrl().split('?')[0];
-    return url === '/login' || url.startsWith('/auth/login');
-  });
+  readonly isLoginRegisterPage = computed(() => {
+  const url = this.currentUrl().split('?')[0];
+  return (
+    url === '/login' ||
+    url.startsWith('/auth/login') ||
+    url === '/register' ||
+    url.startsWith('/auth/register')
+  );
+});
+
 
   constructor(private router: Router) {
     this.currentUrl.set(this.router.url);
