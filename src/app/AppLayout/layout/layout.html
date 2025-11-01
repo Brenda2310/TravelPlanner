@@ -1,9 +1,9 @@
-@if (!isLoginRegisterPage()) {
+@if (!isLoginPage() && (!isRegisterPage())) {
     <app-header></app-header>
 }
 <main>
     <router-outlet></router-outlet>
 </main>
-@if (!isLoginRegisterPage()){
+@if (!isLoginPage() && (!isRegisterPage())) {
 <app-footer></app-footer>
 }

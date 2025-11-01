@@ -1,17 +1,36 @@
 <header>
-    <nav>
-            <a routerLink="/" class="logo">
-                <img src="/Travel-Planner.png" alt="logoTravelPlanner">
-            </a>
-            
-            @if (isAuthenticated()) {
-            <a routerLink="/trips">Viajes</a> 
-            <a routerLink="/">Itinerarios</a>
-            <a routerLink="/">Actividades</a>
-            <a routerLink="/">CheckLists</a>
-            <a routerLink="/">Gastos</a>
-            }
-        
-            <app-auth-status></app-auth-status>
-    </nav>
+  <nav>
+    <a routerLink="/" class="logo">
+      <img src="/Travel-Planner.png" alt="logoTravelPlanner">
+    </a>
+
+    @if(!isAuthenticated()){
+      <app-auth-status></app-auth-status>
+    }
+
+    @if (isAuthenticated()) {
+      <div class="nav-links">
+        <a routerLink="/trips" routerLinkActive="active">Viajes</a>
+        <a routerLink="/itinerarios" routerLinkActive="active">Itinerarios</a>
+        <a routerLink="/actividades" routerLinkActive="active">Actividades</a>
+        <a routerLink="/checklists" routerLinkActive="active">CheckLists</a>
+        <a routerLink="/gastos" routerLinkActive="active">Gastos</a>
+      </div>
+    
+
+      <div class="dropdown perfil-dropdown">
+  <button class="btn btn-light d-flex align-items-center dropdown-toggle border-0" 
+          type="button" id="dropdownPerfil" 
+          data-bs-toggle="dropdown" aria-expanded="false">
+    <img src="/account_circle_24dp_33696F_FILL0_wght400_GRAD0_opsz24.svg" alt="Perfil" class="perfil-img me-2">
+    <span>Perfil</span>
+  </button>
+  <ul class="dropdown-menu dropdown-menu-end shadow" aria-labelledby="dropdownPerfil">
+    <li><a class="dropdown-item" href="#">Mi perfil</a></li>
+    <li><hr class="dropdown-divider"></li>
+        <li><a class="dropdown-item text-danger" (click)="onLogout()">Cerrar sesión</a></li>
+  </ul>
+</div>
+}
+</nav>
 </header>

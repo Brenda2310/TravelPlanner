@@ -1,1 +1,55 @@
-<p>features works!</p>
+<section class="container">
+  <h1>Lo que podés hacer con TravelPlanner</h1>
+
+  <div class="testimonials">
+    <div class="card">
+      <img src="/flight_takeoff_24dp_33696F_FILL0_wght400_GRAD0_opsz24.svg" alt="Creación de viaje">
+      <p>Planificá un nuevo viaje definiendo destino, fechas y presupuesto estimado. Todo en un solo lugar.</p>
+      <p class="nombre">— Crear viaje</p>
+
+      @if (isAuthenticated()) {
+        <button (click)="router.navigate(['trips/create'])">Nuevo viaje</button>
+      }
+    </div>
+
+    <div class="card">
+      <img src="/event_note_24dp_33696F_FILL0_wght400_GRAD0_opsz24.svg" alt="Creación de itinerario">
+      <p>Organizá tus días con itinerarios personalizados: actividades, horarios y lugares clave.</p>
+      <p class="nombre">— Crear itinerario</p>
+
+      @if (isAuthenticated()) {
+        <button (click)="router.navigate(['/itinerarios/crear'])">Agregar itinerario</button>
+      }
+    </div>
+
+    <div class="card">
+      <img src="/local_activity_24dp_33696F_FILL0_wght400_GRAD0_opsz24.svg" alt="Agregar actividad">
+      <p>Agregá actividades como excursiones, reservas o eventos para completar tu planificación.</p>
+      <p class="nombre">— Agregar actividad</p>
+
+      @if (isAuthenticated()) {
+        <button (click)="router.navigate(['/actividades/crear'])">Planificar actividad</button>
+      }
+    </div>
+
+    <div class="card">
+      <img src="/add_task_24dp_33696F_FILL0_wght400_GRAD0_opsz24.svg" alt="Checklist de viaje">
+      <p>Creá tus listas de empaque y tareas para que no se te escape ningún detalle antes de viajar.</p>
+      <p class="nombre">— Crear checklist</p>
+
+      @if (isAuthenticated()) {
+        <button (click)="router.navigate(['/checklists/crear'])">Preparar lista</button>
+      }
+    </div>
+
+    <div class="card">
+      <img src="/attach_money_24dp_33696F_FILL0_wght400_GRAD0_opsz24.svg" alt="Gestión de gastos">
+      <p>Controlá tus gastos, dividí costos con tus compañeros y mantené tus finanzas organizadas.</p>
+      <p class="nombre">— Control de gastos</p>
+
+      @if (isAuthenticated()) {
+        <button (click)="router.navigate(['/gastos/crear'])">Controlar gastos</button>
+      }
+    </div>
+  </div>
+</section>
