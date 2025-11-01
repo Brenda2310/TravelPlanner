@@ -1,114 +1,110 @@
-<div class="form-container max-w-3xl mx-auto p-6 bg-white rounded-lg shadow">
-  <h2 class="text-2xl font-semibold mb-4">
+<div class="trip-page">
+<div class="trip-form-container">
+  <h2 class="trip-title">
     @if (isEditing) {
-      Editar Viaje: {{ store.currentTrip()?.name }}
+      <p>Editar Viaje: {{ store.currentTrip()?.name }}</p>
     } @else {
-      Crear Nuevo Viaje
+      <h2>Crear Nuevo Viaje</h2>
     }
   </h2>
 
   @if (errorMessage) {
-    <div class="alert-error bg-red-100 text-red-700 p-2 rounded mb-3">
+    <div class="trip-error">
       {{ errorMessage }}
     </div>
   }
 
   <form [formGroup]="tripForm" (ngSubmit)="onSubmit()">
+
     <!-- Nombre y destino -->
-    <div class="form-row grid grid-cols-1 sm:grid-cols-2 gap-4 mb-4">
-      <div>
-        <label for="name" class="block font-medium mb-1">Nombre del viaje:</label>
-        <input id="name" type="text" formControlName="name" class="w-full border rounded px-3 py-2"
-        />
-        @if (tripForm.get('name')?.invalid && tripForm.get('name')?.touched) {
-          <small class="text-red-500">El nombre es obligatorio.</small>
+    <div class="trip-row">
+      <div class="trip-field">
+        <label for="name">Nombre del viaje:</label>
+        <input id="name" type="text" formControlName="name" />
+        @if (tripForm.get('name')?.invalid && (tripForm.get('name')?.touched || tripForm.get('name')?.dirty)){
+          <small class="trip-error-msg">El nombre es obligatorio.</small>
         }
       </div>
 
-      <div>
-        <label for="destination" class="block font-medium mb-1">Destino:</label>
-        <input id="destination" type="text" formControlName="destination" class="w-full border rounded px-3 py-2"
-        />
-        @if (tripForm.get('destination')?.invalid && tripForm.get('destination')?.touched) {
-          <small class="text-red-500">El destino es obligatorio.</small>
+      <div class="trip-field">
+        <label for="destination">Destino:</label>
+        <input id="destination" type="text" formControlName="destination" />
+        @if (tripForm.get('destination')?.invalid && (tripForm.get('destination')?.touched || tripForm.get('destination')?.dirty)) {
+          <small class="trip-error-msg">El destino es obligatorio.</small>
         }
       </div>
     </div>
 
     <!-- Fechas -->
-    <div class="form-row grid grid-cols-1 sm:grid-cols-2 gap-4 mb-4">
-      <div>
-        <label for="startDate" class="block font-medium mb-1">Fecha de inicio:</label>
-        <input id="startDate" type="date" formControlName="startDate"class="w-full border rounded px-3 py-2"/>
-        @if (tripForm.get('startDate')?.invalid && tripForm.get('startDate')?.touched) {
-          <small class="text-red-500">La fecha de inicio es obligatoria.</small>
+    <div class="trip-row">
+      <div class="trip-field">
+        <label for="startDate">Fecha de inicio:</label>
+        <input id="startDate" type="date" formControlName="startDate" />
+        @if (tripForm.get('startDate')?.invalid && (tripForm.get('startDate')?.touched || tripForm.get('startDate')?.dirty)){
+          <small class="trip-error-msg">La fecha de inicio es obligatoria.</small>
         }
       </div>
 
-      <div>
-        <label for="endDate" class="block font-medium mb-1">Fecha de fin (opcional):</label>
-        <input id="endDate" type="date" formControlName="endDate" class="w-full border rounded px-3 py-2"
-        />
-        @if (tripForm.hasError('dateMismatch') && tripForm.get('endDate')?.value) {
-          <small class="text-red-500">
+      <div class="trip-field">
+        <label for="endDate">Fecha de fin (opcional):</label>
+        <input id="endDate" type="date" formControlName="endDate" />
+        @if (tripForm.hasError('dateMismatch') && (tripForm.get('endDate')?.value)) {
+          <small class="trip-error-msg">
             La fecha de fin debe ser posterior a la de inicio.
           </small>
         }
       </div>
     </div>
 
-    <div class="form-row grid grid-cols-1 sm:grid-cols-2 gap-4 mb-4">
-      <div>
-        <label for="estimatedBudget" class="block font-medium mb-1"
-          >Presupuesto estimado:</label>
-        <input id="estimatedBudget" type="number" formControlName="estimatedBudget" class="w-full border rounded px-3 py-2"/>
-        @if (tripForm.get('estimatedBudget')?.invalid && tripForm.get('estimatedBudget')?.touched) {
-          <small class="text-red-500">Ingrese un valor positivo o cero.</small>
+    <!-- Presupuesto y acompañantes -->
+    <div class="trip-row">
+      <div class="trip-field">
+        <label for="estimatedBudget">Presupuesto estimado:</label>
+        <input id="estimatedBudget" type="number" formControlName="estimatedBudget" />
+        @if (tripForm.get('estimatedBudget')?.invalid && (tripForm.get('estimatedBudget')?.touched || tripForm.get('estimatedBudget')?.dirty)) {
+          <small class="trip-error-msg">Ingrese un valor positivo o cero.</small>
         }
       </div>
 
-      <div>
-        <label for="companions" class="block font-medium mb-1"
-          >Cantidad de acompañantes:</label>
-        <input id="companions" type="number" formControlName="companions" class="w-full border rounded px-3 py-2"/>
-        @if (tripForm.get('companions')?.invalid && tripForm.get('companions')?.touched) {
-          <small class="text-red-500">Debe ser cero o más.</small>
+      <div class="trip-field">
+        <label for="companions">Cantidad de acompañantes:</label>
+        <input id="companions" type="number" formControlName="companions" />
+        @if (tripForm.get('companions')?.invalid && (tripForm.get('companions')?.touched || tripForm.get('companions')?.dirty)){
+          <small class="trip-error-msg">Debe ser cero o más.</small>
         }
       </div>
     </div>
 
-    <div class="form-group mb-6">
-      <label class="block font-semibold mb-2">Compartir con usuarios (IDs):</label>
+    <!-- Compartir IDs -->
+    <div class="trip-share">
+      <label>Compartir con usuarios (TravelCode):</label>
 
-      <div class="flex flex-wrap gap-2 p-3 border rounded-md bg-gray-50">
+      <div class="share-list">
         @for (id of sharedUserIdsArray; track $index) {
-          <div
-            class="bg-blue-100 text-blue-700 px-3 py-1 rounded-full flex items-center gap-2">
+          <div class="share-item">
             <span>{{ id }}</span>
-            <button
-              type="button"
-              (click)="removeUserId(id)"
-              class="text-red-500 hover:text-red-700">
-              &times;
-            </button>
+            <button type="button" (click)="removeUserId(id)">×</button>
           </div>
         }
 
-        <div class="flex items-center gap-2">
-          <input type="number" placeholder="Agregar ID..." formControlName="newUserId" (keydown.enter)="addUserId()" class="border rounded px-3 py-1 outline-none"/>
-          <button type="button" (click)="addUserId()" class="bg-blue-600 hover:bg-blue-700 text-white px-2 py-1 rounded">
+        <div class="share-input">
+          <input type="number" placeholder="Agregar TravelCode..." formControlName="newUserId" (keydown.enter)="addUserId()" />
+          <button type="button" (click)="addUserId()">
+            <img src="/person_add_24dp_33696F_FILL0_wght400_GRAD0_opsz24.svg" class="add-icon" alt="agregar">
           </button>
         </div>
       </div>
     </div>
 
-    <button
-      type="submit"
-      [disabled]="tripForm.invalid || loading"
-      class="bg-green-600 hover:bg-green-700 text-white px-4 py-2 rounded">
+    <!-- Botón -->
+     <div class="buttons">
+    <button type="submit" [disabled]="tripForm.invalid || loading" class="trip-button">
       @if (loading) { Guardando... } @else {
         {{ isEditing ? 'Actualizar viaje' : 'Crear viaje' }}
       }
     </button>
+    <button type="reset" class="trip-button">Borrar</button>
+    </div>
   </form>
+</div>
 </div>
