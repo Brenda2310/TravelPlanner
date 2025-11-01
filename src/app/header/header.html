@@ -26,7 +26,7 @@
     <span>Perfil</span>
   </button>
   <ul class="dropdown-menu dropdown-menu-end shadow" aria-labelledby="dropdownPerfil">
-    <li><a class="dropdown-item" href="#">Mi perfil</a></li>
+    <li><a class="dropdown-item" (click)="toProfile()">Mi perfil</a></li>
     <li><hr class="dropdown-divider"></li>
         <li><a class="dropdown-item text-danger" (click)="onLogout()">Cerrar sesión</a></li>
   </ul>

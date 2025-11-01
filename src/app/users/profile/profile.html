@@ -1,0 +1,40 @@
+<div class="profile-container">
+    <h2>Mi Perfil de Usuario</h2>
+
+    @if (userStore.loading()) {
+        <p>Cargando datos del perfil...</p>
+    } @else if (userStore.error()) {
+        <div class="alert-error">Error: {{ userStore.error() }}</div>
+    } @else if (currentUser()) {
+        
+        <div class="profile-details">
+            <p><strong>Usuario:</strong> {{ currentUser()!.username }}</p>
+            <p><strong>DNI:</strong> {{ currentUser()!.dni }}</p>
+            <p><strong>Miembro desde:</strong> {{ currentUser()!.fechaRegistro| date }}</p>
+    
+            <div class="preferences-list">
+                <strong>Mis Preferencias:</strong>
+                <ul>
+                    @for (pref of currentUser()!.preferencias; track pref) {
+                        <li>{{ pref }}</li>
+                    }
+                </ul>
+            </div>
+        </div>
+
+        <div class="profile-actions">
+            <button (click)="onEditProfile()" class="btn-primary">
+                Editar Información
+            </button>
+            <button (click)="onDeleteAccount()" class="btn-delete">
+                Eliminar Cuenta
+            </button>
+        </div>
+        
+        <hr>
+        
+        <h3>Mis Viajes Asociados</h3>
+        } @else {
+        <p>No se pudieron cargar los datos del perfil.</p>
+    }
+</div>

@@ -63,6 +63,7 @@ export class ActivityStore extends BaseStore{
                     pageSize: pagedResponse.page.size,
                 } as PaginationInfo 
             });
+            this._loading.set(false);
           },
       error: (err) => {
         this._error.set(err.message ?? 'Store Error: Failed to load all activities.');
@@ -88,6 +89,7 @@ export class ActivityStore extends BaseStore{
                     pageSize: pagedResponse.page.size,
                 } as PaginationInfo 
             });
+            this._loading.set(false);
       },
       error: (err) => {
         console.error('Store Error: Failed to load company activities.', err);
@@ -113,6 +115,7 @@ export class ActivityStore extends BaseStore{
                     pageSize: pagedResponse.page.size,
                 } as PaginationInfo 
             });
+            this._loading.set(false);
       },
       error: (err) => {
         console.error(`Store Error: Failed to load activities for user ${userId}.`, err);

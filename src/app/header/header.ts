@@ -18,6 +18,10 @@ export class Header {
         return this.store.auth().isAuthenticated;
     }
 
+  public toProfile(){
+    this.router.navigateByUrl('/profile/me');
+  }
+
   public onLogout(): void {
     this.store.logout().subscribe({
       next: () => this.router.navigate(['/login']),

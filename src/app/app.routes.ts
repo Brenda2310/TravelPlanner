@@ -11,6 +11,7 @@ import { Layout } from './AppLayout/layout/layout';
 import { ItineraryList } from './itineraries/itinerary-list/itinerary-list';
 import { ActivityBrowser } from './activities/activity-browser/activity-browser';
 import { ItineraryCreateEdit } from './itineraries/itinerary-create-edit/itinerary-create-edit';
+import { Profile } from './users/profile/profile';
 
 export const routes: Routes = [
     { path: '', component: Home, title: 'Inicio' },
@@ -61,15 +62,26 @@ export const routes: Routes = [
                         path: ':id/edit', 
                         component: UserRegister,
                         title: 'Editar Usuario',
-                        canActivate: [authGuard(['VER_TODOS_USUARIOS', 'ROLE_ADMIN'])],
+                        canActivate: [authGuard(['MODIFICAR_USUARIO_ADMIN', 'ROLE_ADMIN'])],
                     },
                 ],
             },
             {
-                path: 'profile/me',
-                component: UserRegister,
-                title: 'Editar Perfil',
+                path: 'profile',
+                children:[
+                    {
+                        path:'me',
+                        component: Profile,
+                title: 'Mi Perfil',
                 canActivate: [authGuard(['ROLE_USER', 'VER_PERFIL'])],
+                    },
+                    {
+                        path: 'me/edit',
+                        component: UserRegister,
+                        title: 'Editar Perfil',
+                        canActivate: [authGuard(['ROLE_USER', 'MODIFICAR_USUARIO'])],
+                    }
+                ]
             },
             {
                 path:'itineraries',

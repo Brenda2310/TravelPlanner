@@ -1,18 +1,21 @@
-import { Component, inject } from '@angular/core';
+import { Component, inject, OnInit } from '@angular/core';
 import { ActivityStore } from '../services/activity-store';
 import { FormBuilder, ReactiveFormsModule } from '@angular/forms';
 import { Pageable } from '../../hateoas/hateoas-models';
 import { ActivityCategory, CompanyActivityFilterParams } from '../activity-models';
 import { Pagination } from "../../hateoas/Pagination/pagination/pagination";
 import { CommonModule } from '@angular/common';
+import { ActivityList } from "../activity-list/activity-list";
+import { ActivityFilters } from "../activity-filters/activity-filters";
 
 @Component({
   selector: 'app-activity-browser',
-  imports: [ReactiveFormsModule, Pagination, CommonModule],
+  standalone: true,
+  imports: [ReactiveFormsModule, Pagination, CommonModule, ActivityList, ActivityFilters],
   templateUrl: './activity-browser.html',
   styleUrl: './activity-browser.css'
 })
-export class ActivityBrowser {
+export class ActivityBrowser implements OnInit{
   public readonly store = inject(ActivityStore);
   private readonly fb = inject(FormBuilder); 
 
@@ -40,10 +43,10 @@ export class ActivityBrowser {
         this.store.loadAllCompanyActivities(this.pageable, filters);
     }
     
-    onApplyFilters(): void {
-        this.pageable.page = 0;
-        this.loadActivities();
-    }
+    onApplyFilters(filters: CompanyActivityFilterParams): void {
+    this.pageable.page = 0;
+    this.store.loadAllCompanyActivities(this.pageable, filters);
+  }
 
     onPageChange(newPage: number): void {
         this.pageable.page = newPage;

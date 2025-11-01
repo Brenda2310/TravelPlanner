@@ -1,0 +1,7 @@
+<div class="activity-card">
+  <h3>{{ activity.name }}</h3>
+  <p>{{ activity.category }}</p>
+  <p>{{ activity.price | currency:'ARS' }}</p>
+  <button (click)="onAdd()">Agregar al itinerario</button>
+</div>
+
