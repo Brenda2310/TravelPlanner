@@ -15,6 +15,7 @@
     --color3: #EAF4F4; 
     --font-primary: 'Poppins', sans-serif;
     --font-secondary: 'Playfair Display', serif;
+    --text: 
 }
 
 body{
@@ -23,3 +24,4 @@ body{
 }
 html, body { height: 100%; }
 body { margin: 0; font-family: Roboto, "Helvetica Neue", sans-serif; }
+
