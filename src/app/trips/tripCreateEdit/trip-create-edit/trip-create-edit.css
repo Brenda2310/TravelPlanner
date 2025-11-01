@@ -153,14 +153,14 @@
   transition: transform 0.15s ease, background 0.2s ease, box-shadow 0.2s ease;
 }
 
-.trip-button:hover {
+.trip-button:hover:enabled {
   background-color: var(--font-color);
   color: #e6f5f7; 
   transform: translateY(-1px);
 }
 
 
-.trip-submit:disabled{
+.trip-button:disabled{
   opacity:.6; cursor:not-allowed; transform:none; box-shadow:none;
 }
 

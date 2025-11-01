@@ -15,7 +15,7 @@ section.container h1 {
   color: #13233A;
 }
 
-.testimonials {
+.features {
 display: flex;
   gap: 24px;
   overflow-x: auto;
