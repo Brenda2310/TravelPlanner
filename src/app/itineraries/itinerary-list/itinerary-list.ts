@@ -1,0 +1,61 @@
+import { Component, inject, OnInit } from '@angular/core';
+import { ItineraryStore } from '../services/itinerary-store';
+import { SecurityStore } from '../../security/services/security-store';
+import { FormBuilder, ReactiveFormsModule } from '@angular/forms';
+import { Pageable } from '../../hateoas/hateoas-models';
+import { ItineraryFilterDTO } from '../itinerary-models';
+import { RouterLink } from "@angular/router";
+import { Pagination } from "../../hateoas/Pagination/pagination/pagination";
+
+@Component({
+  selector: 'app-itinerary-list',
+  imports: [ReactiveFormsModule, RouterLink, Pagination],
+  templateUrl: './itinerary-list.html',
+  styleUrl: './itinerary-list.css'
+})
+export class ItineraryList implements OnInit{
+  public readonly store = inject(ItineraryStore);
+  private readonly security = inject(SecurityStore);
+  private readonly fb = inject(FormBuilder);
+
+  public pageable: Pageable = { page: 0, size: 10, sort: 'itineraryDate,asc' };
+    
+    public filterForm = this.fb.group({
+        dateFrom: [''],
+        dateTo: ['']
+    });
+
+    ngOnInit(): void {
+    this.loadItineraries();
+  }
+
+    loadItineraries(){
+      const userId = this.security.getId();
+      if(!userId){
+        console.error('User not authenticated for loading itineraries.');
+        return;
+      }
+
+      const filters: ItineraryFilterDTO = this.filterForm.value as ItineraryFilterDTO;
+
+      this.store.loadItinerariesByUserId(userId, filters, this.pageable);
+    }
+
+    onApplyFilters(): void {
+        this.pageable.page = 0;
+        this.loadItineraries();
+    }
+
+    onPageChange(newPage: number): void {
+        this.pageable.page = newPage;
+        this.loadItineraries();
+    }
+
+    onDelete(id: number): void {
+        if (confirm('¿Confirmar eliminación de itinerario (borrado lógico)?')) {
+            this.store.deleteItinerary(id).subscribe({
+                error: (err) => console.error('Error al eliminar itinerario:', err)
+            });
+        }
+    }
+}

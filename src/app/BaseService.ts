@@ -12,9 +12,10 @@ export class BaseService{
     }
 
     for (const key in filters) {
-      if (filters[key] !== undefined && filters[key] !== null) {
-        params = params.set(key, filters[key].toString());
-      }
+      const value = filters[key];
+        if (value !== undefined && value !== null && value !== '') { 
+            params = params.set(key, value.toString());
+        }
     }
     return params;
   }

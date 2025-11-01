@@ -8,7 +8,7 @@ import { Layout } from "./AppLayout/layout/layout";
 @Component({
   selector: 'app-root',
   standalone: true,
-  imports: [RouterOutlet, Header, Footer, Layout],
+  imports: [Layout],
   templateUrl: './app.html',
   styleUrls: ['./app.css']
 })

@@ -8,6 +8,9 @@ import { authGuard } from './guards/auth/auth-guard';
 import { TripCreateEdit } from './trips/tripCreateEdit/trip-create-edit/trip-create-edit';
 import { TripDetails } from './trips/tripDetails/trip-details/trip-details';
 import { Layout } from './AppLayout/layout/layout';
+import { ItineraryList } from './itineraries/itinerary-list/itinerary-list';
+import { ActivityBrowser } from './activities/activity-browser/activity-browser';
+import { ItineraryCreateEdit } from './itineraries/itinerary-create-edit/itinerary-create-edit';
 
 export const routes: Routes = [
     { path: '', component: Home, title: 'Inicio' },
@@ -51,7 +54,6 @@ export const routes: Routes = [
                     },
                 ],
             },
-
             {
                 path: 'users',
                 children: [
@@ -63,13 +65,42 @@ export const routes: Routes = [
                     },
                 ],
             },
-
             {
                 path: 'profile/me',
                 component: UserRegister,
                 title: 'Editar Perfil',
-                canActivate: [authGuard(['ROLE_USER'])],
+                canActivate: [authGuard(['ROLE_USER', 'VER_PERFIL'])],
             },
+            {
+                path:'itineraries',
+                children:
+                [
+                    {
+                        path: '',
+                        component: ItineraryList,
+                        title: 'Mis Itinerarios',
+                        canActivate: [authGuard(['VER_ITINERARIO_USUARIO', 'ROLE_USER'])]
+                    },
+                    {
+                        path: 'create',
+                        component: ItineraryCreateEdit,
+                        title: 'Agregar Itinerario',
+                        canActivate: [authGuard(['CREAR_ITINERARIO', 'ROLE_USER'])]
+                    }
+                ]
+            },
+            {
+                path:'activities',
+                children:
+                [
+                    {
+                        path: '',
+                        component: ActivityBrowser,
+                        title: 'Actividades',
+                        canActivate: [authGuard(['VER_TODAS_ACTIVIDADES', 'VER_ACTIVIDAD', 'VER_ACTIVIDAD_EMPRESA', 'VER_ACTIVIDAD_USUARIO', 'ROLE_USER'])]
+                    }
+                ]
+            }
             
         ],
     },

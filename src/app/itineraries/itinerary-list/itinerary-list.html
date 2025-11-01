@@ -1,0 +1,38 @@
+<div class="itinerary-list">
+    <h2>Mis Itinerarios</h2>
+    
+    <form [formGroup]="filterForm" (ngSubmit)="onApplyFilters()" class="filter-bar">
+        <input type="date" formControlName="dateFrom" placeholder="Desde">
+        <input type="date" formControlName="dateTo" placeholder="Hasta">
+        <button type="submit">Filtrar</button>
+    </form>
+
+    @if (store.loading()) {
+        <p>Cargando itinerarios...</p>
+    } @else {
+        @if (store.itinerary().list.length === 0) {
+            <div class="alert alert-info mt-4">
+                <p>Aún no tienes itinerarios registrados. ¡Crea uno para empezar a planificar!</p>
+                <a routerLink="/itineraries/create" class="btn btn-primary">Crear Nuevo Itinerario</a>
+            </div>
+        } 
+        @else {
+            @for (item of store.itinerary().list; track item.id) {
+            <div class="itinerary-card">
+                <h3>Día: {{ item.itineraryDate }}</h3>
+                <p>Notas: {{ item.notes }}</p>
+                <p>Actividades: {{ item.activities.length }}</p>
+                
+                <button [routerLink]="['/itineraries', item.id]">Ver Detalle</button>
+                <button (click)="onDelete(item.id)" class="btn-delete">Eliminar</button>
+            </div>
+        }
+        }
+
+        <app-pagination 
+            [currentPage]="store.itinerary().pageInfo.currentPage"
+            [totalPages]="store.itinerary().pageInfo.totalPages"
+            (pageChange)="onPageChange($event)">
+        </app-pagination>
+    }
+</div>

@@ -1,0 +1,65 @@
+<div class="activity-browser-container">
+    <h2>Explorar Actividades Disponibles</h2>
+
+    <form [formGroup]="filterForm" (ngSubmit)="onApplyFilters()" class="filter-controls">
+        
+        <div class="filter-group-row">
+            
+            <select formControlName="category" aria-label="Filtrar por Categoría">
+                <option value="">Todas las Categorías</option>
+                @for (cat of category; track cat) {
+                    <option [value]="cat">{{ cat }}</option>
+                }
+            </select>
+            
+            <input 
+                type="number" 
+                formControlName="minPrice" 
+                placeholder="Precio Mín."
+                aria-label="Precio Mínimo">
+
+            <input 
+                type="number" 
+                formControlName="maxPrice" 
+                placeholder="Precio Máx."
+                aria-label="Precio Máximo">
+            
+            <button type="submit" class="btn-primary">
+                Buscar
+            </button>
+        </div>
+
+        <div class="filter-group-row date-filters">
+            <label>Fechas:</label>
+            <input type="date" formControlName="startDate" aria-label="Fecha de Inicio">
+            <input type="date" formControlName="endDate" aria-label="Fecha de Fin">
+        </div>
+        
+    </form>
+    
+    @if (store.loading()) {
+        <p class="loading-message">Buscando actividades...</p>
+    } 
+    @else if (store.companyActivities().list.length === 0) {
+        <div class="empty-state">
+            <h3>¡No se encontraron actividades!</h3>
+            <p>Intenta ajustar los filtros de búsqueda o el rango de fechas.</p>
+            
+        </div>
+    } 
+    @else {
+        <div class="activity-grid">
+            @for (activity of store.companyActivities().list; track activity.id) {
+                <div class="activity-card">
+                    <h3>{{ activity.name }}</h3>
+                    </div>
+            }
+        </div>
+
+        <app-pagination 
+            [currentPage]="store.companyActivities().pageInfo.currentPage"
+            [totalPages]="store.companyActivities().pageInfo.totalPages"
+            (pageChange)="onPageChange($event)">
+        </app-pagination>
+    }
+</div>

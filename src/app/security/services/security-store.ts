@@ -1,7 +1,8 @@
 import { inject, Injectable, signal } from '@angular/core';
 import { SecurityService } from './security-service';
-import { Observable, tap, catchError, EMPTY } from 'rxjs';
+import { Observable, tap, catchError, EMPTY, throwError } from 'rxjs';
 import { AuthResponse, AuthRequest } from '../security-models';
+import { HttpErrorResponse } from '@angular/common/http';
 
 interface SessionState {
   isAuthenticated: boolean;
@@ -49,11 +50,21 @@ export class SecurityStore {
         this.updateSessionState();
         this._loading.set(false);
       }),
-      catchError((err) => {
-        this._error.set(err.message ?? 'Authentication failed. Check credentials.');
-        this._loading.set(false);
-        return EMPTY;
-      })
+      catchError((err: HttpErrorResponse) => { 
+            let errorMessage = 'Error de conexión con el servidor.';
+            
+            if (err.status === 401 || err.status === 403) {
+
+                errorMessage = 'Credenciales inválidas. Verifique su email y contraseña.'; 
+            } else if (err.error && err.error.message) {
+                errorMessage = err.error.message;
+            }
+
+            this._error.set(errorMessage);
+            this._loading.set(false);
+            
+            return throwError(() => new Error(errorMessage)); 
+        })
     );
   }
 
