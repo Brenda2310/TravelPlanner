@@ -1,3 +1,149 @@
-.trip-list-container{
-    margin-top: 100px;
+:host {
+  display: block;
+  min-height: 100vh;
+  padding: 40px 20px;
+  background: url('/dominik-schroder-FIKD9t5_5zQ-unsplash.jpg') center / cover no-repeat fixed;
+  color: var(--font-color, #07494F);
+}
+
+.trip-list-container {
+  max-width: 1100px;
+  margin: 0 auto;
+}
+
+h2 {
+  font-size: 2rem;
+  font-weight: 600;
+  margin-top: 70px;
+  text-align: center;
+}
+
+.trip-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+  gap: 24px;
+  margin-top: 16px;
+}
+
+.trip-card {
+  background: var(--bg-glass, rgba(255, 255, 255, 0.9));
+  border: 1px solid rgba(0, 0, 0, 0.08);
+  border-radius: 16px;
+  padding: 20px;
+  box-shadow: 0 6px 16px rgba(0, 0, 0, 0.08);
+  transition: transform 0.2s ease, box-shadow 0.2s ease;
+}
+
+.trip-card:hover {
+  transform: translateY(-4px);
+  box-shadow: 0 10px 24px rgba(0, 0, 0, 0.12);
+}
+
+.trip-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: baseline;
+  margin-bottom: 12px;
+}
+
+.trip-header h3 {
+  margin: 0;
+  font-size: 1.25rem;
+  font-weight: 600;
+}
+
+.destination {
+  background: var(--primary-color, #0ea5e9);
+  color: white;
+  font-size: 0.85rem;
+  padding: 4px 10px;
+  border-radius: 12px;
+}
+
+.trip-body {
+  font-size: 0.95rem;
+  color: var(--font-color, #07494F);
+  margin-bottom: 12px;
+  line-height: 1.5;
+}
+
+.trip-actions {
+  display: flex;
+  justify-content: space-between;
+  gap: 10px;
+}
+
+.btn-primary {
+  background-color: var(--primary-color, #0ea5e9);
+  color: white;
+  border: none;
+  border-radius: 10px;
+  padding: 10px 18px;
+  font-weight: 600;
+  cursor: pointer;
+  transition: background 0.2s ease;
+  text-decoration: none;
+  display: inline-block;
+  text-align: center;
+}
+
+.btn-primary:hover {
+  background-color: var(--primary-hover, #0284c7);
+}
+
+.btn-outline {
+  background: transparent;
+  border: 1px solid #ccc;
+  border-radius: 10px;
+  padding: 8px 14px;
+  cursor: pointer;
+  font-weight: 500;
+  color: #07494F;
+  transition: all 0.2s ease;
+}
+
+.btn-outline:hover {
+  border-color: var(--primary-color, #0ea5e9);
+  color: var(--primary-color, #0ea5e9);
+}
+
+.btn-danger {
+  background-color: #dc3545;
+  color: #fff;
+  border: none;
+  border-radius: 10px;
+  padding: 8px 14px;
+  cursor: pointer;
+  font-weight: 500;
+  transition: background 0.2s ease;
+}
+
+.btn-danger:hover {
+  background-color: #b02a37;
+}
+
+.no-trips {
+  text-align: center;
+  background: rgba(255, 255, 255, 0.8);
+  padding: 40px;
+  border-radius: 20px;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+}
+
+.loading {
+  text-align: center;
+  font-style: italic;
+  color: #777;
+}
+
+@media (max-width: 600px) {
+  h2 {
+    font-size: 1.6rem;
+  }
+  .trip-card {
+    padding: 16px;
+  }
+  .trip-actions {
+    flex-direction: column;
+  }
 }

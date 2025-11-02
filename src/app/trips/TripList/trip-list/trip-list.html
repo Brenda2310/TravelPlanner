@@ -1,35 +1,58 @@
 <div class="trip-list-container">
-    <h2>Mis Viajes</h2>
+ <h2>Mis Viajes</h2>
 
-    @if (store.loading()) {
-        <p>Cargando viajes...</p>
-    } 
-    @else {
-        @if (store.trips().list.length === 0) {
-            <div class="alert alert-info mt-4">
-                <p>Aún no tienes viajes registrados. ¡Crea uno para empezar a planificar!</p>
-                <a routerLink="/trips/create" class="btn btn-primary">Crear Nuevo Viaje</a>
-            </div>
-        } 
-        @else {
-            @for (trip of store.trips().list; track trip.id) {
-                <div class="trip-card">
-                    <h3>{{ trip.name }} ({{ trip.destination }})</h3>
-                    <p>Fecha: {{ trip.startDate }}</p>
-                    <button (click)="router.navigate(['/trips', trip.id])">Ver Detalle</button>
-                    <button (click)="onDelete(trip.id)">Eliminar</button>
-                </div>
-            }
 
-            <div class="create">
-                <a routerLink="/trips/create" class="btn btn-primary">Crear Nuevo Viaje</a>
-            </div>
+ @if (store.loading()) {
+   <p class="loading">Cargando viajes...</p>
+ }
+ @else {
+   @if (store.trips().list.length === 0) {
+     <div class="no-trips">
+       <p>Aún no tienes viajes registrados. ¡Crea uno para empezar a planificar!</p>
+       <a routerLink="/trips/create" class="btn-primary">Crear Nuevo Viaje</a>
+     </div>
+   }
+   @else {
+     <div class="trip-grid">
+       @for (trip of store.trips().list; track trip.id) {
+         <div class="trip-card">
+           <div class="trip-header">
+             <h3>{{ trip.name }}</h3>
+             <span class="destination">{{ trip.destination }}</span>
+           </div>
 
-            <app-pagination 
-                [currentPage]="store.trips().pageInfo.currentPage"
-                [totalPages]="store.trips().pageInfo.totalPages"
-                (pageChange)="onPageChange($event)">
-            </app-pagination>
-        }
-    }
+
+           <div class="trip-body">
+             <p>📅 {{ trip.startDate }}</p>
+             @if (trip.estimatedBudget) {
+               <p>💰 {{ trip.estimatedBudget}}</p>
+             }
+           </div>
+
+
+           <div class="trip-actions">
+             <button class="btn-outline" (click)="router.navigate(['/trips', trip.id])">
+               Ver Detalle
+             </button>
+             <button class="btn-danger" (click)="onDelete(trip.id)">
+               Eliminar
+             </button>
+           </div>
+         </div>
+       }
+     </div>
+
+
+     <div class="create">
+       <a routerLink="/trips/create" class="btn-primary">+ Crear Nuevo Viaje</a>
+     </div>
+
+
+     <app-pagination
+       [currentPage]="store.trips().pageInfo.currentPage"
+       [totalPages]="store.trips().pageInfo.totalPages"
+       (pageChange)="onPageChange($event)">
+     </app-pagination>
+   }
+ }
 </div>
