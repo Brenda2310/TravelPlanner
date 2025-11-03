@@ -4,6 +4,7 @@ import { ActivatedRoute, Router } from '@angular/router';
 import {
   FormArray,
   FormBuilder,
+  FormControl,
   FormsModule,
   ReactiveFormsModule,
   Validators,
@@ -41,8 +42,8 @@ export class TripCreateEdit implements OnInit {
     {
       name: ['', [Validators.required, Validators.maxLength(100)]],
       destination: ['', [Validators.required, Validators.maxLength(100)]],
-      estimatedBudget: [0, [Validators.required, Validators.min(0)]],
-      companions: [0, [Validators.required, Validators.min(0)]],
+      estimatedBudget: [new FormControl<number | null>(null), [Validators.required, Validators.min(0)]],
+      companions:[new FormControl<number | null>(null), [Validators.min(0)]],
 
       startDate: ['', [Validators.required]],
       endDate: [''],

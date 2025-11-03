@@ -19,7 +19,7 @@
     <!-- Nombre y destino -->
     <div class="trip-row">
       <div class="trip-field">
-        <label for="name">Nombre del viaje:</label>
+        <label for="name">Nombre del viaje (*)</label>
         <input id="name" type="text" formControlName="name" />
         @if (tripForm.get('name')?.invalid && (tripForm.get('name')?.touched || tripForm.get('name')?.dirty)){
           <small class="trip-error-msg">El nombre es obligatorio.</small>
@@ -27,7 +27,7 @@
       </div>
 
       <div class="trip-field">
-        <label for="destination">Destino:</label>
+        <label for="destination">Destino (*)</label>
         <input id="destination" type="text" formControlName="destination" />
         @if (tripForm.get('destination')?.invalid && (tripForm.get('destination')?.touched || tripForm.get('destination')?.dirty)) {
           <small class="trip-error-msg">El destino es obligatorio.</small>
@@ -38,7 +38,7 @@
     <!-- Fechas -->
     <div class="trip-row">
       <div class="trip-field">
-        <label for="startDate">Fecha de inicio:</label>
+        <label for="startDate">Fecha de inicio (*)</label>
         <input id="startDate" type="date" formControlName="startDate" />
         @if (tripForm.get('startDate')?.invalid && (tripForm.get('startDate')?.touched || tripForm.get('startDate')?.dirty)){
           <small class="trip-error-msg">La fecha de inicio es obligatoria.</small>
@@ -59,7 +59,7 @@
     <!-- Presupuesto y acompañantes -->
     <div class="trip-row">
       <div class="trip-field">
-        <label for="estimatedBudget">Presupuesto estimado:</label>
+        <label for="estimatedBudget">Presupuesto estimado (*)</label>
         <input id="estimatedBudget" type="number" formControlName="estimatedBudget" />
         @if (tripForm.get('estimatedBudget')?.invalid && (tripForm.get('estimatedBudget')?.touched || tripForm.get('estimatedBudget')?.dirty)) {
           <small class="trip-error-msg">Ingrese un valor positivo o cero.</small>
@@ -67,7 +67,7 @@
       </div>
 
       <div class="trip-field">
-        <label for="companions">Cantidad de acompañantes:</label>
+        <label for="companions">Cantidad de acompañantes (opcional)</label>
         <input id="companions" type="number" formControlName="companions" />
         @if (tripForm.get('companions')?.invalid && (tripForm.get('companions')?.touched || tripForm.get('companions')?.dirty)){
           <small class="trip-error-msg">Debe ser cero o más.</small>
