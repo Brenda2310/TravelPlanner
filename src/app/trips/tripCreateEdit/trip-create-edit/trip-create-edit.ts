@@ -43,7 +43,7 @@ export class TripCreateEdit implements OnInit {
       name: ['', [Validators.required, Validators.maxLength(100)]],
       destination: ['', [Validators.required, Validators.maxLength(100)]],
       estimatedBudget: [new FormControl<number | null>(null), [Validators.required, Validators.min(0)]],
-      companions:[new FormControl<number | null>(null), [Validators.min(0)]],
+      companions:[new FormControl<number | null>(null), [TripValidation.optionalMinValidator(0)]],
 
       startDate: ['', [Validators.required]],
       endDate: [''],
@@ -96,6 +96,14 @@ export class TripCreateEdit implements OnInit {
 
     this.loading = true;
     const formValue = this.tripForm.value;
+
+    const companionsValue = formValue.companions as any;
+
+    if (companionsValue === '' || companionsValue === undefined || isNaN(Number(companionsValue))) {
+      formValue.companions = null;
+    }
+
+
     let action$: Observable<any>;
 
     const tripDto = {
@@ -158,4 +166,6 @@ export class TripCreateEdit implements OnInit {
     const newSharedIds = currentSharedIds.filter((id) => id !== idToRemove);
     sharedIdsControl?.setValue(newSharedIds);
   }
+
+
 }

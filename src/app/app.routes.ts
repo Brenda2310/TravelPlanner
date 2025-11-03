@@ -32,7 +32,7 @@ export const routes: Routes = [
                         path: '', 
                         component: TripList,
                         title: 'Mis Viajes',
-                        canActivate: [authGuard(['VER_VIAJES', 'ROLE_ADMIN'])],
+                        canActivate: [authGuard(['VER_VIAJES', 'ROLE_ADMIN', 'VER_VIAJE_USUARIO'])],
                     },
                     {
                         path: 'create',
