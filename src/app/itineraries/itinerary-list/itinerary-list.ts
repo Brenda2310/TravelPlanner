@@ -4,7 +4,7 @@ import { SecurityStore } from '../../security/services/security-store';
 import { FormBuilder, ReactiveFormsModule } from '@angular/forms';
 import { Pageable } from '../../hateoas/hateoas-models';
 import { ItineraryFilterDTO } from '../itinerary-models';
-import { RouterLink } from "@angular/router";
+import { Router, RouterLink } from "@angular/router";
 import { Pagination } from "../../hateoas/Pagination/pagination/pagination";
 
 @Component({
@@ -17,6 +17,7 @@ export class ItineraryList implements OnInit{
   public readonly store = inject(ItineraryStore);
   private readonly security = inject(SecurityStore);
   private readonly fb = inject(FormBuilder);
+  public readonly router = inject(Router);
 
   public pageable: Pageable = { page: 0, size: 10, sort: 'itineraryDate,asc' };
     
@@ -57,5 +58,9 @@ export class ItineraryList implements OnInit{
                 error: (err) => console.error('Error al eliminar itinerario:', err)
             });
         }
+    }
+
+    toDetails(id: number){
+      this.router.navigateByUrl(`/itineraries/${id}`);
     }
 }

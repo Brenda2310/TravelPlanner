@@ -1,0 +1,30 @@
+<div class="it-detail-container">
+  @if (store.loading()) {
+  <p>Cargando detalles del Itinerario...</p>
+  } @else if (currentIt$()?.id === itineraryId) {
+
+  <section class="Itinerary-info">
+    <h1>{{ currentTrip$()?.name }} a {{ currentTrip$()?.destination }}</h1>
+    <p>Fecha: {{ currentIt$()?.itineraryDate }}</p>
+    <p>Actividades:</p>
+    <ul class="activity-list">
+      @if (!currentIt$()?.activities?.length) { @for (activ of currentIt$()?.activities; track
+      $index) {
+      <li class="activity-item">
+        {{ activ.description }}
+      </li>
+      } } @else {
+      <li>No hay actividades planificadas para este día.</li>
+      }
+    </ul>
+    <p>Notas: {{ currentIt$()?.notes }}</p>
+    <button (click)="toEdit(currentIt$()?.id!)">
+      Editar Itinerario
+    </button>
+    <button (click)="onDeleteItinerary()" class="btn-delete">Eliminar Itinerario</button>
+  </section>
+
+  } @else {
+  <p>No se encontró el Itinerario o no tienes permiso.</p>
+  }
+</div>

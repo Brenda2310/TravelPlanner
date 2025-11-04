@@ -23,11 +23,12 @@
                 <p>Notas: {{ item.notes }}</p>
                 <p>Actividades: {{ item.activities.length }}</p>
                 
-                <button [routerLink]="['/itineraries', item.id]">Ver Detalle</button>
-                <button (click)="onDelete(item.id)" class="btn-delete">Eliminar</button>
+                <button (click)="toDetails(item.id)">Ver Detalle</button>
             </div>
         }
+        <a routerLink="/itineraries/create" class="btn btn-primary">Crear Nuevo Itinerario</a>
         }
+        
 
         <app-pagination 
             [currentPage]="store.itinerary().pageInfo.currentPage"

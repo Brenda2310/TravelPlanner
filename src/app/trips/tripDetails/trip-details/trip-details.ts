@@ -47,4 +47,8 @@ export class TripDetails implements OnInit {
       });
     }
   }
+
+  get name(){
+    return this.currentTrip$()?.name;
+  }
 }

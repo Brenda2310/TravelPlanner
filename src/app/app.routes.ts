@@ -12,6 +12,7 @@ import { ItineraryList } from './itineraries/itinerary-list/itinerary-list';
 import { ActivityBrowser } from './activities/activity-browser/activity-browser';
 import { ItineraryCreateEdit } from './itineraries/itinerary-create-edit/itinerary-create-edit';
 import { Profile } from './users/profile/profile';
+import { ItineraryDetails } from './itineraries/itinerary-details/itinerary-details';
 
 export const routes: Routes = [
     { path: '', component: Home, title: 'Inicio' },
@@ -98,6 +99,18 @@ export const routes: Routes = [
                         component: ItineraryCreateEdit,
                         title: 'Agregar Itinerario',
                         canActivate: [authGuard(['CREAR_ITINERARIO', 'ROLE_USER'])]
+                    },
+                    {
+                        path: ':id/edit',
+                        component: ItineraryCreateEdit,
+                        title: 'Editar Itinerario',
+                        canActivate: [authGuard(['MODIFICAR_ITINERARIO', 'ROLE_USER'])]
+                    },
+                    {
+                        path: ':id',
+                        component: ItineraryDetails,
+                        title: 'Detalles Itinerario',
+                        canActivate: [authGuard(['VER_ITINERARIO',  'ROLE_USER'])]
                     }
                 ]
             },
