@@ -1,0 +1,68 @@
+<div class="form-container">
+  <h2>{{ isEditing ? 'Editar Checklist' : 'Crear Nueva Checklist' }}</h2>
+
+  @if (errorMessage) {
+    <div class="alert-error">{{ errorMessage }}</div>
+  }
+
+  <form [formGroup]="checklistForm" (ngSubmit)="onSubmit()">
+    
+    @if (!isEditing) {
+    <div class="form-group">
+      <label>Seleccioná el viaje asociado:</label>
+
+      @if (userTrips().loading) {
+        <p>Cargando tus viajes...</p>
+      } 
+      @else if (userTrips().list.length === 0) {
+        <p>No tenés viajes creados todavía.</p>
+      } 
+      @else {
+        <div class="trip-grid">
+          @for (trip of userTrips().list; track trip.id) {
+            <div
+              class="trip-card"
+              [class.selected]="isSelected(trip.id)"
+              (click)="selectTrip(trip.id)"
+            >
+              <h4>{{ trip.name }}</h4>
+              <p><strong>Destino:</strong> {{ trip.destination }}</p>
+              <p><strong>Inicio:</strong> {{ trip.startDate }}</p>
+              <p><strong>Fin:</strong> {{ trip.endDate }}</p>
+            </div>
+          }
+        </div>
+      }
+
+      @if (checklistForm.get('tripId')?.invalid && checklistForm.get('tripId')?.touched) {
+        <div class="validation-error">Debes seleccionar un viaje.</div>
+      }
+    </div>
+    }
+
+    <div class="form-group">
+      <label for="name">Nombre de la checklist:</label>
+      <input id="name" type="text" formControlName="name" placeholder="Ej: Preparativos de viaje" />
+
+      @if (checklistForm.get('name')?.invalid && checklistForm.get('name')?.touched) {
+        <div class="validation-error">
+          @if (checklistForm.get('name')?.errors?.['required']) {
+            <p>El nombre es obligatorio.</p>
+          }
+          @if (checklistForm.get('name')?.errors?.['maxlength']) {
+            <p>El nombre no puede superar los 50 caracteres.</p>
+          }
+        </div>
+      }
+    </div>
+
+    <button type="submit" [disabled]="checklistForm.invalid || loading">
+      @if (loading) {
+        Guardando...
+      } @else {
+        {{ isEditing ? 'Actualizar' : 'Crear Checklist' }}
+      }
+    </button>
+  </form>
+</div>
+

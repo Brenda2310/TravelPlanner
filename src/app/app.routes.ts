@@ -13,6 +13,8 @@ import { ActivityBrowser } from './activities/activity-browser/activity-browser'
 import { ItineraryCreateEdit } from './itineraries/itinerary-create-edit/itinerary-create-edit';
 import { Profile } from './users/profile/profile';
 import { ItineraryDetails } from './itineraries/itinerary-details/itinerary-details';
+import { ChecklistList } from './checklist/checklist-list/checklist-list';
+import { ChecklistCreateEdit } from './checklist/checklist-create-edit/checklist-create-edit';
 
 export const routes: Routes = [
     { path: '', component: Home, title: 'Inicio' },
@@ -123,6 +125,24 @@ export const routes: Routes = [
                         component: ActivityBrowser,
                         title: 'Actividades',
                         canActivate: [authGuard(['VER_TODAS_ACTIVIDADES', 'VER_ACTIVIDAD', 'VER_ACTIVIDAD_EMPRESA', 'VER_ACTIVIDAD_USUARIO', 'ROLE_USER'])]
+                    }
+                ]
+            }, 
+            {
+                path:'checklists',
+                children:
+                [
+                    {
+                        path: '',
+                        component: ChecklistList,
+                        title: 'Checklists',
+                        canActivate: [authGuard(['ROLE_USER'])] // cambiar permisos
+                    }, 
+                    {
+                        path: 'create',
+                        component: ChecklistCreateEdit,
+                        title: 'Crear Checklist',
+                        canActivate: [authGuard(['ROLE_USER'])]
                     }
                 ]
             }
