@@ -22,6 +22,8 @@ export class ChecklistStore extends BaseStore{
 
   private readonly _loading = signal<boolean>(false);
   private readonly _error = signal<string | null>(null);
+    private readonly _currentChecklist = signal<CheckListResponseDTO | null>(null);
+  
 
   public readonly checklist = this._checklist.asReadonly();
   public readonly loading = this._loading.asReadonly();
@@ -67,6 +69,21 @@ export class ChecklistStore extends BaseStore{
       },
       error: (err) => {
         this._error.set(err.message ?? `Store Error: Failed to load checklists for user ${userId}.`);
+        this._loading.set(false);
+      },
+    });
+  }
+
+  loadChecklistById(id: number): void {
+    this._loading.set(true);
+    this.client.getById(id).subscribe({
+      next: (entityModel) => {
+        const checklist = (entityModel as any).content || entityModel;
+        this._currentChecklist.set(checklist);
+        this._loading.set(false);
+      },
+      error: (err) => {
+        this._error.set(err.message ?? `Store Error: Failed to load checklist ${id}.`);
         this._loading.set(false);
       },
     });
