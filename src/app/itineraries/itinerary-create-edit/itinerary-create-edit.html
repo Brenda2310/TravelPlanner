@@ -8,13 +8,33 @@
     <form [formGroup]="itineraryForm" (ngSubmit)="onSubmit()">
         
         @if (!isEditing) {
-            <div class="form-group">
-                <label for="tripId">ID del Viaje Asociado:</label>
-                <input id="tripId" type="number" formControlName="tripId">
-                @if (itineraryForm.get('tripId')?.invalid && itineraryForm.get('tripId')?.touched) {
-                    <div class="validation-error">El ID del viaje es obligatorio.</div>
+        <div class="form-group">
+            <label>Seleccioná el viaje asociado:</label>
+                @if (userTrips().loading) {
+                <p>Cargando tus viajes...</p>
+                } @else if (userTrips().list.length === 0) {
+                <p>No tenés viajes creados todavía.</p>
+                } @else {
+                <div class="trip-grid">
+                    @for (trip of userTrips().list; track trip.id) {
+                    <div
+                        class="trip-card"
+                        [class.selected]="isSelected(trip.id)"
+                        (click)="selectTrip(trip.id)"
+                    >
+                        <h4>{{ trip.name }}</h4>
+                        <p><strong>Destino:</strong> {{ trip.destination }}</p>
+                        <p><strong>Inicio:</strong> {{ trip.startDate }}</p>
+                        <p><strong>Fin:</strong> {{ trip.endDate }}</p>
+                    </div>
+                    }
+                </div>
                 }
-            </div>
+
+                @if (itineraryForm.get('tripId')?.invalid && itineraryForm.get('tripId')?.touched) {
+                <div class="validation-error">Debes seleccionar un viaje.</div>
+                }
+        </div>
         }
 
         <div class="form-group">

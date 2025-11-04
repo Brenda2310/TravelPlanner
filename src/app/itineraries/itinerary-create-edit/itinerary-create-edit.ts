@@ -5,6 +5,8 @@ import { ItineraryStore } from '../services/itinerary-store';
 import { SecurityStore } from '../../security/services/security-store';
 import { Observable } from 'rxjs';
 import { ItineraryCreateDTO, ItineraryUpdateDTO } from '../itinerary-models';
+import { TripStore } from '../../trips/services/trip-store';
+import { Pageable } from '../../hateoas/hateoas-models';
 
 @Component({
   selector: 'app-itinerary-create-edit',
@@ -17,12 +19,15 @@ export class ItineraryCreateEdit {
     private readonly router = inject(Router);
     private readonly route = inject(ActivatedRoute);
     private readonly store = inject(ItineraryStore);
+    private readonly tripStore = inject(TripStore);
     private readonly securityStore = inject(SecurityStore);
 
     public isEditing: boolean = false;
     public loading: boolean = false;
     public errorMessage: string | null = null;
     public itineraryId: number | undefined;
+
+    public userTrips = this.tripStore.trips;
 
     public itineraryForm = this.fb.group({
         itineraryDate: ['', [Validators.required]],
@@ -38,6 +43,20 @@ export class ItineraryCreateEdit {
             this.isEditing = true;
             this.store.loadItineraryById(this.itineraryId);
         }
+
+        const userId = this.securityStore.getId();
+        if (userId) {
+        this.tripStore.loadTripsByUserId(userId, {}, { page: 0, size: 10 } as Pageable);
+        }
+
+    }
+
+    selectTrip(tripId: number): void {
+        this.itineraryForm.patchValue({ tripId });
+    }
+
+    isSelected(tripId: number): boolean {
+        return this.itineraryForm.get('tripId')?.value === tripId;
     }
 
     onSubmit(): void {

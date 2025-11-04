@@ -208,4 +208,9 @@ export class TripStore extends BaseStore {
         );
     }
 
+    get userTripsList() {
+    return this._trips.asReadonly();
+    }
+
+
 }
