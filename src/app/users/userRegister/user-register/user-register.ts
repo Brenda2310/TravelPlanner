@@ -1,4 +1,4 @@
-import { ChangeDetectorRef, Component, inject, Input, OnInit } from '@angular/core';
+import { ChangeDetectorRef, Component, computed, inject, Input, OnInit, signal } from '@angular/core';
 import { FormBuilder, ReactiveFormsModule, Validators } from '@angular/forms';
 import { ActivatedRoute, Router, RouterLink } from '@angular/router';
 import { UserStore } from '../../services/user-store';
@@ -9,6 +9,7 @@ import { toObservable } from '@angular/core/rxjs-interop';
 import { MatDialogModule } from '@angular/material/dialog';
 import { MatDialog } from '@angular/material/dialog';
 import { PreferenceSelector } from '../../PreferenceSelector/preference-selector/preference-selector';
+import { SecurityStore } from '../../../security/services/security-store';
 
 export const ALL_PREFERENCES: UserPreference[] = [
   'CULTURAL', 'HISTORIC', 'RELIGION', 'NATURAL', 'BEACHES', 'SPORT', 'FOODS', 
@@ -29,6 +30,10 @@ export class UserRegister implements OnInit {
   private readonly route = inject(ActivatedRoute);
   private readonly dialog = inject(MatDialog);
   private readonly cdr = inject(ChangeDetectorRef);
+  protected readonly securityStore = inject(SecurityStore);
+
+
+  
 
   private profile$ = toObservable(this.store.profile);
   private userDetails$ = toObservable(this.store.userToEdit);
@@ -146,5 +151,4 @@ export class UserRegister implements OnInit {
         this.registerForm.get('password')?.updateValueAndValidity();
         this.registerForm.get('confirmPassword')?.updateValueAndValidity();
     }
-
 }

@@ -1,8 +1,10 @@
+@if(!securityStore.auth().isAuthenticated){
 <header class="logo-header">
   <a routerLink="/" class="logo-link">
     <img src="/Travel-Planner.png" alt="Travel Planner Logo" class="logo">
   </a>
 </header>
+}
 
 <div class="page-wrapper">
   <div class="content-wrapper reverse">

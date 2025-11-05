@@ -50,5 +50,5 @@ export class Login implements OnInit{
 register(){
   this.router.navigateByUrl('/register');
 }
- }
+}
 

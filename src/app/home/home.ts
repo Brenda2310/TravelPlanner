@@ -4,6 +4,7 @@ import { AuthStatus } from '../security/auth/logout/auth-status/auth-status';
 import { RouterModule } from '@angular/router';
 import { Testimonials } from "./testimonials/testimonials/testimonials";
 import { Features } from "./features/features";
+import { UserStore } from '../users/services/user-store';
 
 @Component({
   selector: 'app-home',
