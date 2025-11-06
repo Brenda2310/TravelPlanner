@@ -136,7 +136,7 @@ export const routes: Routes = [
                         path: '',
                         component: ChecklistList,
                         title: 'Checklists',
-                        canActivate: [authGuard(['ROLE_USER'])] // cambiar permisos
+                        canActivate: [authGuard(['ROLE_USER', 'ROLE_ADMIN'])] // cambiar permisos
                     }, 
                     {
                         path: 'create',
