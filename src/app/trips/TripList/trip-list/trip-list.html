@@ -1,9 +1,11 @@
 <div class="trip-list-container">
  <h2>Mis Viajes</h2>
 
+  @if (store.trips().list.length !== 0) {
  <div class="create">
        <a routerLink="/trips/create" class="btn-primary">+ Crear Nuevo Viaje</a>
      </div>
+  }
 
  @if (store.loading()) {
    <p class="loading">Cargando viajes...</p>

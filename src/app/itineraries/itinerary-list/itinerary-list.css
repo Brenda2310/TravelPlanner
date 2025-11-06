@@ -130,7 +130,7 @@ h2 {
   background-color: var(--primary-hover, #0284c7);
 }
 
-.alert {
+.no-itineraries {
   background: rgba(255, 255, 255, 0.85);
   padding: 30px;
   border-radius: 14px;
