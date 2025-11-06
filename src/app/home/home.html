@@ -1,6 +1,11 @@
 <section class="hero">
     <div class="hero-card">
+    
+        @if(!isAuthenticated()){
         <h1>Bienvenido a TravelPlanner</h1>
+        }@else {
+            <h1>Bienvenido/a,  {{  currentUser()?.username || 'viajer@' }}</h1>
+        }
         <p>Tu solución definitiva para organizar viajes y controlar presupuestos sin complicaciones</p>
 
     @if(!isAuthenticated()){
@@ -11,3 +16,4 @@
 </div>
 </section>
 <app-features></app-features>
+

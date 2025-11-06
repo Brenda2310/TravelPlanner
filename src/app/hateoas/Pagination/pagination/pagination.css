@@ -7,7 +7,7 @@
   justify-content: center;
   align-items: center;
   gap: 10px;
-  margin-top: 30px;
+  margin-top: 50px;
   flex-wrap: wrap;
 }
 
@@ -37,8 +37,8 @@
 }
 
 .pagination-button:disabled {
-  background-color: #ccc;
-  color: #666;
+  background-color: #eae3e3;
+  color: #322b2b;
   cursor: not-allowed;
   transform: none;
   box-shadow: none;

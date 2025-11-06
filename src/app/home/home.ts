@@ -16,9 +16,15 @@ import { SecurityStore } from '../security/services/security-store';
 })
 export class Home{
     private readonly store = inject(SecurityStore);
+    private readonly users = inject(UserStore);
 
-    public isAuthenticated() {
-        return this.store.auth().isAuthenticated;
+
+  isAuthenticated = () => this.store.auth().isAuthenticated;
+  currentUser = this.users.profile; 
+
+  ngOnInit(): void {
+    if (this.isAuthenticated()) {
+      this.users.loadProfile(); 
     }
-
+  }
 }

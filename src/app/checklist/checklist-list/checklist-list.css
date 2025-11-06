@@ -1,3 +1,163 @@
-.checklist-list-container{
-    margin-top: 150px;
+:host {
+  display: block;
+  min-height: 100vh;
+  padding: 40px 20px;
+  /* background: url('/robin-noguier-sydwCr54rf0-unsplash.jpg') center / cover no-repeat fixed; */
+  color: var(--font-color, #07494F);
+}
+
+.checklist-list-container {
+  max-width: 1100px;
+  margin: 0 auto;
+}
+
+h2 {
+  font-size: 2rem;
+  font-weight: 600;
+  text-align: center;
+  margin: 60px 0 30px;
+  color: var(--font-color, #07494F);
+}
+
+.loading {
+  text-align: center;
+  font-style: italic;
+  color: #777;
+}
+
+.no-checklists {
+  text-align: center;
+  background: rgba(255, 255, 255, 0.85);
+  padding: 40px 28px;
+  border-radius: 16px;
+  box-shadow: 0 6px 16px rgba(0,0,0,.08);
+}
+
+.checklist-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+  gap: 24px;
+  margin-top: 16px;
+}
+
+.checklist-card {
+  background: var(--bg-glass, rgba(255,255,255,0.9));
+  border: 1px solid rgba(0,0,0,0.08);
+  border-radius: 16px;
+  padding: 20px;
+  box-shadow: 0 6px 16px rgba(0,0,0,0.08);
+  transition: transform .2s ease, box-shadow .2s ease;
+}
+
+.checklist-card:hover {
+  transform: translateY(-4px);
+  box-shadow: 0 10px 24px rgba(0,0,0,0.12);
+}
+
+.checklist-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: baseline;
+  gap: 12px;
+  margin-bottom: 10px;
+}
+
+.checklist-header h3 {
+  margin: 0;
+  font-size: 1.25rem;
+  font-weight: 600;
+  line-height: 1.1;
+  overflow-wrap: anywhere;
+}
+
+.trip-ref {
+  background: var(--primary-color, #0ea5e9);
+  color: #fff;
+  font-size: .85rem;
+  padding: 4px 10px;
+  border-radius: 12px;
+  white-space: nowrap;
+  max-width: 50%;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+.checklist-body {
+  font-size: .95rem;
+  color: var(--font-color, #07494F);
+  margin-bottom: 12px;
+  line-height: 1.5;
+}
+
+.checklist-actions {
+  display: flex;
+  gap: 10px;
+  justify-content: space-between;
+  flex-wrap: wrap;
+}
+
+.btn-primary {
+  background-color: var(--primary-color, #0ea5e9);
+  color: #fff;
+  border: none;
+  border-radius: 10px;
+  padding: 10px 18px;
+  font-weight: 600;
+  cursor: pointer;
+  transition: background .2s ease;
+  text-decoration: none;
+  display: inline-block;
+  text-align: center;
+}
+
+.btn-primary:hover {
+  background-color: var(--primary-hover, #0284c7);
+}
+
+.btn-outline {
+  background: transparent;
+  border: 1px solid #ccc;
+  border-radius: 10px;
+  padding: 8px 14px;
+  cursor: pointer;
+  font-weight: 500;
+  color: #07494F;
+  transition: all .2s ease;
+}
+
+.btn-outline:hover {
+  border-color: var(--primary-color, #0ea5e9);
+  color: var(--primary-color, #0ea5e9);
+}
+
+.btn-danger {
+  background-color: #dc3545;
+  color: #fff;
+  border: none;
+  border-radius: 10px;
+  padding: 8px 14px;
+  cursor: pointer;
+  font-weight: 500;
+  transition: background .2s ease;
+}
+
+.btn-danger:hover {
+  background-color: #b02a37;
+}
+
+.create {
+  text-align: right;
+  margin: 14px 0 8px;
+}
+
+app-pagination {
+  display: flex;
+  justify-content: center;
+  margin: 28px 0 10px;
+}
+
+@media (max-width: 600px) {
+  h2 { font-size: 1.6rem; margin-top: 40px; }
+  .checklist-card { padding: 16px; }
+  .checklist-actions { flex-direction: column; }
 }
