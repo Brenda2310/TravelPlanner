@@ -16,7 +16,7 @@ export class Header {
 
   public isAuthenticated() {
         return this.store.auth().isAuthenticated;
-    }
+  }
 
   public toProfile(){
     this.router.navigateByUrl('/profile/me');

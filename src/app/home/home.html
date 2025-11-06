@@ -3,7 +3,11 @@
         <h1>Bienvenido a TravelPlanner</h1>
         <p>Tu solución definitiva para organizar viajes y controlar presupuestos sin complicaciones</p>
 
-    <a class="cta" routerLink="/login">Empezá a planificar tu próxima aventura</a>
+    @if(!isAuthenticated()){
+        <a class="cta" routerLink="/login">Empezá a planificar tu próxima aventura</a>
+    }@else {
+        <a class="cta" routerLink="/trips/create">Empezá a planificar tu próxima aventura</a>
+    }
 </div>
 </section>
 <app-features></app-features>
