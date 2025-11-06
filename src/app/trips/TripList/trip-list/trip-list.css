@@ -6,6 +6,10 @@
   color: var(--font-color, #07494F);
 }
 
+.create{
+  text-align: right;
+}
+
 .trip-list-container {
   max-width: 1100px;
   margin: 0 auto;

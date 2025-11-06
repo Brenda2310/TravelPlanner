@@ -1,6 +1,9 @@
 <div class="trip-list-container">
  <h2>Mis Viajes</h2>
 
+ <div class="create">
+       <a routerLink="/trips/create" class="btn-primary">+ Crear Nuevo Viaje</a>
+     </div>
 
  @if (store.loading()) {
    <p class="loading">Cargando viajes...</p>
@@ -42,17 +45,13 @@
        }
      </div>
 
-
-     <div class="create">
-       <a routerLink="/trips/create" class="btn-primary">+ Crear Nuevo Viaje</a>
-     </div>
-
-
-     <app-pagination
-       [currentPage]="store.trips().pageInfo.currentPage"
-       [totalPages]="store.trips().pageInfo.totalPages"
-       (pageChange)="onPageChange($event)">
-     </app-pagination>
+      <div class="pagination-container">
+        <app-pagination
+          [currentPage]="store.trips().pageInfo.currentPage"
+          [totalPages]="store.trips().pageInfo.totalPages"
+          (pageChange)="onPageChange($event)">
+        </app-pagination>
+    </div>
    }
  }
 </div>
