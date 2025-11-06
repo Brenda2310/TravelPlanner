@@ -19,7 +19,7 @@ h2 {
   color: var(--font-color, #07494F);
 }
 
-.filter-bar {
+.filter-bar{
   display: flex;
   justify-content: center;
   align-items: center;
@@ -47,8 +47,8 @@ h2 {
   outline: none;
 }
 
-.filter-bar button {
-  background-color: var(--primary-color, #0ea5e9);
+.filter-bar button{
+  background-color: var(--primary-color, #4e7c91);
   color: #fff;
   border: none;
   border-radius: 8px;
@@ -167,4 +167,23 @@ app-pagination {
 .itinerary-card:hover {
   transform: translateY(-4px);
   box-shadow: 0 10px 24px rgba(0, 0, 0, 0.12);
+}
+
+.itinerary-card,
+.itinerary-card p,
+.itinerary-card .notes {
+  overflow-wrap: anywhere;   
+  min-width: 0;              
+}
+
+.trip-select {
+  border: 1px solid #ccc;
+  border-radius: 8px;
+  padding: 8px 12px;
+  font-size: 0.95rem;
+  color: var(--font-color, #07494F);
+  background: #fff;
+  transition: border-color 0.2s ease, box-shadow 0.2s ease;
+  height: 40px;
+  line-height: 24px;
 }

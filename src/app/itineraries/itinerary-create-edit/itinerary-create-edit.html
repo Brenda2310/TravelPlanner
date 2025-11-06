@@ -7,7 +7,7 @@
 
     <form [formGroup]="itineraryForm" (ngSubmit)="onSubmit()">
         
-                <div class="form-group">
+            <div class="form-group">
             <label for="tripId">Seleccioná el viaje asociado:</label>
             <select id="tripId" formControlName="tripId">
                 <option value="">-- Elegí un viaje --</option>
@@ -20,7 +20,8 @@
                 <div class="validation-error">Debes seleccionar un viaje.</div>
             }
             </div>
-        
+    
+
         <div class="form-group">
             <label for="itineraryDate">Fecha:</label>
             <input id="itineraryDate" type="date" formControlName="itineraryDate">

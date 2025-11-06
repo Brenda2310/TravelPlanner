@@ -6,6 +6,7 @@ import { Pageable } from '../../hateoas/hateoas-models';
 import { ItineraryFilterDTO } from '../itinerary-models';
 import { Router, RouterLink } from "@angular/router";
 import { Pagination } from "../../hateoas/Pagination/pagination/pagination";
+import { TripStore } from '../../trips/services/trip-store';
 
 @Component({
   selector: 'app-itinerary-list',
@@ -18,17 +19,27 @@ export class ItineraryList implements OnInit{
   private readonly security = inject(SecurityStore);
   private readonly fb = inject(FormBuilder);
   public readonly router = inject(Router);
+  private readonly tripStore = inject(TripStore);                    
+
 
   public pageable: Pageable = { page: 0, size: 10, sort: 'itineraryDate,asc' };
+
+  public userTrips = this.tripStore.trips;
     
     public filterForm = this.fb.group({
         dateFrom: [''],
-        dateTo: ['']
+        dateTo: [''],
+        tripId: ['']
     });
 
     ngOnInit(): void {
-    this.loadItineraries();
+  const userId = this.security.getId();
+  if (userId) {
+    this.tripStore.loadTripsByUserId(userId, {}, { page: 0, size: 100 } as Pageable);
   }
+  this.loadItineraries();
+  }
+
 
     loadItineraries(){
       const userId = this.security.getId();
@@ -63,4 +74,11 @@ export class ItineraryList implements OnInit{
     toDetails(id: number){
       this.router.navigateByUrl(`/itineraries/${id}`);
     }
+
+    clearFilters(): void {
+      this.filterForm.reset({ dateFrom: '', dateTo: '', tripId: '' });
+      this.pageable.page = 0;
+      this.loadItineraries();
+}
+
 }

@@ -8,7 +8,14 @@
     <form [formGroup]="filterForm" (ngSubmit)="onApplyFilters()" class="filter-bar">
         <input type="date" formControlName="dateFrom" placeholder="Desde">
         <input type="date" formControlName="dateTo" placeholder="Hasta">
+        <select class="trip-select" formControlName="tripId" class="trip-select">
+            <option value="">Todos los viajes</option>
+            @for (trip of userTrips().list; track trip.id) {
+            <option [value]="trip.id">{{ trip.name }} - {{ trip.destination }}</option>
+    }
+  </select>
         <button type="submit">Filtrar</button>
+        <button type="button" (click)="clearFilters()">Limpiar</button>
     </form>
 
     @if (store.loading()) {
