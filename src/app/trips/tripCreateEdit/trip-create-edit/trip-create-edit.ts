@@ -46,7 +46,7 @@ export class TripCreateEdit implements OnInit {
       companions:[new FormControl<number | null>(null), [TripValidation.optionalMinValidator(0)]],
 
       startDate: ['', [Validators.required]],
-      endDate: [''],
+      endDate: ['', Validators.required],
 
       sharedUserIds: [[] as number[]],
       newUserId: [''],

@@ -1,5 +1,9 @@
 <div class="itinerary-list">
     <h2>Mis Itinerarios</h2>
+
+    <div class="create">
+        <a routerLink="/itineraries/create" class="btn-primary">+ Crear Nuevo Itinerario</a>
+    </div>
     
     <form [formGroup]="filterForm" (ngSubmit)="onApplyFilters()" class="filter-bar">
         <input type="date" formControlName="dateFrom" placeholder="Desde">
@@ -17,6 +21,7 @@
             </div>
         } 
         @else {
+            <div class="itinerary-grid">
             @for (item of store.itinerary().list; track item.id) {
             <div class="itinerary-card">
                 <h3>Día: {{ item.itineraryDate }}</h3>
@@ -26,7 +31,7 @@
                 <button (click)="toDetails(item.id)">Ver Detalle</button>
             </div>
         }
-        <a routerLink="/itineraries/create" class="btn btn-primary">Crear Nuevo Itinerario</a>
+        </div>
         }
         
 

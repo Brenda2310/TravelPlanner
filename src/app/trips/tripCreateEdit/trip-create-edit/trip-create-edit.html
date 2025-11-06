@@ -45,16 +45,17 @@
         }
       </div>
 
-      <div class="trip-field">
-        <label for="endDate">Fecha de fin (opcional):</label>
+    <div class="trip-field">
+      <label for="endDate">Fecha de fin (*)</label>
         <input id="endDate" type="date" formControlName="endDate" />
-        @if (tripForm.hasError('dateMismatch') && (tripForm.get('endDate')?.value)) {
-          <small class="trip-error-msg">
-            La fecha de fin debe ser posterior a la de inicio.
-          </small>
-        }
-      </div>
-    </div>
+        @if (tripForm.get('endDate')?.hasError('required') && (tripForm.get('endDate')?.touched || tripForm.get('endDate')?.dirty)) {
+      <small class="trip-error-msg">La fecha de fin es obligatoria.</small>
+    }
+    @if (tripForm.hasError('dateMismatch') && (tripForm.get('endDate')?.value)) {
+      <small class="trip-error-msg">La fecha de fin debe ser posterior a la de inicio.</small>
+    }
+  </div>
+  </div>
 
     <!-- Presupuesto y acompañantes -->
     <div class="trip-row">
