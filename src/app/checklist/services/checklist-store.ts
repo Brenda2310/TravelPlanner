@@ -22,12 +22,13 @@ export class ChecklistStore extends BaseStore{
 
   private readonly _loading = signal<boolean>(false);
   private readonly _error = signal<string | null>(null);
-    private readonly _currentChecklist = signal<CheckListResponseDTO | null>(null);
+  private readonly _currentChecklist = signal<CheckListResponseDTO | null>(null);
   
 
   public readonly checklist = this._checklist.asReadonly();
   public readonly loading = this._loading.asReadonly();
   public readonly error = this._error.asReadonly();
+  public readonly currentChecklist = this._currentChecklist.asReadonly();
 
   private setChecklist(list: CheckListResponseDTO[], page: any) {
     this._checklist.set({

@@ -46,6 +46,17 @@ export class ChecklistItemService {
     return this.http.get<PagedModel<CheckListItemResponseDTO>>(`${this.api}/user/${userId}`, { params });
   }
 
+  getByChecklistId(checklistId: number, pageable: Pageable) {
+    const params = new HttpParams()
+      .set('page', pageable.page.toString())
+      .set('size', pageable.size.toString());
+
+    return this.http.get<PagedModel<EntityModel<CheckListItemResponseDTO>>>(
+      `${this.api}/checklist/${checklistId}`,
+      { params }
+    );
+  }
+
   create(dto: CheckListItemCreateDTO) {
     return this.http.post<CheckListItemResponseDTO>(this.api, dto);
   }

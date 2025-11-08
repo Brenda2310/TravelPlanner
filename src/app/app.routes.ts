@@ -15,6 +15,7 @@ import { Profile } from './users/profile/profile';
 import { ItineraryDetails } from './itineraries/itinerary-details/itinerary-details';
 import { ChecklistList } from './checklist/checklist-list/checklist-list';
 import { ChecklistCreateEdit } from './checklist/checklist-create-edit/checklist-create-edit';
+import { ChecklistDetails } from './checklist/checklist-details/checklist-details';
 
 export const routes: Routes = [
     { path: '', component: Home, title: 'Inicio' },
@@ -143,6 +144,12 @@ export const routes: Routes = [
                         component: ChecklistCreateEdit,
                         title: 'Crear Checklist',
                         canActivate: [authGuard(['ROLE_USER', 'ROLE_ADMIN'])]
+                    }, 
+                    {
+                        path: ':id',
+                        component: ChecklistDetails,
+                        title: 'Detalle de Checklist',
+                        canActivate: [authGuard(['ROLE_USER', 'ROLE_ADMIN'])],
                     }
                 ]
             }

@@ -34,7 +34,8 @@ export class ChecklistCreateEdit implements OnInit{
 
   public checklistForm = this.formBuilder.group ({
     name: ["", [Validators.required, Validators.maxLength(50)]], 
-    tripId: [null as (number | null), [Validators.required, Validators.min(1)]]
+    tripId: [null as (number | null), [Validators.required, Validators.min(1)]], 
+    items: this.formBuilder.array([])
   });
 
   ngOnInit(): void {

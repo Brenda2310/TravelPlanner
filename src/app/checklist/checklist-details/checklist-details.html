@@ -1,1 +1,6 @@
-<p>checklist-details works!</p>
+<div class="checklist-detail-container" *ngIf="checklist() as checklistInfo">
+  <h2>{{ checklistInfo.name }}</h2>
+  <p>Estado: {{ checklistInfo.completed ? 'Completada' : 'Pendiente' }}</p>
+  <app-check-list-item [checklistId]="checklistInfo.id"></app-check-list-item>
+</div>
+

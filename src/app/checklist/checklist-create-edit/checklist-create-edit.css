@@ -1,0 +1,26 @@
+/* ESTILO PROVISORIO PARA PODER PROBAR */
+
+.trip-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(240px, 1fr));
+  gap: 1rem;
+  margin-top: 1rem;
+}
+
+.trip-card {
+  border: 1px solid #ccc;
+  border-radius: 8px;
+  padding: 1rem;
+  cursor: pointer;
+  transition: all 0.2s ease;
+  background: #fff;
+}
+
+.trip-card:hover {
+  background-color: #f8f9fa;
+}
+
+.trip-card.selected {
+  border-color: #007bff;
+  background-color: #e9f3ff;
+}
