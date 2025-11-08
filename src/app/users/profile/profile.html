@@ -1,41 +1,69 @@
 <div class="profile-container">
-    <h2>Mi Perfil de Usuario</h2>
+  <h2>Mi Perfil</h2>
 
-    @if (userStore.loading()) {
-        <p>Cargando datos del perfil...</p>
-    } @else if (userStore.error()) {
-        <div class="alert-error">Error: {{ userStore.error() }}</div>
-    } @else if (currentUser()) {
-        
-        <div class="profile-details">
-            <p><strong>Usuario:</strong> {{ currentUser()!.username }}</p>
-            <p><strong>DNI:</strong> {{ currentUser()!.dni }}</p>
-            <p><strong>Miembro desde:</strong> {{ currentUser()!.fechaRegistro| date }}</p>
-            <p><strong>TripCode: </strong> {{currentUser()!.id}}</p>
-    
-            <div class="preferences-list">
-                <strong>Mis Preferencias:</strong>
-                <ul>
-                    @for (pref of currentUser()!.preferencias; track pref) {
-                        <li>{{ pref }}</li>
-                    }
-                </ul>
-            </div>
-        </div>
+  @if (userStore.loading()) {
+    <p>Cargando datos del perfil...</p>
+  } @else if (userStore.error()) {
+    <div class="alert-error">Error: {{ userStore.error() }}</div>
 
-        <div class="profile-actions">
-            <button (click)="onEditProfile()" class="btn-primary">
-                Editar Información
-            </button>
-            <button (click)="onDeleteAccount()" class="btn-delete">
-                Eliminar Cuenta
-            </button>
-        </div>
-        
-        <hr>
-        
-        <h3>Mis Viajes Asociados</h3>
-        } @else {
-        <p>No se pudieron cargar los datos del perfil.</p>
-    }
+  } @else if (currentUser()) {
+    <div class="profile-details">
+      <p><strong>Usuario:</strong> {{ currentUser()!.username }}</p>
+      <p><strong>DNI:</strong> {{ currentUser()!.dni }}</p>
+      <p><strong>Miembro desde:</strong> {{ currentUser()!.fechaRegistro | date }}</p>
+      <p><strong>TripCode: </strong> {{ currentUser()!.id }}</p>
+
+      <div class="preferences-list">
+        <strong>Mis Preferencias:</strong>
+        <ul>
+          @for (pref of currentUser()!.preferencias; track pref) {
+            <li>{{ pref }}</li>
+          }
+        </ul>
+      </div>
+    </div>
+
+    <div class="profile-actions">
+      <button (click)="onEditProfile()" class="btn-primary">
+        Editar Información
+      </button>
+      <button (click)="onDeleteAccount()" class="btn-delete">
+        Eliminar Cuenta
+      </button>
+    </div>
+
+    <hr>
+
+    <h3>Mis Viajes Asociados</h3>
+
+    @if (store.loading()) {
+      <p>Cargando viajes asociados...</p>
+
+    } @else if (store.error()) {
+      <div class="alert-error">
+        Error al cargar los viajes: {{ store.error() }}
+      </div>
+
+    } @else if (store.trips().list.length > 0) {
+      <div class="trip-list">
+        @for (trip of store.trips().list; track trip.id) {
+          <div class="trip-card">
+            <h4>{{ trip.name }}</h4>
+            <p><strong>Destino:</strong> {{ trip.destination }}</p>
+            <p><strong>Fechas:</strong> {{ trip.startDate | date }} – {{ trip.endDate | date }}</p>
+          </div>
+        }
+      </div>
+
+    } @else {
+      <div class="no-trips">
+        <img src="/assets/empty-trips.svg" alt="Sin viajes" />
+        <p>Aún no tenés viajes asociados.</p>
+        <a routerLink="/trips/create" class="btn-primary">Crear mi primer viaje</a>
+      </div>
+    } 
+
+  } @else {
+    <p>No se pudieron cargar los datos del perfil.</p>
+  } 
 </div>

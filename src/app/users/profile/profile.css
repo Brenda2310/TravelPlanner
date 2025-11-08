@@ -1,0 +1,236 @@
+:host {
+  display: flex;
+  flex-direction: column;
+  min-height: 100vh;
+  font-family: var(--font-primary);
+  color: var(--font-color);
+  background: url('/bailey-zindel-NRQV-hBF10M-unsplash.jpg');
+}
+
+.profile-container {
+  flex: 1;
+  max-width: 980px;
+  margin: 6rem auto 4rem;
+  padding: 28px 28px 24px;
+  background: rgba(255, 255, 255, 0.9);
+  border: 1px solid rgba(7, 73, 79, 0.15);
+  border-radius: 16px;
+  backdrop-filter: blur(14px);
+  -webkit-backdrop-filter: blur(14px);
+  box-shadow: 0 12px 40px rgba(0, 0, 0, .12);
+}
+
+.profile-container > h2 {
+  margin: 0 0 16px;
+  font-size: clamp(1.4rem, 1.2rem + .8vw, 2rem);
+  letter-spacing: .3px;
+  font-weight: 700;
+  color: var(--font-color);
+  font-family: var(--font-secondary);
+}
+
+h3 {
+  margin: 12px 0 10px;
+  font-size: clamp(1.05rem, .95rem + .4vw, 1.3rem);
+  color: var(--font-color);
+  font-weight: 700;
+}
+
+.profile-details {
+  display: grid;
+  grid-template-columns: 1fr;
+  gap: 10px 24px;
+  padding: 12px 0 4px;
+}
+
+.profile-details p {
+  margin: 0;
+  line-height: 1.5;
+  font-size: 0.98rem;
+}
+
+.profile-details strong {
+  color: var(--color1);
+  font-weight: 700;
+}
+
+.preferences-list {
+  margin-top: 8px;
+}
+.preferences-list > strong {
+  display: block;
+  margin-bottom: 6px;
+}
+.preferences-list ul {
+  list-style: none;
+  padding: 0;
+  margin: 0;
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+}
+.preferences-list li {
+  padding: 6px 10px;
+  border: 1px solid rgba(7, 73, 79, 0.15);
+  border-radius: 999px;
+  background: var(--color2);
+  font-size: 0.88rem;
+  color: var(--font-color);
+}
+
+.profile-actions {
+  margin-top: 18px;
+  display: flex;
+  gap: 12px;
+  flex-wrap: wrap;
+}
+
+button.btn-primary,
+button.btn-delete,
+a.btn-primary {
+  appearance: none;
+  border: 1px solid transparent;
+  border-radius: 12px;
+  padding: 10px 14px;
+  font-weight: 600;
+  cursor: pointer;
+  transition: transform .06s ease, box-shadow .2s ease, background .2s ease, border-color .2s ease;
+  box-shadow: 0 6px 18px rgba(0, 0, 0, .08);
+  font-family: var(--font-primary);
+  text-decoration: none;
+}
+
+button.btn-primary,
+a.btn-primary {
+  background: var(--font-color);
+  color: #fff;
+}
+button.btn-primary:hover,
+a.btn-primary:hover {
+  transform: translateY(-1px);
+  box-shadow: 0 10px 24px rgba(7, 73, 79, .18);
+}
+button.btn-primary:focus-visible,
+a.btn-primary:focus-visible {
+  outline: 3px solid rgba(0, 140, 158, .35); 
+  outline-offset: 2px;
+}
+
+button.btn-delete {
+  background: #fff;
+  color: #c93636;
+  border-color: rgba(201, 54, 54, .35);
+}
+button.btn-delete:hover {
+  background: rgba(201, 54, 54, .06);
+  transform: translateY(-1px);
+  box-shadow: 0 10px 24px rgba(201, 54, 54, .18);
+}
+button.btn-delete:focus-visible {
+  outline: 3px solid rgba(201, 54, 54, .28);
+  outline-offset: 2px;
+}
+
+hr {
+  margin: 22px 0;
+  border: none;
+  height: 1px;
+  background: rgba(7, 73, 79, 0.15);
+}
+
+.alert-error {
+  background: #ffe9e9;
+  color: #7a1f1f;
+  border: 1px solid rgba(201, 54, 54, .35);
+  padding: 10px 12px;
+  border-radius: 10px;
+}
+
+.trip-list {
+  display: grid;
+  grid-template-columns: 1fr;
+  gap: 16px;
+  margin-top: 12px;
+}
+
+.trip-card {
+  background: var(--color2);
+  border: 1px solid rgba(7, 73, 79, 0.12);
+  border-radius: 14px;
+  padding: 14px 18px;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.06);
+  transition: transform 0.18s ease, box-shadow 0.2s ease;
+  display: grid;
+  gap: 6px;
+}
+.trip-card:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 10px 22px rgba(0, 0, 0, 0.09);
+}
+.trip-card h4 {
+  margin: 0 0 2px;
+  color: var(--font-color);
+  font-size: 1.05rem;
+}
+.trip-card p {
+  margin: 0;
+  font-size: .95rem;
+  line-height: 1.45;
+}
+
+.no-trips {
+  text-align: center;
+  padding: 28px 10px;
+  color: var(--font-color);
+  background: rgba(234, 244, 244, 0.5); 
+  border: 1px dashed rgba(7, 73, 79, 0.23);
+  border-radius: 14px;
+}
+.no-trips img {
+  width: 150px;
+  opacity: 0.85;
+  margin-bottom: 10px;
+}
+.no-trips p {
+  margin: 8px 0 4px;
+  font-size: 1rem;
+}
+.no-trips .btn-primary {
+  margin-top: 10px;
+}
+
+@media (min-width: 720px) {
+  .profile-details {
+    grid-template-columns: 1fr 1fr;
+  }
+  .preferences-list {
+    grid-column: 1 / -1;
+  }
+
+  .trip-list {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
+}
+
+@media (min-width: 1100px) {
+  .profile-container {
+    padding: 34px 36px 30px;
+  }
+  .trip-list {
+    grid-template-columns: repeat(3, minmax(0, 1fr));
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  * {
+    animation: none !important;
+    transition: none !important;
+  }
+}
+
+:host ::ng-deep app-footer {
+  position: static !important;
+  margin-top: auto;
+  display: block;
+  width: 100%;
+}
