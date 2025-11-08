@@ -1,5 +1,10 @@
 <div class="checklist-list-container">
-    <h2>Mis Checklist</h2>
+    <div class="title">
+    <h2>Mis Checklists</h2>
+    </div>
+    <div class="create">
+        <a routerLink="/checklists/create" class="btn-primary">+ Crear Nueva Checklist</a>
+        </div>
     @if (store.loading()) {
         <p class="loading">Cargando checklists...</p>
     } @else {
@@ -15,6 +20,12 @@
                         <div class="checklist-header">
                         <h3>{{ checklist.name }}</h3>
                         <span class="trip-ref">Viaje: ver si se puede poner nombre del viaje</span>
+                        </div>
+                          <div class="progress">
+                            <div class="progress-track">
+                            <div class="progress-fill" [style.width.%]="getProgress(checklist)"></div>
+                            </div>
+                            <span class="progress-text">{{ getProgress(checklist) | number:'1.0-0' }}%</span>
                         </div>
 
                         <div class="checklist-body">
@@ -35,11 +46,6 @@
                     </div>
                 }
             </div>
-
-            <div class="create">
-        <a routerLink="/checklists/create" class="btn-primary">+ Crear Nueva Checklist</a>
-        </div>
-
         <app-pagination
             [currentPage]="store.checklist().pageInfo.currentPage"
             [totalPages]="store.checklist().pageInfo.totalPages"

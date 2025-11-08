@@ -5,10 +5,11 @@ import { ChecklistStore } from '../services/checklist-store';
 import { Router, RouterLink } from '@angular/router';
 import { SecurityStore } from '../../security/services/security-store';
 import { Pagination } from '../../hateoas/Pagination/pagination/pagination';
+import { DecimalPipe } from '@angular/common';
 
 @Component({
   selector: 'app-checklist-list',
-  imports: [RouterLink, Pagination],
+  imports: [RouterLink, Pagination, DecimalPipe],
   templateUrl: './checklist-list.html',
   styleUrl: './checklist-list.css'
 })
@@ -59,5 +60,12 @@ export class ChecklistList implements OnInit{
   goToDetails(id: number): void{
     this.router.navigateByUrl("/checklists/create");
   }
+
+  getProgress(checklist: any): number {
+    const total = checklist.items?.length ?? 0;
+    const done = checklist.items?.filter((i: any) => i.status)?.length ?? 0;
+    return total ? (done * 100) / total : 0;
+}
+
 
 }
