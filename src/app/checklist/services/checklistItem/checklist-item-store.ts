@@ -80,6 +80,22 @@ export class ChecklistItemStore extends BaseStore {
     });
   }
 
+  loadItemsByChecklistId(checklistId: number, pageable: Pageable): void {
+
+    this._loading.set(true);
+    this.client.getByChecklistId(checklistId, pageable).subscribe({
+      next: (pagedResponse) => {
+        const list = this.unwrapEntities<CheckListItemResponseDTO>(pagedResponse);
+        this.setChecklistItems(list, pagedResponse.page);
+        this._loading.set(false);
+      },
+      error: (err) => {
+        console.error(`Store Error: Failed to load items for checklist ${checklistId}.`, err);
+        this._loading.set(false);
+      },
+    });
+  }
+
   createItem(dto: CheckListItemCreateDTO): Observable<CheckListItemResponseDTO> {
     return this.client.create(dto).pipe(
       tap((newItem) => {

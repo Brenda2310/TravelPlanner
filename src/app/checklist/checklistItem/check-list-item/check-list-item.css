@@ -1,0 +1,45 @@
+/* ESTILO PROVISORIO PARA PODER PROBAR */
+
+.checklist-items-container {
+  display: flex;
+  flex-direction: column;
+  gap: 1rem;
+}
+
+.item-form {
+  display: flex;
+  gap: 0.5rem;
+}
+
+.item-form input {
+  flex: 1;
+  padding: 0.4rem 0.6rem;
+}
+
+.item-form button {
+  background-color: #2e86de;
+  color: white;
+  border: none;
+  padding: 0.4rem 0.8rem;
+  border-radius: 4px;
+  cursor: pointer;
+}
+
+.item-form button:disabled {
+  background-color: #b0bec5;
+}
+
+.checklist-item {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.checklist-item .completed {
+  text-decoration: line-through;
+  color: gray;
+}
+
+.error-message {
+  color: red;
+}

@@ -1,0 +1,30 @@
+<div *ngIf="loading; else loaded">
+  <p>Cargando ítems...</p>
+</div>
+
+<ng-template #loaded>
+  <form [formGroup]="itemForm" (ngSubmit)="createItem()" class="item-form">
+    <input
+      type="text"
+      formControlName="description"
+      placeholder="Nuevo ítem..."
+    />
+    <button type="submit" [disabled]="itemForm.invalid">Agregar</button>
+  </form>
+
+  <div *ngIf="errorMessage" class="error-message">
+    {{ errorMessage }}
+  </div>
+
+  <ul>
+    <li *ngFor="let item of items">
+      <label>
+        <input 
+        type="checkbox" 
+        [checked]="item.status" 
+        (change)="toggleCompleted(item.id, item.status)" />
+        {{ item.description }}
+      </label>
+    </li>
+  </ul>
+</ng-template>
