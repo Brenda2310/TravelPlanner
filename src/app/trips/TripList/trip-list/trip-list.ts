@@ -4,10 +4,11 @@ import { Pageable } from '../../../hateoas/hateoas-models';
 import { Router, RouterModule } from '@angular/router';
 import { Pagination } from "../../../hateoas/Pagination/pagination/pagination";
 import { SecurityStore } from '../../../security/services/security-store';
+import { CommonModule } from '@angular/common';
 
 @Component({
   selector: 'app-trip-list',
-  imports: [RouterModule, Pagination],
+  imports: [RouterModule, Pagination, CommonModule],
   templateUrl: './trip-list.html',
   styleUrl: './trip-list.css'
 })
@@ -53,5 +54,12 @@ export class TripList implements OnInit{
       });
     }
   }
+
+  isTripFinished(trip: any): boolean {
+  const today = new Date();
+  const end = new Date(trip.endDate);
+  return end < today; 
+}
+
 
 }

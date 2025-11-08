@@ -145,6 +145,85 @@ h2 {
   color: #777;
 }
 
+.trip-card {
+  position: relative;
+  background: rgba(255, 255, 255, 0.9);
+  border-radius: 16px;
+  padding: 1.2rem;
+  box-shadow: 0 10px 25px rgba(0, 0, 0, 0.1);
+  transition: transform .2s ease, box-shadow .2s ease;
+}
+
+.trip-card:hover {
+  transform: translateY(-4px);
+  box-shadow: 0 16px 35px rgba(0, 0, 0, 0.15);
+}
+
+.trip-title {
+  font-weight: 700;
+  color: var(--font-color);
+  font-size: 1.2rem;
+  margin: 0 0 0.2rem 0;
+}
+
+.destination {
+  text-align: center;
+  background: var(--color1);
+  color: #fff;
+  border-radius: 999px;
+  padding: 4px 10px;
+  font-size: 0.85rem;
+  font-weight: 600;
+  margin-right: 6px;
+}
+
+.trip-status {
+  display: inline-block;
+  margin-top: 6px;
+  padding: 5px 10px;
+  border-radius: 999px;
+  font-size: 0.8rem;
+  font-weight: 600;
+}
+
+.trip-status.active {
+  background: var(--font-color);
+  color: #fff;
+}
+
+.trip-status.finished {
+  background: #E4E4E4;
+  color: #444;
+  font-style: italic;
+}
+
+.status-badge {
+  display: inline-block;
+  margin-top: 6px;            
+  margin-left: 4px;           
+  font-size: 0.8rem;
+  padding: 4px 10px;
+  border-radius: 999px;
+  font-weight: 600;
+  border: 1px solid rgba(7, 73, 79, 0.25);  
+  background: rgba(7, 73, 79, 0.05);        
+  color: var(--font-color);
+}
+
+.status-badge.active {
+  background: rgba(0, 140, 158, 0.12);  
+  color: var(--font-color);
+  border-color: rgba(0, 140, 158, 0.25);
+}
+
+.status-badge.finished {
+  background: rgba(0, 0, 0, 0.05);
+  color: #666;
+  border-color: rgba(0, 0, 0, 0.15);
+  font-style: italic;
+}
+
+
 @media (max-width: 600px) {
   h2 {
     font-size: 1.6rem;
@@ -156,3 +235,4 @@ h2 {
     flex-direction: column;
   }
 }
+

@@ -23,7 +23,7 @@
          <div class="trip-card">
            <div class="trip-header">
              <h3>{{ trip.name }}</h3>
-             <span class="destination">{{ trip.destination }}</span>
+             <span class="destination"> {{ trip.destination }}</span>
            </div>
 
 
@@ -31,6 +31,10 @@
              <p>📅 {{ trip.startDate }} / {{trip.endDate}}</p>
              @if (trip.estimatedBudget) {
                <p>💰 {{ trip.estimatedBudget}}</p>
+                <span class="status-badge" 
+                [ngClass]="isTripFinished(trip) ? 'finished' : 'active'">
+          {{ isTripFinished(trip) ? 'Finalizado' : 'Activo' }}
+                </span>
              }
            </div>
 
