@@ -16,6 +16,8 @@ import { ItineraryDetails } from './itineraries/itinerary-details/itinerary-deta
 import { ChecklistList } from './checklist/checklist-list/checklist-list';
 import { ChecklistCreateEdit } from './checklist/checklist-create-edit/checklist-create-edit';
 import { ChecklistDetails } from './checklist/checklist-details/checklist-details';
+import { ActivityCreateEdit } from './activities/activity-create-edit/activity-create-edit';
+import { ActivityDetails } from './activities/activity-details/activity-details';
 
 export const routes: Routes = [
     { path: '', component: Home, title: 'Inicio' },
@@ -126,6 +128,24 @@ export const routes: Routes = [
                         component: ActivityBrowser,
                         title: 'Actividades',
                         canActivate: [authGuard(['VER_TODAS_ACTIVIDADES', 'VER_ACTIVIDAD', 'VER_ACTIVIDAD_EMPRESA', 'VER_ACTIVIDAD_USUARIO', 'ROLE_USER'])]
+                    },
+                    {
+                        path: 'create',
+                        component: ActivityCreateEdit,
+                        title: 'Agregar Actividad',
+                        canActivate: [authGuard(['CREAR_ACTIVIDAD_USUARIO', 'CREAR_ACTIVIDAD_EMPRESA', 'ROLE_ADMIN', 'ROLE_COMPANY', 'ROLE_USER'])]
+                    },
+                    {
+                        path: ':id/edit',
+                        component: ActivityCreateEdit,
+                        title: 'Editar Actividad',
+                        canActivate: [authGuard(['MODIFICAR_ACTIVIDADES_USUARIO', 'MODIFICAR_ACTIVIDADES_EMPRESA', 'ROLE_ADMIN', 'ROLE_COMPANY', 'ROLE_USER'])]
+                    },
+                    {
+                        path: ':id',
+                        component: ActivityDetails,
+                        title: 'Detalles Actividad',
+                        canActivate: [authGuard(['VER_ACTIVIDAD_EMPRESA', 'VER_ACTIVIDAD_USUARIO', 'ROLE_ADMIN', 'ROLE_COMPANY', 'ROLE_USER'])]
                     }
                 ]
             }, 

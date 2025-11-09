@@ -14,6 +14,7 @@
   @else if (store.companyActivities().list.length === 0) {
     <div class="empty-state">
       <h3>¡No se encontraron actividades!</h3>
+      <a routerLink="/activities/create" class="btn btn-primary">Crear Nueva Actividad</a>
       <p>Intenta ajustar los filtros o el rango de fechas.</p>
     </div>
   }

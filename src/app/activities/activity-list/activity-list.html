@@ -3,6 +3,7 @@
     <app-activity-card
       [activity]="activity"
       (addToItinerary)="addToItinerary.emit(activity.id)">
+      <button (click)="toDetails(activity.id)">Ver Detalles</button>
     </app-activity-card>
   }
 </div>

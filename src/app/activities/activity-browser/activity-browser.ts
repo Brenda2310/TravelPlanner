@@ -7,11 +7,12 @@ import { Pagination } from "../../hateoas/Pagination/pagination/pagination";
 import { CommonModule } from '@angular/common';
 import { ActivityList } from "../activity-list/activity-list";
 import { ActivityFilters } from "../activity-filters/activity-filters";
+import { RouterLink } from '@angular/router';
 
 @Component({
   selector: 'app-activity-browser',
   standalone: true,
-  imports: [ReactiveFormsModule, Pagination, CommonModule, ActivityList, ActivityFilters],
+  imports: [ReactiveFormsModule, Pagination, CommonModule, ActivityList, ActivityFilters, RouterLink],
   templateUrl: './activity-browser.html',
   styleUrl: './activity-browser.css'
 })

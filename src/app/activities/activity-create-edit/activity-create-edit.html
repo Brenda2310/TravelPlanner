@@ -1,0 +1,133 @@
+<div class="activity-create-edit">
+    
+    <h2 class="title">
+        @if (activityId) {
+            Editar Actividad
+        } @else if (mode === 'company') {
+            Crear Actividad para la Compañía
+        } @else {
+            Crear Actividad Personal/Compartida
+        }
+    </h2>
+
+    @if (errorMessage) {
+        <div class="alert-error">{{ errorMessage }}</div>
+    }
+
+    <form [formGroup]="activityForm" (ngSubmit)="onSubmit()" class="form-create-edit">
+        
+        <div class="form-things">
+            <div class="form-group">
+                <label for="name" class="form-label">Nombre de la Actividad:</label>
+                <input id="name" type="text" formControlName="name" class="form-input">
+                @if (activityForm.get('name')?.invalid && activityForm.get('name')?.touched) {
+                    <small class="validation-error">El nombre es obligatorio.</small>
+                }
+            </div>
+
+            <div class="form-group">
+                <label for="category" class="form-label">Categoría:</label>
+                <select id="category" formControlName="category" class="form-input">
+                    <option value="" disabled>Selecciona una categoría</option>
+                    @for (cat of categories; track cat) {
+                        <option [value]="cat">{{ cat }}</option>
+                    }
+                </select>
+                @if (activityForm.get('category')?.invalid && activityForm.get('category')?.touched) {
+                    <small class="validation-error">La categoría es obligatoria.</small>
+                }
+            </div>
+        </div>
+
+        <div class="form-things">
+            <div class="form-group">
+                <label for="description" class="form-label">Descripción:</label>
+                <textarea id="description" formControlName="description" class="form-input h-20"></textarea>
+                @if (activityForm.get('description')?.invalid && activityForm.get('description')?.touched) {
+                    <small class="validation-error">La descripción es obligatoria.</small>
+                }
+            </div>
+            <div class="form-group">
+                <label for="price" class="form-label">Precio ({{ mode === 'user' ? 'Opcional' : 'Obligatorio' }}):</label>
+                <input id="price" type="number" formControlName="price" class="form-input">
+                @if (activityForm.get('price')?.invalid && activityForm.get('price')?.touched) {
+                    <small class="validation-error">El precio es requerido y debe ser positivo.</small>
+                }
+            </div>
+        </div>
+        
+        <div class="form-things">
+            <div class="form-group">
+                <label for="date" class="form-label">Fecha:</label>
+                <input id="date" type="date" formControlName="date" class="form-input">
+                @if (activityForm.get('date')?.invalid && activityForm.get('date')?.touched) {
+                    <small class="validation-error">La fecha es obligatoria.</small>
+                }
+            </div>
+            <div class="form-group">
+                <label for="startTime" class="form-label">Hora Inicio:</label>
+                <input id="startTime" type="time" formControlName="startTime" class="form-input">
+                @if (activityForm.get('startTime')?.invalid && activityForm.get('startTime')?.touched) {
+                    <small class="validation-error">La hora es obligatoria.</small>
+                }
+            </div>
+            <div class="form-group">
+                <label for="endTime" class="form-label">Hora Fin:</label>
+                <input id="endTime" type="time" formControlName="endTime" class="form-input">
+                @if (activityForm.get('endTime')?.invalid && activityForm.get('endTime')?.touched) {
+                    <small class="validation-error">La hora es obligatoria.</small>
+                }
+            </div>
+        </div>
+
+        @if (mode === 'company') {
+            <div class="form-things">
+                <div class="form-group">
+                    <label for="available_quantity" class="form-label">Cupos Disponibles:</label>
+                    <input id="available_quantity" type="number" formControlName="available_quantity" class="form-input">
+                    @if (activityForm.get('available_quantity')?.invalid && activityForm.get('available_quantity')?.touched) {
+                        <small class="validation-error">La cantidad de cupos es obligatoria.</small>
+                    }
+                </div>
+                
+                <div class="form-group">
+                    <label for="companyId" class="form-label">ID de la Compañía:</label>
+                    <input id="companyId" type="number" formControlName="companyId" class="form-input">
+                    </div>
+            </div>
+        } @else if (mode === 'user') {
+            <div class="activity-share">
+      <label>Compartir con usuarios (TravelCode):</label>
+
+      <div class="share-list">
+        @for (id of sharedUserIdsArray; track $index) {
+          <div class="share-item">
+            <span>{{ id }}</span>
+            <button type="button" (click)="removeUserId(id)">×</button>
+          </div>
+        }
+
+        <div class="share-input">
+          <input type="number" placeholder="Agregar TravelCode..." formControlName="newUserId" (keydown.enter)="addUserId()" />
+          <button type="button" (click)="addUserId()">
+            <img src="/person_add_24dp_33696F_FILL0_wght400_GRAD0_opsz24.svg" class="add-icon" alt="agregar">
+          </button>
+        </div>
+      </div>
+    </div>
+        }
+
+        <div class="actions">
+            <button 
+                type="submit"
+                [disabled]="activityForm.invalid || loading"
+                class="btn-submit">
+                @if (loading) {
+                    Guardando...
+                } @else {
+                    {{ activityId ? 'Actualizar Actividad' : 'Crear Actividad' }}
+                }
+            </button>
+        </div>
+    </form>
+</div>
