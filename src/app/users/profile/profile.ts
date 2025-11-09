@@ -53,15 +53,16 @@ private readonly router = inject(Router);
 
     }
 
-    onEditProfile(): void {
-        this.router.navigate(['/profile/me/edit']); 
+    onEditProfile(id: number): void {
+        this.router.navigate([`/profile/${id}/edit`]); 
     }
 
     onDeleteAccount(): void {
-        if (confirm('¿Estás seguro de eliminar tu cuenta? Esta acción es irreversible (borrado lógico).')) {
+        if (confirm('¿Estás seguro de eliminar tu cuenta? Esta acción es irreversible.')) {
             this.userStore.deleteOwnAccount().subscribe({
                 next: () => {
                     this.securityStore.logout();
+                    this.securityStore.clearTokens();
                     this.router.navigate(['/login']);
                 },
                 error: (err) => {

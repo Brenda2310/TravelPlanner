@@ -85,6 +85,10 @@ export class SecurityStore {
     );
   }
 
+  clearTokens(){
+    this.client.clearTokens();
+  }
+
   logout(): Observable<string> {
     this._loading.set(true);
 

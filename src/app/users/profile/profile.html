@@ -24,7 +24,7 @@
     </div>
 
     <div class="profile-actions">
-      <button (click)="onEditProfile()" class="btn-primary">
+      <button (click)="onEditProfile(currentUser()?.id!)" class="btn-primary">
         Editar Información
       </button>
       <button (click)="onDeleteAccount()" class="btn-delete">
