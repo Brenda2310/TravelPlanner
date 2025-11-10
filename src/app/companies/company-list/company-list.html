@@ -1,0 +1,41 @@
+<div class="company-list-container">
+    <h2>Administración de Compañías</h2>
+
+    @if (store.loading()) {
+        <p>Cargando listado de compañías...</p>
+    } @else {
+        <table class="company-table">
+            <thead>
+                <tr>
+                    <th>ID</th>
+                    <th>Nombre de Usuario</th>
+                    <th>Tax ID</th>
+                    <th>Ubicación</th>
+                    <th>Estado</th>
+                    <th>Acciones</th>
+                </tr>
+            </thead>
+            <tbody>
+                @for (company of store.companies().list; track company.id) {
+                    <tr>
+                        <td>{{ company.id }}</td>
+                        <td>{{ company.username }}</td>
+                        <td>{{ company.taxId }}</td>
+                        <td>{{ company.location }}</td>
+                        <td>{{ company.active ? 'Activo' : 'Inactivo' }}</td>
+                        <td>
+                            <button (click)="router.navigate(['/companies', company.id])">Ver/Editar</button>
+                            <button (click)="onDelete(company.id)" class="btn-delete">Eliminar</button>
+                        </td>
+                    </tr>
+                }
+            </tbody>
+        </table>
+
+        <app-pagination 
+            [currentPage]="store.companies().pageInfo.currentPage"
+            [totalPages]="store.companies().pageInfo.totalPages"
+            (pageChange)="onPageChange($event)">
+        </app-pagination>
+    }
+</div>

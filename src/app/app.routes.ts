@@ -18,6 +18,8 @@ import { ChecklistCreateEdit } from './checklist/checklist-create-edit/checklist
 import { ChecklistDetails } from './checklist/checklist-details/checklist-details';
 import { ActivityCreateEdit } from './activities/activity-create-edit/activity-create-edit';
 import { ActivityDetails } from './activities/activity-details/activity-details';
+import { CompanyList } from './companies/company-list/company-list';
+import { CompanyProfile } from './companies/company-profile/company-profile';
 
 export const routes: Routes = [
     { path: '', component: Home, title: 'Inicio' },
@@ -172,6 +174,24 @@ export const routes: Routes = [
                         canActivate: [authGuard(['ROLE_USER', 'ROLE_ADMIN'])],
                     }
                 ]
+            },
+            {
+                path: 'companies',
+                children:
+                [
+                    {
+                        path: '',
+                        component: CompanyList,
+                        title: 'Empresas Asociadas',
+                        canActivate: [authGuard(['ROLE_ADMIN'])]
+                    },
+                    {
+                        path: 'profile',
+                        component: CompanyProfile,
+                        title: 'Mi Perfil',
+                        canActivate: [authGuard(['ROLE_COMPANY'])]
+                    }
+                ]                
             }
             
         ],
