@@ -14,7 +14,6 @@
 .title {
   display: flex;
   justify-content: center;
-  margin: 60px 0 20px;
 }
 
 .title h2 {
@@ -27,10 +26,23 @@
   box-shadow: 0 3px 8px rgba(0,0,0,0.08);
 }
 
+h2 { 
+  margin: 70px 0 12px; 
+  font-size:2rem; 
+  font-weight:700; 
+  color:var(--font-color,#07494F); 
+}
 
-.loading { text-align: center; opacity: .8; font-style: italic; }
+.loading { 
+  text-align: center; 
+  opacity: .8; 
+  font-style: italic; 
+}
 
-.create { margin: 18px 0 6px; text-align: right; }
+.create { 
+  margin: 18px 0 6px; 
+  text-align: right; 
+}
 
 .no-checklists {
   margin-top: 24px;
@@ -40,7 +52,9 @@
   border-radius: 18px;
   box-shadow: 0 8px 24px rgba(0,0,0,.1);
 }
-.no-checklists .btn-primary { margin-top: 10px; }
+.no-checklists .btn-primary { 
+  margin-top: 10px; 
+}
 
 .btn-primary {
   background: var(--primary-color, #0ea5e9);
@@ -56,7 +70,10 @@
   text-decoration: none;
   display: inline-block;
 }
-.btn-primary:hover { transform: translateY(-1px); box-shadow: 0 10px 24px rgba(0,0,0,.14); }
+
+.btn-primary:hover { 
+  transform: translateY(-1px); box-shadow: 0 10px 24px rgba(0,0,0,.14); 
+}
 
 .btn-outline, .btn-danger {
   border-radius: 10px;
@@ -65,21 +82,26 @@
   font-weight: 600;
   transition: all .2s ease;
 }
+
 .btn-outline {
   background: #fff;
   border: 1px solid rgba(7,73,79,.25);
   color: var(--font-color);
 }
+
 .btn-outline:hover {
   border-color: var(--color1, #008C9E);
   color: var(--color1, #008C9E);
 }
+
 .btn-danger {
   border: 1px solid rgba(201,54,54,.4);
   background: #b2474f;
   color: #fff;
 }
-.btn-danger:hover { background: #9c343e; }
+.btn-danger:hover { 
+  background: #9c343e; 
+}
 
 .checklist-grid {
   display: grid;
@@ -114,12 +136,14 @@
   justify-content: space-between;
   gap: 10px;
 }
+
 .checklist-header h3 {
   margin: 0;
   font-size: 1.15rem;
   font-weight: 800;
   color: var(--font-color);
 }
+
 .trip-ref {
   background: var(--color2, #EAF4F4);
   color: var(--font-color);
@@ -135,6 +159,7 @@
   gap: 10px;
   margin: 6px 0 2px;
 }
+
 .progress-track {
   position: relative;
   flex: 1;
@@ -143,6 +168,7 @@
   border-radius: 999px;
   overflow: hidden;
 }
+
 .progress-fill {
   position: absolute;
   inset: 0 auto 0 0;
@@ -151,6 +177,7 @@
   border-radius: 999px;
   transition: width .35s ease;
 }
+
 .progress-text {
   min-width: 42px;
   text-align: right;
@@ -159,7 +186,10 @@
   font-size: .9rem;
 }
 
-.checklist-body { color: var(--font-color); line-height: 1.5; }
+.checklist-body { 
+  color: var(--font-color); line-height: 1.5; 
+}
+
 .checklist-actions {
   display: flex;
   gap: 10px;

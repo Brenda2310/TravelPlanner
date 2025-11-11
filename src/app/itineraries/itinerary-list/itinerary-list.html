@@ -1,5 +1,7 @@
 <div class="itinerary-list">
+    <div class="title">
     <h2>Mis Itinerarios</h2>
+    </div>
 
     @if (store.itinerary().list.length !== 0) {
     <div class="create">
@@ -34,8 +36,8 @@
             @for (item of store.itinerary().list; track item.id) {
             <div class="itinerary-card">
                 <h3>Día: {{ item.itineraryDate }}</h3>
-                <p>Notas: {{ item.notes }}</p>
-                <p>Actividades: {{ item.activities.length }}</p>
+                <p><strong>Notas:</strong> {{ item.notes }}</p>
+                <p><strong>Actividades:</strong> {{ item.activities.length }}</p>
                 
                 <button (click)="toDetails(item.id)">Ver Detalle</button>
             </div>

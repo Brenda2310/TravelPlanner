@@ -1,3 +1,124 @@
-.trip-detail-container{
-    margin-top: 100px;
+:host {
+  display: block;
+  min-height: 100vh;
+  padding: 40px 20px;
+  background: url('/dominik-schroder-FIKD9t5_5zQ-unsplash.jpg') center / cover no-repeat fixed;
+  color: var(--font-color, #07494F);
+}
+
+.trip-detail-container {
+  max-width: 900px;
+  margin: 0 auto;
+}
+
+.trip-info {
+  background: var(--bg-glass, rgba(255, 255, 255, 0.85));
+  border: 1px solid rgba(255, 255, 255, 0.4);
+  border-radius: 18px;
+  padding: 28px 30px;
+  box-shadow: 0 8px 30px rgba(0, 0, 0, 0.12);
+  backdrop-filter: blur(18px);
+  -webkit-backdrop-filter: blur(18px);
+  margin-top: 70px;
+  transition: all 0.25s ease;
+}
+
+.trip-info:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 12px 32px rgba(0, 0, 0, 0.18);
+}
+
+.trip-info h1 {
+  font-size: clamp(1.6rem, 2vw, 2.1rem);
+  font-weight: 700;
+  margin: 0 0 16px 0;
+  color: var(--font-color, #07494F);
+}
+
+.trip-info p {
+  margin: 6px 0;
+  font-size: 1rem;
+  color: #0a3b3f;
+}
+
+.trip-actions {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 12px;
+  margin-top: 18px;
+}
+
+.buttons{
+    margin-top: 20px;
+}
+
+.btn-edit {
+  background: var(--primary-color, #0ea5e9);
+  color: #fff;
+  border: none;
+  border-radius: 12px;
+  padding: 10px 20px;
+  font-weight: 600;
+  cursor: pointer;
+  font-size: 0.95rem;
+  transition: all 0.2s ease;
+  margin-right: 10px;
+}
+
+.btn-edit:hover {
+  background: var(--primary-hover, #0284c7);
+  box-shadow: 0 6px 20px rgba(14, 165, 233, 0.35);
+  transform: translateY(-1px);
+}
+
+.btn-delete {
+  background: #dc3545;
+  color: white;
+  border: none;
+  border-radius: 12px;
+  padding: 10px 20px;
+  font-weight: 600;
+  cursor: pointer;
+  font-size: 0.95rem;
+  transition: all 0.2s ease;
+}
+
+.btn-delete:hover {
+  background: #b02a37;
+  box-shadow: 0 6px 20px rgba(220, 53, 69, 0.35);
+  transform: translateY(-1px);
+}
+
+.expenses-section {
+  background: var(--bg-glass, rgba(255, 255, 255, 0.85));
+  border: 1px solid rgba(255, 255, 255, 0.4);
+  border-radius: 18px;
+  padding: 22px 28px;
+  margin-top: 28px;
+  box-shadow: 0 6px 22px rgba(0, 0, 0, 0.1);
+  backdrop-filter: blur(18px);
+  -webkit-backdrop-filter: blur(18px);
+}
+
+.expenses-section h2 {
+  margin: 0 0 14px;
+  font-weight: 700;
+  font-size: 1.4rem;
+  color: var(--font-color, #07494F);
+}
+
+@media (max-width: 600px) {
+  .trip-info, .expenses-section {
+    padding: 20px;
+  }
+
+  .trip-actions {
+    flex-direction: column;
+    align-items: stretch;
+  }
+
+  .btn-edit, .btn-delete {
+    width: 100%;
+    text-align: center;
+  }
 }

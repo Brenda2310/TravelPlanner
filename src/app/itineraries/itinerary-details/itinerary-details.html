@@ -1,30 +1,44 @@
 <div class="it-detail-container">
   @if (store.loading()) {
-  <p>Cargando detalles del Itinerario...</p>
+    <p>Cargando detalles del Itinerario...</p>
   } @else if (currentIt$()?.id === itineraryId) {
 
-  <section class="Itinerary-info">
-    <h1>{{ currentTrip$()?.name }} a {{ currentTrip$()?.destination }}</h1>
-    <p>Fecha: {{ currentIt$()?.itineraryDate }}</p>
-    <p>Actividades:</p>
-    <ul class="activity-list">
-      @if (!currentIt$()?.activities?.length) { @for (activ of currentIt$()?.activities; track
-      $index) {
-      <li class="activity-item">
-        {{ activ.description }}
-      </li>
-      } } @else {
-      <li>No hay actividades planificadas para este día.</li>
+    <section class="itinerary-info">
+      <h1>{{ currentTrip$()?.name }} — {{ currentTrip$()?.destination }}</h1>
+
+      <ul class="meta-chips">
+        <li class="chip">📅 {{ currentIt$()?.itineraryDate }}</li>
+        @if (currentIt$()?.notes) {
+          <li class="chip">📝 Con notas</li>
+        }
+      </ul>
+
+      <h2 class="sub">Actividades</h2>
+      <ul class="activity-list">
+        @if (currentIt$()?.activities?.length) {
+          @for (activ of currentIt$()?.activities; track $index) {
+            <li class="activity-item">
+              <span class="dot"></span>
+              <span class="text">{{ activ.description }}</span>
+            </li>
+          }
+        } @else {
+          <li class="empty">No hay actividades planificadas para este día.</li>
+        }
+      </ul>
+
+      @if (currentIt$()?.notes) {
+        <h2 class="sub">Notas</h2>
+        <p class="notes">{{ currentIt$()?.notes }}</p>
       }
-    </ul>
-    <p>Notas: {{ currentIt$()?.notes }}</p>
-    <button (click)="toEdit(currentIt$()?.id!)">
-      Editar Itinerario
-    </button>
-    <button (click)="onDeleteItinerary()" class="btn-delete">Eliminar Itinerario</button>
-  </section>
+
+      <div class="it-actions">
+        <button class="btn-edit" (click)="toEdit(currentIt$()?.id!)">Editar Itinerario</button>
+        <button class="btn-delete" (click)="onDeleteItinerary()">Eliminar Itinerario</button>
+      </div>
+    </section>
 
   } @else {
-  <p>No se encontró el Itinerario o no tienes permiso.</p>
+    <p>No se encontró el Itinerario o no tienes permiso.</p>
   }
 </div>

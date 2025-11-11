@@ -4,11 +4,13 @@
   } @else if (currentTrip$()?.id === tripId) {
 
   <section class="trip-info">
-    <h1>{{ currentTrip$()?.name }} a {{ currentTrip$()?.destination }}</h1>
-    <p>Presupuesto Estimado: {{ currentTrip$()?.estimatedBudget | currency }}</p>
-    <p>Fechas: {{ currentTrip$()?.startDate }} - {{ currentTrip$()?.endDate }}</p>
-    <button (click)="router.navigate(['/trips/${tripId}/edit'])">Editar Datos del Viaje</button>
+    <h1>{{ currentTrip$()?.name }} - {{ currentTrip$()?.destination }}</h1>
+    <p><strong>Presupuesto estimado:</strong> {{ currentTrip$()?.estimatedBudget | currency }}</p>
+    <p><strong>Fechas:</strong> {{ currentTrip$()?.startDate }} / {{ currentTrip$()?.endDate }}</p>
+    <div class="buttons">
+    <button (click)="router.navigate(['/trips/${tripId}/edit'])" class="btn-edit">Editar Viaje</button>
     <button (click)="onDeleteTrip()" class="btn-delete">Eliminar Viaje</button>
+  </div>
   </section>
 
   <section class="expenses-section">
