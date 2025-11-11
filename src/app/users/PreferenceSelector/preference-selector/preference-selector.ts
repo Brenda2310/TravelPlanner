@@ -29,8 +29,8 @@ export class PreferenceSelector implements OnInit {
   public loading: boolean = false;
 
   ngOnInit() {
-      if (this.data.isEditing && this.data.userData.preferences) {
-          this.selectedPreferences = [...this.data.userData.preferences];
+      if (this.data.isEditing && this.data.userData.preferencias) {
+          this.selectedPreferences = [...this.data.userData.preferencias];
       }
   }
 
@@ -45,34 +45,37 @@ export class PreferenceSelector implements OnInit {
   }
 
   onFinalSubmit(): void {
-      if (this.selectedPreferences.length === 0) {
-          this.selectionError = "Debes seleccionar al menos una preferencia.";
-          return;
-      }
+    if (this.selectedPreferences.length === 0) {
+        this.selectionError = "Debes seleccionar al menos una preferencia.";
+        return;
+    }
 
-      this.loading = true;
-      
-      const finalDto: UserUpdateDTO = { 
-          ...this.data.userData, 
-          preferences: this.selectedPreferences 
-      } as UserUpdateDTO; 
+    this.loading = true;
+    
+    let action$: Observable<any>;
 
-      let action$: Observable<any>;
-      
-      if (this.data.isEditing) {
-          action$ = this.store.updateUser(this.data.userId!, finalDto);
-      } else {
-          action$ = this.store.createUser(finalDto as UserCreateDTO);
-      }
+    const dataToSend = { 
+        ...this.data.userData, 
+        preferencias: this.selectedPreferences 
+    };
 
-      action$.subscribe({
-          next: () => {
-              this.dialogRef.close({ success: true, message: this.data.isEditing ? 'Usuario actualizado.' : 'Registro exitoso.' });
-          },
-          error: (err) => {
-              this.loading = false;
-              this.selectionError = err.error?.message || "Error al finalizar el registro/edición.";
-          }
-      });
-  }
+    if (this.data.isEditing) {
+        const updateDto: UserUpdateDTO = dataToSend as UserUpdateDTO;
+        action$ = this.store.updateUser(this.data.userId!, updateDto);
+    } else {
+        const createDto: UserCreateDTO = dataToSend as UserCreateDTO;
+        action$ = this.store.createUser(createDto);
+    }
+
+    action$.subscribe({
+        next: () => {
+            this.dialogRef.close({ success: true, message: this.data.isEditing ? 'Usuario actualizado.' : 'Registro exitoso.' });
+        },
+        error: (err) => {
+            this.loading = false;
+            console.error("Error al guardar:", err); 
+            this.selectionError = err.error?.message || "Error al finalizar el registro/edición.";
+        }
+    });
+}
 }

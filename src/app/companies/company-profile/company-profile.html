@@ -1,0 +1,108 @@
+<div class="company-profile-page">
+    <h1>Perfil de Empresa</h1>
+
+    @if (loading) {
+        <div class="loading-container">
+            <p>Cargando perfil...</p>
+        </div>
+    } @else {
+        
+        <form [formGroup]="profileForm" (ngSubmit)="onSubmit()" class="profile-form">
+            
+            @if (store.error()) {
+                <div class="error-message alert-error">
+                    {{ store.error() }}
+                </div>
+            }
+            @if (errorMessage) {
+                <div class="error-message alert-error">
+                    {{ errorMessage }}
+                </div>
+            }
+
+            <div class="form-group">
+                <label for="username">Nombre de usuario</label>
+                <input id="username" type="text" formControlName="username" placeholder="Nombre de usuario">
+                @if (profileForm.get('username')?.touched && profileForm.get('username')?.invalid) {
+                    <div class="validation-error">
+                        @if (profileForm.get('username')?.errors?.['required']) {
+                            <small>Campo obligatorio.</small>
+                        }
+                        @if (profileForm.get('username')?.errors?.['minlength']) {
+                            <small>Mínimo 5 caracteres.</small>
+                        }
+                        @if (profileForm.get('username')?.errors?.['maxlength']) {
+                            <small>Máximo 20 caracteres.</small>
+                        }
+                    </div>
+                }
+            </div>
+
+            <div class="form-group">
+                <label for="email">Correo electrónico</label>
+                <input id="email" type="email" formControlName="email" placeholder="ejemplo@empresa.com">
+                @if (profileForm.get('email')?.touched && profileForm.get('email')?.invalid) {
+                    <div class="validation-error">
+                        @if (profileForm.get('email')?.errors?.['required']) {
+                            <small>Campo obligatorio.</small>
+                        }
+                        @if (profileForm.get('email')?.errors?.['email']) {
+                            <small>Correo no válido.</small>
+                        }
+                    </div>
+                }
+            </div>
+
+            <div class="form-group password-section">
+                <label for="password">Nueva contraseña (opcional)</label>
+                <input id="password" type="password" formControlName="password" placeholder="••••••••">
+            </div>
+
+            <div class="form-group">
+                <label for="confirmPassword">Confirmar contraseña</label>
+                <input id="confirmPassword" type="password" formControlName="confirmPassword" placeholder="••••••••">
+                @if (profileForm.errors?.['match'] && profileForm.get('confirmPassword')?.touched) {
+                    <div class="validation-error">
+                        <small>Las contraseñas no coinciden.</small>
+                    </div>
+                }
+            </div>
+
+            <div class="form-group">
+                <label for="taxId">CUIT</label>
+                <input id="taxId" type="text" formControlName="taxId" placeholder="Ej: 20301234567">
+            </div>
+
+            <div class="form-group">
+                <label for="location">Ubicación</label>
+                <input id="location" type="text" formControlName="location" placeholder="Ciudad o dirección">
+            </div>
+
+            <div class="form-group">
+                <label for="phone">Teléfono</label>
+                <input id="phone" type="text" formControlName="phone" placeholder="+5491123456789">
+                @if (profileForm.get('phone')?.touched && profileForm.get('phone')?.invalid) {
+                    <div class="validation-error">
+                        <small>El formato del teléfono es inválido.</small>
+                    </div>
+                }
+            </div>
+
+            <div class="form-group">
+                <label for="description">Descripción</label>
+                <textarea id="description" formControlName="description" rows="3" placeholder="Descripción breve de la empresa..."></textarea>
+            </div>
+
+            <div class="button-group">
+                <button type="submit" class="btn-primary" [disabled]="loading">
+                    {{ loading ? 'Actualizando...' : 'Guardar Cambios' }}
+                </button>
+
+                <button type="button" class="btn-danger" (click)="onDeleteOwnAccount()">
+                    Eliminar Cuenta
+                </button>
+            </div>
+        </form>
+    }
+</div>
+

@@ -20,7 +20,9 @@ export class AuthStatus {
   onLogout(): void {
     this.store.logout().subscribe({
       next: () => {
-        this.router.navigate(['/login']); 
+        this.router.navigate(['/login']).then(() => {
+            setTimeout(() => window.location.reload(), 100);
+          }); 
       },
       error: (err) => {
         this.router.navigate(['/login']);
