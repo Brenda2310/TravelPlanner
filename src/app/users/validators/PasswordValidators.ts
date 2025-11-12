@@ -16,7 +16,7 @@ export class PasswordValidators{
     static strongPassword(control: AbstractControl): ValidationErrors | null {
         const regex = /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[@#$%^&*!()_+=\-]).{8,20}$/;
         if (control.value && !regex.test(control.value)) {
-            return { strongPassword: true };
+            return { weakPassword: true };
         }
         return null;
     }

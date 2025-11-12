@@ -4,7 +4,7 @@ import { ActivatedRoute, Router, RouterLink } from '@angular/router';
 import { UserStore } from '../../services/user-store';
 import { PasswordValidators } from '../../validators/PasswordValidators';
 import { UserCreateDTO, UserPreference, UserResponseDTO, UserUpdateDTO} from '../../user-models';
-import { filter, Observable, take } from 'rxjs';
+import { filter, last, Observable, take } from 'rxjs';
 import { toObservable } from '@angular/core/rxjs-interop';
 import { MatDialogModule } from '@angular/material/dialog';
 import { MatDialog } from '@angular/material/dialog';
@@ -83,7 +83,7 @@ export class UserRegister implements OnInit {
         }
   }
 
-  onSubmit(): void {
+  /*onSubmit(): void {
     if (this.registerForm.invalid) {
       this.registerForm.markAllAsTouched();
       this.errorMessage = 'Por favor, corrija los errores del formulario.';
@@ -108,26 +108,124 @@ export class UserRegister implements OnInit {
 
     const dialogRef = this.dialog.open(PreferenceSelector, {
         data: { 
-            userData: userDto, 
-            isEditing: this.isEditing, 
-            userId: this.userId
+            selected: formValue.preferences || [],
         }
     });
 
-    dialogRef.afterClosed().subscribe(result => {
-      setTimeout(() => {
-          this.loading = false; 
-          this.cdr.detectChanges(); 
+    dialogRef.afterClosed().subscribe(preferences => {
+      if(!preferences){
+        this.loading = false;
+        return;
+      }
+
+      userDto.preferences = preferences;
+
+      this.store.createUser(userDto).subscribe({
+        next: () => {
+          this.loading = false;
+          alert("Usuario registrado con exito.");
+
+          const targetRoute = this.isEditing ? '/users' : '/login';
+          this.router.navigate([targetRoute]);
+        }, 
+        error: (err) => {
+          this.loading=false;
+          this.errorMessage = err.error?.message || 'Error al registrar el usuario.';
+          this.cdr.detectChanges();
+        }
+      });
+    });
+  }*/
+
+    onSubmit(): void{
+
+      console.log("onSubmit() llamado");
+
+      if(this.registerForm.invalid){
+        this.registerForm.markAllAsTouched();
+        this.errorMessage = 'Por favor, corrija los errores del formulario.';
+        return;
+      }
+
+      console.log("Formulario válido, continuando...");
+
+      this.loading=true;
+      this.errorMessage=null;
+
+      const formValue = this.registerForm.getRawValue();
+      console.log("🧩 Valores del formulario:", formValue);
+      const passwordValue = formValue.password!;
+
+      if(this.isEditing){
+        const userDto: UserUpdateDTO = {
+          username: formValue.username!, 
+          email: formValue.email!, 
+          dni: formValue.dni!, 
+          password: passwordValue || undefined
+        };
+
+        const dialogRef = this.dialog.open(PreferenceSelector, {
+          data: {
+            userData: userDto, 
+            isEditing: true, 
+            userId: this.userId
+          }
         });
 
-        if (result && result.success) {
+        dialogRef.afterClosed().subscribe( result => {
+          this.loading = false;
+          if(result && result.success){
             alert(result.message);
-            const targetRoute = this.isEditing ? '/users' : '/login'; 
-            this.router.navigate([targetRoute]);
-        }
-        this.loading = false; 
-    });
-  }
+            this.router.navigateByUrl('/users');
+          }
+        });
+      } else {
+        const userDto: UserCreateDTO = {
+          username: formValue.username!,
+          email: formValue.email!,
+          dni: formValue.dni!,
+          password: passwordValue!,
+          preferences: []
+        };
+
+        const dialogRef = this.dialog.open(PreferenceSelector, {
+          data: {
+            userData: userDto, 
+            isEditing: false
+          }
+        });
+
+        dialogRef.afterClosed().subscribe(preferences => {
+          if(!preferences){
+            this.loading = false;
+            return;
+          }
+
+          userDto.preferences = preferences;
+
+          this.store.createUser(userDto).subscribe({
+            next: () => {
+              this.loading = false;
+              alert('Usuario creado con exito.');
+              this.router.navigateByUrl('/login');
+            },
+            error: (err) =>{
+              this.loading = false;
+              
+              const backMessage = err.error?.message || '';
+
+              if(backMessage.includes('unique data')){
+                this.errorMessage = 'Ya existe un usuario con ese DNI o email en el sistema.';
+              } else {
+                this.errorMessage = 'Ocurrió un error al registrar el usuario. Intenta nuevamente.'
+              }
+
+              this.cdr.detectChanges();
+            }
+          });
+        });
+      }
+    }
 
   private handleDataPatching(dataObservable: Observable<UserResponseDTO | null>): void {
         dataObservable.pipe(

@@ -30,6 +30,16 @@
           <div class="form-group">
             <label for="email">Email:</label>
             <input id="email" type="email" formControlName="email">
+            @if (registerForm.get('email')?.touched && registerForm.get('email')?.errors) {
+              <div class="validation-error">
+                @if (registerForm.get('email')?.hasError('required')) {
+                  El email es obligatorio.
+                }
+                @if (registerForm.get('email')?.hasError('email')) {
+                  Debe tener un formato de correo válido.
+                }
+              </div>
+            }
           </div>
 
           <div class="form-group">
@@ -40,12 +50,18 @@
           <div class="form-group">
             <label for="password">Contraseña:</label>
             <input id="password" type="password" formControlName="password">
+            @if (registerForm.get('password')?.hasError('weakPassword') && registerForm.get('password')?.touched) {
+              <div class="validation-error">
+                La contraseña debe tener entre 8 y 20 caracteres, incluyendo una mayúscula,
+                una minúscula, un número y un carácter especial.
+              </div>
+            }
           </div>
 
           <div class="form-group">
             <label for="confirmPassword">Confirmar Contraseña:</label>
             <input id="confirmPassword" type="password" formControlName="confirmPassword">
-            @if (registerForm.hasError('mismatch')) {
+            @if (registerForm.hasError('mismatch') && registerForm.get('confirmPassword')?.touched) {
               <div class="validation-error">Las contraseñas no coinciden.</div>
             }
           </div>

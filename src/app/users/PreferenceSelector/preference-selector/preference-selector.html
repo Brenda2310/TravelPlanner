@@ -27,7 +27,7 @@
         }
     </div>
 
-    <button class="final-submit-btn" (click)="onFinalSubmit()" [disabled]="loading">
+    <button class="final-submit-btn" (click)="confirmSelection()" [disabled]="loading">
         @if (loading) {
             Guardando {{ selectedPreferences.length }} intereses...
         } @else {
