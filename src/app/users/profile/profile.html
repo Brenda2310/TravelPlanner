@@ -57,10 +57,11 @@
 
     } @else {
       <div class="no-trips">
-        <img src="/assets/empty-trips.svg" alt="Sin viajes" />
-        <p>Aún no tenés viajes asociados.</p>
+        <span class="material-symbols-outlined empty-icon">luggage</span>
+        <h4>No tenés viajes asociados</h4>
+        <p>Creá tu primer viaje para empezar a planificar.</p>
         <a routerLink="/trips/create" class="btn-primary">Crear mi primer viaje</a>
-      </div>
+</div>
     } 
 
   } @else {
