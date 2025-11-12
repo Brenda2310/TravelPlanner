@@ -1,0 +1,38 @@
+@if (loading()) {
+<p>Cargando reservas...</p>
+} @else { @if (!reservations().list.length && !loading()) {
+<p>No tienes reservas registradas.</p>
+} @if (error()) {
+<p class="error">{{ error() }}</p>
+} @else {
+<table class="table">
+  <thead>
+    <tr>
+      <th>ID</th>
+      <th>Fecha</th>
+      <th>Estado</th>
+      <th>Pagado</th>
+      <th>Acciones</th>
+    </tr>
+  </thead>
+  <tbody>
+    @for (r of reservations().list; track r.id) {
+    <tr>
+      <td>{{ r.id }}</td>
+      <td>{{ r.reservationDate | date }}</td>
+      <td>{{ r.status }}</td>
+      <td>{{ r.paid ? 'Sí' : 'No' }}</td>
+      <td>
+        <button (click)="onCancelReservation(r.id)" [disabled]="r.status === 'CANCELLED'">
+          Cancelar
+        </button>
+
+        @if (!r.paid && r.urlPayment) {
+        <button class="on-pay" (click)="onPay(r)">Ir a pagar</button>
+        }
+      </td>
+    </tr>
+    }
+  </tbody>
+</table>
+} }

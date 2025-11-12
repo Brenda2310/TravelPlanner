@@ -20,6 +20,8 @@ import { ActivityCreateEdit } from './activities/activity-create-edit/activity-c
 import { ActivityDetails } from './activities/activity-details/activity-details';
 import { CompanyList } from './companies/company-list/company-list';
 import { CompanyProfile } from './companies/company-profile/company-profile';
+import { ReservationList } from './reservations/reservation-list/reservation-list';
+import { ReservationReturn } from './reservations/reservation-return/reservation-return';
 
 export const routes: Routes = [
     { path: '', component: Home, title: 'Inicio' },
@@ -192,6 +194,21 @@ export const routes: Routes = [
                         canActivate: [authGuard(['ROLE_COMPANY'])]
                     }
                 ]                
+            },
+            {
+                path: 'reservaciones',
+                children: [
+                    {
+                        path: '',
+                        component: ReservationList,
+                        title: 'Mis Reservaciones'
+                    },
+                    {
+                        path: 'payment-return',
+                        component: ReservationReturn,
+                        title: 'Pago'
+                    }
+                ]
             }
             
         ],

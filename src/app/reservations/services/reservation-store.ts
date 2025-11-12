@@ -114,6 +114,7 @@ export class ReservationStore extends BaseStore {
             r.id === externalReference ? { ...r, paid: true, status: 'PAID' as any } : r
           ),
         }));
+        this.loadMyReservations(pageable);
         this._loading.set(false);
       }),
       catchError((err) => {
