@@ -1,6 +1,15 @@
-<div class="checklist-detail-container" *ngIf="checklist() as checklistInfo">
-  <h2>{{ checklistInfo.name }}</h2>
-  <p>Estado: {{ checklistInfo.completed ? 'Completada' : 'Pendiente' }}</p>
-  <app-check-list-item [checklistId]="checklistInfo.id"></app-check-list-item>
-</div>
+@if (checklist()) {
+  <div class="checklist-detail-container">
 
+    <h2 class="checklist-title"> Agregar items a 
+      {{ checklist()!.name }}
+    </h2>
+
+    <app-check-list-item
+      [checklistId]="checklist()!.id">
+    </app-check-list-item>
+
+  </div>
+} @else {
+  <p class="loading">Cargando checklist...</p>
+}
