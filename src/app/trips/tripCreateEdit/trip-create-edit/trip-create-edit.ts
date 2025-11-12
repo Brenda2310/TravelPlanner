@@ -1,4 +1,4 @@
-import { Component, inject, OnInit } from '@angular/core';
+import { Component, effect, inject, OnInit } from '@angular/core';
 import { TripStore } from '../../services/trip-store';
 import { ActivatedRoute, Router } from '@angular/router';
 import {
@@ -12,7 +12,7 @@ import {
 import { TripValidation } from '../../validations/TripValidation';
 import { toObservable } from '@angular/core/rxjs-interop';
 import { filter, Observable, take } from 'rxjs';
-import { TripCreateDTO, TripUpdateDTO } from '../../trip-models';
+import { TripCreateDTO, TripResponseDTO, TripUpdateDTO } from '../../trip-models';
 import { SecurityStore } from '../../../security/services/security-store';
 
 @Component({
@@ -56,25 +56,45 @@ export class TripCreateEdit implements OnInit {
     }
   );
 
+  // Usamos un effect() para reaccionar automáticamente a los cambios en la señal currentTrip del store.
+  // Cuando el store carga los datos del viaje (por ejemplo, al editar), el effect detecta ese cambio y actualiza
+  // el formulario con los valores del viaje correspondiente. Así evitamos tener que suscribirnos manualmente
+  // con toObservable() y manejar el ciclo de vida de la suscripción.
+
+  public readonly patchEffect = effect(() => {
+    const trip = this.store.currentTrip();
+    if (trip && trip.id === this.tripId) {
+      console.log('🌀 Parchando formulario con datos del viaje:', trip);
+      this.tripForm.patchValue({
+        name: trip.name,
+        destination: trip.destination,
+        estimatedBudget: trip.estimatedBudget,
+        companions: trip.companions,
+        startDate: trip.startDate,
+        endDate: trip.endDate,
+        sharedUserIds: trip.userIds.filter((id) => id !== this.security.getId()),
+      });
+    }
+  });
+  
+
   ngOnInit(): void {
     const idFromUrl = this.route.snapshot.paramMap.get('id');
 
     if (idFromUrl) {
       this.tripId = +idFromUrl;
       this.isEditing = true;
+
       this.store.loadTripById(this.tripId);
-      this.handleDataPatching();
     }
   }
 
+  /*
   private handleDataPatching(): void {
     toObservable(this.tripDetail$)
-      .pipe(
-        filter((trip) => !!trip && trip.id === this.tripId),
-        take(1)
-      )
+      .pipe(take(1))
       .subscribe((trip) => {
-        if (trip) {
+        if (trip && trip.id === this.tripId) {
           this.tripForm.patchValue({
             name: trip.name,
             destination: trip.destination,
@@ -86,7 +106,8 @@ export class TripCreateEdit implements OnInit {
           });
         }
       });
-  }
+  }*/
+
 
   onSubmit(): void {
     if (this.tripForm.invalid) {

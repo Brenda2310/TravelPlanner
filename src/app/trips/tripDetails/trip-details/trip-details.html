@@ -7,7 +7,7 @@
     <h1>{{ currentTrip$()?.name }} a {{ currentTrip$()?.destination }}</h1>
     <p>Presupuesto Estimado: {{ currentTrip$()?.estimatedBudget | currency }}</p>
     <p>Fechas: {{ currentTrip$()?.startDate }} - {{ currentTrip$()?.endDate }}</p>
-    <button (click)="router.navigate(['/trips/${tripId}/edit'])">Editar Datos del Viaje</button>
+    <button (click)="router.navigate([`/trips/${tripId}/edit`])">Editar Datos del Viaje</button>
     <button (click)="onDeleteTrip()" class="btn-delete">Eliminar Viaje</button>
   </section>
 
