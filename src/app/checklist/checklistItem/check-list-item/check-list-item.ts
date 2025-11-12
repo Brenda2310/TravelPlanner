@@ -51,7 +51,13 @@ export class CheckListItem implements OnInit {
     });
   }
 
-  
+  deleteItem(itemId: number){
+    if(!confirm('¿Desea eliminar este item?')){
+      return;
+    }
+
+    this.store.deleteItem(itemId).subscribe();
+  }
 
 
   get items() {

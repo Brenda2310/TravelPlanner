@@ -6,6 +6,7 @@ import { Router, RouterLink } from '@angular/router';
 import { SecurityStore } from '../../security/services/security-store';
 import { Pagination } from '../../hateoas/Pagination/pagination/pagination';
 import { DecimalPipe } from '@angular/common';
+import { TripStore } from '../../trips/services/trip-store';
 
 @Component({
   selector: 'app-checklist-list',
@@ -17,12 +18,19 @@ export class ChecklistList implements OnInit{
 
   public readonly store = inject(ChecklistStore);
   public readonly router = inject(Router);
+  private readonly tripStore = inject(TripStore);
   public readonly security = inject(SecurityStore);
   public pageable: Pageable = {page: 0, size: 10, sort: 'id,desc'};
 
   @Input() mode: 'admin-all' | 'user-own' = 'user-own';
 
   ngOnInit(): void {
+
+    const userId = this.security.getId();
+    if (userId) {
+      this.tripStore.loadTripsByUserId(userId, {}, { page: 0, size: 10 });
+    }
+
     this.loadChecklists();
   }
 
@@ -65,7 +73,12 @@ export class ChecklistList implements OnInit{
     const total = checklist.items?.length ?? 0;
     const done = checklist.items?.filter((i: any) => i.status)?.length ?? 0;
     return total ? (done * 100) / total : 0;
-}
+  }
+
+  getTripName(tripId: number): string {
+    const trip = this.tripStore.trips().list.find(t => t.id === tripId);
+    return trip ? trip.name : 'Sin viaje asociado';
+  }
 
 
 }
