@@ -35,6 +35,7 @@ export interface UserResponseDTO {
   id: number;
   username: string;
   dni: string;
+  email: string;
   fechaRegistro: string; 
   preferencias: UserPreference[]; 
   active: boolean;

@@ -32,9 +32,6 @@ export class UserRegister implements OnInit {
   private readonly cdr = inject(ChangeDetectorRef);
   protected readonly securityStore = inject(SecurityStore);
 
-
-  
-
   private profile$ = toObservable(this.store.profile);
   private userDetails$ = toObservable(this.store.userToEdit);
 
@@ -77,6 +74,8 @@ export class UserRegister implements OnInit {
         }
     if (this.isEditing) {
           this.removePasswordValidators();
+          this.registerForm.get('email')?.disable();
+
       }
     if (dataObservable) {
             this.handleDataPatching(dataObservable);
@@ -129,6 +128,7 @@ export class UserRegister implements OnInit {
     });
   }
 
+
   private handleDataPatching(dataObservable: Observable<UserResponseDTO | null>): void {
         dataObservable.pipe(
             filter((user): user is UserResponseDTO => !!user),
@@ -136,8 +136,9 @@ export class UserRegister implements OnInit {
         ).subscribe(user => {
             this.registerForm.patchValue({
                 username: user.username,
+                email: user.email,
                 dni: user.dni,
-                preferences: user.preferencias
+                preferences: user.preferencias,
             });
         });
     }
