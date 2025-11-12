@@ -184,7 +184,7 @@ export class UserRegister implements OnInit {
           email: formValue.email!,
           dni: formValue.dni!,
           password: passwordValue!,
-          preferences: []
+          preferencias: []
         };
 
         const dialogRef = this.dialog.open(PreferenceSelector, {
@@ -200,7 +200,7 @@ export class UserRegister implements OnInit {
             return;
           }
 
-          userDto.preferences = preferences;
+          userDto.preferencias = preferences;
 
           this.store.createUser(userDto).subscribe({
             next: () => {

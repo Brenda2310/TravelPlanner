@@ -29,8 +29,8 @@ export class PreferenceSelector implements OnInit {
   public loading: boolean = false;
 
   ngOnInit() {
-      if (this.data.isEditing && this.data.userData.preferences) {
-          this.selectedPreferences = [...this.data.userData.preferences];
+      if (this.data.isEditing && this.data.userData.preferencias) {
+          this.selectedPreferences = [...this.data.userData.preferencias];
       }
   }
 
