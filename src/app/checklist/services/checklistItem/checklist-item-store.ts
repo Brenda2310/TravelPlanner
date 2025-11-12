@@ -14,6 +14,7 @@ import {
   CheckListItemCreateDTO,
 } from '../../checklist-models';
 import { BaseStore } from '../../../BaseStore';
+import { CheckListItem } from '../../checklistItem/check-list-item/check-list-item';
 
 @Injectable({
   providedIn: 'root',
@@ -122,16 +123,25 @@ export class ChecklistItemStore extends BaseStore {
     );
   }
 
-  toggleItemCompleted(id: number, completed: boolean): Observable<CheckListItemResponseDTO> {
-    return this.client.toggleCompleted(id, completed).pipe(
-      tap((toggledItem) => {
+  toggleStatus(item: CheckListItemResponseDTO) {
+    this.client.updateCheckListItemStatus(item.id).subscribe({
+      next: (updatedItem) => {
         this._checklistItem.update((state) => ({
           ...state,
-          list: state.list.map((item) => (item.id === id ? toggledItem : item)),
+          list: state.list.map((i) =>
+            i.id === item.id ? { ...i, status: updatedItem.status } : i
+          ),
         }));
-      })
-    );
+      },
+      error: (err) => {
+        console.error('Error al actualizar el estado del item:', err);
+      },
+    });
   }
+
+
+
+
 
   deleteItem(id: number): Observable<void> {
     return this.client.delete(id).pipe(

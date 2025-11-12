@@ -7,6 +7,7 @@ import {
   CheckListItemUpdateDTO,
   CheckListItemResponseDTO
  } from '../../checklist-models';
+import { Observable } from 'rxjs';
 
 @Injectable({
   providedIn: 'root'
@@ -65,9 +66,13 @@ export class ChecklistItemService {
     return this.http.put<CheckListItemResponseDTO>(`${this.api}/${id}`, dto);
   }
 
-  toggleCompleted(id: number, completed: boolean) {
-    return this.http.patch<CheckListItemResponseDTO>(`${this.api}/toggle/${id}`, { completed });
+  updateCheckListItemStatus(id: number): Observable<CheckListItemResponseDTO> {
+    return this.http.put<CheckListItemResponseDTO>(
+      `${this.api}/toggle/${id}`,
+      {}
+    );
   }
+
 
   delete(id: number) {
     return this.http.delete<void>(`${this.api}/${id}`); 

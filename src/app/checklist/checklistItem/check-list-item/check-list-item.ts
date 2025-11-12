@@ -13,7 +13,7 @@ import { ChecklistItemService } from '../../services/checklistItem/checklist-ite
 })
 export class CheckListItem implements OnInit {
 
-  private readonly store = inject(ChecklistItemStore);
+  public readonly store = inject(ChecklistItemStore);
   private readonly service = inject(ChecklistItemService);
   private readonly formBuilder = inject(FormBuilder);
 
@@ -51,9 +51,8 @@ export class CheckListItem implements OnInit {
     });
   }
 
-  toggleCompleted(itemId: number, completed: boolean) {
-    this.store.toggleItemCompleted(itemId, !completed).subscribe();
-  }
+  
+
 
   get items() {
     return this.store.checklistItem().list;
