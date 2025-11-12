@@ -49,7 +49,7 @@ export class Profile implements OnInit {
   }
 
   onEditProfile(id: number): void {
-    this.router.navigate([`/profile/${id}/edit`]);
+    this.router.navigate([`/profile/me/edit`]);
   }
 
   onDeleteAccount(): void {
