@@ -52,9 +52,23 @@ h2 {
   filter:brightness(1.05) 
 }
 
-.trip-grid{
-  display:grid; gap:20px;
-  grid-template-columns:repeat(auto-fit,minmax(320px,1fr));
+.trip-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+  gap: 24px;
+  margin-top: 20px;
+}
+
+.trip-card {
+  background: var(--bg-glass, rgba(255, 255, 255, 0.9));
+  border: 1px solid rgba(0, 0, 0, 0.08);
+  border-radius: 16px;
+  padding: 20px;
+  box-shadow: 0 6px 16px rgba(0, 0, 0, 0.08);
+  transition: transform 0.2s ease, box-shadow 0.2s ease;
+  width: 100%;
+  max-width: 350px;       
+  margin: 0 auto;         
 }
 
 .trip-card{
