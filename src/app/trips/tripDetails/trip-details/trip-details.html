@@ -8,9 +8,11 @@
     <p><strong>Presupuesto estimado:</strong> {{ currentTrip$()?.estimatedBudget | currency }}</p>
     <p><strong>Fechas:</strong> {{ currentTrip$()?.startDate }} / {{ currentTrip$()?.endDate }}</p>
     <div class="buttons">
-    <button (click)="router.navigate(['/trips/${tripId}/edit'])" class="btn-edit">Editar Viaje</button>
-    <button (click)="onDeleteTrip()" class="btn-delete">Eliminar Viaje</button>
-  </div>
+      <button (click)="router.navigate([`/trips/${tripId}/edit`])" class="btn-edit">
+        Editar Datos del Viaje
+      </button>
+      <button (click)="onDeleteTrip()" class="btn-delete">Eliminar Viaje</button>
+    </div>
   </section>
 
   <section class="expenses-section">

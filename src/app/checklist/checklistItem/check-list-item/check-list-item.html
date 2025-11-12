@@ -25,6 +25,7 @@
         (change)="store.toggleStatus(item)" />
         {{ item.description }}
       </label>
+      <button type="button" (click)="deleteItem(item.id)">Eliminar item</button>
     </li>
   </ul>
 </ng-template>
