@@ -22,7 +22,7 @@
         <input 
         type="checkbox" 
         [checked]="item.status" 
-        (change)="toggleCompleted(item.id, item.status)" />
+        (change)="store.toggleStatus(item)" />
         {{ item.description }}
       </label>
     </li>
