@@ -29,8 +29,8 @@ export class PreferenceSelector implements OnInit {
   public loading: boolean = false;
 
   ngOnInit() {
-      if (this.data.isEditing && this.data.userData.preferencias) {
-          this.selectedPreferences = [...this.data.userData.preferencias];
+      if (this.data.isEditing && this.data.userData.preferences) {
+          this.selectedPreferences = [...this.data.userData.preferences];
       }
   }
 
@@ -44,38 +44,48 @@ export class PreferenceSelector implements OnInit {
       this.selectionError = null;
   }
 
-  onFinalSubmit(): void {
-    if (this.selectedPreferences.length === 0) {
-        this.selectionError = "Debes seleccionar al menos una preferencia.";
-        return;
-    }
+  /*onFinalSubmit(): void {
+      if (this.selectedPreferences.length === 0) {
+          this.selectionError = "Debes seleccionar al menos una preferencia.";
+          return;
+      }
 
-    this.loading = true;
-    
-    let action$: Observable<any>;
+      this.loading = true;
+      
+      const finalDto: UserUpdateDTO = { 
+          ...this.data.userData, 
+          preferences: this.selectedPreferences 
+      } as UserUpdateDTO; 
 
-    const dataToSend = { 
-        ...this.data.userData, 
-        preferencias: this.selectedPreferences 
-    };
+      let action$: Observable<any>;
+      
+      if (this.data.isEditing) {
+          action$ = this.store.updateUser(this.data.userId!, finalDto);
+      } else {
+          action$ = this.store.createUser(finalDto as UserCreateDTO);
+      }
 
-    if (this.data.isEditing) {
-        const updateDto: UserUpdateDTO = dataToSend as UserUpdateDTO;
-        action$ = this.store.updateUser(this.data.userId!, updateDto);
-    } else {
-        const createDto: UserCreateDTO = dataToSend as UserCreateDTO;
-        action$ = this.store.createUser(createDto);
-    }
+      action$.subscribe({
+          next: () => {
+              this.dialogRef.close({ success: true, message: this.data.isEditing ? 'Usuario actualizado.' : 'Registro exitoso.' });
+          },
+          error: (err) => {
+              this.loading = false;
+              this.selectionError = err.error?.message || "Error al finalizar el registro/edición.";
+          }
+      });
+  }*/
 
-    action$.subscribe({
-        next: () => {
-            this.dialogRef.close({ success: true, message: this.data.isEditing ? 'Usuario actualizado.' : 'Registro exitoso.' });
-        },
-        error: (err) => {
-            this.loading = false;
-            console.error("Error al guardar:", err); 
-            this.selectionError = err.error?.message || "Error al finalizar el registro/edición.";
+    confirmSelection(): void {
+        if(this.selectedPreferences.length === 0){
+            this.selectionError = 'Debes seleccional al menos una preferencia.';
+            return;
         }
-    });
-}
+        this.dialogRef.close(this.selectedPreferences);
+    }
+    
+    cancel(): void{
+        this.dialogRef.close(null);
+    }
+
 }
