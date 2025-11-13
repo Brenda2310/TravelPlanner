@@ -40,13 +40,11 @@
         </div>
 
         <div class="form-things">
-            <div class="form-group">
+            <div class="form-group description-full">
                 <label for="description" class="form-label">Descripción:</label>
                 <textarea id="description" formControlName="description" class="form-input h-20"></textarea>
-                @if (activityForm.get('description')?.invalid && activityForm.get('description')?.touched) {
-                    <small class="validation-error">La descripción es obligatoria.</small>
-                }
             </div>
+
             <div class="form-group">
                 <label for="price" class="form-label">Precio ({{ mode === 'user' ? 'Opcional' : 'Obligatorio' }}):</label>
                 <input id="price" type="number" formControlName="price" class="form-input">
@@ -123,6 +121,7 @@
                     {{ activityId ? 'Actualizar Actividad' : 'Crear Actividad' }}
                 }
             </button>
+            <button type="reset" class="btn-reset">Borrar</button>
         </div>
     </form>
 </div>
