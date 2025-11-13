@@ -7,6 +7,7 @@ import { Observable } from 'rxjs';
 import { ItineraryCreateDTO, ItineraryUpdateDTO } from '../itinerary-models';
 import { TripStore } from '../../trips/services/trip-store';
 import { Pageable } from '../../hateoas/hateoas-models';
+import { DateValidator } from '../validators/DateValidator';
 
 @Component({
   selector: 'app-itinerary-create-edit',
@@ -33,6 +34,8 @@ export class ItineraryCreateEdit {
         itineraryDate: ['', [Validators.required]],
         notes: [''], 
         tripId: [null as (number | null), [Validators.required, Validators.min(1)]] 
+    }, {
+        validators: [DateValidator.dateWithinTripRange(this.tripStore, 'itineraryDate', 'tripId')]
     });
 
     ngOnInit(): void {
@@ -74,8 +77,11 @@ export class ItineraryCreateEdit {
         const dto = {
             itineraryDate: formValue.itineraryDate!,
             notes: formValue.notes,
-            tripId: formValue.tripId!, 
+            tripId: Number(formValue.tripId!), 
         };
+
+
+        console.log('DTO enviado al backend:', dto);
 
         if (this.isEditing) {
             action$ = this.store.updateItinerary(this.itineraryId!, dto as ItineraryUpdateDTO);

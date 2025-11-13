@@ -25,8 +25,17 @@
         <div class="form-group">
             <label for="itineraryDate">Fecha:</label>
             <input id="itineraryDate" type="date" formControlName="itineraryDate">
-            @if (itineraryForm.get('itineraryDate')?.invalid && itineraryForm.get('itineraryDate')?.touched) {
-                <div class="validation-error">La fecha es obligatoria.</div>
+
+            @if (itineraryForm.get('itineraryDate')?.touched) {
+                @if (itineraryForm.get('itineraryDate')?.errors?.['required']) {
+                    <div class="validation-error">La fecha es obligatoria.</div>
+                }
+
+                @if (itineraryForm.errors?.['dateOutOfRange']) {
+                    <div class="validation-error">
+                        La fecha debe estar dentro del rango del viaje seleccionado.
+                    </div>
+                }
             }
         </div>
 
