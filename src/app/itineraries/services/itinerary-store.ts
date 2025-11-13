@@ -77,7 +77,7 @@ export class ItineraryStore extends BaseStore {
     this._loading.set(true);
     this.client.getItineraryById(id).subscribe({
       next: (entityModel) => {
-        const itinerary = (entityModel as any).content || entityModel;
+        const itinerary = (entityModel as any).content || entityModel;        
         this._currentItinerary.set(itinerary);
         this._loading.set(false);
       },

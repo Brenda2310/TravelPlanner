@@ -1,9 +1,17 @@
-import { ChangeDetectorRef, Component, computed, inject, Input, OnInit, signal } from '@angular/core';
+import {
+  ChangeDetectorRef,
+  Component,
+  computed,
+  inject,
+  Input,
+  OnInit,
+  signal,
+} from '@angular/core';
 import { FormBuilder, ReactiveFormsModule, Validators } from '@angular/forms';
 import { ActivatedRoute, Router, RouterLink } from '@angular/router';
 import { UserStore } from '../../services/user-store';
 import { PasswordValidators } from '../../validators/PasswordValidators';
-import { UserCreateDTO, UserPreference, UserResponseDTO, UserUpdateDTO} from '../../user-models';
+import { UserCreateDTO, UserPreference, UserResponseDTO, UserUpdateDTO } from '../../user-models';
 import { filter, last, Observable, take } from 'rxjs';
 import { toObservable } from '@angular/core/rxjs-interop';
 import { MatDialogModule } from '@angular/material/dialog';
@@ -12,8 +20,19 @@ import { PreferenceSelector } from '../../PreferenceSelector/preference-selector
 import { SecurityStore } from '../../../security/services/security-store';
 
 export const ALL_PREFERENCES: UserPreference[] = [
-  'CULTURAL', 'HISTORIC', 'RELIGION', 'NATURAL', 'BEACHES', 'SPORT', 'FOODS', 
-  'ADULT', 'SHOPS', 'AMUSEMENTS', 'ARCHITECTURE', 'VIEW_POINTS', 'OTHER' 
+  'CULTURAL',
+  'HISTORIC',
+  'RELIGION',
+  'NATURAL',
+  'BEACHES',
+  'SPORT',
+  'FOODS',
+  'ADULT',
+  'SHOPS',
+  'AMUSEMENTS',
+  'ARCHITECTURE',
+  'VIEW_POINTS',
+  'OTHER',
 ];
 
 @Component({
@@ -21,7 +40,7 @@ export const ALL_PREFERENCES: UserPreference[] = [
   standalone: true,
   imports: [ReactiveFormsModule, MatDialogModule, RouterLink],
   templateUrl: './user-register.html',
-  styleUrls: ['./user-register.css']
+  styleUrls: ['./user-register.css'],
 })
 export class UserRegister implements OnInit {
   private readonly fb = inject(FormBuilder);
@@ -40,20 +59,22 @@ export class UserRegister implements OnInit {
   public readonly allPreferences = ALL_PREFERENCES;
 
   @Input() userId?: number;
-  public isEditing: boolean = false; 
+  public isEditing: boolean = false;
   public isOwnProfile: boolean = false;
 
-  public registerForm = this.fb.group({
-    username:['', [Validators.required, Validators.minLength(5), Validators.maxLength(20)]],
-    email:['', [Validators.required, Validators.email]],
-    dni:['', [Validators.required, Validators.pattern(/^[0-9]{7,8}$/)]],
-    password:['', [Validators.required, PasswordValidators.strongPassword]],
-    confirmPassword:['', [Validators.required]],
-    preferences:[[] as any]
-  },
-  {
-    validators: PasswordValidators.match('password', 'confirmPassword')
-  });
+  public registerForm = this.fb.group(
+    {
+      username: ['', [Validators.required, Validators.minLength(5), Validators.maxLength(20)]],
+      email: ['', [Validators.required, Validators.email]],
+      dni: ['', [Validators.required, Validators.pattern(/^[0-9]{7,8}$/)]],
+      password: ['', [Validators.required, PasswordValidators.strongPassword]],
+      confirmPassword: ['', [Validators.required]],
+      preferences: [[] as any],
+    },
+    {
+      validators: PasswordValidators.match('password', 'confirmPassword'),
+    }
+  );
 
   ngOnInit(): void {
     const idFromUrl = this.route.snapshot.paramMap.get('id');
@@ -61,25 +82,23 @@ export class UserRegister implements OnInit {
     let dataObservable: Observable<UserResponseDTO | null> | null = null;
 
     if (currentPath.includes('/profile/me')) {
-            this.isEditing = true;
-            this.isOwnProfile = true;
-            this.store.loadProfile();
-            dataObservable = this.profile$;
-        }
-    else if (idFromUrl) {
-            this.userId = +idFromUrl;
-            this.isEditing = true;
-            this.store.loadUserById(this.userId);
-            dataObservable = this.userDetails$
-        }
+      this.isEditing = true;
+      this.isOwnProfile = true;
+      this.store.loadProfile();
+      dataObservable = this.profile$;
+    } else if (idFromUrl) {
+      this.userId = +idFromUrl;
+      this.isEditing = true;
+      this.store.loadUserById(this.userId);
+      dataObservable = this.userDetails$;
+    }
     if (this.isEditing) {
-          this.removePasswordValidators();
-          this.registerForm.get('email')?.disable();
-
-      }
+      this.removePasswordValidators();
+      this.registerForm.get('email')?.disable();
+    }
     if (dataObservable) {
-            this.handleDataPatching(dataObservable);
-        }
+      this.handleDataPatching(dataObservable);
+    }
   }
 
   /*onSubmit(): void {
@@ -136,118 +155,129 @@ export class UserRegister implements OnInit {
     });
   }*/
 
-    onSubmit(): void{
+  onSubmit(): void {
+    if (this.registerForm.invalid) {
+      this.registerForm.markAllAsTouched();
+      this.errorMessage = 'Por favor, corrija los errores del formulario.';
+      return;
+    }
 
-      console.log("onSubmit() llamado");
+    this.loading = true;
+    this.errorMessage = null;
 
-      if(this.registerForm.invalid){
-        this.registerForm.markAllAsTouched();
-        this.errorMessage = 'Por favor, corrija los errores del formulario.';
+    const formValue = this.registerForm.getRawValue();
+    const passwordValue = formValue.password!;
+    let userDto: UserUpdateDTO | UserCreateDTO;
+    let idToUpdate: number | undefined| null = this.userId;
+    let targetRoute: string;
+
+    if (this.isEditing) {
+      if (!idToUpdate && this.isOwnProfile) {
+        idToUpdate = this.securityStore.auth().userId;
+      }
+
+      if (!idToUpdate) {
+        this.loading = false;
+        this.errorMessage = 'No se pudo determinar el ID del usuario para la actualización.';
         return;
       }
 
-      console.log("Formulario válido, continuando...");
-
-      this.loading=true;
-      this.errorMessage=null;
-
-      const formValue = this.registerForm.getRawValue();
-      console.log("🧩 Valores del formulario:", formValue);
-      const passwordValue = formValue.password!;
-
-      if(this.isEditing){
-        const userDto: UserUpdateDTO = {
-          username: formValue.username!, 
-          email: formValue.email!, 
-          dni: formValue.dni!, 
-          password: passwordValue || undefined
-        };
-
-        const dialogRef = this.dialog.open(PreferenceSelector, {
-          data: {
-            userData: userDto, 
-            isEditing: true, 
-            userId: this.userId
-          }
-        });
-
-        dialogRef.afterClosed().subscribe( result => {
-          this.loading = false;
-          if(result && result.success){
-            alert(result.message);
-            this.router.navigateByUrl('/users');
-          }
-        });
-      } else {
-        const userDto: UserCreateDTO = {
-          username: formValue.username!,
-          email: formValue.email!,
-          dni: formValue.dni!,
-          password: passwordValue!,
-          preferencias: []
-        };
-
-        const dialogRef = this.dialog.open(PreferenceSelector, {
-          data: {
-            userData: userDto, 
-            isEditing: false
-          }
-        });
-
-        dialogRef.afterClosed().subscribe(preferences => {
-          if(!preferences){
-            this.loading = false;
-            return;
-          }
-
-          userDto.preferencias = preferences;
-
-          this.store.createUser(userDto).subscribe({
-            next: () => {
-              this.loading = false;
-              alert('Usuario creado con exito.');
-              this.router.navigateByUrl('/login');
-            },
-            error: (err) =>{
-              this.loading = false;
-              
-              const backMessage = err.error?.message || '';
-
-              if(backMessage.includes('unique data')){
-                this.errorMessage = 'Ya existe un usuario con ese DNI o email en el sistema.';
-              } else {
-                this.errorMessage = 'Ocurrió un error al registrar el usuario. Intenta nuevamente.'
-              }
-
-              this.cdr.detectChanges();
-            }
-          });
-        });
-      }
+      userDto = {
+        username: formValue.username!,
+        email: formValue.email!,
+        dni: formValue.dni!,
+        password: passwordValue || undefined,
+        preferencias: formValue.preferences || [],
+      } as UserUpdateDTO;
+      targetRoute = this.isOwnProfile ? '/profile/me' : '/users';
+    } else {
+      userDto = {
+        username: formValue.username!,
+        email: formValue.email!,
+        dni: formValue.dni!,
+        password: passwordValue!,
+        preferencias: formValue.preferences || [],
+      } as UserCreateDTO;
+      targetRoute = '/login';
     }
 
+    const dialogRef = this.dialog.open(PreferenceSelector, {
+      data: {
+        userData: userDto,
+        isEditing: this.isEditing,
+        userId: idToUpdate,
+      },
+    });
+
+    dialogRef.afterClosed().subscribe((preferences: UserPreference[] | null) => {
+      if (!preferences) {
+        setTimeout(() => {
+          this.loading = false;
+        }, 0);
+        return;
+      }
+
+      userDto.preferencias = preferences;
+
+      let action$: Observable<any>;
+      let successMessage: string;
+
+      if (this.isEditing) {
+        action$ = this.store.updateUser(idToUpdate!, userDto as UserUpdateDTO);
+        successMessage = 'Usuario actualizado con éxito.';
+      } else {
+        action$ = this.store.createUser(userDto as UserCreateDTO);
+        successMessage = 'Usuario creado con éxito.';
+      }
+
+      action$.subscribe({
+        next: () => {
+          setTimeout(() => {
+            this.loading = false;
+            alert(successMessage);
+            this.router.navigateByUrl(targetRoute);
+          }, 0);
+        },
+        error: (err) => {
+          setTimeout(() => {
+            this.loading = false;
+
+            const backMessage = err.error?.message || '';
+
+            if (backMessage.includes('unique data')) {
+              this.errorMessage = 'Ya existe un usuario con ese DNI o email en el sistema.';
+            } else {
+              this.errorMessage = 'Ocurrió un error al procesar la solicitud. Intenta nuevamente.';
+            }
+          }, 0);
+        },
+      });
+    });
+  }
 
   private handleDataPatching(dataObservable: Observable<UserResponseDTO | null>): void {
-        dataObservable.pipe(
-            filter((user): user is UserResponseDTO => !!user),
-            take(1) 
-        ).subscribe(user => {
-            this.registerForm.patchValue({
-                username: user.username,
-                email: user.email,
-                dni: user.dni,
-                preferences: user.preferencias,
-            });
+    dataObservable
+      .pipe(
+        filter((user): user is UserResponseDTO => !!user),
+        take(1)
+      )
+      .subscribe((user) => {
+        this.registerForm.patchValue({
+          username: user.username,
+          email: user.email,
+          dni: user.dni,
+          preferences: user.preferencias,
         });
-    }
+      });
+  }
 
-    private removePasswordValidators(): void {
-        this.registerForm.get('password')?.setValidators([PasswordValidators.strongPassword]);
-        this.registerForm.get('confirmPassword')?.setValidators(null);
-    
-        this.registerForm.removeValidators(PasswordValidators.match('password', 'confirmPassword'));
+  private removePasswordValidators(): void {
+    this.registerForm.get('password')?.setValidators([PasswordValidators.strongPassword]);
+    this.registerForm.get('confirmPassword')?.setValidators(null);
 
-        this.registerForm.get('password')?.updateValueAndValidity();
-        this.registerForm.get('confirmPassword')?.updateValueAndValidity();
-    }
+    this.registerForm.removeValidators(PasswordValidators.match('password', 'confirmPassword'));
+
+    this.registerForm.get('password')?.updateValueAndValidity();
+    this.registerForm.get('confirmPassword')?.updateValueAndValidity();
+  }
 }
