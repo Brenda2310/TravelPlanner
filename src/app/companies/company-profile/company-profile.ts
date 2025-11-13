@@ -100,4 +100,8 @@ export class CompanyProfile implements OnInit{
             });
         }
     }
+
+    toReservations(){
+        this.router.navigateByUrl(`/reservaciones/company/${this.companyId}`);
+    }
 }

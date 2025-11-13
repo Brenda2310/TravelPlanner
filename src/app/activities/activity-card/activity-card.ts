@@ -11,9 +11,9 @@ import { CommonModule } from '@angular/common';
 })
 export class ActivityCard {
   @Input() activity!: ActivityCompanyResponseDTO;
-  @Output() addToItinerary = new EventEmitter<number>();
+  @Output() reservate = new EventEmitter<number>();
 
   onAdd(): void {
-    this.addToItinerary.emit(this.activity.id);
+    this.reservate.emit(this.activity.id);
   }
 }

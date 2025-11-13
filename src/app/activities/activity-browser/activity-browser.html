@@ -21,7 +21,7 @@
   @else {
     <app-activity-list 
       [activities]="store.companyActivities().list"
-      (addToItinerary)="onAddToItinerary($event)">
+      (reservate)="reservate($event)">
     </app-activity-list>
 
     <app-pagination 

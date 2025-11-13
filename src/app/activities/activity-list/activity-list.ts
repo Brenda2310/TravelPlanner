@@ -14,7 +14,7 @@ import { Router } from '@angular/router';
 export class ActivityList {
   private readonly router = inject(Router);
   @Input() activities: ActivityCompanyResponseDTO[] = [];
-  @Output() addToItinerary = new EventEmitter<number>();
+  @Output() reservate = new EventEmitter<number>();
 
   toDetails(id: number){
     this.router.navigateByUrl(`/activities/${id}`);

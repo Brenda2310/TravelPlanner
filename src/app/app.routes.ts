@@ -22,6 +22,7 @@ import { CompanyList } from './companies/company-list/company-list';
 import { CompanyProfile } from './companies/company-profile/company-profile';
 import { ReservationList } from './reservations/reservation-list/reservation-list';
 import { ReservationReturn } from './reservations/reservation-return/reservation-return';
+import { ReservationCompany } from './reservations/reservation-company/reservation-company';
 
 export const routes: Routes = [
     { path: '', component: Home, title: 'Inicio' },
@@ -207,6 +208,11 @@ export const routes: Routes = [
                         path: 'payment-return',
                         component: ReservationReturn,
                         title: 'Pago'
+                    },
+                    {
+                        path: 'company/:companyId',
+                        component: ReservationCompany,
+                        title: 'Reservas'
                     }
                 ]
             }

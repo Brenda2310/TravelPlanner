@@ -7,7 +7,9 @@ import { Pagination } from "../../hateoas/Pagination/pagination/pagination";
 import { CommonModule } from '@angular/common';
 import { ActivityList } from "../activity-list/activity-list";
 import { ActivityFilters } from "../activity-filters/activity-filters";
-import { RouterLink } from '@angular/router';
+import { Router, RouterLink } from '@angular/router';
+import { ReservationStore } from '../../reservations/services/reservation-store';
+import { ReservationCreateDTO } from '../../reservations/reservation-models';
 
 @Component({
   selector: 'app-activity-browser',
@@ -19,6 +21,8 @@ import { RouterLink } from '@angular/router';
 export class ActivityBrowser implements OnInit{
   public readonly store = inject(ActivityStore);
   private readonly fb = inject(FormBuilder); 
+  private readonly router = inject(Router);
+  private readonly reservationStore = inject(ReservationStore);
 
   public pageable: Pageable = { page: 0, size: 12, sort: 'date,asc' };
 
@@ -54,7 +58,19 @@ export class ActivityBrowser implements OnInit{
         this.loadActivities();
     }
     
-    onAddToItinerary(activityId: number): void {
-        console.log(`Activity ${activityId} added to itinerary.`);
+    reservate(activityId: number): void {
+      const dto: ReservationCreateDTO = {
+            activityId: activityId 
+          };
+
+      this.reservationStore.createReservation(dto).subscribe({
+        next: (reservation) => {
+            console.log('Reserva creada con éxito:', reservation);
+            this.router.navigateByUrl('/reservaciones');
+        },
+        error: (err) => {
+            console.error('Error al intentar crear reserva:', err); 
+        }
+    });
     }
 }

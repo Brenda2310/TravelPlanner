@@ -2,7 +2,7 @@
   @for (activity of activities; track activity.id) {
     <app-activity-card
       [activity]="activity"
-      (addToItinerary)="addToItinerary.emit(activity.id)">
+      (reservate)="reservate.emit(activity.id)">
       <button (click)="toDetails(activity.id)">Ver Detalles</button>
     </app-activity-card>
   }
