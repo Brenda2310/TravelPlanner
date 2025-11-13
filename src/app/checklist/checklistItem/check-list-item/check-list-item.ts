@@ -3,6 +3,7 @@ import { CommonModule } from '@angular/common';
 import { FormBuilder, ReactiveFormsModule, Validators } from '@angular/forms';
 import { ChecklistItemStore } from '../../services/checklistItem/checklist-item-store';
 import { ChecklistItemService } from '../../services/checklistItem/checklist-item-service';
+import { Router } from '@angular/router';
 
 @Component({
   selector: 'app-check-list-item',
@@ -16,6 +17,7 @@ export class CheckListItem implements OnInit {
   public readonly store = inject(ChecklistItemStore);
   private readonly service = inject(ChecklistItemService);
   private readonly formBuilder = inject(FormBuilder);
+  protected readonly router = inject(Router);
 
   @Input() checklistId!: number;
 

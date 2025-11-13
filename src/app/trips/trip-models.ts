@@ -41,6 +41,7 @@ export interface TripUpdateDTO {
   endDate?: string;
   estimatedBudget?: number;
   companions?: number;
+  sharedUserIds?: number[];
 }
 
 export interface TripFilterDTO {
