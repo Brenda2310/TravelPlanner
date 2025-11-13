@@ -3,7 +3,9 @@
     <h2>Mis Checklists</h2>
     </div>
     <div class="create">
+        @if (store.checklist().list.length !== 0){
         <a routerLink="/checklists/create" class="btn-primary">+ Crear Nueva Checklist</a>
+        }
         </div>
     @if (store.loading()) {
         <p class="loading">Cargando checklists...</p>
@@ -34,7 +36,7 @@
 
                         <div class="checklist-actions">
                         <button class="btn-outline" (click)="router.navigate(['/checklists', checklist.id])">
-                            Agregar items
+                            Ver items
                         </button>
                         <button class="btn-outline" (click)="router.navigate(['/checklists', checklist.id, 'edit'])">
                             Editar
