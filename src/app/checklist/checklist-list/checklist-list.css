@@ -194,10 +194,17 @@ h2 {
   display: flex;
   gap: 10px;
   justify-content: flex-end;
-  flex-wrap: wrap;
+  flex-wrap: nowrap;
+}
+
+.checklist-actions .btn-primary,
+.checklist-actions .btn-outline,
+.checklist-actions .btn-danger {
+  white-space: nowrap;   
 }
 
 @media (max-width: 640px){
   .checklist-header { flex-direction: column; align-items: flex-start; gap: 6px; }
   .trip-ref { align-self: flex-start; }
 }
+

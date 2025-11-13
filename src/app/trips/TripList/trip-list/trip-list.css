@@ -87,9 +87,10 @@ h2 {
 
 .trip-header{
   display:flex; 
-  flex-direction:column; 
-  align-items:flex-start; 
-  gap:6px;
+  flex-direction:row; 
+  justify-content: space-between;
+  align-items: center;
+  gap: 6px;
   margin-bottom:10px;
 }
 
@@ -101,7 +102,8 @@ h2 {
 }
 
 .destination{
-  display:inline-flex; align-items:center; 
+  display: inline-flex; 
+  align-items:center; 
   padding:4px 10px; 
   border-radius:999px;
   font-size:.8rem; 
