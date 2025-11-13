@@ -9,7 +9,7 @@
         
             <div class="form-group">
             <label for="tripId">Seleccioná el viaje asociado:</label>
-            <select id="tripId" formControlName="tripId">
+            <select id="tripId" formControlName="tripId" [disabled]="isEditing">
                 <option value="">-- Elegí un viaje --</option>
                 @for (trip of userTrips().list; track trip.id) {
                 <option [value]="trip.id">{{ trip.name }} - {{ trip.destination }} - {{trip.startDate}} / {{trip.endDate}}</option>
