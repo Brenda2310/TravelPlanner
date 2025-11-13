@@ -1,16 +1,15 @@
 @if (mode) {
 <div class="company-form-container">
   
-  <!-- Título Dinámico -->
   <header class="form-header">
-    <h1 class="text-2xl font-bold text-gray-800">
+    <h1 class="text">
       @if (mode === 'create') {
         Registro de Nueva Compañía
       } @else {
         Editar Perfil de Compañía (Admin)
       }
     </h1>
-    <p class="text-gray-500">
+    <p class="text">
       @if (mode === 'create') {
         Completa los detalles para crear una nueva cuenta de empresa.
       } @else {
@@ -19,20 +18,16 @@
     </p>
   </header>
 
-  <!-- Formulario Reactivo -->
-  <form [formGroup]="profileForm" (ngSubmit)="onSubmit()" class="space-y-6 bg-white p-6 rounded-lg shadow-md">
-    
-    <!-- Mensaje de Error Global -->
+  <form [formGroup]="profileForm" (ngSubmit)="onSubmit()" class="form">
+   
     @if (errorMessage) {
       <div class="alert-error" role="alert">
         {{ errorMessage }}
       </div>
     }
 
-    <!-- SECCIÓN 1: IDENTIFICACIÓN Y CONTACTO -->
-    <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+    <div class="form-things">
       
-      <!-- Username -->
       <div class="form-group">
         <label for="username">Nombre de Usuario</label>
         <input id="username" type="text" formControlName="username" placeholder="Nombre único de la empresa">
@@ -43,7 +38,6 @@
         }
       </div>
 
-      <!-- Email -->
       <div class="form-group">
         <label for="email">Email de Contacto</label>
         <input id="email" type="email" formControlName="email" placeholder="contacto@empresa.com">
@@ -54,7 +48,6 @@
         }
       </div>
 
-      <!-- Tax ID (Deshabilitado en Edición) -->
       <div class="form-group">
         <label for="taxId">ID Fiscal / CIF / RUC</label>
         <input id="taxId" type="text" formControlName="taxId" placeholder="Ej: 11 dígitos numéricos">
@@ -65,7 +58,6 @@
         }
       </div>
 
-      <!-- Phone -->
       <div class="form-group">
         <label for="phone">Teléfono de Contacto</label>
         <input id="phone" type="tel" formControlName="phone" placeholder="+54911...">
@@ -77,10 +69,8 @@
       </div>
     </div>
 
-    <!-- SECCIÓN 2: UBICACIÓN Y DESCRIPCIÓN -->
     <div class="grid grid-cols-1 gap-6">
       
-      <!-- Location -->
       <div class="form-group">
         <label for="location">Ubicación / Dirección Principal</label>
         <input id="location" type="text" formControlName="location" placeholder="Ciudad, País o Dirección completa">
@@ -89,7 +79,6 @@
         }
       </div>
 
-      <!-- Description -->
       <div class="form-group">
         <label for="description">Descripción de la Compañía (Servicios)</label>
         <textarea id="description" formControlName="description" rows="3" placeholder="Describe brevemente los servicios y actividades principales."></textarea>
@@ -99,9 +88,8 @@
       </div>
     </div>
 
-    <!-- SECCIÓN 3: CONTRASEÑA (Solo obligatoria en Create) -->
     @if (mode === 'create') {
-      <div class="password-fields grid grid-cols-1 md:grid-cols-2 gap-6 pt-4 border-t border-gray-200">
+      <div class="password-fields">
         <div class="form-group">
           <label for="password">Contraseña</label>
           <input id="password" type="password" formControlName="password" placeholder="Mínimo 8 caracteres">
@@ -121,8 +109,7 @@
         </div>
       </div>
     } @else {
-      <!-- Modo Edición: Mostrar campo opcional de contraseña -->
-      <div class="password-fields pt-4 border-t border-gray-200">
+      <div class="password-fields">
         <p class="text-sm text-gray-500 mb-2">Deja los campos de contraseña vacíos si no deseas cambiarlas.</p>
         <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
           <div class="form-group">
@@ -143,8 +130,7 @@
       </div>
     }
 
-    <!-- Botón de Envío -->
-    <div class="flex justify-end pt-4 border-t border-gray-200">
+    <div class="actions">
       <button type="submit" [disabled]="profileForm.invalid || loading" class="submit-button">
         @if (loading) {
           Guardando...

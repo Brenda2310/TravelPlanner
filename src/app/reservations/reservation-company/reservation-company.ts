@@ -44,8 +44,4 @@ export class ReservationCompany implements OnInit {
     }
   }
 
-  onCancelReservation(reservationId: number) {
-    this.store.cancelReservation(reservationId).subscribe();
-  }
-
 }

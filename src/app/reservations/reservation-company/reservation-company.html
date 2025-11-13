@@ -1,3 +1,4 @@
+<div class="reservation-company">
 @if (loading()) {
 <p>Cargando reservas...</p>
 } @else { @if (!reservations().list.length && !loading()) {
@@ -20,14 +21,9 @@
       <td>{{ r.reservationDate | date }}</td>
       <td>{{ r.status }}</td>
       <td>{{ r.paid ? 'Sí' : 'No' }}</td>
-      <td>
-        <button (click)="onCancelReservation(r.id)" [disabled]="r.status === 'CANCELLED'">
-          Cancelar
-        </button>
-      </td>
     </tr>
     }
   </tbody>
 </table>
 } }
-
+</div>

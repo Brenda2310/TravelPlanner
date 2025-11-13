@@ -251,16 +251,19 @@ export const routes: Routes = [
             path: '',
             component: ReservationList,
             title: 'Mis Reservaciones',
+            canActivate: [authGuard(['ROLE_USER','ROLE_ADMIN', 'ROLE_COMPANY'])]
           },
           {
             path: 'payment-return',
             component: ReservationReturn,
             title: 'Pago',
+            canActivate: [authGuard(['ROLE_USER', 'ROLE_ADMIN', 'ROLE_COMPANY'])]
           },
           {
             path: 'company/:companyId',
             component: ReservationCompany,
             title: 'Reservas',
+            canActivate: [authGuard(['ROLE_USER', 'ROLE_ADMIN', 'ROLE_COMPANY'])]
           },
         ],
       },

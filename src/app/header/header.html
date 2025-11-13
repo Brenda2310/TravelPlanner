@@ -9,7 +9,8 @@
     }
 
     @if (isAuthenticated()) {
-      <div class="nav-links">
+      @if(!isCompany()){
+        <div class="nav-links">
         <a routerLink="/trips" routerLinkActive="active">Viajes</a>
         <a routerLink="/itineraries" routerLinkActive="active">Itinerarios</a>
         <a routerLink="/activities" routerLinkActive="active">Actividades</a>
@@ -19,6 +20,12 @@
           <a routerLink="/companies" routerLinkActive="active">Empresas</a>
         }
       </div>
+      }
+      @else {
+        <div class="nav-links">
+          <a routerLink="/activities" routerLinkActive="active">Actividades</a>
+        </div>  
+      }
     
 
       <div class="dropdown perfil-dropdown">
@@ -30,8 +37,10 @@
   </button>
   <ul class="dropdown-menu dropdown-menu-end shadow" aria-labelledby="dropdownPerfil">
     <li><a class="dropdown-item" (click)="toProfile()">Mi perfil</a></li>
-    <li><hr class="dropdown-divider"></li>
-    <li><a class="dropdown-item" (click)="toReservations()">Mis Reservaciones</a></li>
+    @if(!isCompany()){
+      <li><hr class="dropdown-divider"></li>
+      <li><a class="dropdown-item" (click)="toReservations()">Mis Reservaciones</a></li>
+    }
     <li><hr class="dropdown-divider"></li>
         <li><a class="dropdown-item text-danger" (click)="onLogout()">Cerrar sesión</a></li>
   </ul>

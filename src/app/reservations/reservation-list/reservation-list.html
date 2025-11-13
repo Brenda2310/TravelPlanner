@@ -9,7 +9,6 @@
 <table class="table">
   <thead>
     <tr>
-      <th>ID</th>
       <th>Fecha</th>
       <th>Estado</th>
       <th>Pagado</th>
@@ -19,7 +18,6 @@
   <tbody>
     @for (r of reservations().list; track r.id) {
     <tr>
-      <td>{{ r.id }}</td>
       <td>{{ r.reservationDate | date }}</td>
       <td>{{ r.status }}</td>
       <td>{{ r.paid ? 'Sí' : 'No' }}</td>
