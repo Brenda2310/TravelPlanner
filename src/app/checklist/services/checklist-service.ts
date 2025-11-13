@@ -38,6 +38,14 @@ export class ChecklistService {
     return this.http.get<PagedModel<CheckListResponseDTO>>(`${this.api}`, { params });
   }
 
+  getAllActive(pageable: Pageable) {
+    let params = new HttpParams()
+      .set('page', pageable.page.toString())
+      .set('size', pageable.size.toString());
+    
+    return this.http.get<PagedModel<CheckListResponseDTO>>(`${this.api}/active`, { params });
+  }
+
   getAllInactive(pageable: Pageable) {
     let params = new HttpParams()
       .set('page', pageable.page.toString())
@@ -51,10 +59,15 @@ export class ChecklistService {
       .set('page', pageable.page.toString())
       .set('size', pageable.size.toString());
 
-      if (filters.completed !== undefined) {
+    if (filters.completed !== undefined) {
       params = params.set('completed', filters.completed.toString());
     }
 
+    if (filters.active !== undefined) {
+      params = params.set('active', filters.active.toString());
+    }
+
+    console.log('Request params:', params.toString());
     return this.http.get<PagedModel<CheckListResponseDTO>>(`${this.api}/user/${userId}`, { params });
   }
 

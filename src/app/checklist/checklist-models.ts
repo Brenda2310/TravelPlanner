@@ -44,4 +44,5 @@ export interface CheckListUpdateDTO {
 
 export interface CheckListFilterDTO {
   completed?: boolean;
+  active?: boolean;
 }

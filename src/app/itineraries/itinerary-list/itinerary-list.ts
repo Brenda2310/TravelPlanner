@@ -22,7 +22,7 @@ export class ItineraryList implements OnInit{
   private readonly tripStore = inject(TripStore);                    
 
 
-  public pageable: Pageable = { page: 0, size: 10, sort: 'itineraryDate,asc' };
+  public pageable: Pageable = { page: 0, size: 9, sort: 'itineraryDate,asc' };
 
   public userTrips = this.tripStore.trips;
     
