@@ -60,6 +60,23 @@ export class ChecklistStore extends BaseStore{
     });
   }
 
+  loadAllActive(pageable: Pageable): void {
+    this._loading.set(true);
+    this.client.getAllActive(pageable).subscribe({
+      next: (pagedResponse) => {
+        console.log(pagedResponse); 
+        const list = this.unwrapEntities<CheckListResponseDTO>(pagedResponse);
+        this.setChecklist(list, pagedResponse.page);
+        this._loading.set(false);
+      },
+      error: (err) => {
+        this._error.set(err.message ?? 'Store Error: Failed to load active checklists.');
+        this._loading.set(false);
+      }
+    });
+  }
+
+
   loadByUser(userId: number, filters: CheckListFilterDTO, pageable: Pageable): void {
     this._loading.set(true);
     this.client.getByUser(userId, filters, pageable).subscribe({

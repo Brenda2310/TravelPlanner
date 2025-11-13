@@ -20,7 +20,7 @@ export class ChecklistList implements OnInit{
   public readonly router = inject(Router);
   private readonly tripStore = inject(TripStore);
   public readonly security = inject(SecurityStore);
-  public pageable: Pageable = {page: 0, size: 10, sort: 'id,desc'};
+  public pageable: Pageable = {page: 0, size: 9, sort: 'id,desc'};
 
   @Input() mode: 'admin-all' | 'user-own' = 'user-own';
 
@@ -40,8 +40,7 @@ export class ChecklistList implements OnInit{
     } else {
       const currentId = this.security.getId();
       if(currentId !== null){
-        const filters = {};
-        this.store.loadByUser(currentId, filters, this.pageable);
+        this.store.loadAllActive(this.pageable);
       } else {
         console.error("Error: Usuario no autenticado.")
       }
@@ -56,6 +55,9 @@ export class ChecklistList implements OnInit{
   onDelete(id: number): void{
     if(confirm("¿Estas seguro/a de eliminar esta checklist?")) {
       this.store.delete(id).subscribe({
+        next: () => {
+          this.loadChecklists();
+        },
         error: (err) => console.error("Error al eliminar la checklist: ", err)
       });
     }
