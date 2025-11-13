@@ -7,7 +7,7 @@
     <h1>{{ currentTrip$()?.name }} - {{ currentTrip$()?.destination }}</h1>
     <p><strong>Presupuesto estimado:</strong> {{ currentTrip$()?.estimatedBudget | currency }}</p>
     <p><strong>Fechas:</strong> {{ currentTrip$()?.startDate }} / {{ currentTrip$()?.endDate }}</p>
-    <p><strong>Cantidad de Acompañantes:</strong> {{ currentTrip$()?.companions }} - <strong></strong> {{ currentTrip$()?.userIds }}</p>
+    <p><strong>Cantidad de Acompañantes:</strong> {{ currentTrip$()?.companions }} - <strong>TravelCodes: </strong> {{ currentTrip$()?.userIds }}</p>
     <div class="buttons">
       <button (click)="router.navigate([`/trips/${tripId}/edit`])" class="btn-edit">
         Editar Datos del Viaje
