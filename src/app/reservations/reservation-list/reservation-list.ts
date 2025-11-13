@@ -41,7 +41,7 @@ export class ReservationList implements OnInit{
   }
 
   onConfirmPayment(reservationId: number, paymentId: number) {
-    this.store.confirmPayment(reservationId, paymentId, this.pageable).subscribe();
-  }
+  this.store.confirmPayment(reservationId, paymentId, this.pageable).subscribe();
+}
 
 }
