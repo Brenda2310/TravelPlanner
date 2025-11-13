@@ -1,5 +1,5 @@
 import { CommonModule } from '@angular/common';
-import { Component, inject, OnInit } from '@angular/core';
+import { Component, effect, inject, OnInit } from '@angular/core';
 import { FormBuilder, ReactiveFormsModule, Validators } from '@angular/forms';
 import { ChecklistStore } from '../services/checklist-store';
 import { ChecklistService } from '../services/checklist-service';
@@ -36,6 +36,17 @@ export class ChecklistCreateEdit implements OnInit{
     name: ["", [Validators.required, Validators.maxLength(50)]], 
     tripId: [null as (number | null), [Validators.required, Validators.min(1)]], 
     items: this.formBuilder.array([])
+  });
+
+
+  public effect = effect(() => {
+    const checklist = this.store.currentChecklist();
+
+    if (checklist) {
+      this.checklistForm.patchValue({
+        name: checklist.name
+      });
+    }
   });
 
   ngOnInit(): void {

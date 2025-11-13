@@ -208,6 +208,12 @@ export const routes: Routes = [
             canActivate: [authGuard(['ROLE_USER', 'ROLE_ADMIN'])],
           },
           {
+            path: ':id/edit',
+            component: ChecklistCreateEdit,
+            title: 'Editar Checklist',
+            canActivate: [authGuard(['ROLE_ADMIN','ROLE_USER'])],
+          },
+          {
             path: ':id',
             component: ChecklistDetails,
             title: 'Detalle de Checklist',
