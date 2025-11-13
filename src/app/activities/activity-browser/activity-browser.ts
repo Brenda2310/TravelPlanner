@@ -10,6 +10,7 @@ import { ActivityFilters } from "../activity-filters/activity-filters";
 import { Router, RouterLink } from '@angular/router';
 import { ReservationStore } from '../../reservations/services/reservation-store';
 import { ReservationCreateDTO } from '../../reservations/reservation-models';
+import { SecurityStore } from '../../security/services/security-store';
 
 @Component({
   selector: 'app-activity-browser',
@@ -23,6 +24,7 @@ export class ActivityBrowser implements OnInit{
   private readonly fb = inject(FormBuilder); 
   private readonly router = inject(Router);
   private readonly reservationStore = inject(ReservationStore);
+  public readonly security = inject(SecurityStore);
 
   public pageable: Pageable = { page: 0, size: 12, sort: 'date,asc' };
 

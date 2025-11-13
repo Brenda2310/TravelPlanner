@@ -2,7 +2,11 @@ import { Component, inject, Input, OnInit } from '@angular/core';
 import { FormBuilder, ReactiveFormsModule, Validators } from '@angular/forms';
 import { ActivityStore } from '../services/activity-store';
 import { SecurityStore } from '../../security/services/security-store';
-import { ActivityCategory, CompanyActivityCreateDTO, UserActivityCreateDTO } from '../activity-models';
+import {
+  ActivityCategory,
+  CompanyActivityCreateDTO,
+  UserActivityCreateDTO,
+} from '../activity-models';
 import { Observable } from 'rxjs';
 import { Router } from '@angular/router';
 
@@ -11,7 +15,7 @@ import { Router } from '@angular/router';
   standalone: true,
   imports: [ReactiveFormsModule],
   templateUrl: './activity-create-edit.html',
-  styleUrl: './activity-create-edit.css'
+  styleUrl: './activity-create-edit.css',
 })
 export class ActivityCreateEdit implements OnInit {
   private readonly fb = inject(FormBuilder);
@@ -24,91 +28,101 @@ export class ActivityCreateEdit implements OnInit {
 
   public loading: boolean = false;
   public errorMessage: string | null = null;
-  public readonly categories: ActivityCategory[] = ['AVENTURA', 'CULTURA', 'RELAX', 'GASTRONOMIA', 'NATURALEZA', 'NIGHTLIFE', 'SHOPPING', 
-      'DEPORTES', 'HISTORIA', 'FAMILIA'];
+  public readonly categories: ActivityCategory[] = [
+    'AVENTURA',
+    'CULTURA',
+    'RELAX',
+    'GASTRONOMIA',
+    'NATURALEZA',
+    'NIGHTLIFE',
+    'SHOPPING',
+    'DEPORTES',
+    'HISTORIA',
+    'FAMILIA',
+  ];
 
-  
   public activityForm = this.fb.group({
-        name: ['', [Validators.required, Validators.maxLength(100)]],
-        description: ['', [Validators.required, Validators.maxLength(500)]],
-        category: ['', [Validators.required]],
-        date: ['', [Validators.required]],
-        startTime: ['', [Validators.required]],
-        endTime: ['', [Validators.required]],
-        price: [0, [Validators.required, Validators.min(0)]],
-        
-        companyId: [null as number | null], 
-        available_quantity: [null as number | null],
-        sharedUserIds: [[] as number[]], 
-        newUserId: [''],
-    });
+    name: ['', [Validators.required, Validators.maxLength(100)]],
+    description: ['', [Validators.required, Validators.maxLength(500)]],
+    category: ['', [Validators.required]],
+    date: ['', [Validators.required]],
+    startTime: ['', [Validators.required]],
+    endTime: ['', [Validators.required]],
+    price: [0, [Validators.required, Validators.min(0)]],
 
-    ngOnInit(): void {
-        this.setConditionalValidators();
+    available_quantity: [null as number | null],
+    sharedUserIds: [[] as number[]],
+    newUserId: [''],
+  });
+
+  ngOnInit(): void {
+    if (this.security.auth().isCompany) {
+        this.mode = 'company';
+      } else {
+        this.mode = 'user';
+      }
+      
+    this.setConditionalValidators();
+  }
+
+  private setConditionalValidators(): void {
+    const quantityControl = this.activityForm.get('available_quantity');
+
+    if (this.mode === 'company') {
+      quantityControl?.addValidators(Validators.required);
+    } else {
+      quantityControl?.clearValidators();
+    }
+    quantityControl?.updateValueAndValidity();
+  }
+
+  onSubmit(): void {
+    if (this.activityForm.invalid) {
+      this.activityForm.markAllAsTouched();
+      return;
     }
 
-    private setConditionalValidators(): void {
-        const companyIdControl = this.activityForm.get('companyId');
-        const quantityControl = this.activityForm.get('available_quantity');
-        
-        if (this.mode === 'company') {
-            quantityControl?.addValidators(Validators.required);
-        } else {
-            quantityControl?.clearValidators();
-            companyIdControl?.clearValidators();
-        }
-        quantityControl?.updateValueAndValidity();
-        companyIdControl?.updateValueAndValidity();
-    }
+    this.loading = true;
+    const formValue = this.activityForm.value;
+    let action$: Observable<any>;
 
-    onSubmit(): void {
-        if (this.activityForm.invalid) {
-            this.activityForm.markAllAsTouched();
-            return;
-        }
-
-        this.loading = true;
-        const formValue = this.activityForm.value;
-        let action$: Observable<any>;
-
-        const baseActivityDto = {
-        name: formValue.name!,
-        description: formValue.description!,
-        category: formValue.category!,
-        date: formValue.date!,
-        startTime: formValue.startTime!,
-        endTime: formValue.endTime!,
-        price: formValue.price!
+    const baseActivityDto = {
+      name: formValue.name!,
+      description: formValue.description!,
+      category: formValue.category!,
+      date: formValue.date!,
+      startTime: formValue.startTime!,
+      endTime: formValue.endTime!,
+      price: formValue.price!,
     };
-        if (this.mode === 'company') {
-            const companyDto: CompanyActivityCreateDTO = {
-              ...baseActivityDto,
-                companyId: this.security.auth().userRoles.includes('ROLE_ADMIN') ? formValue.companyId! : 1,
-                available_quantity: formValue.available_quantity!,
-            } as CompanyActivityCreateDTO;
-            action$ = this.store.createActivityFromCompany(companyDto);
-
-        } else {
-            const userDto: UserActivityCreateDTO = {
-              ...baseActivityDto,
-                sharedUserIds: formValue.sharedUserIds!,
-            } as UserActivityCreateDTO;
-            action$ = this.store.createFromUser(userDto, { page: 0, size: 10 }); 
-        }
-
-        action$.subscribe({
-            next: () => {
-                alert('Actividad guardada con éxito.');
-                this.router.navigateByUrl('/activities');
-            },
-            error: (err) => {
-                this.errorMessage = err.error?.message || 'Error al guardar la actividad.';
-                this.loading = false;
-            }
-        });
+    if (this.mode === 'company') {
+      const companyDto: CompanyActivityCreateDTO = {
+        ...baseActivityDto,
+        companyId: this.security.auth().userId,
+        available_quantity: formValue.available_quantity!,
+      } as CompanyActivityCreateDTO;
+      action$ = this.store.createActivityFromCompany(companyDto);
+    } else {
+      const userDto: UserActivityCreateDTO = {
+        ...baseActivityDto,
+        sharedUserIds: formValue.sharedUserIds!,
+      } as UserActivityCreateDTO;
+      action$ = this.store.createFromUser(userDto, { page: 0, size: 10 });
     }
 
-     get sharedUserIdsArray(): number[] {
+    action$.subscribe({
+      next: () => {
+        alert('Actividad guardada con éxito.');
+        this.router.navigateByUrl('/activities');
+      },
+      error: (err) => {
+        this.errorMessage = err.error?.message || 'Error al guardar la actividad.';
+        this.loading = false;
+      },
+    });
+  }
+
+  get sharedUserIdsArray(): number[] {
     return this.activityForm.get('sharedUserIds')?.value || [];
   }
 

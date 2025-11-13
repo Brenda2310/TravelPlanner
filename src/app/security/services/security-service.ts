@@ -81,6 +81,14 @@ export class SecurityService {
     return !!this.getAccessToken();
   }
 
+  public isAdmin(): boolean{
+    return !!this.getRoles().includes('ROLE_ADMIN');
+  }
+
+  public isCompany(): boolean{
+    return !!this.getRoles().includes('ROLE_COMPANY');
+  }
+
   getUserId(): number | null {
     const token = this.getAccessToken();
     if (!token) return null;

@@ -1,4 +1,4 @@
-import { Component, inject, Input, OnInit } from '@angular/core';
+import { ChangeDetectorRef, Component, inject, Input, OnInit } from '@angular/core';
 import { FormBuilder, ReactiveFormsModule, Validators } from '@angular/forms';
 import { ActivatedRoute, Router } from '@angular/router';
 import { CompanyStore } from '../services/company-store';
@@ -20,12 +20,14 @@ export class CompanyCreateEdit implements OnInit {
   private readonly route = inject(ActivatedRoute);
   public readonly store = inject(CompanyStore);
   public readonly security = inject(SecurityStore);
+  //private readonly cdr = inject(ChangeDetectorRef);
 
   @Input() companyId?: number;
   @Input() mode: 'create' | 'edit-admin' = 'create';
 
   public loading = false;
   public errorMessage: string | null = null;
+  public currentCompany$ = toObservable(this.store.currentCompany);
 
   public profileForm = this.fb.group(
     {
@@ -51,6 +53,7 @@ export class CompanyCreateEdit implements OnInit {
       this.mode = 'edit-admin';
       this.loadCompanyData();
       this.removePasswordValidatorsForEdit();
+     // this.cdr.detectChanges();
     }
   }
 
@@ -70,7 +73,7 @@ export class CompanyCreateEdit implements OnInit {
 
     this.store.loadCompanyById(this.companyId);
 
-    toObservable(this.store.currentCompany)
+    this.currentCompany$
       .pipe(
         filter((c) => !!c && c.id === this.companyId),
         take(1)

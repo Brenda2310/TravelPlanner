@@ -15,6 +15,9 @@
         <a routerLink="/activities" routerLinkActive="active">Actividades</a>
         <a routerLink="/checklists" routerLinkActive="active">CheckLists</a>
         <a routerLink="/expenses" routerLinkActive="active">Gastos</a>
+        @if (isAdmin()) {
+          <a routerLink="/companies" routerLinkActive="active">Empresas</a>
+        }
       </div>
     
 
@@ -27,6 +30,8 @@
   </button>
   <ul class="dropdown-menu dropdown-menu-end shadow" aria-labelledby="dropdownPerfil">
     <li><a class="dropdown-item" (click)="toProfile()">Mi perfil</a></li>
+    <li><hr class="dropdown-divider"></li>
+    <li><a class="dropdown-item" (click)="toReservations()">Mis Reservaciones</a></li>
     <li><hr class="dropdown-divider"></li>
         <li><a class="dropdown-item text-danger" (click)="onLogout()">Cerrar sesión</a></li>
   </ul>

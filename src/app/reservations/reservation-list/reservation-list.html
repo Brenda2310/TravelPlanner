@@ -1,3 +1,4 @@
+<div class="reservations">
 @if (loading()) {
 <p>Cargando reservas...</p>
 } @else { @if (!reservations().list.length && !loading()) {
@@ -27,7 +28,7 @@
           Cancelar
         </button>
 
-        @if (!r.paid && r.urlPayment) {
+        @if (!r.paid && r.urlPayment && r.status !== 'CANCELLED') {
         <button class="on-pay" (click)="onPay(r)">Ir a pagar</button>
         }
       </td>
@@ -36,3 +37,4 @@
   </tbody>
 </table>
 } }
+</div>

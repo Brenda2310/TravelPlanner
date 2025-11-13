@@ -26,6 +26,7 @@ export class CompanyProfile implements OnInit{
   public errorMessage: string | null = null;
 
   public currentProfile = this.store.currentCompany; 
+  public currentProfile$ = toObservable(this.store.currentCompany);
 
     public profileForm = this.fb.group({
         username: ['', [Validators.required, Validators.minLength(5), Validators.maxLength(20)]],
@@ -43,7 +44,7 @@ export class CompanyProfile implements OnInit{
     ngOnInit(): void {
         this.store.loadProfile();
         
-        toObservable(this.store.currentCompany).pipe(
+        this.currentProfile$.pipe(
             filter(c => !!c),
             take(1)
         ).subscribe(company => {

@@ -1,13 +1,13 @@
 import { Component, inject, OnInit } from '@angular/core';
 import { CompanyStore } from '../services/company-store';
-import { Router } from '@angular/router';
+import { Router, RouterLink } from '@angular/router';
 import { Pageable } from '../../hateoas/hateoas-models';
 import { Pagination } from "../../hateoas/Pagination/pagination/pagination";
 
 @Component({
   selector: 'app-company-list',
   standalone:true,
-  imports: [Pagination],
+  imports: [Pagination, RouterLink],
   templateUrl: './company-list.html',
   styleUrl: './company-list.css'
 })

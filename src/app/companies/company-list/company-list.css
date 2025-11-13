@@ -1,0 +1,17 @@
+.company-list-container{
+    margin-top: 100px;
+}
+
+.btn-primary{
+  background:var(--primary-color,#0ea5e9); 
+  color:#fff; border:none; 
+  border-radius:12px;
+  padding:10px 18px; 
+  font-weight:700; 
+  cursor:pointer; 
+  text-decoration:none;
+  transition:filter .15s ease, transform .02s ease;
+}
+.btn-primary:hover{ 
+  filter:brightness(1.05) 
+}

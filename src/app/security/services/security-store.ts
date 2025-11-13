@@ -8,6 +8,8 @@ interface SessionState {
   isAuthenticated: boolean;
   userRoles: string[];
   userId: number | null;
+  isAdmin: boolean;
+  isCompany: boolean;
 }
 
 @Injectable({
@@ -18,7 +20,9 @@ export class SecurityStore {
   private readonly _auth = signal<SessionState>({
     isAuthenticated: this.client.isAuthenticated(),
     userRoles: [],
-    userId: this.client.getUserId()
+    userId: this.client.getUserId(),
+    isAdmin: this.client.isAdmin(),
+    isCompany: this.client.isCompany()
   });
 
   private readonly _loading = signal<boolean>(false);
@@ -33,7 +37,9 @@ export class SecurityStore {
     this._auth.set({
       isAuthenticated: this.client.isAuthenticated(),
       userRoles: this.client.getRoles(),
-      userId: this.client.getUserId()
+      userId: this.client.getUserId(),
+      isAdmin: this.client.isAdmin(),
+      isCompany: this.client.isCompany()
     });
   }
 

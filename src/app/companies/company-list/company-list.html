@@ -1,9 +1,26 @@
 <div class="company-list-container">
     <h2>Administración de Compañías</h2>
 
+    @if (store.companies().list.length !== 0) {
+    <div class="create">
+      <a routerLink="/companies/create" class="btn-primary">+ Agregar Empresa</a>
+    </div>
+  }
+
     @if (store.loading()) {
         <p>Cargando listado de compañías...</p>
-    } @else {
+    } 
+    @else if(store.companies().list.length === 0){
+        <div class="empty-state">
+      <h3>¡No se encontraron Empresas!</h3>
+
+      <div class="no-trips">
+        <p>Aún no hay empresas registradas. ¡Agrega una para empezar!</p>
+        <a routerLink="/companies/create" class="btn-primary">Agregar Empresa</a>
+      </div>
+    </div>
+    }
+    @else {
         <table class="company-table">
             <thead>
                 <tr>

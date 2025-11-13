@@ -6,6 +6,7 @@ import { Testimonials } from "./testimonials/testimonials/testimonials";
 import { Features } from "./features/features";
 import { UserStore } from '../users/services/user-store';
 import { SecurityStore } from '../security/services/security-store';
+import { CompanyStore } from '../companies/services/company-store';
 
 @Component({
   selector: 'app-home',
@@ -17,14 +18,22 @@ import { SecurityStore } from '../security/services/security-store';
 export class Home{
     private readonly store = inject(SecurityStore);
     private readonly users = inject(UserStore);
+    private readonly company = inject(CompanyStore);
 
 
   isAuthenticated = () => this.store.auth().isAuthenticated;
+  isCompany = () => this.store.auth().isCompany;
   currentUser = this.users.profile; 
+  currentCompany =this.company.currentCompany;
 
   ngOnInit(): void {
     if (this.isAuthenticated()) {
-      this.users.loadProfile(); 
+      if(this.isCompany()){
+        this.company.loadProfile();
+      }
+      else{
+        this.users.loadProfile(); 
+      }
     }
   }
 }
