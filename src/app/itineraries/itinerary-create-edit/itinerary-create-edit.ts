@@ -1,13 +1,14 @@
-import { Component, inject } from '@angular/core';
+import { Component, effect, inject } from '@angular/core';
 import { FormBuilder, ReactiveFormsModule, Validators } from '@angular/forms';
 import { ActivatedRoute, Router } from '@angular/router';
 import { ItineraryStore } from '../services/itinerary-store';
 import { SecurityStore } from '../../security/services/security-store';
-import { Observable } from 'rxjs';
+import { filter, Observable, take } from 'rxjs';
 import { ItineraryCreateDTO, ItineraryUpdateDTO } from '../itinerary-models';
 import { TripStore } from '../../trips/services/trip-store';
 import { Pageable } from '../../hateoas/hateoas-models';
 import { DateValidator } from '../validators/DateValidator';
+import { toObservable } from '@angular/core/rxjs-interop';
 
 @Component({
   selector: 'app-itinerary-create-edit',
@@ -22,6 +23,7 @@ export class ItineraryCreateEdit {
     private readonly store = inject(ItineraryStore);
     private readonly tripStore = inject(TripStore);
     private readonly securityStore = inject(SecurityStore);
+    private currentItinerary$ = toObservable(this.store.currentItinerary);
 
     public isEditing: boolean = false;
     public loading: boolean = false;
@@ -40,18 +42,37 @@ export class ItineraryCreateEdit {
 
     ngOnInit(): void {
         const idFromUrl = this.route.snapshot.paramMap.get('id');
-        
+
         if (idFromUrl) {
             this.itineraryId = +idFromUrl;
             this.isEditing = true;
             this.store.loadItineraryById(this.itineraryId);
+
+            this.handleDataPatching(this.currentItinerary$);
         }
 
         const userId = this.securityStore.getId();
         if (userId) {
-        this.tripStore.loadTripsByUserId(userId, {}, { page: 0, size: 10 } as Pageable);
+            this.tripStore.loadTripsByUserId(userId, {}, { page: 0, size: 9 } as Pageable);
         }
+    }
 
+    private handleDataPatching(dataObservable: Observable<any>): void {
+    dataObservable
+        .pipe(
+        filter((itinerary): itinerary is any => !!itinerary),
+        take(1)
+        )
+        .subscribe(itinerary => {
+
+        this.itineraryForm.patchValue({
+            itineraryDate: itinerary.itineraryDate,
+            notes: itinerary.notes,
+            tripId: itinerary.trip?.id || itinerary.tripId || null
+        });
+
+        this.itineraryForm.get('tripId')?.disable();
+        });
     }
 
     selectTrip(tripId: number): void {
@@ -73,32 +94,36 @@ export class ItineraryCreateEdit {
 
         const formValue = this.itineraryForm.getRawValue();
         let action$: Observable<any>;
-        
-        const dto = {
-            itineraryDate: formValue.itineraryDate!,
-            notes: formValue.notes,
-            tripId: Number(formValue.tripId!), 
-        };
-
-
-        console.log('DTO enviado al backend:', dto);
 
         if (this.isEditing) {
-            action$ = this.store.updateItinerary(this.itineraryId!, dto as ItineraryUpdateDTO);
+            
+            const dto: ItineraryUpdateDTO = {
+            itineraryDate: formValue.itineraryDate!,
+            notes: formValue.notes!
+            };
+
+            action$ = this.store.updateItinerary(this.itineraryId!, dto);
         } else {
-            action$ = this.store.createItinerary(dto as ItineraryCreateDTO);
+           
+            const dto: ItineraryCreateDTO = {
+            itineraryDate: formValue.itineraryDate!,
+            notes: formValue.notes!,
+            tripId: Number(formValue.tripId!),
+            };
+
+            action$ = this.store.createItinerary(dto);
         }
 
         action$.subscribe({
             next: () => {
-                alert(`Itinerario ${this.isEditing ? 'actualizado' : 'creado'} con éxito.`);
-                this.router.navigate(['/itineraries']); 
+            alert(`Itinerario ${this.isEditing ? 'actualizado' : 'creado'} con éxito.`);
+            this.router.navigate(['/itineraries']);
             },
             error: (err) => {
-                this.errorMessage = err.error?.message || 'Error al guardar el itinerario.';
-                this.loading = false;
+            this.errorMessage = err.error?.message || 'Error al guardar el itinerario.';
+            this.loading = false;
             }
         });
-    }
+        }
 }
 

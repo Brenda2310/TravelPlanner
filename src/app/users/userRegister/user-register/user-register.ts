@@ -146,13 +146,10 @@ export class UserRegister implements OnInit {
         return;
       }
 
-      console.log("Formulario válido, continuando...");
-
       this.loading=true;
       this.errorMessage=null;
 
       const formValue = this.registerForm.getRawValue();
-      console.log("🧩 Valores del formulario:", formValue);
       const passwordValue = formValue.password!;
 
       if(this.isEditing){
