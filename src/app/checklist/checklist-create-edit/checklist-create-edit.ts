@@ -44,7 +44,8 @@ export class ChecklistCreateEdit implements OnInit{
 
     if (checklist) {
       this.checklistForm.patchValue({
-        name: checklist.name
+        name: checklist.name,
+        tripId: checklist.tripId
       });
     }
   });
