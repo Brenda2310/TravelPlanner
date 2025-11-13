@@ -15,7 +15,7 @@ export class CompanyList implements OnInit{
   public readonly store = inject(CompanyStore);
   public readonly router = inject(Router);
 
-    public pageable: Pageable = { page: 0, size: 10, sort: 'username,asc' }; 
+    public pageable: Pageable = { page: 0, size: 9, sort: 'username,asc' }; 
 
     ngOnInit(): void {
         this.loadCompanies();

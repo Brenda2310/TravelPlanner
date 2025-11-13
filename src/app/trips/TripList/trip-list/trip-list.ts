@@ -16,7 +16,7 @@ export class TripList implements OnInit{
   public readonly store = inject(TripStore);
   public readonly router = inject(Router);
   public readonly security = inject(SecurityStore);
-  public pageable: Pageable ={page: 0, size: 10, sort: 'startDate,desc'};
+  public pageable: Pageable ={page: 0, size: 9, sort: 'startDate,desc'};
 
   @Input() mode: 'admin-all' | 'user-own' = 'user-own';
 
