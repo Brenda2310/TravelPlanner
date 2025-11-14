@@ -40,8 +40,8 @@ export class ExpensesList implements OnInit{
 
   public filtersForm = this.formBuilder.group({
     category: [""], 
-    dateFrom: [""], 
-    dateTo: [""]
+    startDate: [""], 
+    endDate: [""]
   });
 
   ngOnInit(): void {
@@ -94,7 +94,7 @@ export class ExpensesList implements OnInit{
   }
 
   clearFilters(): void{
-    this.filtersForm.reset({ category: '', dateFrom: '', dateTo: '' });
+    this.filtersForm.reset({ category: '', startDate: '', endDate: '' });
     this.pageable.page = 0;
     this.loadExpenses();
   }
