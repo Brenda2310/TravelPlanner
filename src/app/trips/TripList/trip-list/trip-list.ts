@@ -21,6 +21,12 @@ export class TripList implements OnInit{
   @Input() mode: 'admin-all' | 'user-own' = 'user-own';
 
   ngOnInit(): void {
+    if(this.security.auth().isAdmin){
+      this.mode = 'admin-all';
+    }
+    else{
+      this.mode = 'user-own';
+    }
     this.loadTrips();
   }
 

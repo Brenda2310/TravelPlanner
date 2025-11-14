@@ -1,4 +1,4 @@
-import { Component, inject, OnInit } from '@angular/core';
+import { Component, inject, Input, OnInit } from '@angular/core';
 import { ItineraryStore } from '../services/itinerary-store';
 import { SecurityStore } from '../../security/services/security-store';
 import { FormBuilder, ReactiveFormsModule } from '@angular/forms';
@@ -24,6 +24,7 @@ export class ItineraryList implements OnInit{
   public pageable: Pageable = { page: 0, size: 9, sort: 'itineraryDate,asc' };
 
   public userTrips = this.tripStore.trips;
+  @Input() mode: 'admin-all' | 'user-own' = 'user-own';
     
   public filterForm = this.fb.group({
       dateFrom: [''],
@@ -32,15 +33,33 @@ export class ItineraryList implements OnInit{
   });
 
   ngOnInit(): void {
-    const userId = this.security.getId();
+    if(this.security.auth().isAdmin){
+      this.mode = 'admin-all';
+    }
+    else{
+      this.mode = 'user-own';
+      const userId = this.security.getId();
     if (userId) {
       this.tripStore.loadTripsByUserId(userId, {}, { page: 0, size: 100 } as Pageable);
+    }
     }
     this.loadItineraries();
   }
 
   loadItineraries(){
-    const userId = this.security.getId();
+    if(this.mode === 'admin-all'){
+      const userId = this.security.getId();
+    if(!userId){
+      console.error('User not authenticated for loading itineraries.');
+      return;
+    }
+
+    const filters: ItineraryFilterDTO = this.filterForm.value as ItineraryFilterDTO;
+
+    this.store.loadAllItineraries(this.pageable);
+    }
+    else{
+      const userId = this.security.getId();
     if(!userId){
       console.error('User not authenticated for loading itineraries.');
       return;
@@ -49,6 +68,7 @@ export class ItineraryList implements OnInit{
     const filters: ItineraryFilterDTO = this.filterForm.value as ItineraryFilterDTO;
 
     this.store.loadItinerariesByUserId(userId, filters, this.pageable);
+    }
   }
 
   onApplyFilters(): void {
