@@ -16,7 +16,7 @@ import { BaseService } from '../../BaseService';
 })
 export class ExpenseService extends BaseService{
   private readonly http = inject(HttpClient);
-  private readonly api = 'http://localhost:8080/expense';
+  private readonly api = 'http://localhost:8080/expenses';
 
   createExpense(dto: ExpenseCreateDTO){
     return this.http.post<ExpenseResponseDTO>(`${this.api}`, dto);

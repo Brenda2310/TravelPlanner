@@ -24,26 +24,26 @@ export class ItineraryDetails {
 
   ngOnInit(): void{
     const id = this.route.snapshot.paramMap.get('id');
-    if (id) {
-      this.itineraryId = +id;
-      this.store.loadItineraryById(this.itineraryId);
+      if (id) {
+        this.itineraryId = +id;
+        this.store.loadItineraryById(this.itineraryId);
+    }
   }
-}
 
- private readonly loadTripEffect = effect(() => {
+  private readonly loadTripEffect = effect(() => {
     const itinerary = this.currentIt$();
     if (itinerary) {
       this.trips.loadTripById(itinerary.tripId);
     }
   });
 
-onDeleteItinerary(): void {
-    if (this.itineraryId && confirm('¿Desea eliminar este Itinerario?')) {
-      this.store.deleteItinerary(this.itineraryId).subscribe({
-        next: () => this.router.navigate(['itineraries']),
-      });
+  onDeleteItinerary(): void {
+      if (this.itineraryId && confirm('¿Desea eliminar este Itinerario?')) {
+        this.store.deleteItinerary(this.itineraryId).subscribe({
+          next: () => this.router.navigate(['itineraries']),
+        });
+      }
     }
-  }
 
   toEdit(id: number){
     this.router.navigateByUrl(`/itineraries/${id}/edit`);

@@ -1,0 +1,66 @@
+<div class="expense-list-container">
+    <h2>Mis gastos</h2>
+
+    @if (store.expense().list.length !== 0) {
+        <div class="create">
+            <a routerLink="/expenses/create" class="btn-primary"> + Agregar Nuevo Gasto</a>
+        </div>
+    }
+
+    <form [formGroup]="filtersForm" (ngSubmit)="onApplyFilters()" class="filter-form">
+        <label>
+            <select id="category" formControlName="category" class="form-input">
+                <option value="" disabled>Selecciona una categoría</option>
+                    @for (cat of categories; track cat) {
+                        <option [ngValue]="cat">{{ cat }}</option>
+                    }
+            </select>
+        </label>
+        <label>
+            Desde:
+            <input type="date" formControlName="dateFrom">
+        </label>
+        <label>
+            Hasta:
+            <input type="date" formControlName="dateTo">
+        </label>
+
+        <button type="submit">Aplicar filtros</button>
+        <button type="button" (click)="clearFilters()">Limpiar filtros</button>
+    </form>
+
+    @if (store.loading()) {
+        <p>Cargando gastos...</p>
+    }@else {
+        @if (store.expense().list.length === 0) {
+            <div class="no-expenses">
+                <p>No hay gastos registrados.</p>
+                <a routerLink="/expenses/create" class="btn btn-primary"> Agregar Nuevo Gasto</a>
+            </div>
+        }@else {
+            <div class="expense-grid">
+                @for (item of store.expense().list; track item.id) {
+                    <div class="expense-card">
+                        <div class="expense-header">
+                            <span>{{ item.date }}</span>
+                            <span> {{ item.category }}</span>
+                        </div>
+                        <p>{{ item.description }}</p>
+                        <p>Monto: ${{ item.amount }}</p>
+
+                        <div class="expense-actions">
+                            <button (click)="toDetails(item.id)">Ver Detalles</button>
+                            <button (click)="onDelete(item.id)">Eliminar</button>
+                        </div>
+                    </div>
+                }
+            </div>
+        }
+    }
+
+    <app-pagination
+    [currentPage]="store.expense().pageInfo.currentPage"
+    [totalPages]="store.expense().pageInfo.totalPages"
+    (pageChange)="onPageChange($event)">
+    </app-pagination>
+</div>
