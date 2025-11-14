@@ -21,64 +21,62 @@ export class ItineraryList implements OnInit{
   public readonly router = inject(Router);
   private readonly tripStore = inject(TripStore);                    
 
-
   public pageable: Pageable = { page: 0, size: 9, sort: 'itineraryDate,asc' };
 
   public userTrips = this.tripStore.trips;
     
-    public filterForm = this.fb.group({
-        dateFrom: [''],
-        dateTo: [''],
-        tripId: ['']
-    });
+  public filterForm = this.fb.group({
+      dateFrom: [''],
+      dateTo: [''],
+      tripId: ['']
+  });
 
-    ngOnInit(): void {
-  const userId = this.security.getId();
-  if (userId) {
-    this.tripStore.loadTripsByUserId(userId, {}, { page: 0, size: 100 } as Pageable);
+  ngOnInit(): void {
+    const userId = this.security.getId();
+    if (userId) {
+      this.tripStore.loadTripsByUserId(userId, {}, { page: 0, size: 100 } as Pageable);
+    }
+    this.loadItineraries();
   }
-  this.loadItineraries();
+
+  loadItineraries(){
+    const userId = this.security.getId();
+    if(!userId){
+      console.error('User not authenticated for loading itineraries.');
+      return;
+    }
+
+    const filters: ItineraryFilterDTO = this.filterForm.value as ItineraryFilterDTO;
+
+    this.store.loadItinerariesByUserId(userId, filters, this.pageable);
   }
 
-
-    loadItineraries(){
-      const userId = this.security.getId();
-      if(!userId){
-        console.error('User not authenticated for loading itineraries.');
-        return;
-      }
-
-      const filters: ItineraryFilterDTO = this.filterForm.value as ItineraryFilterDTO;
-
-      this.store.loadItinerariesByUserId(userId, filters, this.pageable);
-    }
-
-    onApplyFilters(): void {
-        this.pageable.page = 0;
-        this.loadItineraries();
-    }
-
-    onPageChange(newPage: number): void {
-        this.pageable.page = newPage;
-        this.loadItineraries();
-    }
-
-    onDelete(id: number): void {
-        if (confirm('¿Confirmar eliminación de itinerario (borrado lógico)?')) {
-            this.store.deleteItinerary(id).subscribe({
-                error: (err) => console.error('Error al eliminar itinerario:', err)
-            });
-        }
-    }
-
-    toDetails(id: number){
-      this.router.navigateByUrl(`/itineraries/${id}`);
-    }
-
-    clearFilters(): void {
-      this.filterForm.reset({ dateFrom: '', dateTo: '', tripId: '' });
+  onApplyFilters(): void {
       this.pageable.page = 0;
       this.loadItineraries();
-}
+  }
+
+  onPageChange(newPage: number): void {
+      this.pageable.page = newPage;
+      this.loadItineraries();
+  }
+
+  onDelete(id: number): void {
+      if (confirm('¿Confirmar eliminación de itinerario (borrado lógico)?')) {
+          this.store.deleteItinerary(id).subscribe({
+              error: (err) => console.error('Error al eliminar itinerario:', err)
+        });
+      }
+    }
+
+  toDetails(id: number){
+    this.router.navigateByUrl(`/itineraries/${id}`);
+  }
+
+  clearFilters(): void {
+    this.filterForm.reset({ dateFrom: '', dateTo: '', tripId: '' });
+    this.pageable.page = 0;
+    this.loadItineraries();
+  }
 
 }

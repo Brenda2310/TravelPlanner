@@ -24,6 +24,9 @@ import { ReservationList } from './reservations/reservation-list/reservation-lis
 import { ReservationReturn } from './reservations/reservation-return/reservation-return';
 import { ReservationCompany } from './reservations/reservation-company/reservation-company';
 import { CompanyCreateEdit } from './companies/company-create-edit/company-create-edit';
+import { ExpensesList } from './expenses/expense-list/expenses-list/expenses-list';
+import { ExpensesCreateEdit } from './expenses/expenses-create-edit/expenses-create-edit/expenses-create-edit';
+import { ExpenseDetails } from './expenses/expense-details/expense-details/expense-details';
 
 export const routes: Routes = [
   { path: '', component: Home, title: 'Inicio' },
@@ -270,6 +273,35 @@ export const routes: Routes = [
             component: ReservationCompany,
             title: 'Reservas',
             canActivate: [authGuard(['ROLE_USER', 'ROLE_ADMIN', 'ROLE_COMPANY'])]
+          },
+        ],
+      },
+      {
+        path: 'expenses',
+        children: [
+          {
+            path: '',
+            component: ExpensesList,
+            title: 'Gastos',
+            canActivate: [authGuard(['ROLE_USER', 'ROLE_ADMIN'])], // cambiar permisos
+          },
+          {
+            path: 'create',
+            component: ExpensesCreateEdit,
+            title: 'Crear Gasto',
+            canActivate: [authGuard(['ROLE_USER', 'ROLE_ADMIN'])],
+          },
+          {
+            path: ':id/edit',
+            component: ExpensesCreateEdit,
+            title: 'Editar Gasto',
+            canActivate: [authGuard(['ROLE_ADMIN','ROLE_USER'])],
+          },
+          {
+            path: ':id',
+            component: ExpenseDetails,
+            title: 'Detalle de Gasto',
+            canActivate: [authGuard(['ROLE_USER', 'ROLE_ADMIN'])],
           },
         ],
       },
