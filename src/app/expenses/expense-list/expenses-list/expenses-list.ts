@@ -48,6 +48,9 @@ export class ExpensesList implements OnInit{
     const userId = this.security.getId();
         if (userId) {
           this.store.loadExpensesByUserId(userId, {}, { page: 0, size: 100 } as Pageable);
+          this.store.loadAverageExpensesByUser(userId);
+          this.store.loadRealAverageExpenseByUser(userId);
+          this.store.loadTotalRealExpensesByUser(userId);
         }
         this.loadExpenses();
   }

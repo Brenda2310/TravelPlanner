@@ -1,6 +1,24 @@
 <div class="expense-list-container">
     <h2>Mis gastos</h2>
 
+    <div class="expenses-metrics-container">
+        <div class="expense-metric-card">
+            <h4>Promedio general</h4>
+            <p>$ {{ store.calculations().average ?? 0 }}</p>
+        </div>
+
+        <div class="expense-metric-card">
+            <h4>Promedio real</h4>
+            <p>$ {{ store.calculations().realAverage }}</p>
+        </div>
+
+        <div class="expense-metric-card">
+            <h4>Total real gastado</h4>
+            <p>$ {{ store.calculations().realTotal ?? 0 }}</p>
+        </div>
+    </div>
+
+
     @if (store.expense().list.length !== 0) {
         <div class="create">
             <a routerLink="/expenses/create" class="btn-primary"> + Agregar Nuevo Gasto</a>
