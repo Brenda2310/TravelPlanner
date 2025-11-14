@@ -32,13 +32,9 @@
 }
 
 .empty-state.state {
-  margin: 26px 0 18px;
   padding: 18px 20px;
   border-radius: 16px;
-  background: rgba(255, 255, 255, 0.9);
-  border: 1px solid rgba(255, 255, 255, 0.6);
-  box-shadow: 0 8px 24px rgba(0, 0, 0, 0.16);
-  text-align: center;
+  text-align: right;
 }
 
 .empty-title {
@@ -85,6 +81,7 @@
   border: none;
   background: linear-gradient(135deg, #07494f, #33696f);
   color: #ffffff;
+  background:var(--primary-color,#0ea5e9); 
   font-weight: 600;
   font-size: 0.95rem;
   cursor: pointer;

@@ -2,6 +2,17 @@
 
   <h2 class="browser-title">Actividades</h2>
 
+  @if (store.companyActivities().list.length !== 0) {
+    <div class="empty-state state">
+      @if (security.auth().isCompany) {
+        <a routerLink="/activities/create/company" class="btn btn-primary create-btn">+ Crear Nueva Actividad</a>
+      }
+      @else {
+        <a routerLink="/activities/create" class="btn btn-primary create-btn">+ Crear Nueva Actividad</a>
+      }
+    </div>
+  }
+
   <app-activity-filters 
     class="filters"
     [categoryList]="category"
@@ -9,16 +20,6 @@
     (filtersApplied)="onApplyFilters($event)">
   </app-activity-filters>
 
-  @if (store.companyActivities().list.length !== 0) {
-    <div class="empty-state state">
-      @if (security.auth().isCompany) {
-        <a routerLink="/activities/create/company" class="btn btn-primary create-btn">Crear Nueva Actividad</a>
-      }
-      @else {
-        <a routerLink="/activities/create" class="btn btn-primary create-btn">Crear Nueva Actividad</a>
-      }
-    </div>
-  }
 
   @if (store.loading()) {
     <p class="loading-message loading">Buscando actividades...</p>
