@@ -18,6 +18,21 @@
 
   <section class="expenses-section">
     <h2>Gestión de Gastos</h2>
+    <div class="trip-expenses">
+      <div class="expenses-grid">
+        <div class="expense-card">
+          <h3>Total gastado</h3>
+          <p class="expense-value"> {{ calculations().total| currency }}</p>
+        </div>
+
+        <div class="expense-card">
+          <h3>Promedio de gastos</h3>
+          <p class="expense-value">{{ calculations().average| currency }}</p>
+        </div>
+
+      </div>
+    </div>
+
   </section>
 
   } @else {

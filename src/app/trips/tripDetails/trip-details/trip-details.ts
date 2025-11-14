@@ -23,12 +23,27 @@ export class TripDetails implements OnInit {
   public tripId: number | null = null;
   public currentTrip$ = this.store.currentTrip;
 
+  public calculations = this.expenses.calculations;
+
   ngOnInit(): void {
     const id = this.route.snapshot.paramMap.get('id');
     if (id) {
       this.tripId = +id;
       this.store.loadTripById(this.tripId);
+      this.loadExpenses();
+      this.loadTripExpenses();
+    }
+  }
 
+  loadTripExpenses (){
+    if(this.tripId!==null){
+      this.expenses.loadTotalExpensesByTrip(this.tripId);
+      this.expenses.loadAverageExpensesByTrip(this.tripId);
+    }
+  }
+
+  loadExpenses(){
+    if(this.tripId !== null){
       this.expenses.loadExpensesByTripId(this.tripId, this.expensePageable);
     }
   }
