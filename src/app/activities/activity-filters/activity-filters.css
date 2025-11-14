@@ -1,0 +1,68 @@
+.filter-controls {
+  display: block;
+}
+
+.group {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  padding: 16px 20px;
+  background: rgba(255, 255, 255, 0.8);
+  backdrop-filter: blur(14px);
+  border-radius: 16px;
+  border: 1px solid rgba(255, 255, 255, 0.55);
+  box-shadow: 0 8px 28px rgba(0,0,0,.12);
+  flex-wrap: nowrap;
+  width: 100%;
+}
+
+.filter-group-row {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+}
+
+.group select,
+.group input[type="number"],
+.group input[type="date"] {
+  padding: 10px 12px;
+  border-radius: 10px;
+  border: 1px solid rgba(7,73,79,.22);
+  background: rgba(255,255,255,.95);
+  font-size: 0.92rem;
+  color: #07494F;
+  flex: 1 1 auto;        
+  min-width: 120px;      
+  flex-shrink: 1;        
+}
+
+.date-filters label {
+  font-weight: 600;
+  font-size: 0.9rem;
+  white-space: nowrap;
+}
+
+.btn-primary {
+  flex: 0 0 130px;       
+  padding: 10px 18px;
+  border-radius: 999px;
+  background: linear-gradient(135deg,#07494f,#33696f);
+  color: #fff;
+  font-weight: 600;
+  font-size: 0.92rem;
+  cursor: pointer;
+  white-space: nowrap;
+}
+
+@media (max-width: 950px) {
+  .group {
+    flex-wrap: wrap;
+  }
+
+  .group select,
+  .group input,
+  .btn-primary {
+    flex: 1 1 100%;
+    min-width: 100%;
+  }
+}
