@@ -37,6 +37,7 @@
   }
   @else {
 
+    @if (!security.auth().isCompany) {
     <div class="my-activities-section">
 
       <h3 class="section-title">Tus actividades creadas</h3>
@@ -60,8 +61,10 @@
           (reservate)="reservate($event)">
         </app-activity-list>
       }
+    
 
     </div>
+  }
 
     <hr>
 
@@ -74,10 +77,13 @@
       }
       @else {
 
+        
+        @if (!security.auth().isCompany) {
         <p class="section-description">
           ¿Buscás reservar una actividad?  
           Mirá estas opciones disponibles para vos.
         </p>
+      }
 
         <app-activity-list 
           class="activity-list-section"

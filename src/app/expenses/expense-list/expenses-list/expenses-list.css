@@ -45,12 +45,12 @@
 .filter-form {
   display: grid;
   grid-template-columns:
-    minmax(170px, 1.2fr)   
-    minmax(170px, 1.2fr)   
+    minmax(180px, 1.2fr)   
+    minmax(180px, 1.2fr)   
     minmax(170px, auto)    
     minmax(170px, auto)    
     auto;                  
-  column-gap: 18px;
+  column-gap: 30px;
   row-gap: 10px;
   align-items: center;
 }

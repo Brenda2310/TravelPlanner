@@ -3,26 +3,18 @@
   width: 100%;
 }
 
-/* GRID DE TARJETAS */
 .activity-grid {
-  display: grid !important; /* pisamos cualquier .grid global */
-  grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
-  gap: 18px;
-
-  max-width: 780px;        /* 👉 no se estiran infinito */
-  width: 100%;
-  margin: 0 auto;          /* 👉 centrado */
-  justify-items: center;   /* 👉 cada card centrada en su celda */
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 28px;
+  padding: 10px 0;
 }
 
-/* wrapper de cada card */
 .activity-card-wrapper {
-  width: 100%;
   display: flex;
   justify-content: center;
 }
 
-/* responsive: una card por fila en mobile */
 @media (max-width: 768px) {
   .activity-grid {
     grid-template-columns: 1fr;
