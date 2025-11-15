@@ -1,102 +1,67 @@
-.activity-card,
-.card {
-  background: var(--bg-glass, rgba(255, 255, 255, 0.9));
+.activity-card.card {
+  width: 100%;
+  max-width: 260px;         /* 👉 tamaño real de la card */
+  padding: 18px 18px 14px;
   border-radius: 16px;
-  border: 1px solid rgba(255, 255, 255, 0.45);
-  box-shadow: 0 8px 24px rgba(0, 0, 0, 0.18);
-  padding: 18px 18px 16px;
-  display: flex;
-  flex-direction: column;
-  gap: 6px;
-  transition:
-    transform 0.12s ease,
-    box-shadow 0.18s ease;
+  background: rgba(255, 255, 255, 0.98);
+  box-shadow: 0 6px 18px rgba(0, 0, 0, 0.18);
 }
 
-.activity-card:hover {
-  transform: translateY(-2px);
-  box-shadow: 0 12px 28px rgba(0, 0, 0, 0.22);
-}
-
+/* textos */
 .activity-title {
-  margin: 0 0 4px;
-  font-size: 1.05rem;
-  font-weight: 700;
+  font-size: 1rem;
+  font-weight: 600;
+  margin-bottom: 4px;
   color: #07494F;
 }
 
 .activity-category {
-  margin: 0;
-  font-size: 0.9rem;
+  font-size: 0.85rem;
+  letter-spacing: 0.04em;
+  text-transform: uppercase;
   color: rgba(7, 73, 79, 0.7);
+  margin-bottom: 4px;
 }
 
 .activity-price {
-  margin: 2px 0 8px;
-  font-size: 1rem;
-  font-weight: 600;
-  color: #07494f;
-}
-
-.btn-primary,
-.reservate-btn {
-  background: linear-gradient(135deg, #07494f, #33696f);
-  color: #ffffff;
-  border: none;
-  border-radius: 999px;
-  padding: 8px 16px;
   font-size: 0.9rem;
   font-weight: 600;
-  cursor: pointer;
-  box-shadow: 0 8px 20px rgba(0, 0, 0, 0.25);
-  transition:
-    transform 0.08s ease,
-    box-shadow 0.18s ease,
-    opacity 0.15s ease;
-}
-
-.btn-primary:hover,
-.reservate-btn:hover {
-  transform: translateY(-1px);
-  box-shadow: 0 10px 24px rgba(0, 0, 0, 0.28);
-}
-
-.btn-primary:active,
-.reservate-btn:active {
-  transform: translateY(0);
-  box-shadow: 0 6px 16px rgba(0, 0, 0, 0.22);
-}
-
-.btn-secondary,
-.details-btn {
-  background: rgba(255, 255, 255, 0.95);
+  margin-bottom: 10px;
   color: #07494F;
-  border: 1px solid rgba(7, 73, 79, 0.22);
+}
+
+/* botones más compactos */
+.reservate-btn,
+.details-btn {
+  display: block;
+  width: 100%;
+  font-size: 0.85rem;
+  padding: 7px 10px;
   border-radius: 999px;
-  padding: 8px 16px;
-  font-size: 0.9rem;
-  font-weight: 600;
+  border: none;
   cursor: pointer;
-  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
-  transition:
-    transform 0.08s ease,
-    background 0.18s ease,
-    box-shadow 0.18s ease,
-    opacity 0.15s ease;
+  font-weight: 600;
 }
 
-.btn-secondary:hover,
+/* botón reservar */
+.reservate-btn {
+  background-color: #0C7489;
+  color: #ffffff;
+  margin-bottom: 8px;
+}
+
+/* botón ver detalles */
+.details-btn {
+  background-color: #ffffff;
+  color: #07494F;
+  box-shadow: 0 4px 10px rgba(0, 0, 0, 0.16);
+}
+
+/* pequeños efectos hover */
+.reservate-btn:hover {
+  filter: brightness(1.05);
+}
+
 .details-btn:hover {
-  background: #e6f5f7;
-  transform: translateY(-1px);
-}
-
-.btn-secondary:active,
-.details-btn:active {
-  transform: translateY(0);
-  box-shadow: 0 3px 8px rgba(0, 0, 0, 0.16);
-}
-
-.from-list {
-  margin-top: 10px;
+  box-shadow: 0 6px 14px rgba(0, 0, 0, 0.2);
 }

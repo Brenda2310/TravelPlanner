@@ -1,22 +1,36 @@
-<div class="activity-browser-container browser">
+<div class="browser-title">
+<h2>Actividades</h2>
+</div>
 
-  <h2 class="browser-title">Actividades</h2>
+<div class="top-controls">
 
-  <div class="empty-state state">
+  <div class="create-wrapper">
     @if (security.auth().isCompany) {
-      <a routerLink="/activities/create/company" class="btn btn-primary create-btn">+ Crear Nueva Actividad</a>
+      <a
+        routerLink="/activities/create/company"
+        class="btn btn-primary create-btn">
+        + Crear Nueva Actividad
+      </a>
     }
     @else {
-      <a routerLink="/activities/create" class="btn btn-primary create-btn">+ Crear Nueva Actividad</a>
+      <a
+        routerLink="/activities/create"
+        class="btn btn-primary create-btn">
+        + Crear Nueva Actividad
+      </a>
     }
   </div>
 
   <app-activity-filters 
-    class="filters"
+    class="filters-outside"
     [categoryList]="category"
     [form]="filterForm"
     (filtersApplied)="onApplyFilters($event)">
   </app-activity-filters>
+
+</div>
+
+<div class="activity-browser-container browser">
 
   @if (store.loading()) {
     <p class="loading-message loading">Buscando actividades...</p>
@@ -25,12 +39,21 @@
 
     <div class="my-activities-section">
 
-      <h3 class="section-title">Tus actividades</h3>
+      <h3 class="section-title">Tus actividades creadas</h3>
 
       @if (store.userActivities().list.length === 0) {
-        <p class="empty-subtitle">No creaste actividades propias.</p>
+        <p class="empty-subtitle">
+          Aún no creaste actividades propias.  
+          ¡Animate a publicar una para otros viajeros!
+        </p>
       }
       @else {
+
+        <p class="section-description">
+          Estas son las actividades que vos mismo registraste.
+          Podés editarlas, ver sus detalles o actualizarlas cuando quieras.
+        </p>
+
         <app-activity-list 
           class="activity-list-section"
           [activities]="store.userActivities().list"
@@ -51,6 +74,11 @@
         <p class="empty-subtitle">No hay actividades disponibles de empresas.</p>
       }
       @else {
+
+        <p class="section-description">
+          ¿Buscás reservar una actividad?  
+          Mirá estas opciones disponibles para vos.
+        </p>
 
         <app-activity-list 
           class="activity-list-section"

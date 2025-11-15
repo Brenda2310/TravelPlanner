@@ -17,4 +17,16 @@ export class ActivityFilters {
   onSubmit(): void {
     this.filtersApplied.emit(this.form.value as CompanyActivityFilterParams);
   }
+
+  clearFilters() {
+  this.form.reset({
+    category: '',
+    minPrice: null,
+    maxPrice: null,
+    fromDate: null,
+    toDate: null
+  });
+
+  this.filtersApplied.emit(this.form.value);
+}
 }
