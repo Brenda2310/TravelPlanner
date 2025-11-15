@@ -30,9 +30,14 @@
   @if (currentActivityDetail()!.companyId) {
   <button (click)="onBookActivity()" class="btn-primary">Reservar Ahora</button>
   }
-   @if (security.getId() === currentActivityDetail()!.companyId) {
+   @if (security.auth().userId! === currentActivityDetail()!.companyId) {
   <button (click)="toEdit(currentActivityDetail()?.id!)">Editar</button>
-  } } @else {
+  }
+  @if(currentActivityDetail()?.userIds?.includes(security.auth().userId!)){
+    <button (click)="toEdit(currentActivityDetail()?.id!)">Editar</button>
+  }
+
+} @else {
   <p>No se pudo encontrar el detalle de la actividad.</p>
   }
 </div>
