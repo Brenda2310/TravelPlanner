@@ -5,7 +5,7 @@ import { CompanyStore } from '../services/company-store';
 import { SecurityStore } from '../../security/services/security-store';
 import { PasswordValidators } from '../../users/validators/PasswordValidators';
 import { toObservable } from '@angular/core/rxjs-interop';
-import { filter, Observable, take } from 'rxjs';
+import { filter, finalize, Observable, take } from 'rxjs';
 import { CompanyCreateDTO, CompanyUpdateDTO } from '../company-models';
 
 @Component({
@@ -20,7 +20,7 @@ export class CompanyCreateEdit implements OnInit {
   private readonly route = inject(ActivatedRoute);
   public readonly store = inject(CompanyStore);
   public readonly security = inject(SecurityStore);
-  //private readonly cdr = inject(ChangeDetectorRef);
+  private readonly cdr = inject(ChangeDetectorRef);
 
   @Input() companyId?: number;
   @Input() mode: 'create' | 'edit-admin' = 'create';
@@ -136,14 +136,31 @@ export class CompanyCreateEdit implements OnInit {
       action$ = this.store.updateCompany(this.companyId!, baseDto as CompanyUpdateDTO);
     }
 
+    const observable$ = action$.pipe(
+          finalize(() => {
+            this.loading = false;
+            this.cdr.detectChanges();
+          })
+        );
+
     action$.subscribe({
       next: () => {
         alert(`Compañía ${this.mode === 'create' ? 'registrada' : 'actualizada'} con éxito.`);
         this.router.navigate(['/companies']);
+        this.cdr.detectChanges();
       },
-      error: (err) => {
-        this.errorMessage = err.error?.message || 'Error al guardar la compañía.';
+      error: (err: any) => {
         this.loading = false;
+
+        console.error('Error del Store:', err);
+
+        this.errorMessage =
+          err.userMessage ||
+          err.original?.error?.message ||
+          err.original?.message ||
+          err.original?.toString() ||
+          'Error desconocido.';
+          this.cdr.detectChanges();
       },
     });
   }

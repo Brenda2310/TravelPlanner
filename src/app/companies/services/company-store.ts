@@ -1,9 +1,10 @@
 import { inject, Injectable, signal } from '@angular/core';
 import { BaseStore } from '../../BaseStore';
 import { CompanyService } from './company-service';
-import { Observable, tap, catchError, EMPTY } from 'rxjs';
+import { Observable, tap, catchError, EMPTY, throwError, finalize } from 'rxjs';
 import { CollectionState, PaginationInfo, Pageable, EntityModel } from '../../hateoas/hateoas-models';
 import { CompanyResponseDTO, CompanyCreateDTO, CompanyUpdateDTO } from '../company-models';
+import { HttpErrorResponse } from '@angular/common/http';
 
 @Injectable({
   providedIn: 'root',
@@ -110,10 +111,23 @@ export class CompanyStore extends BaseStore {
         }));
         this._loading.set(false);
       }),
-      catchError((err) => {
-        this._error.set(err.message ?? 'Store Error: Failed to create company.');
+      catchError((err: HttpErrorResponse) => {
+        let userMessage = 'Error desconocido al crear la actividad.';
+        if (err.error && typeof err.error === 'object') {
+          userMessage = err.error.message || err.error.error || userMessage;
+        } else if (typeof err.error === 'string') {
+          userMessage = err.error;
+        } else if (err.status) {
+          if (err.status === 404) userMessage = 'El recurso solicitado no fue encontrado.';
+          else if (err.status === 403)
+            userMessage = 'Acceso denegado. No tiene permisos para esta acción.';
+        }
+
+        this._error.set(userMessage);
+        return throwError(() => ({ userMessage, original: err }));
+      }),
+      finalize(() => {
         this._loading.set(false);
-        return EMPTY;
       })
     );
   }

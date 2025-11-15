@@ -1,4 +1,4 @@
-import { Component, effect, inject, OnInit } from '@angular/core';
+import { ChangeDetectorRef, Component, effect, inject, OnInit } from '@angular/core';
 import { TripStore } from '../../services/trip-store';
 import { ActivatedRoute, Router } from '@angular/router';
 import {
@@ -11,7 +11,7 @@ import {
 } from '@angular/forms';
 import { TripValidation } from '../../validations/TripValidation';
 import { toObservable } from '@angular/core/rxjs-interop';
-import { filter, Observable, take } from 'rxjs';
+import { filter, finalize, Observable, take } from 'rxjs';
 import { TripCreateDTO, TripResponseDTO, TripUpdateDTO } from '../../trip-models';
 import { SecurityStore } from '../../../security/services/security-store';
 
@@ -28,6 +28,7 @@ export class TripCreateEdit implements OnInit {
   private readonly router = inject(Router);
   private readonly fb = inject(FormBuilder);
   private readonly security = inject(SecurityStore);
+  private readonly cdr = inject(ChangeDetectorRef);
 
   public tripId: number | undefined;
   public isEditing: boolean = false;
@@ -57,11 +58,6 @@ export class TripCreateEdit implements OnInit {
     }
   );
 
-  // Usamos un effect() para reaccionar automáticamente a los cambios en la señal currentTrip del store.
-  // Cuando el store carga los datos del viaje (por ejemplo, al editar), el effect detecta ese cambio y actualiza
-  // el formulario con los valores del viaje correspondiente. Así evitamos tener que suscribirnos manualmente
-  // con toObservable() y manejar el ciclo de vida de la suscripción.
-
   public readonly patchEffect = effect(() => {
     const trip = this.store.currentTrip();
     if (trip && trip.id === this.tripId) {
@@ -89,26 +85,6 @@ export class TripCreateEdit implements OnInit {
       this.store.loadTripById(this.tripId);
     }
   }
-
-  /*
-  private handleDataPatching(): void {
-    toObservable(this.tripDetail$)
-      .pipe(take(1))
-      .subscribe((trip) => {
-        if (trip && trip.id === this.tripId) {
-          this.tripForm.patchValue({
-            name: trip.name,
-            destination: trip.destination,
-            estimatedBudget: trip.estimatedBudget,
-            companions: trip.companions,
-            startDate: trip.startDate,
-            endDate: trip.endDate,
-            sharedUserIds: trip.userIds.filter((id) => id !== this.security.getId()),
-          });
-        }
-      });
-  }*/
-
 
   onSubmit(): void {
     if (this.tripForm.invalid) {
@@ -148,14 +124,31 @@ export class TripCreateEdit implements OnInit {
       action$ = this.store.createTrip(createDto);
     }
 
-    action$.subscribe({
+    const observable$ = action$.pipe(
+          finalize(() => {
+            this.loading = false;
+            this.cdr.detectChanges();
+          })
+        );
+
+    observable$.subscribe({
       next: () => {
         alert('Viaje Guardado con exito');
         this.router.navigate(['/trips']);
+        this.cdr.detectChanges();
       },
-      error: (err) => {
-        this.errorMessage = err.error?.message || 'Error al guardar el viaje.';
+      error: (err: any) => {
         this.loading = false;
+
+        console.error('Error del Store:', err);
+
+        this.errorMessage =
+          err.userMessage ||
+          err.original?.error?.message ||
+          err.original?.message ||
+          err.original?.toString() ||
+          'Error desconocido.';
+          this.cdr.detectChanges();
       },
     });
   }

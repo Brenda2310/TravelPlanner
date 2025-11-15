@@ -9,6 +9,7 @@ import {
   RecommendationDTO,
 } from '../trip-models';
 import { BaseService } from '../../BaseService';
+import { catchError, throwError } from 'rxjs';
 
 @Injectable({
   providedIn: 'root',
@@ -32,11 +33,19 @@ export class TripService extends BaseService{
   }
 
   create(dto: TripCreateDTO) {
-    return this.http.post<TripResponseDTO>(this.api, dto);
+    return this.http.post<TripResponseDTO>(this.api, dto).pipe(
+          catchError((err) => {
+            return throwError(() => err);
+          })
+        );;
   }
 
   update(id: number, dto: TripUpdateDTO) {
-    return this.http.put<TripResponseDTO>(`${this.api}/${id}`, dto);
+    return this.http.put<TripResponseDTO>(`${this.api}/${id}`, dto).pipe(
+      catchError((err) => {
+        return throwError(() => err);
+      })
+    );;
   }
 
   delete(id: number){

@@ -7,6 +7,7 @@ import {
   CompanyUpdateDTO } 
   from '../company-models';
 import { BaseService } from '../../BaseService';
+import { catchError, throwError } from 'rxjs';
 
 @Injectable({
   providedIn: 'root'
@@ -35,11 +36,19 @@ export class CompanyService extends BaseService{
   }
 
   createCompany(dto: CompanyCreateDTO){
-    return this.http.post<EntityModel<CompanyResponseDTO>>(this.api, dto);
+    return this.http.post<EntityModel<CompanyResponseDTO>>(this.api, dto).pipe(
+          catchError((err) => {
+            return throwError(() => err);
+          })
+        );;
   }
 
   updateCompany(id: number, dto: CompanyUpdateDTO){
-    return this.http.put<EntityModel<CompanyResponseDTO>>(`${this.api}/${id}`, dto);
+    return this.http.put<EntityModel<CompanyResponseDTO>>(`${this.api}/${id}`, dto).pipe(
+      catchError((err) => {
+        return throwError(() => err);
+      })
+    );;
   }
 
   deleteCompany(id: number)  {
