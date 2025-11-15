@@ -187,6 +187,7 @@ export const routes: Routes = [
               authGuard([
                 'VER_ACTIVIDAD_EMPRESA',
                 'VER_ACTIVIDAD_USUARIO',
+                'VER_ACTIVIDAD',
                 'ROLE_ADMIN',
                 'ROLE_COMPANY',
                 'ROLE_USER',

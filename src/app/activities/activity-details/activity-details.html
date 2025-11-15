@@ -1,43 +1,43 @@
 <div class="activity-detail-page">
-    @if (store.loading()) {
-        <p>Cargando detalles de la actividad...</p>
-    } @else if (currentActivityDetail()) {
-        
-        <header>
-            <h1>{{ currentActivityDetail()!.name }}</h1>
-            <span class="category">{{ currentActivityDetail()!.category }}</span>
-        </header>
+  @if (store.loading()) {
+  <p>Cargando detalles de la actividad...</p>
+  } @else if (currentActivityDetail()) {
 
-        <section class="info-grid">
-            <p><strong>Precio:</strong> {{ currentActivityDetail()!.price | currency }}</p>
-            <p><strong>Fecha:</strong> {{ currentActivityDetail()!.date | date }}</p>
-            @if(currentActivityDetail()!.startTime && currentActivityDetail()!.endTime){
-            <p><strong>Duración:</strong> {{ currentActivityDetail()!.startTime }} - {{ currentActivityDetail()!.endTime }}</p>
-            }
-            
-            @if (currentActivityDetail()!.companyId) {
-                <p><strong>Organiza:</strong> {{ currentActivityDetail()!.companyId }}</p>
-                <p><strong>Cupos Disponibles:</strong> {{ currentActivityDetail()!.available_quantity }}</p>
-            }
-        </section>
+  <header>
+    <h1>{{ currentActivityDetail()!.name }}</h1>
+    <span class="category">{{ currentActivityDetail()!.category }}</span>
+  </header>
 
-        <section class="description">
-            <h3>Descripción</h3>
-            <p>{{ currentActivityDetail()!.description }}</p>
-        </section>
-
-        @if (currentActivityDetail()!.companyId) {
-        <button (click)="onBookActivity()" class="btn-primary">
-            Reservar Ahora
-        </button>
+  <section class="info-grid">
+    <p><strong>Precio:</strong> {{ currentActivityDetail()!.price | currency }}</p>
+    <p><strong>Fecha:</strong> {{ currentActivityDetail()!.date | date }}</p>
+    @if(currentActivityDetail()!.startTime && currentActivityDetail()!.endTime){
+    <p>
+      <strong>Duración:</strong> {{ currentActivityDetail()!.startTime }} -
+      {{ currentActivityDetail()!.endTime }}
+    </p>
+    } @if (currentActivityDetail()!.companyId) {
+    <p><strong>Organiza:</strong> {{ currentActivityDetail()!.companyId }}</p>
+    <p><strong>Cupos Disponibles:</strong> {{ currentActivityDetail()!.available_quantity }}</p>
     }
-    
+  </section>
 
-        @if (security.getId() === currentActivityDetail()?.companyId) {
-            <button (click)="toEdit(currentActivityDetail()?.id!)">Editar</button>
-        }
-        
-    } @else {
-        <p>No se pudo encontrar el detalle de la actividad.</p>
-    }
+  <section class="description">
+    <h3>Descripción</h3>
+    <p>{{ currentActivityDetail()!.description }}</p>
+  </section>
+
+  @if (currentActivityDetail()!.companyId) {
+  <button (click)="onBookActivity()" class="btn-primary">Reservar Ahora</button>
+  }
+   @if (security.auth().userId! === currentActivityDetail()!.companyId) {
+  <button (click)="toEdit(currentActivityDetail()?.id!)">Editar</button>
+  }
+  @if(currentActivityDetail()?.userIds?.includes(security.auth().userId!)){
+    <button (click)="toEdit(currentActivityDetail()?.id!)">Editar</button>
+  }
+
+} @else {
+  <p>No se pudo encontrar el detalle de la actividad.</p>
+  }
 </div>
