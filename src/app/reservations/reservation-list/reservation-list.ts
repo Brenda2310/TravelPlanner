@@ -36,9 +36,16 @@ export class ReservationList implements OnInit{
     if (reservation.urlPayment) {
       window.location.href = reservation.urlPayment;
     } else {
-      alert('No hay URL de pago disponible.');
+      
+      this.store.payReservation(reservation.id).subscribe();
     }
   }
+
+  pedirPaymentId(): number {
+    const input = prompt("Pegá acá el ID de la operacion que le dio Mercado Pago:");
+    return input ? Number(input) : 0;
+  }
+
 
   onConfirmPayment(reservationId: number, paymentId: number) {
   this.store.confirmPayment(reservationId, paymentId, this.pageable).subscribe();

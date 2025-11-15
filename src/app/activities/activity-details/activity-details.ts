@@ -30,7 +30,7 @@ export class ActivityDetails implements OnInit {
     }
   }
 
-  onBookActivity(): void {
+  /*onBookActivity(): void {
     const activity = this.currentActivityDetail();
     if (activity) {
       alert(`Iniciando proceso de reserva para ${activity.name}.`);
@@ -48,7 +48,22 @@ export class ActivityDetails implements OnInit {
         },
       });
     }
+  }*/
+
+    onBookActivity(): void {
+    const activity = this.currentActivityDetail();
+    if (!activity) return;
+
+    const dto: ReservationCreateDTO = { activityId: activity.id };
+
+    this.reservationStore.createReservation(dto).subscribe({
+      next: (reservation) => {
+        window.location.href = reservation.urlPayment;
+      },
+      error: (err) => console.error('Error al crear reserva:', err),
+    });
   }
+
 
   toEdit(id: number) {
     this.router.navigateByUrl(`/activities/${id}/edit`);

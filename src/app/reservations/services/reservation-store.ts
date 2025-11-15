@@ -125,6 +125,30 @@ export class ReservationStore extends BaseStore {
     );
   }
 
+  payReservation(reservationId: number) {
+    this._loading.set(true);
+    return this.client.payReservation(reservationId).pipe(
+      tap((paymentUrl) => {
+        // Actualizar la reserva con la URL de pago
+        this._reservation.update((state) => ({
+          ...state,
+          list: state.list.map((r) =>
+            r.id === reservationId ? { ...r, urlPayment: paymentUrl } : r
+          ),
+        }));
+        // Redirigir al usuario a la URL de pago
+        window.location.href = paymentUrl;
+        this._loading.set(false);
+      }),
+      catchError((err) => {
+        this._error.set(err.message ?? 'Store Error: Failed to generate payment URL.');
+        this._loading.set(false);
+        return EMPTY;
+      })
+    );
+  }
+
+
   cancelReservation(id: number): Observable<void> {
     this._loading.set(true);
     return this.client.cancelReservation(id).pipe(
