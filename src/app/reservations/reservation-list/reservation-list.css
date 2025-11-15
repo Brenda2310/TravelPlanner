@@ -1,3 +1,132 @@
-.reservations{
-    margin-top: 100px;
+:host {
+  display: block;
+  min-height: 100vh;
+  padding: 40px 16px 60px;
+  background: url('/eduard-pretsi-tXP7S07hDaY-unsplash.jpg') center/cover no-repeat fixed;
+  color: var(--font-color, #07494F);
+}
+
+.reservations {
+  max-width: 1000px;
+  margin: 0 auto;
+  margin-top: 100px;
+  background: var(--bg-glass, rgba(255, 255, 255, 0.9));
+  backdrop-filter: blur(18px);
+  -webkit-backdrop-filter: blur(18px);
+  border-radius: 18px;
+  border: 1px solid rgba(255, 255, 255, 0.45);
+  box-shadow: 0 10px 35px rgba(0, 0, 0, 0.18);
+  padding: 24px 22px 26px;
+}
+
+.title h2{
+    display: flex;
+    justify-content: center;
+    font-weight: 700;
+}
+
+.reservations > p {
+  margin: 0;
+  font-size: 0.95rem;
+  color: rgba(7, 73, 79, 0.9);
+}
+
+.error {
+  margin-top: 8px;
+  color: #b91c1c;
+  font-weight: 600;
+}
+
+.table {
+  width: 100%;
+  border-collapse: collapse;
+  margin-top: 30px;  
+  font-size: 0.92rem;
+}
+
+.table thead {
+  background: rgba(7, 73, 79, 0.06);
+}
+
+.table th,
+.table td {
+  padding: 10px 12px;
+  text-align: center;
+}
+
+.table th {
+  font-weight: 600;
+  color: rgba(7, 73, 79, 0.95);
+  border-bottom: 1px solid rgba(7, 73, 79, 0.15);
+}
+
+.table tbody tr:nth-child(even) {
+  background: rgba(7, 73, 79, 0.03);
+}
+
+.table tbody tr:hover {
+  background: rgba(14, 165, 233, 0.06);
+}
+
+.table td button {
+  font-size: 0.85rem;
+  padding: 7px 12px;
+  border-radius: 999px;
+  border: none;
+  cursor: pointer;
+  font-weight: 600;
+  margin-right: 6px;
+  transition:
+    transform 0.08s ease,
+    box-shadow 0.18s ease,
+    filter 0.15s ease;
+}
+
+.table td button:not(.on-pay):not(.on-confirm) {
+  background: #ffffff;
+  color: #b91c1c;
+  border: 1px solid rgba(185, 28, 28, 0.3);
+  box-shadow: 0 4px 10px rgba(0, 0, 0, 0.15);
+}
+
+.on-pay {
+  background: #0C7489;
+  color: #ffffff;
+  box-shadow: 0 6px 16px rgba(0, 0, 0, 0.22);
+}
+
+.on-confirm {
+  background: #10b981;
+  color: #ffffff;
+  box-shadow: 0 6px 16px rgba(0, 0, 0, 0.22);
+}
+
+.table td button:hover:not(:disabled) {
+  transform: translateY(-1px);
+  filter: brightness(1.05);
+}
+
+.table td button:disabled {
+  opacity: 0.5;
+  cursor: not-allowed;
+  box-shadow: none;
+}
+
+@media (max-width: 768px) {
+  .reservations {
+    padding: 18px 14px 20px;
+  }
+
+  .table {
+    font-size: 0.85rem;
+  }
+
+  .table th,
+  .table td {
+    padding: 8px 6px;
+  }
+
+  .table td button {
+    margin-bottom: 4px;
+  }
 }

@@ -11,7 +11,9 @@
         <section class="info-grid">
             <p><strong>Precio:</strong> {{ currentActivityDetail()!.price | currency }}</p>
             <p><strong>Fecha:</strong> {{ currentActivityDetail()!.date | date }}</p>
+            @if(currentActivityDetail()!.startTime && currentActivityDetail()!.endTime){
             <p><strong>Duración:</strong> {{ currentActivityDetail()!.startTime }} - {{ currentActivityDetail()!.endTime }}</p>
+            }
             
             @if (currentActivityDetail()!.companyId) {
                 <p><strong>Organiza:</strong> {{ currentActivityDetail()!.companyId }}</p>
