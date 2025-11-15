@@ -1,7 +1,7 @@
 import { inject, Injectable, signal } from '@angular/core';
 import { BaseStore } from '../../BaseStore';
 import { ItineraryService } from './itinerary-service';
-import { Observable, tap, catchError, EMPTY } from 'rxjs';
+import { Observable, tap, catchError, EMPTY, throwError, finalize } from 'rxjs';
 import { CollectionState, PaginationInfo, Pageable } from '../../hateoas/hateoas-models';
 import {
   ItineraryCreateDTO,
@@ -9,6 +9,7 @@ import {
   ItineraryResponseDTO,
   ItineraryUpdateDTO,
 } from '../itinerary-models';
+import { HttpErrorResponse } from '@angular/common/http';
 
 @Injectable({
   providedIn: 'root',
@@ -116,13 +117,25 @@ export class ItineraryStore extends BaseStore {
         }));
         this._loading.set(false);
       }),
-      catchError((err) => {
-        this._error.set(err.message ?? 'Store Error: Failed to create itinerary.');
+      catchError((err: HttpErrorResponse) => {
+        let userMessage = 'Error desconocido al crear el Itinerario.';
+        if (err.error && typeof err.error === 'object') {
+          userMessage = err.error.message || err.error.error || userMessage;
+        } else if (typeof err.error === 'string') {
+          userMessage = err.error;
+        } else if (err.status) {
+          if (err.status === 404) userMessage = 'El recurso solicitado no fue encontrado.';
+          else if (err.status === 403)
+            userMessage = 'Acceso denegado. No tiene permisos para esta acción.';
+        }
+
+        this._error.set(userMessage);
+        return throwError(() => ({ userMessage, original: err }));
+      }),
+      finalize(() => {
         this._loading.set(false);
-        return EMPTY;
       })
-    );
-  }
+  )}
 
   updateItinerary(id: number, dto: ItineraryUpdateDTO): Observable<ItineraryResponseDTO> {
     this._loading.set(true);
@@ -137,10 +150,23 @@ export class ItineraryStore extends BaseStore {
         }
         this._loading.set(false);
       }),
-      catchError((err) => {
-        this._error.set(err.message ?? 'Store Error: Failed to update itinerary.');
+      catchError((err: HttpErrorResponse) => {
+        let userMessage = 'Error desconocido al crear el Itinerario.';
+        if (err.error && typeof err.error === 'object') {
+          userMessage = err.error.message || err.error.error || userMessage;
+        } else if (typeof err.error === 'string') {
+          userMessage = err.error;
+        } else if (err.status) {
+          if (err.status === 404) userMessage = 'El recurso solicitado no fue encontrado.';
+          else if (err.status === 403)
+            userMessage = 'Acceso denegado. No tiene permisos para esta acción.';
+        }
+
+        this._error.set(userMessage);
+        return throwError(() => ({ userMessage, original: err }));
+      }),
+      finalize(() => {
         this._loading.set(false);
-        return EMPTY;
       })
     );
   }

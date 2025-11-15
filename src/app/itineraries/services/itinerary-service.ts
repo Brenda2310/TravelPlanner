@@ -8,6 +8,7 @@ import {
   ItineraryUpdateDTO } 
   from '../itinerary-models'; 
 import { BaseService } from '../../BaseService';
+import { catchError, throwError } from 'rxjs';
 
 @Injectable({
   providedIn: 'root'
@@ -18,7 +19,11 @@ export class ItineraryService extends BaseService{
   private readonly api = 'http://localhost:8080/itineraries';
 
   createItinerary(dto: ItineraryCreateDTO){
-    return this.http.post<ItineraryResponseDTO>(this.api, dto);
+    return this.http.post<ItineraryResponseDTO>(this.api, dto).pipe(
+      catchError((err) => {
+        return throwError(() => err);
+      })
+    );;
   }
 
   getAllItineraries(pageable: Pageable){
@@ -41,7 +46,11 @@ export class ItineraryService extends BaseService{
   }
 
   updateItinerary(id: number, dto: ItineraryUpdateDTO){
-    return this.http.put<ItineraryResponseDTO>(`${this.api}/${id}`, dto);
+    return this.http.put<ItineraryResponseDTO>(`${this.api}/${id}`, dto).pipe(
+          catchError((err) => {
+            return throwError(() => err);
+          })
+        );;
   }
 
   deleteItinerary(id: number) {

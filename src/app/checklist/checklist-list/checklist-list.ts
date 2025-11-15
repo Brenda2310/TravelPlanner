@@ -40,7 +40,6 @@ export class ChecklistList implements OnInit {
 
   loadChecklists() {
     const filters: CheckListFilterDTO = {
-      completed: false,
       active: true,
     };
     if (this.mode === 'admin-all') {

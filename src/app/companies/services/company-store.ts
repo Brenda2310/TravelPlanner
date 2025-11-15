@@ -112,7 +112,7 @@ export class CompanyStore extends BaseStore {
         this._loading.set(false);
       }),
       catchError((err: HttpErrorResponse) => {
-        let userMessage = 'Error desconocido al crear la actividad.';
+        let userMessage = 'Error desconocido al crear la empresa.';
         if (err.error && typeof err.error === 'object') {
           userMessage = err.error.message || err.error.error || userMessage;
         } else if (typeof err.error === 'string') {
@@ -147,10 +147,23 @@ export class CompanyStore extends BaseStore {
         }
         this._loading.set(false);
       }),
-      catchError((err) => {
-        this._error.set(err.message ?? 'Store Error: Failed to update company.');
+      catchError((err: HttpErrorResponse) => {
+        let userMessage = 'Error desconocido al crear la empresa.';
+        if (err.error && typeof err.error === 'object') {
+          userMessage = err.error.message || err.error.error || userMessage;
+        } else if (typeof err.error === 'string') {
+          userMessage = err.error;
+        } else if (err.status) {
+          if (err.status === 404) userMessage = 'El recurso solicitado no fue encontrado.';
+          else if (err.status === 403)
+            userMessage = 'Acceso denegado. No tiene permisos para esta acción.';
+        }
+
+        this._error.set(userMessage);
+        return throwError(() => ({ userMessage, original: err }));
+      }),
+      finalize(() => {
         this._loading.set(false);
-        return EMPTY;
       })
     );
   }
