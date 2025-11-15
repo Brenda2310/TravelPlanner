@@ -57,7 +57,6 @@
   </div>
   </div>
 
-    <!-- Presupuesto y acompañantes -->
     <div class="trip-row">
       <div class="trip-field">
         <label for="estimatedBudget">Presupuesto estimado (*)</label>
@@ -76,9 +75,21 @@
       </div>
     </div>
 
-    <!-- Compartir IDs -->
     <div class="trip-share">
-      <label>Compartir con usuarios (TravelCode):</label>
+
+  <div class="share-label-row">
+    <label>Compartir con usuarios (TravelCode):</label>
+
+    <button 
+      type="button"
+      class="help-icon-inline"
+      (click)="openTravelCodeInfo()"
+      aria-label="¿Qué es el TravelCode?"
+    >
+      ?
+    </button>
+  </div>
+
 
       <div class="share-list">
         @for (id of sharedUserIdsArray; track $index) {
@@ -97,7 +108,6 @@
       </div>
     </div>
 
-    <!-- Botón -->
      <div class="buttons">
     <button type="submit" [disabled]="tripForm.invalid || loading" class="trip-button">
       @if (loading) { Guardando... } @else {
@@ -107,5 +117,27 @@
     <button type="reset" class="trip-button">Borrar</button>
     </div>
   </form>
+
+
+  @if(showTravelCodeInfo()) {
+  <div class="modal-overlay" (click)="closeTravelCodeInfo()">
+    <div class="modal-card" (click)="$event.stopPropagation()">
+      <h3>¿Qué es el TravelCode?</h3>
+      <p>
+        El <strong>TravelCode</strong> es un código único que identifica a cada usuario
+        en TravelPlanner. Si lo agregás, vas a poder compartir este viaje, y tambien sus actividades
+        y gastos con esa/s persona/s si asi lo deseas. 
+      </p>
+      <p>
+        Podés encontrar tu propio TravelCode en la sección
+        <strong>"Mi perfil"</strong>, y compartirlo con otros para que te agreguen.
+      </p>
+
+      <button type="button" class="modal-close-btn" (click)="closeTravelCodeInfo()">
+        Entendido
+      </button>
+    </div>
+  </div>
+}
 </div>
 </div>

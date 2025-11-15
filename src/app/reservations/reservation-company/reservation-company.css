@@ -1,0 +1,84 @@
+:host {
+  display: block;
+  min-height: 100vh;
+  padding: 40px 16px 60px;
+  background: url('/eduard-pretsi-tXP7S07hDaY-unsplash.jpg') center/cover no-repeat fixed;
+  color: var(--font-color, #07494F);
+}
+
+.reservation-company {
+  max-width: 980px;
+  margin: 60px auto 40px;
+  padding: 26px 24px 26px;
+  background: var(--bg-glass, rgba(255, 255, 255, 0.9));
+  backdrop-filter: blur(18px);
+  -webkit-backdrop-filter: blur(18px);
+  border-radius: 18px;
+  border: 1px solid rgba(255, 255, 255, 0.45);
+  box-shadow: 0 10px 35px rgba(0, 0, 0, 0.18);
+}
+
+.reservation-company p {
+  text-align: center;
+  font-size: 0.95rem;
+  color: rgba(7, 73, 79, 0.9);
+}
+
+.error {
+  margin-top: 10px;
+  padding: 8px 12px;
+  border-radius: 10px;
+  background: rgba(220, 38, 38, 0.08);
+  border: 1px solid rgba(220, 38, 38, 0.3);
+  color: #991b1b;
+  font-size: 0.9rem;
+  text-align: center;
+}
+
+
+.table {
+  width: 100%;
+  border-collapse: collapse;
+  margin-top: 20px;
+  background: rgba(255, 255, 255, 0.92);
+  border-radius: 14px;
+  overflow: hidden;
+  box-shadow: 0 6px 18px rgba(0, 0, 0, 0.12);
+}
+
+.table thead {
+  background: rgba(7, 73, 79, 0.1);
+}
+
+.table th {
+  padding: 14px 10px;
+  text-align: center;
+  font-weight: 600;
+  color: rgba(7, 73, 79, 0.96);
+  font-size: 0.9rem;
+}
+
+.table td {
+  padding: 12px 8px;
+  text-align: center;
+  font-size: 0.92rem;
+  color: rgba(7, 73, 79, 0.85);
+  border-bottom: 1px solid rgba(7, 73, 79, 0.08);
+}
+
+.table tr:last-child td {
+  border-bottom: none;
+}
+
+@media (max-width: 768px) {
+  .reservation-company {
+    padding: 20px 14px 20px;
+    margin-top: 40px;
+  }
+
+  .table th,
+  .table td {
+    padding: 10px 6px;
+    font-size: 0.83rem;
+  }
+}

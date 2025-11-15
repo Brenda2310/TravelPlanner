@@ -253,6 +253,118 @@
   box-shadow: 0 4px 14px rgba(0,0,0,.08);
 }
 
+.label-with-help {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+}
+
+.help-icon-btn {
+  width: 22px;
+  height: 22px;
+  border-radius: 999px;
+  border: 1px solid rgba(7, 73, 79, 0.4);
+  background: #ffffff;
+  color: #07494F;
+  font-weight: 700;
+  font-size: 0.85rem;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+  padding: 0;
+  box-shadow: 0 3px 8px rgba(0,0,0,0.12);
+  transition:
+    transform 0.08s ease,
+    box-shadow 0.18s ease,
+    background 0.15s ease;
+}
+
+.help-icon-btn:hover {
+  transform: translateY(-1px);
+  background: rgba(255,255,255,0.95);
+  box-shadow: 0 5px 12px rgba(0,0,0,0.18);
+}
+
+.modal-overlay {
+  position: fixed;
+  inset: 0;
+  background: rgba(0,0,0,0.45);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  z-index: 50;
+}
+
+.modal-card {
+  max-width: 420px;
+  width: 90%;
+  background: #ffffff;
+  border-radius: 16px;
+  padding: 20px 18px 18px;
+  box-shadow: 0 18px 45px rgba(0,0,0,0.3);
+  color: #07494F;
+}
+
+.modal-card h3 {
+  margin: 0 0 8px;
+  font-size: 1.1rem;
+  font-weight: 600;
+}
+
+.modal-card p {
+  margin: 4px 0;
+  font-size: 0.95rem;
+  line-height: 1.4;
+  text-align: justify;
+}
+
+.modal-close-btn {
+  margin-top: 12px;
+  padding: 8px 16px;
+  border-radius: 999px;
+  border: none;
+  background: #0C7489;
+  color: #ffffff;
+  font-weight: 600;
+  cursor: pointer;
+  display: inline-block;
+}
+
+.share-label-row {
+  display: flex;
+  align-items: center;
+  gap: 8px;           
+  margin-bottom: 8px;  
+}
+
+.share-label-row label {
+  font-weight: 600;
+  color: var(--font-color, #07494F);
+}
+
+.help-icon-inline {
+  width: 24px;
+  height: 24px;
+  border-radius: 50%;
+  border: 1px solid rgba(7, 73, 79, 0.3);
+  background: white;
+  cursor: pointer;
+  font-size: 14px;
+  font-weight: 700;
+  color: var(--font-color, #07494F);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  transition: 0.2s;
+}
+
+.help-icon-inline:hover {
+  background: rgba(7, 73, 79, 0.1);
+}
+
+
+
 @media (max-width: 768px) {
   :host {
     padding: 32px 16px;
