@@ -28,6 +28,10 @@
 
         @if (!r.paid && r.urlPayment && r.status !== 'CANCELLED') {
         <button class="on-pay" (click)="onPay(r)">Ir a pagar</button>
+
+        <button class="on-confirm" (click)="onConfirmPayment(r.id, pedirPaymentId())">
+        Verificar pago
+      </button>
         }
       </td>
     </tr>

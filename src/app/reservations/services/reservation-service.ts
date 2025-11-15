@@ -31,6 +31,10 @@ export class ReservationService extends BaseService{
     return this.http.put<void>(`${this.api}/${id}/cancel`, null); 
   }
 
+  payReservation(reservationId: number) {
+  return this.http.post<string>(`${this.api}/${reservationId}/pay`, null, { responseType: 'text' as 'json' });
+}
+
   getAllReservations(pageable: Pageable) {
     const params = this.buildParams(pageable);
     return this.http.get<PagedModel<ReservationResponseDTO>>(`${this.api}`, { params });
