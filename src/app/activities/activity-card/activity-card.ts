@@ -14,6 +14,9 @@ export class ActivityCard {
   private readonly router = inject(Router);
   @Input() activity!: ActivityCompanyResponseDTO;
   @Output() reservate = new EventEmitter<number>();
+  @Input() type: 'user' | 'company' = 'user';
+
+
 
   onAdd(): void {
     this.reservate.emit(this.activity.id);

@@ -45,7 +45,7 @@ export class TripCreateEdit implements OnInit {
       destination: ['', [Validators.required, Validators.maxLength(100)]],
       estimatedBudget: [null as number | null,
       [Validators.required, Validators.min(0)]],
-      companions:[new FormControl<number | null>(null), [TripValidation.optionalMinValidator(0)]],
+      companions:[null as number | null, Validators.min(0)],
 
       startDate: ['', [Validators.required]],
       endDate: ['', Validators.required],

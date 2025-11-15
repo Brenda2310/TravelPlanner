@@ -3,22 +3,9 @@
 
     <app-activity-card
       class="activity-card-wrapper"
-      [activity]="activity">
-
-      <button 
-        class="btn-secondary details-btn from-list"
-        (click)="toDetails(activity.id)">
-        Ver Detalles
-      </button>
-
-      @if (type === 'company') {
-        <button 
-          class="btn-primary reserve-btn from-list"
-          (click)="onReservate(activity.id)">
-          Reservar
-        </button>
-      }
-
+      [activity]="activity"
+      [type]="type"
+      (reservate)="reservate.emit($event)">
     </app-activity-card>
 
   }

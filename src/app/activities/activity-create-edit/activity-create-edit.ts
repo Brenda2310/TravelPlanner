@@ -47,8 +47,8 @@ export class ActivityCreateEdit implements OnInit {
     description: ['', [Validators.required, Validators.maxLength(500)]],
     category: ['', [Validators.required]],
     date: ['', [Validators.required]],
-    startTime: ['', [Validators.required]],
-    endTime: ['', [Validators.required]],
+    startTime: [''],
+    endTime: [''],
     price: [0, [Validators.required, Validators.min(0)]],
 
     available_quantity: [null as number | null],

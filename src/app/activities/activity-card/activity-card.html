@@ -2,6 +2,10 @@
   <h3 class="activity-title">{{ activity.name }}</h3>
   <p class="activity-category">{{ activity.category }}</p>
   <p class="activity-price">{{ activity.price | currency:'ARS' }}</p>
-  <button class="btn-primary reservate-btn" (click)="onAdd()">Reservar</button>
+
+  @if (type === 'company') {
+    <button class="btn-primary reservate-btn" (click)="onAdd()">Reservar</button>
+  }
+
   <button class="btn-secondary details-btn" (click)="toDetails()">Ver Detalles</button>
 </div>
