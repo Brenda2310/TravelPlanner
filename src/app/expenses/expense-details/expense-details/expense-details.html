@@ -12,7 +12,9 @@
                 <p><strong>Monto: </strong> ${{ exp?.amount }}</p>
                 <p><strong>Categoria: </strong>{{ exp?.category }}</p>
                 <p><strong>Fecha: </strong>{{ exp?.date }}</p>
+                @if(exp?.description){
                 <p><strong>Descripción: </strong>{{ exp?.description }}</p>
+                }
             </div>
 
             @if (exp?.tripId) {

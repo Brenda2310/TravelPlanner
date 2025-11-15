@@ -160,11 +160,12 @@ export class ExpenseStore extends BaseStore{
     }
 
     loadTotalExpensesByTrip(tripId: number): void {
-        this.client.getTotalExpensesByTrip(tripId).subscribe({
-            next: (total) => this._calculations.update(c => ({ ...c, total: total })),
-            error: (err) => console.error('Error fetching total expenses by trip:', err),
-        });
+    this.client.getTotalExpensesByTrip(tripId).subscribe({
+    next: (total) => this._calculations.update(c => ({ ...c, realTotal: total })), 
+    error: (err) => console.error('Error fetching total expenses by trip:', err),
+    });
     }
+
 
     loadTotalRealExpensesByUser(userId: number): void {
         this.client.getTotalRealExpensesByUser(userId).subscribe({
@@ -253,5 +254,4 @@ export class ExpenseStore extends BaseStore{
             })
         );
     }
-  
 }

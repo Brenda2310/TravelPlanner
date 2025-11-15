@@ -1,84 +1,108 @@
-<div class="expense-list-container">
-    <h2>Mis gastos</h2>
+<div class="expenses-page">
 
-    <div class="expenses-metrics-container">
-        <div class="expense-metric-card">
-            <h4>Promedio general</h4>
-            <p>$ {{ store.calculations().average ?? 0 }}</p>
-        </div>
-
-        <div class="expense-metric-card">
-            <h4>Promedio real</h4>
-            <p>$ {{ store.calculations().realAverage }}</p>
-        </div>
-
-        <div class="expense-metric-card">
-            <h4>Total real gastado</h4>
-            <p>$ {{ store.calculations().realTotal ?? 0 }}</p>
-        </div>
+    <div class="title">
+        <h2 class="expenses-title">Mis gastos</h2>
     </div>
 
-
-    @if (store.expense().list.length !== 0) {
-        <div class="create">
-            <a routerLink="/expenses/create" class="btn-primary"> + Agregar Nuevo Gasto</a>
-        </div>
+     @if (store.expense().list.length !== 0) {
+      <div class="create">
+        <a routerLink="/expenses/create" class="btn-primary">+ Agregar Nuevo Gasto</a>
+      </div>
     }
 
+  <div class="expenses-filters-card">
     <form [formGroup]="filtersForm" (ngSubmit)="onApplyFilters()" class="filter-form">
-        <label>
-            <select id="category" formControlName="category" class="form-input">
-                <option value="" disabled>Selecciona una categoría</option>
-                    @for (cat of categories; track cat) {
-                        <option [ngValue]="cat">{{ cat }}</option>
-                    }
-            </select>
-        </label>
-        <label>
-            Desde:
-            <input type="date" formControlName="startDate">
-        </label>
-        <label>
-            Hasta:
-            <input type="date" formControlName="endDate">
-        </label>
 
-        <button type="submit">Aplicar filtros</button>
-        <button type="button" (click)="clearFilters()">Limpiar filtros</button>
-    </form>
-
-    @if (store.loading()) {
-        <p>Cargando gastos...</p>
-    }@else {
-        @if (store.expense().list.length === 0) {
-            <div class="no-expenses">
-                <p>No hay gastos registrados.</p>
-                <a routerLink="/expenses/create" class="btn btn-primary"> Agregar Nuevo Gasto</a>
-            </div>
-        }@else {
-            <div class="expense-grid">
-                @for (item of store.expense().list; track item.id) {
-                    <div class="expense-card">
-                        <div class="expense-header">
-                            <span>{{ item.date }}</span>
-                            <span> {{ item.category }}</span>
-                        </div>
-                        <p>{{ item.description }}</p>
-                        <p>Monto: ${{ item.amount }}</p>
-
-                        <div class="expense-actions">
-                            <button (click)="toDetails(item.id)">Ver Detalles</button>
-                            <button (click)="onDelete(item.id)">Eliminar</button>
-                        </div>
-                    </div>
-                }
-            </div>
-        }
+    <div class="filter-item">
+        <select formControlName="tripId">
+        <option value="">Todos los viajes</option>
+        @for (trip of tripStore.trips().list; track trip.id) {
+        <option [value]="trip.id">{{ trip.name }}</option>
     }
-
-    <app-pagination
-    [currentPage]="store.expense().pageInfo.currentPage"
-    [totalPages]="store.expense().pageInfo.totalPages"
-    (pageChange)="onPageChange($event)">
-    </app-pagination>
+  </select>
 </div>
+  <div class="filter-item">
+    <select id="category" formControlName="category">
+      <option value="">Todas las categorías</option>
+      @for (cat of categories; track cat) {
+        <option [ngValue]="cat">{{ cat }}</option>
+      }
+    </select>
+  </div>
+
+  <div class="filter-item">
+    <span class="filter-label">Desde:</span>
+    <input type="date" formControlName="startDate">
+  </div>
+
+  <div class="filter-item">
+    <span class="filter-label">Hasta:</span>
+    <input type="date" formControlName="endDate">
+  </div>
+
+  <div class="filter-actions">
+    <button type="submit" class="btn-primary">Aplicar filtros</button>
+    <button type="button" class="btn-secondary" (click)="clearFilters()">Limpiar filtros</button>
+  </div>
+
+</form>
+
+  </div>
+
+  <div class="expense-list-container">
+
+  <div class="expenses-metrics-container">
+  <div class="expense-metric-card">
+    <h4>Promedio sin dividir</h4>
+    <p>$ {{ store.calculations().average | number:'1.2-2' }}</p>
+  </div>
+
+  <div class="expense-metric-card">
+    <h4>Promedio compartido</h4>
+    <p>$ {{ store.calculations().realAverage | number:'1.2-2' }}</p>
+  </div>
+
+  <div class="expense-metric-card">
+    <h4>Total real gastado</h4>
+    <p>$ {{ store.calculations().realTotal | number:'1.2-2' }}</p>
+  </div>
+</div>
+
+</div> 
+
+@if (!store.loading() && store.expense().list.length > 0) {
+  <div class="expense-grid">
+    @for (item of store.expense().list; track item.id) {
+      <div class="expense-card">
+        <div class="expense-header">
+          <span>{{ item.date }}</span>
+          <span>{{ item.category }}</span>
+        </div>
+        <p>Monto: ${{ item.amount }}</p>
+
+        <div class="expense-actions">
+          <button (click)="toDetails(item.id)">Ver Detalles</button>
+          <button (click)="onDelete(item.id)">Eliminar</button>
+        </div>
+      </div>
+    }
+  </div>
+}
+
+@if (store.loading()) {
+  <p class="loading-text">Cargando gastos...</p>
+}
+
+@if (!store.loading() && store.expense().list.length === 0) {
+  <div class="no-expenses">
+    <p>No hay gastos registrados.</p>
+    <a routerLink="/expenses/create" class="btn-primary">Agregar Nuevo Gasto</a>
+  </div>
+}
+
+<app-pagination
+  [currentPage]="store.expense().pageInfo.currentPage"
+  [totalPages]="store.expense().pageInfo.totalPages"
+  (pageChange)="onPageChange($event)">
+</app-pagination>
+  </div>
