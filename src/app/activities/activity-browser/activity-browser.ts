@@ -41,13 +41,23 @@ export class ActivityBrowser implements OnInit{
     });
 
   ngOnInit(): void {
-        this.loadActivities();
+        this.loadCompanyActivities();
+        this.loadUserActivities();
     }
 
-    loadActivities(): void {
+    loadCompanyActivities(): void {
         const filters: CompanyActivityFilterParams = this.filterForm.value as CompanyActivityFilterParams;
         
         this.store.loadAllCompanyActivities(this.pageable, filters);
+    }
+
+    loadUserActivities(): void{
+      const userId = this.security.getId();
+      if(!userId){
+        return;
+      }
+      this.store.loadActivitiesByUserId(userId, {}, this.pageable);
+
     }
     
     onApplyFilters(filters: CompanyActivityFilterParams): void {
@@ -57,7 +67,7 @@ export class ActivityBrowser implements OnInit{
 
     onPageChange(newPage: number): void {
         this.pageable.page = newPage;
-        this.loadActivities();
+        this.loadCompanyActivities();
     }
     
     reservate(activityId: number): void {

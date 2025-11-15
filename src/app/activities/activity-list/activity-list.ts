@@ -1,5 +1,5 @@
 import { Component, EventEmitter, inject, Input, Output } from '@angular/core';
-import { ActivityCompanyResponseDTO } from '../activity-models';
+import { ActivityCompanyResponseDTO, ActivityCreateResponseDTO, ActivityResponseDTO, ActivityUpdateDTO } from '../activity-models';
 import { ActivityCard } from "../activity-card/activity-card";
 import { Pagination } from "../../hateoas/Pagination/pagination/pagination";
 import { Router } from '@angular/router';
@@ -15,7 +15,10 @@ import { ReservationStore } from '../../reservations/services/reservation-store'
 export class ActivityList {
   private readonly router = inject(Router);
   private readonly reservationStore = inject(ReservationStore);
-  @Input() activities: ActivityCompanyResponseDTO[] = [];
+
+  @Input() activities: any[] = []; 
+  @Input() type: 'user' | 'company' = 'company';
+
   @Output() reservate = new EventEmitter<number>();
 
   toDetails(id: number){
@@ -30,5 +33,4 @@ export class ActivityList {
       error: (err) => console.error('Error al crear reserva:', err),
     });
   }
-
 }
