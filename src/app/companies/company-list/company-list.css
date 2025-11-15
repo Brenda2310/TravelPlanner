@@ -1,17 +1,145 @@
-.company-list-container{
-    margin-top: 100px;
+:host {
+  display: block;
+  min-height: 100vh;
+  padding: 40px 16px 60px;
+  background: url('/eduard-pretsi-tXP7S07hDaY-unsplash.jpg') center/cover no-repeat fixed;
+  color: var(--font-color, #07494F);
 }
 
-.btn-primary{
-  background:var(--primary-color,#0ea5e9); 
-  color:#fff; border:none; 
-  border-radius:12px;
-  padding:10px 18px; 
-  font-weight:700; 
-  cursor:pointer; 
-  text-decoration:none;
-  transition:filter .15s ease, transform .02s ease;
+.company-list-container {
+  max-width: 1100px;
+  margin: 0 auto;
+  margin-top: 70px;
+  padding: 28px 24px;
+  background: var(--bg-glass, rgba(255, 255, 255, 0.9));
+  backdrop-filter: blur(18px);
+  -webkit-backdrop-filter: blur(18px);
+  border-radius: 18px;
+  border: 1px solid rgba(255,255,255,0.45);
+  box-shadow: 0 10px 35px rgba(0,0,0,0.18);
 }
-.btn-primary:hover{ 
-  filter:brightness(1.05) 
+
+.company-list-container h2 {
+  text-align: center;
+  margin-bottom: 18px;
+  font-size: clamp(1.6rem, 1.2rem + 1vw, 2rem);
+  font-weight: 700;
+  color: var(--font-color);
+}
+
+.create {
+  display: flex;
+  justify-content: flex-end;
+  margin-bottom: 14px;
+}
+
+.btn-primary {
+  display: inline-block;
+  padding: 10px 18px;
+  border-radius: 999px;
+  background-color: var(--primary-color, #0ea5e9);
+  color: #fff;
+  font-weight: 600;
+  font-size: 0.95rem;
+  text-decoration: none;
+  transition: transform .08s ease, box-shadow .18s ease;
+}
+
+.btn-primary:hover {
+  transform: translateY(-1px);
+  box-shadow: 0 6px 18px rgba(0,0,0,0.2);
+}
+
+.empty-state {
+  text-align: center;
+  padding: 24px 0;
+}
+
+.empty-state h3 {
+  font-size: 1.2rem;
+  font-weight: 600;
+}
+
+.no-trips p {
+  margin-top: 8px;
+  color: rgba(7,73,79,0.8);
+  font-size: 0.95rem;
+}
+
+.company-table {
+  width: 100%;
+  border-collapse: collapse;
+  margin-top: 12px;
+  font-size: 0.95rem;
+  text-align: center;
+}
+
+.company-table thead {
+  background: rgba(7, 73, 79, 0.05);
+}
+
+.company-table th,
+.company-table td {
+  padding: 12px 10px;
+  border-bottom: 1px solid rgba(7, 73, 79, 0.12);
+}
+
+.company-table th {
+  font-weight: 600;
+  color: rgba(7,73,79,0.95);
+}
+
+.company-table tbody tr:nth-child(even) {
+  background: rgba(7,73,79,0.03);
+}
+
+.company-table tbody tr:hover {
+  background: rgba(7,73,79,0.08);
+}
+
+.company-table td button {
+  padding: 8px 14px;
+  border-radius: 999px;
+  border: none;
+  cursor: pointer;
+  font-weight: 600;
+  margin: 0 4px;
+  transition: transform .08s ease, filter .15s ease;
+}
+
+.company-table td button:not(.btn-delete) {
+  background: #0C7489;
+  color: #fff;
+}
+
+.btn-delete {
+  background: #fff;
+  color: #b91c1c;
+  border: 1px solid rgba(185, 28, 28, 0.3);
+}
+
+.company-table td button:hover {
+  transform: translateY(-1px);
+  filter: brightness(1.05);
+}
+
+app-pagination {
+  margin-top: 18px;
+  display: flex;
+  justify-content: center;
+}
+
+@media (max-width: 768px) {
+  .company-list-container {
+    padding: 20px 16px;
+  }
+
+  .company-table th, .company-table td {
+    padding: 8px 6px;
+    font-size: 0.85rem;
+  }
+
+  .company-table td button {
+    margin-bottom: 6px;
+  }
 }

@@ -28,7 +28,7 @@
       <p class="nombre">— Agregar actividad</p>
 
       @if (isAuthenticated()) {
-        <button (click)="router.navigate(['/actividades/crear'])">Planificar actividad</button>
+        <button (click)="router.navigate(['/activities/create'])">Planificar actividad</button>
       }
     </div>
 
@@ -38,7 +38,7 @@
       <p class="nombre">— Crear checklist</p>
 
       @if (isAuthenticated()) {
-        <button (click)="router.navigate(['/checklists/crear'])">Preparar lista</button>
+        <button (click)="router.navigate(['/checklists/create'])">Preparar lista</button>
       }
     </div>
 
@@ -48,7 +48,7 @@
       <p class="nombre">— Control de gastos</p>
 
       @if (isAuthenticated()) {
-        <button (click)="router.navigate(['/gastos/crear'])">Controlar gastos</button>
+        <button (click)="router.navigate(['/expenses/create'])">Controlar gastos</button>
       }
     </div>
   </div>
