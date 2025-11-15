@@ -60,7 +60,7 @@ h2 {
   background: var(--primary-color, #0ea5e9);
   color: #fff;
   border: none;
-  border-radius: 12px;
+  border-radius: 999px;
   padding: 10px 16px;
   font-weight: 700;
   cursor: pointer;

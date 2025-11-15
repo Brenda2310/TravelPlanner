@@ -1,8 +1,7 @@
-<div class="activity-card">
-  <h3>{{ activity.name }}</h3>
-  <p>{{ activity.category }}</p>
-  <p>{{ activity.price | currency:'ARS' }}</p>
-  <button (click)="onAdd()">Reservar</button>
-  <button (click)="toDetails()">Ver Detalles</button>
+<div class="activity-card card">
+  <h3 class="activity-title">{{ activity.name }}</h3>
+  <p class="activity-category">{{ activity.category }}</p>
+  <p class="activity-price">{{ activity.price | currency:'ARS' }}</p>
+  <button class="btn-primary reservate-btn" (click)="onAdd()">Reservar</button>
+  <button class="btn-secondary details-btn" (click)="toDetails()">Ver Detalles</button>
 </div>
-

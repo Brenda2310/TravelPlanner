@@ -1,0 +1,102 @@
+.activity-card,
+.card {
+  background: var(--bg-glass, rgba(255, 255, 255, 0.9));
+  border-radius: 16px;
+  border: 1px solid rgba(255, 255, 255, 0.45);
+  box-shadow: 0 8px 24px rgba(0, 0, 0, 0.18);
+  padding: 18px 18px 16px;
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+  transition:
+    transform 0.12s ease,
+    box-shadow 0.18s ease;
+}
+
+.activity-card:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 12px 28px rgba(0, 0, 0, 0.22);
+}
+
+.activity-title {
+  margin: 0 0 4px;
+  font-size: 1.05rem;
+  font-weight: 700;
+  color: #07494F;
+}
+
+.activity-category {
+  margin: 0;
+  font-size: 0.9rem;
+  color: rgba(7, 73, 79, 0.7);
+}
+
+.activity-price {
+  margin: 2px 0 8px;
+  font-size: 1rem;
+  font-weight: 600;
+  color: #07494f;
+}
+
+.btn-primary,
+.reservate-btn {
+  background: linear-gradient(135deg, #07494f, #33696f);
+  color: #ffffff;
+  border: none;
+  border-radius: 999px;
+  padding: 8px 16px;
+  font-size: 0.9rem;
+  font-weight: 600;
+  cursor: pointer;
+  box-shadow: 0 8px 20px rgba(0, 0, 0, 0.25);
+  transition:
+    transform 0.08s ease,
+    box-shadow 0.18s ease,
+    opacity 0.15s ease;
+}
+
+.btn-primary:hover,
+.reservate-btn:hover {
+  transform: translateY(-1px);
+  box-shadow: 0 10px 24px rgba(0, 0, 0, 0.28);
+}
+
+.btn-primary:active,
+.reservate-btn:active {
+  transform: translateY(0);
+  box-shadow: 0 6px 16px rgba(0, 0, 0, 0.22);
+}
+
+.btn-secondary,
+.details-btn {
+  background: rgba(255, 255, 255, 0.95);
+  color: #07494F;
+  border: 1px solid rgba(7, 73, 79, 0.22);
+  border-radius: 999px;
+  padding: 8px 16px;
+  font-size: 0.9rem;
+  font-weight: 600;
+  cursor: pointer;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+  transition:
+    transform 0.08s ease,
+    background 0.18s ease,
+    box-shadow 0.18s ease,
+    opacity 0.15s ease;
+}
+
+.btn-secondary:hover,
+.details-btn:hover {
+  background: #e6f5f7;
+  transform: translateY(-1px);
+}
+
+.btn-secondary:active,
+.details-btn:active {
+  transform: translateY(0);
+  box-shadow: 0 3px 8px rgba(0, 0, 0, 0.16);
+}
+
+.from-list {
+  margin-top: 10px;
+}

@@ -1,5 +1,5 @@
 <form [formGroup]="form" (ngSubmit)="onSubmit()" class="filter-controls">
-
+<div class="group">
   <div class="filter-group-row">
     <select formControlName="category" aria-label="Filtrar por Categoría">
       <option value="">Todas las Categorías</option>
@@ -11,13 +11,15 @@
     <input type="number" formControlName="minPrice" placeholder="Precio Mín.">
     <input type="number" formControlName="maxPrice" placeholder="Precio Máx.">
 
-    <button type="submit" class="btn-primary">Buscar</button>
   </div>
 
   <div class="filter-group-row date-filters">
-    <label>Fechas:</label>
     <input type="date" formControlName="startDate">
     <input type="date" formControlName="endDate">
+    
   </div>
+      <button type="submit" class="btn-primary">Buscar</button>
+
+</div>
 </form>
 

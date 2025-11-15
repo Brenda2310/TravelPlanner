@@ -1,10 +1,16 @@
-<div class="activity-grid">
+<div class="activity-grid grid">
   @for (activity of activities; track activity.id) {
     <app-activity-card
+      class="activity-card-wrapper"
       [activity]="activity"
       (reservate)="reservate.emit(activity.id)">
-      <button (click)="toDetails(activity.id)">Ver Detalles</button>
+
+      <button 
+        class="btn-secondary details-btn from-list"
+        (click)="toDetails(activity.id)">
+        Ver Detalles
+      </button>
+
     </app-activity-card>
   }
 </div>
-

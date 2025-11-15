@@ -25,14 +25,14 @@
           <div class="trip-card">
             
             <div class="trip-header">
-              <h3 class="trip-title">{{ trip.name }}</h3>
+              <h3 class="trip-title"> {{ trip.name }}</h3>
               <span class="destination">{{ trip.destination }}</span>
             </div>
 
             <div class="trip-body">
-              <p>📅 {{ trip.startDate }} / {{ trip.endDate }}</p>
+              <p><img src="/calendar_month_24dp_33696F_FILL0_wght400_GRAD0_opsz24.svg" alt="icon"> {{ trip.startDate }} / {{ trip.endDate }}</p>
               @if (trip.estimatedBudget) {
-                <p>💰 {{ trip.estimatedBudget }}</p>
+                <p><img src="/savings_24dp_33696F_FILL0_wght400_GRAD0_opsz24.svg" alt="icon"> ${{ trip.estimatedBudget }}</p>
               }
             </div>
 

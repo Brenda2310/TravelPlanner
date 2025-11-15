@@ -44,6 +44,7 @@
             <textarea id="notes" formControlName="notes"></textarea>
         </div>
 
+        <div class="actions">
         <button type="submit" [disabled]="itineraryForm.invalid || loading">
             @if (loading) {
                 Guardando...
@@ -51,5 +52,7 @@
                 {{ isEditing ? 'Actualizar' : 'Crear Itinerario' }}
             }
         </button>
+        <button type="reset" class="reset">Borrar</button>
+        </div>
     </form>
 </div>

@@ -16,22 +16,23 @@ import { ExpenseService } from './expense-service';
   providedIn: 'root'
 })
 export class ExpenseStore extends BaseStore{
-  private readonly client = inject(ExpenseService);
-  private readonly _expenses = signal<CollectionState<ExpenseResponseDTO>>({
+    private readonly client = inject(ExpenseService);
+    private readonly _expenses = signal<CollectionState<ExpenseResponseDTO>>({
     list: [],
     loading: false,
     pageInfo: { totalElements: 0, totalPages: 0, currentPage: 0, pageSize: 10 },
   });
-  private readonly _expense = signal<CollectionState<ExpenseResumeDTO>>({
+    private readonly _expense = signal<CollectionState<ExpenseResumeDTO>>({
     list: [],
     loading: false,
     pageInfo: { totalElements: 0, totalPages: 0, currentPage: 0, pageSize: 10 },
   });
 
-  private readonly _currentExpenseDetail = signal<ExpenseResumeDTO | null>(null);
+    private readonly _currentExpenseDetail = signal<ExpenseResumeDTO | null>(null);
     private readonly _calculations = signal<{ average: number | null, realAverage: number | null, total: number | null, realTotal: number | null }>({
         average: null, realAverage: null, total: null, realTotal: null
     });
+
 
   private readonly _loading = signal<boolean>(false);
   private readonly _error = signal<string | null>(null);

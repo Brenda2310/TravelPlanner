@@ -41,7 +41,7 @@ h2 {
 .btn-primary{
   background:var(--primary-color,#0ea5e9); 
   color:#fff; border:none; 
-  border-radius:12px;
+  border-radius: 999px;
   padding:10px 18px; 
   font-weight:700; 
   cursor:pointer; 
@@ -94,7 +94,8 @@ h2 {
   margin-bottom:10px;
 }
 
-.trip-title{ margin:0; 
+.trip-title{ 
+  margin:0; 
   font-weight:800; 
   font-size:clamp(1.1rem,1.7vw,1.35rem); 
   line-height:1.2; 

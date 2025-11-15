@@ -1,0 +1,120 @@
+<div class="expense-create-edit">
+
+    <h2 class="title">
+        @if (expenseId) {
+            Editar Gasto
+        } @else {
+            Crear Nuevo Gasto
+        }
+    </h2>
+
+    @if (errorMessage) {
+        <div class="alert-error">{{ errorMessage }}</div>
+    }
+
+    <form [formGroup]="expenseForm" (ngSubmit)="onSubmit()" class="form-create-edit">
+
+        <div class="form-things">
+            <div class="form-group">
+                <label for="category" class="form-label">Categoría:</label>
+
+                <select id="category" formControlName="category" class="form-input">
+                    <option value="" disabled>Selecciona una categoría</option>
+
+                    @for (cat of categories; track cat) {
+                        <option [ngValue]="cat">{{ cat }}</option>
+                    }
+                </select>
+
+                @if (expenseForm.get('category')?.invalid && expenseForm.get('category')?.touched) {
+                    <small class="validation-error">La categoría es obligatoria.</small>
+                }
+            </div>
+
+            <div class="form-group">
+                <label for="amount" class="form-label">Monto:</label>
+                <input id="amount" type="number" formControlName="amount" class="form-input">
+                @if (expenseForm.get('amount')?.invalid && expenseForm.get('amount')?.touched) {
+                    <small class="validation-error">El monto debe ser mayor a 0.</small>
+                }
+            </div>
+        </div>
+
+        <div class="form-things">
+            <div class="form-group full-width">
+                <label for="description" class="form-label">Descripción:</label>
+                <textarea id="description" formControlName="description" class="form-input h-20"></textarea>
+            </div>
+        </div>
+        <div class="form-things">
+            <div class="form-group">
+                <label for="date" class="form-label">Fecha:</label>
+                <input id="date" type="date" formControlName="date" class="form-input">
+                @if (expenseForm.get('date')?.invalid && expenseForm.get('date')?.touched) {
+                    <small class="validation-error">La fecha es obligatoria.</small>
+                }
+            </div>
+
+            <div class="form-group">
+                <label class="form-label">Viaje:</label>
+
+                <div class="trip-selector">
+                    @for (trip of userTrips().list; track trip.id) {
+                        <button
+                            type="button"
+                            class="trip-btn"
+                            [class.selected]="isSelected(trip.id)"
+                            (click)="selectTrip(trip.id)"
+                        >
+                            {{ trip.name }} — {{ trip.destination }}
+                        </button>
+                    }
+                </div>
+
+                @if (expenseForm.get('tripId')?.invalid && expenseForm.get('tripId')?.touched) {
+                    <small class="validation-error">Debes seleccionar un viaje.</small>
+                }
+            </div>
+        </div>
+
+        <div class="form-things">
+            <div class="form-group full-width">
+                <label class="form-label">Compartir gasto con otros usuarios (TravelCode):</label>
+
+                <div class="share-list">
+                    @for (id of expenseForm.get('sharedUserIds')?.value; track $index) {
+                        <div class="share-item">
+                            <span>{{ id }}</span>
+                            <button type="button" (click)="removeUserId(id)">×</button>
+                        </div>
+                    }
+
+                    <div class="share-input">
+                        <input
+                            type="number"
+                            placeholder="Agregar TravelCode..."
+                            formControlName="newUserId"
+                            (keydown.enter)="addUserId()"
+                        />
+                        <button type="button" (click)="addUserId()">
+                            <img src="/person_add_24dp_33696F_FILL0_wght400_GRAD0_opsz24.svg" class="add-icon" alt="agregar">
+                        </button>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="actions">
+            <button
+                type="submit"
+                [disabled]="expenseForm.invalid || loading"
+                class="btn-submit"
+            >
+                @if (loading) {
+                    Guardando...
+                } @else {
+                    {{ expenseId ? 'Actualizar Gasto' : 'Crear Gasto' }}
+                }
+            </button>
+        </div>
+    </form>
+</div>
