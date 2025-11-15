@@ -1,12 +1,12 @@
 import { CommonModule } from '@angular/common';
-import { Component, effect, inject, OnInit } from '@angular/core';
+import { ChangeDetectorRef, Component, effect, inject, OnInit } from '@angular/core';
 import { FormBuilder, ReactiveFormsModule, Validators } from '@angular/forms';
 import { ChecklistStore } from '../services/checklist-store';
 import { ChecklistService } from '../services/checklist-service';
 import { ActivatedRoute, Router } from '@angular/router';
 import { TripStore } from '../../trips/services/trip-store';
 import { SecurityStore } from '../../security/services/security-store';
-import { Observable } from 'rxjs';
+import { finalize, Observable } from 'rxjs';
 import { CheckListCreateDTO, CheckListUpdateDTO } from '../checklist-models';
 import { Pageable } from '../../hateoas/hateoas-models';
 
@@ -24,6 +24,7 @@ export class ChecklistCreateEdit implements OnInit{
   private readonly route = inject(ActivatedRoute);
   private readonly tripStore = inject(TripStore);
   private readonly securityStore = inject(SecurityStore);
+  private readonly cdr = inject(ChangeDetectorRef);
 
   public isEditing = false;
   public loading = false;
@@ -97,15 +98,32 @@ export class ChecklistCreateEdit implements OnInit{
       action$ = this.store.create(dto as CheckListCreateDTO);
     }
 
-    action$.subscribe({
+    const observable$ = action$.pipe(
+          finalize(() => {
+            this.loading = false;
+            this.cdr.detectChanges();
+          })
+        );
+
+    observable$.subscribe({
       next: () => {
         alert(`Checklist ${this.isEditing ? 'actualizada' : 'creada'} con exito.`);
         this.router.navigateByUrl("/checklists");
+        this.cdr.detectChanges();
       }, 
-      error: (err) => {
-        this.errorMessage = err.error?.message || 'Error al guardar la checklist.';
+      error: (err: any) => {
         this.loading = false;
-      }
+
+        console.error('Error del Store:', err);
+
+        this.errorMessage =
+          err.userMessage ||
+          err.original?.error?.message ||
+          err.original?.message ||
+          err.original?.toString() ||
+          'Error desconocido.';
+          this.cdr.detectChanges();
+      },
     });
 
   }

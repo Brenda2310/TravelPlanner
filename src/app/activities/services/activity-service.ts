@@ -10,29 +10,36 @@ import {
   ActivityUpdateDTO,
   CompanyActivityUpdateDTO,
   ActivityFilterDTO,
-  CompanyActivityFilterParams
+  CompanyActivityFilterParams,
 } from '../../activities/activity-models';
 import { BaseService } from '../../BaseService';
-
+import { catchError, throwError } from 'rxjs';
 
 @Injectable({
-  providedIn: 'root'
+  providedIn: 'root',
 })
-
-export class ActivityService extends BaseService{
+export class ActivityService extends BaseService {
   private readonly http = inject(HttpClient);
   private readonly api = 'http://localhost:8080/activities';
 
-  createFromUser(dto: UserActivityCreateDTO, pageable: Pageable){
+  createFromUser(dto: UserActivityCreateDTO, pageable: Pageable) {
     const params = this.buildParams(pageable);
-    return this.http.post<ActivityCreateResponseDTO>(`${this.api}/user`, dto, { params });
+    return this.http.post<ActivityCreateResponseDTO>(`${this.api}/user`, dto, { params }).pipe(
+      catchError((err) => {
+        return throwError(() => err);
+      })
+    );
   }
 
   createActivityFromCompany(dto: CompanyActivityCreateDTO) {
-    return this.http.post<ActivityCompanyResponseDTO>(`${this.api}/company`, dto);
+    return this.http.post<ActivityCompanyResponseDTO>(`${this.api}/company`, dto).pipe(
+      catchError((err) => {
+        return throwError(() => err);
+      })
+    );
   }
 
-  getAllActivities(pageable: Pageable){
+  getAllActivities(pageable: Pageable) {
     const params = this.buildParams(pageable);
     return this.http.get<PagedModel<ActivityResponseDTO>>(`${this.api}`, { params });
   }
@@ -44,7 +51,10 @@ export class ActivityService extends BaseService{
 
   getByCompanyId(companyId: number, pageable: Pageable) {
     const params = this.buildParams(pageable);
-    return this.http.get<PagedModel<ActivityCompanyResponseDTO>>(`${this.api}/company/${companyId}`, { params });
+    return this.http.get<PagedModel<ActivityCompanyResponseDTO>>(
+      `${this.api}/company/${companyId}`,
+      { params }
+    );
   }
 
   getAllActivitiesCompany(pageable: Pageable, filters: CompanyActivityFilterParams) {
@@ -58,15 +68,20 @@ export class ActivityService extends BaseService{
 
   getActivitiesByUserId(userId: number, filters: ActivityFilterDTO, pageable: Pageable) {
     const params = this.buildParams(pageable, filters);
-    return this.http.get<PagedModel<ActivityCreateResponseDTO>>(`${this.api}/user/${userId}`, { params });
+    return this.http.get<PagedModel<ActivityCreateResponseDTO>>(`${this.api}/user/${userId}`, {
+      params,
+    });
   }
 
-  updateUserActivity(id: number, dto: ActivityUpdateDTO){
+  updateUserActivity(id: number, dto: ActivityUpdateDTO) {
     return this.http.put<ActivityCreateResponseDTO>(`${this.api}/${id}`, dto);
   }
 
   updateCompanyActivity(companyId: number, activityId: number, dto: CompanyActivityUpdateDTO) {
-    return this.http.put<ActivityResponseDTO>(`${this.api}/company/${companyId}/activities/${activityId}`, dto);
+    return this.http.put<ActivityResponseDTO>(
+      `${this.api}/company/${companyId}/activities/${activityId}`,
+      dto
+    );
   }
 
   deleteUserActivity(id: number) {
@@ -77,7 +92,7 @@ export class ActivityService extends BaseService{
     return this.http.put<void>(`${this.api}/restore/${id}`, null);
   }
 
-  deleteCompanyActivity(companyId: number, activityId: number){
+  deleteCompanyActivity(companyId: number, activityId: number) {
     return this.http.delete<void>(`${this.api}/company/${companyId}/${activityId}`);
   }
 

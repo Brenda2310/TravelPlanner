@@ -1,6 +1,6 @@
 import { inject, Injectable, signal } from '@angular/core';
 import { ChecklistService } from './checklist-service';
-import { Observable, tap } from 'rxjs';
+import { catchError, finalize, Observable, tap, throwError } from 'rxjs';
 import { CollectionState, EntityModel, PaginationInfo, Pageable} from '../../hateoas/hateoas-models';
 import { 
   CheckListResponseDTO,
@@ -8,6 +8,7 @@ import {
   CheckListUpdateDTO,
   CheckListFilterDTO } from '../checklist-models';
 import { BaseStore } from '../../BaseStore';
+import { HttpErrorResponse } from '@angular/common/http';
 
 @Injectable({
   providedIn: 'root'
@@ -115,6 +116,24 @@ export class ChecklistStore extends BaseStore{
           list: [newChecklist, ...state.list],
           pageInfo: { ...state.pageInfo, totalElements: state.pageInfo.totalElements + 1 },
         }));
+      }),
+      catchError((err: HttpErrorResponse) => {
+        let userMessage = 'Error desconocido al crear la checklist.';
+        if (err.error && typeof err.error === 'object') {
+          userMessage = err.error.message || err.error.error || userMessage;
+        } else if (typeof err.error === 'string') {
+          userMessage = err.error;
+        } else if (err.status) {
+          if (err.status === 404) userMessage = 'El recurso solicitado no fue encontrado.';
+          else if (err.status === 403)
+            userMessage = 'Acceso denegado. No tiene permisos para esta acción.';
+        }
+
+        this._error.set(userMessage);
+        return throwError(() => ({ userMessage, original: err }));
+      }),
+      finalize(() => {
+        this._loading.set(false);
       })
     );
   }
@@ -126,6 +145,23 @@ export class ChecklistStore extends BaseStore{
           ...state,
           list: state.list.map((c) => (c.id === id ? updated : c)),
         }));
+      }), catchError((err: HttpErrorResponse) => {
+        let userMessage = 'Error desconocido al actualizar la checklist.';
+        if (err.error && typeof err.error === 'object') {
+          userMessage = err.error.message || err.error.error || userMessage;
+        } else if (typeof err.error === 'string') {
+          userMessage = err.error;
+        } else if (err.status) {
+          if (err.status === 404) userMessage = 'El recurso solicitado no fue encontrado.';
+          else if (err.status === 403)
+            userMessage = 'Acceso denegado. No tiene permisos para esta acción.';
+        }
+
+        this._error.set(userMessage);
+        return throwError(() => ({ userMessage, original: err }));
+      }),
+      finalize(() => {
+        this._loading.set(false);
       })
     );
   }
@@ -138,6 +174,24 @@ export class ChecklistStore extends BaseStore{
           list: state.list.filter((c) => c.id !== id),
           pageInfo: { ...state.pageInfo, totalElements: state.pageInfo.totalElements - 1 },
         }));
+      }),
+      catchError((err: HttpErrorResponse) => {
+        let userMessage = 'Error desconocido al eliminar la checklist.';
+        if (err.error && typeof err.error === 'object') {
+          userMessage = err.error.message || err.error.error || userMessage;
+        } else if (typeof err.error === 'string') {
+          userMessage = err.error;
+        } else if (err.status) {
+          if (err.status === 404) userMessage = 'El recurso solicitado no fue encontrado.';
+          else if (err.status === 403)
+            userMessage = 'Acceso denegado. No tiene permisos para esta acción.';
+        }
+
+        this._error.set(userMessage);
+        return throwError(() => ({ userMessage, original: err }));
+      }),
+      finalize(() => {
+        this._loading.set(false);
       })
     );
   }

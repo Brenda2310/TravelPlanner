@@ -1,4 +1,4 @@
-import { Component, inject, Input, OnInit } from '@angular/core';
+import { ChangeDetectorRef, Component, inject, Input, OnInit } from '@angular/core';
 import { FormBuilder, ReactiveFormsModule, Validators } from '@angular/forms';
 import { ActivityStore } from '../services/activity-store';
 import { SecurityStore } from '../../security/services/security-store';
@@ -7,7 +7,7 @@ import {
   CompanyActivityCreateDTO,
   UserActivityCreateDTO,
 } from '../activity-models';
-import { Observable } from 'rxjs';
+import { finalize, Observable } from 'rxjs';
 import { Router } from '@angular/router';
 
 @Component({
@@ -22,6 +22,7 @@ export class ActivityCreateEdit implements OnInit {
   private readonly store = inject(ActivityStore);
   private readonly security = inject(SecurityStore);
   private readonly router = inject(Router);
+  private readonly cdr = inject(ChangeDetectorRef);
 
   @Input() mode: 'user' | 'company' | 'edit' = 'user';
   @Input() activityId?: number;
@@ -57,11 +58,11 @@ export class ActivityCreateEdit implements OnInit {
 
   ngOnInit(): void {
     if (this.security.auth().isCompany) {
-        this.mode = 'company';
-      } else {
-        this.mode = 'user';
-      }
-      
+      this.mode = 'company';
+    } else {
+      this.mode = 'user';
+    }
+
     this.setConditionalValidators();
   }
 
@@ -83,6 +84,7 @@ export class ActivityCreateEdit implements OnInit {
     }
 
     this.loading = true;
+    this.errorMessage = null;
     const formValue = this.activityForm.value;
     let action$: Observable<any>;
 
@@ -110,14 +112,31 @@ export class ActivityCreateEdit implements OnInit {
       action$ = this.store.createFromUser(userDto, { page: 0, size: 10 });
     }
 
-    action$.subscribe({
+    const observable$ = action$.pipe(
+      finalize(() => {
+        this.loading = false;
+        this.cdr.detectChanges();
+      })
+    );
+
+    observable$.subscribe({
       next: () => {
         alert('Actividad guardada con éxito.');
         this.router.navigateByUrl('/activities');
+        this.cdr.detectChanges();
       },
-      error: (err) => {
-        this.errorMessage = err.error?.message || 'Error al guardar la actividad.';
+      error: (err: any) => {
         this.loading = false;
+
+        console.error('Error del Store:', err);
+
+        this.errorMessage =
+          err.userMessage ||
+          err.original?.error?.message ||
+          err.original?.message ||
+          err.original?.toString() ||
+          'Error desconocido.';
+          this.cdr.detectChanges();
       },
     });
   }

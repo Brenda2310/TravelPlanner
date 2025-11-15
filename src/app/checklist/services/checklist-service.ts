@@ -1,26 +1,35 @@
 import { Injectable, inject } from '@angular/core';
-import { HttpClient, HttpParams} from '@angular/common/http';
+import { HttpClient, HttpParams } from '@angular/common/http';
 import { PagedModel, EntityModel, Pageable } from '../../hateoas/hateoas-models';
-import { 
+import {
   CheckListResponseDTO,
   CheckListCreateDTO,
   CheckListUpdateDTO,
-  CheckListFilterDTO } from '../checklist-models';
+  CheckListFilterDTO,
+} from '../checklist-models';
+import { catchError, throwError } from 'rxjs';
 
 @Injectable({
-  providedIn: 'root'
+  providedIn: 'root',
 })
-
 export class ChecklistService {
   private readonly http = inject(HttpClient);
-  private readonly api = 'http://localhost:8080/checklists'; 
+  private readonly api = 'http://localhost:8080/checklists';
 
-  create(dto: CheckListCreateDTO){
-    return this.http.post<CheckListResponseDTO>(this.api, dto);
+  create(dto: CheckListCreateDTO) {
+    return this.http.post<CheckListResponseDTO>(this.api, dto).pipe(
+      catchError((err) => {
+        return throwError(() => err);
+      })
+    );;
   }
 
-  update(id: number, dto: CheckListUpdateDTO){
-    return this.http.put<CheckListResponseDTO>(`${this.api}/${id}`, dto);
+  update(id: number, dto: CheckListUpdateDTO) {
+    return this.http.put<CheckListResponseDTO>(`${this.api}/${id}`, dto).pipe(
+      catchError((err) => {
+        return throwError(() => err);
+      })
+    );;
   }
 
   getById(id: number) {
@@ -42,7 +51,7 @@ export class ChecklistService {
     let params = new HttpParams()
       .set('page', pageable.page.toString())
       .set('size', pageable.size.toString());
-    
+
     return this.http.get<PagedModel<CheckListResponseDTO>>(`${this.api}/active`, { params });
   }
 
@@ -50,7 +59,7 @@ export class ChecklistService {
     let params = new HttpParams()
       .set('page', pageable.page.toString())
       .set('size', pageable.size.toString());
-    
+
     return this.http.get<PagedModel<CheckListResponseDTO>>(`${this.api}/inactive`, { params });
   }
 
@@ -68,15 +77,16 @@ export class ChecklistService {
     }
 
     console.log('Request params:', params.toString());
-    return this.http.get<PagedModel<CheckListResponseDTO>>(`${this.api}/user/${userId}`, { params });
+    return this.http.get<PagedModel<CheckListResponseDTO>>(`${this.api}/user/${userId}`, {
+      params,
+    });
   }
 
   delete(id: number) {
-    return this.http.delete<void>(`${this.api}/${id}`); 
+    return this.http.delete<void>(`${this.api}/${id}`);
   }
 
   restore(id: number) {
     return this.http.put<void>(`${this.api}/restore/${id}`, null);
   }
-
 }
