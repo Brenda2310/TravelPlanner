@@ -5,48 +5,52 @@ import { Router, RouterModule } from '@angular/router';
 import { Pagination } from "../../../hateoas/Pagination/pagination/pagination";
 import { SecurityStore } from '../../../security/services/security-store';
 import { CommonModule } from '@angular/common';
+import { FormsModule } from '@angular/forms';               
+import { TripFilterDTO } from '../../trip-models';          
 
 @Component({
   selector: 'app-trip-list',
-  imports: [RouterModule, Pagination, CommonModule],
+  standalone: true,
+  imports: [RouterModule, Pagination, CommonModule, FormsModule],
   templateUrl: './trip-list.html',
   styleUrl: './trip-list.css'
 })
-export class TripList implements OnInit{
+export class TripList implements OnInit {
   public readonly store = inject(TripStore);
   public readonly router = inject(Router);
   public readonly security = inject(SecurityStore);
-  public pageable: Pageable ={page: 0, size: 9, sort: 'startDate,desc'};
+  public pageable: Pageable = { page: 0, size: 9, sort: 'startDate,desc' };
 
   @Input() mode: 'admin-all' | 'user-own' = 'user-own';
 
+  public filters: TripFilterDTO = {
+    destination: '',
+    startDate: '',
+    endDate: ''
+  };
+
   ngOnInit(): void {
-    if(this.security.auth().isAdmin){
+    if (this.security.auth().isAdmin) {
       this.mode = 'admin-all';
-    }
-    else{
+    } else {
       this.mode = 'user-own';
     }
     this.loadTrips();
   }
 
-  loadTrips(){
-    if(this.mode === "admin-all"){
+  loadTrips(): void {
+    if (this.mode === 'admin-all') {
       this.store.loadAllTrips(this.pageable);
-    }
-    else{
+    } else {
       const currentUserId = this.security.getId();
 
-        if(currentUserId !== null){
-          const filters = {}; 
-          this.store.loadTripsByUserId(currentUserId, filters, this.pageable);
-        }
-        else {
-            console.log("Error: Usuario no autenticado.");
-        }
+      if (currentUserId !== null) {
+        this.store.loadTripsByUserId(currentUserId, this.filters, this.pageable);
+      } else {
+        console.log('Error: Usuario no autenticado.');
       }
     }
-  
+  }
 
   onPageChange(newPage: number): void {
     this.pageable.page = newPage;
@@ -62,8 +66,23 @@ export class TripList implements OnInit{
   }
 
   isTripFinished(trip: any): boolean {
-  const today = new Date();
-  const end = new Date(trip.endDate);
-  return end < today; 
-}
+    const today = new Date();
+    const end = new Date(trip.endDate);
+    return end < today;
+  }
+
+  onApplyFilters(): void {
+    this.pageable.page = 0;
+    this.loadTrips();
+  }
+
+  onClearFilters(): void {
+    this.filters = {
+      destination: '',
+      startDate: '',
+      endDate: ''
+    };
+    this.pageable.page = 0;
+    this.loadTrips();
+  }
 }

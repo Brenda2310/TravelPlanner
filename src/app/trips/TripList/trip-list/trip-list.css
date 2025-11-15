@@ -48,6 +48,7 @@ h2 {
   text-decoration:none;
   transition:filter .15s ease, transform .02s ease;
 }
+
 .btn-primary:hover{ 
   filter:brightness(1.05) 
 }
@@ -197,9 +198,99 @@ h2 {
   margin-top:16px 
 }
 
-@media (max-width:600px){
-  h2{ font-size:1.6rem }
-  .trip-card{ padding:16px }
-  .trip-footer{ flex-direction:column; align-items:stretch }
-  .btn-outline,.status-badge{ width:100% }
+.trip-filters {
+  max-width: 1120px;
+  margin: 0 auto 20px auto;
+
+  display: flex;
+  align-items: center;
+  gap: 12px;
+
+  padding: 14px 18px;
+  background: rgba(255, 255, 255, 0.75);
+  backdrop-filter: blur(16px);
+  -webkit-backdrop-filter: blur(16px);
+
+  border-radius: 16px;
+  border: 1px solid rgba(255, 255, 255, 0.4);
+  box-shadow: 0 10px 30px rgba(0, 0, 0, 0.15);
 }
+
+.trip-filters input {
+  flex: 1;
+  min-width: 140px;
+
+  padding: 10px 12px;
+  border-radius: 12px;
+  border: 1px solid rgba(7, 73, 79, 0.22);
+
+  background: rgba(255, 255, 255, 0.9);
+  outline: none;
+  font-size: 0.95rem;
+
+  transition: border-color .2s ease, box-shadow .2s ease, transform .1s ease;
+}
+
+.trip-filters input:focus {
+  border-color: #33696f;
+  box-shadow: 0 0 0 3px rgba(51, 105, 111, 0.25);
+  transform: translateY(-1px);
+}
+
+.trip-filters .btn-primary {
+  padding: 10px 18px;
+  border-radius: 999px;
+  border: none;
+
+  background: #07494F;
+  color: #fff;
+  font-size: 0.95rem;
+  font-weight: 600;
+  cursor: pointer;
+
+  box-shadow: 0 8px 22px rgba(0, 0, 0, 0.18);
+  transition: transform .1s ease, box-shadow .2s ease;
+}
+
+.trip-filters .btn-primary:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 10px 26px rgba(0, 0, 0, 0.22);
+}
+
+.trip-filters .btn-secondary {
+  padding: 10px 18px;
+  border-radius: 999px;
+  border: none;
+
+  background: rgba(7, 73, 79, 0.12);
+  color: #07494F;
+  font-size: 0.95rem;
+  cursor: pointer;
+  font-weight: 600;
+
+  box-shadow: 0 6px 16px rgba(0, 0, 0, 0.15);
+  transition: transform .1s ease, box-shadow .2s ease;
+}
+
+.trip-filters .btn-secondary:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 8px 20px rgba(0, 0, 0, 0.18);
+}
+
+@media (max-width: 768px) {
+  .trip-filters {
+    flex-direction: column;
+    gap: 10px;
+    padding: 16px;
+  }
+
+  .trip-filters input {
+    width: 100%;
+  }
+
+  .trip-filters .btn-primary,
+  .trip-filters .btn-secondary {
+    width: 100%;
+  }
+}
+

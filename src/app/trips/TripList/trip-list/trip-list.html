@@ -9,6 +9,30 @@
     </div>
   }
 
+  <div class="trip-filters">
+  <input
+    type="text"
+    placeholder="Destino..."
+    [(ngModel)]="filters.destination" />
+
+  <input
+    type="date"
+    [(ngModel)]="filters.startDate" />
+
+  <input
+    type="date"
+    [(ngModel)]="filters.endDate" />
+
+  <button type="button" class="btn-primary" (click)="onApplyFilters()">
+    Filtrar
+  </button>
+
+  <button type="button" class="btn-secondary" (click)="onClearFilters()">
+    Limpiar
+  </button>
+</div>
+
+
   @if (store.loading()) {
     <p class="loading">Cargando viajes...</p>
   }
