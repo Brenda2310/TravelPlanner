@@ -26,9 +26,12 @@
             <p>{{ currentActivityDetail()!.description }}</p>
         </section>
 
+        @if (currentActivityDetail()!.companyId) {
         <button (click)="onBookActivity()" class="btn-primary">
             Reservar Ahora
         </button>
+    }
+    
 
         @if (security.getId() === currentActivityDetail()?.companyId) {
             <button (click)="toEdit(currentActivityDetail()?.id!)">Editar</button>

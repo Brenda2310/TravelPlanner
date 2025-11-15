@@ -64,7 +64,6 @@ export class ActivityDetails implements OnInit {
     });
   }
 
-
   toEdit(id: number) {
     this.router.navigateByUrl(`/activities/${id}/edit`);
   }

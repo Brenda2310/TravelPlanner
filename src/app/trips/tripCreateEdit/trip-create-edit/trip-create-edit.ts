@@ -1,4 +1,4 @@
-import { ChangeDetectorRef, Component, effect, inject, OnInit } from '@angular/core';
+import { ChangeDetectorRef, Component, effect, inject, OnInit, signal } from '@angular/core';
 import { TripStore } from '../../services/trip-store';
 import { ActivatedRoute, Router } from '@angular/router';
 import {
@@ -34,6 +34,12 @@ export class TripCreateEdit implements OnInit {
   public isEditing: boolean = false;
   public loading: boolean = false;
   public errorMessage: string | null = null;
+
+  showTravelCodeInfo = signal(false);
+
+  openTravelCodeInfo() { this.showTravelCodeInfo.set(true); }
+  closeTravelCodeInfo() { this.showTravelCodeInfo.set(false); }
+
 
   newUserId: number | null = null;
 

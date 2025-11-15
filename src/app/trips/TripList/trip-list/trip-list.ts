@@ -66,6 +66,4 @@ export class TripList implements OnInit{
   const end = new Date(trip.endDate);
   return end < today; 
 }
-
-
 }
