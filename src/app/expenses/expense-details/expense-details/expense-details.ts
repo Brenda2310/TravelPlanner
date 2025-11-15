@@ -50,6 +50,5 @@ export class ExpenseDetails {
     toTrip(tripId: number) {
       this.router.navigateByUrl(`/trips/${tripId}`);
     }
-
 }
 
