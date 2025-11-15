@@ -2,16 +2,14 @@
 
   <h2 class="browser-title">Actividades</h2>
 
-  @if (store.companyActivities().list.length !== 0) {
-    <div class="empty-state state">
-      @if (security.auth().isCompany) {
-        <a routerLink="/activities/create/company" class="btn btn-primary create-btn">+ Crear Nueva Actividad</a>
-      }
-      @else {
-        <a routerLink="/activities/create" class="btn btn-primary create-btn">+ Crear Nueva Actividad</a>
-      }
-    </div>
-  }
+  <div class="empty-state state">
+    @if (security.auth().isCompany) {
+      <a routerLink="/activities/create/company" class="btn btn-primary create-btn">+ Crear Nueva Actividad</a>
+    }
+    @else {
+      <a routerLink="/activities/create" class="btn btn-primary create-btn">+ Crear Nueva Actividad</a>
+    }
+  </div>
 
   <app-activity-filters 
     class="filters"
@@ -20,37 +18,57 @@
     (filtersApplied)="onApplyFilters($event)">
   </app-activity-filters>
 
-
   @if (store.loading()) {
     <p class="loading-message loading">Buscando actividades...</p>
   }
-  @else if (store.companyActivities().list.length === 0) {
-    <div class="empty-state state">
-      <h3 class="empty-title">¡No se encontraron actividades!</h3>
-
-      @if (security.auth().isCompany) {
-        <a routerLink="/activities/create/company" class="btn btn-primary create-btn">Crear Nueva Actividad</a>
-      }
-      @else {
-        <a routerLink="/activities/create" class="btn btn-primary create-btn">Crear Nueva Actividad</a>
-      <p class="empty-subtitle">Intenta ajustar los filtros o el rango de fechas.</p>
-      }
-    </div>
-  }
   @else {
 
-    <app-activity-list 
-      class="activity-list-section"
-      [activities]="store.companyActivities().list"
-      (reservate)="reservate($event)">
-    </app-activity-list>
+    <div class="my-activities-section">
 
-    <app-pagination 
-      class="pagination-section"
-      [currentPage]="store.companyActivities().pageInfo.currentPage"
-      [totalPages]="store.companyActivities().pageInfo.totalPages"
-      (pageChange)="onPageChange($event)">
-    </app-pagination>
+      <h3 class="section-title">Tus actividades</h3>
+
+      @if (store.userActivities().list.length === 0) {
+        <p class="empty-subtitle">No creaste actividades propias.</p>
+      }
+      @else {
+        <app-activity-list 
+          class="activity-list-section"
+          [activities]="store.userActivities().list"
+          type="user"
+          (reservate)="reservate($event)">
+        </app-activity-list>
+      }
+
+    </div>
+
+    <hr>
+
+    <div class="company-activities-section">
+
+      <h3 class="section-title">Actividades de empresas</h3>
+
+      @if (store.companyActivities().list.length === 0) {
+        <p class="empty-subtitle">No hay actividades disponibles de empresas.</p>
+      }
+      @else {
+
+        <app-activity-list 
+          class="activity-list-section"
+          [activities]="store.companyActivities().list"
+          type="company"
+          (reservate)="reservate($event)">
+        </app-activity-list>
+
+        <app-pagination 
+          class="pagination-section"
+          [currentPage]="store.companyActivities().pageInfo.currentPage"
+          [totalPages]="store.companyActivities().pageInfo.totalPages"
+          (pageChange)="onPageChange($event)">
+        </app-pagination>
+
+      }
+    </div>
 
   }
 </div>
+

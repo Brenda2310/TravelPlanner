@@ -1,9 +1,9 @@
 <div class="activity-grid grid">
   @for (activity of activities; track activity.id) {
+
     <app-activity-card
       class="activity-card-wrapper"
-      [activity]="activity"
-      (reservate)="reservate.emit(activity.id)">
+      [activity]="activity">
 
       <button 
         class="btn-secondary details-btn from-list"
@@ -11,6 +11,15 @@
         Ver Detalles
       </button>
 
+      @if (type === 'company') {
+        <button 
+          class="btn-primary reserve-btn from-list"
+          (click)="onReservate(activity.id)">
+          Reservar
+        </button>
+      }
+
     </app-activity-card>
+
   }
 </div>
