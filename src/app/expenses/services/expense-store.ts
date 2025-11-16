@@ -185,7 +185,7 @@ export class ExpenseStore extends BaseStore{
         this._loading.set(true);
         return this.client.createExpense(dto).pipe(
             tap((newExpense) => {
-                this._expenses.update(state => ({
+                this._expense.update(state => ({
                     ...state,
                     list: [newExpense, ...state.list],
                     pageInfo: { ...state.pageInfo, totalElements: state.pageInfo.totalElements + 1 }
@@ -227,7 +227,7 @@ export class ExpenseStore extends BaseStore{
             tap(() => {
                 this._expense.update(state => ({
                     ...state,
-                    list: state.list.filter(e => e.id !== id),
+                    list: state.list.filter(e => +e.id !== +id),
                     pageInfo: { ...state.pageInfo, totalElements: state.pageInfo.totalElements - 1 }
                 }));
                 this._loading.set(false);

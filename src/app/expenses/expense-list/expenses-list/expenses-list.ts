@@ -85,17 +85,18 @@ export class ExpensesList implements OnInit {
   }
 
   onDelete(id: number): void {
-    if (confirm('¿Desea eliminar el gasto?')) {
-      this.store.deleteExpense(id).subscribe({
-        next: () => {
-          this.loadExpenses();
-        },
-        error: (err) => {
-          console.error('Error al eliminar el gasto: ', err);
-        },
-      });
-    }
+  if (confirm('¿Desea eliminar el gasto?')) {
+    this.store.deleteExpense(id).subscribe({
+      next: () => {
+        this.loadMetrics();
+      },
+      error: (err) => {
+        console.error('Error al eliminar el gasto: ', err);
+      },
+    });
   }
+}
+
 
   toDetails(id: number): void {
     this.router.navigateByUrl(`/expenses/${id}`);
