@@ -21,6 +21,7 @@ export class ActivityDetails implements OnInit {
   public readonly reservationStore = inject(ReservationStore);
 
   public currentActivityDetail = this.store.currentActivity;
+  public errorMessage: string | null = null;
 
   ngOnInit(): void {
     const idParam = this.route.snapshot.paramMap.get('id');
@@ -29,26 +30,6 @@ export class ActivityDetails implements OnInit {
       this.store.loadById(activityId);
     }
   }
-
-  /*onBookActivity(): void {
-    const activity = this.currentActivityDetail();
-    if (activity) {
-      alert(`Iniciando proceso de reserva para ${activity.name}.`);
-      const dto: ReservationCreateDTO = {
-        activityId: activity.id,
-      };
-
-      this.reservationStore.createReservation(dto).subscribe({
-        next: (reservation) => {
-          console.log('Reserva creada con éxito:', reservation);
-          this.router.navigateByUrl('/reservaciones');
-        },
-        error: (err) => {
-          console.error('Error al intentar crear reserva:', err);
-        },
-      });
-    }
-  }*/
 
     onBookActivity(): void {
     const activity = this.currentActivityDetail();
@@ -67,4 +48,38 @@ export class ActivityDetails implements OnInit {
   toEdit() {
     this.router.navigateByUrl(`/activities/${this.currentActivityDetail()?.id}/edit`);
   }
+
+  onDelete() {
+  if (!confirm("¿Seguro que querés eliminar esta actividad?")) return;
+
+  const activity = this.currentActivityDetail();
+  if (!activity) return;
+
+  const id = activity.id;
+
+  if (activity.companyId) {
+    this.store.deleteCompanyActivity(activity.companyId, id).subscribe({
+      next: () => {
+        alert("Actividad eliminada con éxito.");
+        this.router.navigateByUrl('/activities');
+      },
+      error: (err) => {
+        this.errorMessage = err.userMessage || 'Error al eliminar actividad.';
+      }
+    });
+
+    return;
+  }
+  this.store.deleteUserActivity(id).subscribe({
+    next: () => {
+      alert("Actividad eliminada con éxito.");
+      this.router.navigateByUrl('/activities');
+    },
+    error: (err) => {
+      this.errorMessage = err.userMessage || 'Error al eliminar actividad.';
+    }
+  });
+}
+
+
 }
