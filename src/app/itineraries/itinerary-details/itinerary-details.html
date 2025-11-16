@@ -1,4 +1,5 @@
 <div class="it-detail-container">
+
   @if (store.loading()) {
     <p>Cargando detalles del Itinerario...</p>
   } @else if (currentIt$()?.id === itineraryId) {
@@ -19,7 +20,7 @@
           @for (activ of currentIt$()?.activities; track $index) {
             <li class="activity-item">
               <span class="dot"></span>
-              <span class="text">{{ activ.description }}</span>
+              <span class="text">{{ activ.name }}</span>
             </li>
           }
         } @else {
