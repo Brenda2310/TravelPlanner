@@ -25,7 +25,6 @@ export class ActivityDetails implements OnInit {
   public errorMessage = this.reservationStore.error();
 
   public currentActivityDetail = this.store.currentActivity;
-  public errorMessage: string | null = null;
 
   ngOnInit(): void {
     const idParam = this.route.snapshot.paramMap.get('id');
