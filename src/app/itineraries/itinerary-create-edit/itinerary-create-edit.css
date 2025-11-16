@@ -5,13 +5,12 @@
   padding-top: 200px;
   align-items: center;
   background: url('/robin-noguier-sydwCr54rf0-unsplash.jpg') center / cover no-repeat fixed;
-  color: var(--font-color, #07494F);
 }
 
 .form-container {
   max-width: 700px;
   margin: 0 auto;
-  background: var(--bg-glass, rgba(255, 255, 255, 0.85));
+  background: var(--bg-glass);
   backdrop-filter: blur(10px);
   -webkit-backdrop-filter: blur(10px);
   border-radius: 18px;
@@ -24,7 +23,7 @@ h2 {
   font-weight: 600;
   text-align: center;
   margin-bottom: 28px;
-  color: var(--font-color, #07494F);
+  color: var(--font-color);
 }
 
 .alert-error {
@@ -46,7 +45,7 @@ h2 {
 label {
   font-weight: 600;
   margin-bottom: 6px;
-  color: var(--font-color, #07494F);
+  color: var(--font-color);
 }
 
 input[type="date"],
@@ -56,7 +55,7 @@ select {
   border-radius: 10px;
   padding: 10px 12px;
   font-size: 0.95rem;
-  color: var(--font-color, #07494F);
+  color: var(--font-color);
   background-color: rgba(255, 255, 255, 0.95);
   transition: border-color 0.25s ease, box-shadow 0.25s ease;
 }
@@ -64,7 +63,7 @@ select {
 input:focus,
 textarea:focus,
 select:focus {
-  border-color: var(--primary-color, #0ea5e9);
+  border-color: var(--primary-color);
   box-shadow: 0 0 4px rgba(14, 165, 233, 0.4);
   outline: none;
 }
@@ -95,7 +94,7 @@ button[type="submit"],
 button[type="reset"] {
   display: block;
   width: 45%;
-  background-color: var(--font-color, #07494F);
+  background-color: var(--font-color);
   color: white;
   border: none;
   border-radius: 10px;
@@ -109,7 +108,7 @@ button[type="reset"] {
 
 button[type="submit"]:hover,
 button[type="reset"]:hover {
-  background-color: var(--primary-hover, #0284c7);
+  background-color: var(--primary-hover);
   transform: translateY(-2px);
 }
 

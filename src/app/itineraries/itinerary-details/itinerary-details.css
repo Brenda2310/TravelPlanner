@@ -3,13 +3,14 @@
   min-height:100vh;
   padding:40px 20px;
   background: url('/dominik-schroder-FIKD9t5_5zQ-unsplash.jpg') center/cover no-repeat fixed;
-  color: var(--font-color, #07494F);
 }
 
-.it-detail-container{ max-width:1100px; margin:0 auto; }
+.it-detail-container{ 
+  max-width:1100px; 
+  margin:0 auto; }
 
 .itinerary-info{
-  background: var(--bg-glass, rgba(255,255,255,0.85));
+  background: var(--bg-glass);
   border: 1px solid rgba(255,255,255,.4);
   border-radius: 18px;
   box-shadow: 0 8px 28px rgba(0,0,0,.12);
@@ -19,7 +20,11 @@
   margin-top: 70px;
   transition: box-shadow .2s ease, transform .2s ease;
 }
-.itinerary-info:hover{ transform: translateY(-2px); box-shadow: 0 12px 32px rgba(0,0,0,.18); }
+
+.itinerary-info:hover{ 
+  transform: translateY(-2px); 
+  box-shadow: 0 12px 32px rgba(0,0,0,.18); 
+}
 
 .itinerary-info h1{
   margin: 0 0 10px;
@@ -29,9 +34,14 @@
 }
 
 .meta-chips{
-  list-style:none; margin: 6px 0 18px; padding:0;
-  display:flex; gap:10px; flex-wrap:wrap;
+  list-style:none; 
+  margin: 6px 0 18px; 
+  padding: 0;
+  display: flex; 
+  gap: 10px; 
+  flex-wrap: wrap;
 }
+
 .chip{
   background: rgba(7,73,79,.06);
   border: 1px solid rgba(7,73,79,.14);
@@ -41,11 +51,22 @@
   color: #0b2630;
 }
 
-.sub{ margin: 6px 0 8px; font-size: 1.1rem; font-weight: 700; }
+.sub{ 
+  margin: 6px 0 8px; 
+  font-size: 1.1rem; 
+  font-weight: 700; 
+}
 
-.activity-list{ list-style:none; margin: 6px 0 4px; padding:0; }
+.activity-list{ 
+  list-style: none; 
+  margin: 6px 0 4px; 
+  padding:0; 
+}
+
 .activity-item{
-  display:flex; align-items:flex-start; gap:10px;
+  display: flex; 
+  align-items: flex-start; 
+  gap: 10px;
   background: rgba(255,255,255,.7);
   border: 1px solid rgba(0,0,0,.06);
   border-radius: 12px;
@@ -53,18 +74,27 @@
   box-shadow: 0 2px 10px rgba(0,0,0,.06);
   margin-bottom: 10px;
 }
+
 .activity-item .dot{
-  width:10px; height:10px; margin-top:6px; border-radius:50%;
-  background: var(--primary-color, #0ea5e9);
+  width: 10px; 
+  height: 10px; 
+  margin-top: 6px; 
+  border-radius: 50%;
+  background: var(--primary-color);
   box-shadow: 0 0 0 4px rgba(14,165,233,.18);
-  flex-shrink:0;
+  flex-shrink: 0;
 }
-.activity-item .text{ line-height:1.45; }
+
+.activity-item .text{ 
+  line-height: 1.45; 
+}
 
 .activity-list .empty{
-  color:#5b6b73; background: rgba(7,73,79,.05);
-  border:1px dashed rgba(7,73,79,.2);
-  padding:12px 14px; border-radius:12px;
+  color: #5b6b73; 
+  background: rgba(7,73,79,.05);
+  border: 1px dashed rgba(7,73,79,.2);
+  padding: 12px 14px; 
+  border-radius: 12px;
 }
 
 .notes{
@@ -77,27 +107,57 @@
   margin: 6px 0 0;
 }
 
-.it-actions{ display:flex; gap:12px; flex-wrap:wrap; margin-top: 18px; }
+.it-actions{ 
+  display: flex; 
+  gap: 12px; 
+  flex-wrap: wrap; 
+  margin-top: 18px; 
+}
 
 .btn-edit{
-  background: var(--primary-color, #0ea5e9);
-  color:#fff; border:none; border-radius:12px;
-  padding:10px 18px; font-weight:600; cursor:pointer; font-size:.95rem;
+  background: var(--primary-color);
+  color:#fff; 
+  border: none; 
+  border-radius: 12px;
+  padding:10px 18px; 
+  font-weight: 600; 
+  cursor: pointer; 
+  font-size: .95rem;
   transition: all .2s ease;
   box-shadow: 0 4px 14px rgba(14,165,233,.25);
 }
-.btn-edit:hover{ background: var(--primary-hover,#0284c7); transform: translateY(-1px); }
+
+.btn-edit:hover{ 
+  background: var(--primary-hover); 
+  transform: translateY(-1px); 
+}
 
 .btn-delete{
-  background:#dc3545; color:#fff; border:none; border-radius:12px;
-  padding:10px 18px; font-weight:600; cursor:pointer; font-size:.95rem;
+  background: #dc3545; 
+  color: #fff; 
+  border: none; 
+  border-radius: 12px;
+  padding:10px 18px; 
+  font-weight: 600; 
+  cursor: pointer; 
+  font-size: .95rem;
   transition: all .2s ease;
   box-shadow: 0 4px 14px rgba(220,53,69,.25);
 }
-.btn-delete:hover{ background:#b02a37; transform: translateY(-1px); }
+
+.btn-delete:hover{ 
+  background:#b02a37; 
+  transform: translateY(-1px); 
+}
 
 @media (max-width: 600px){
-  .itinerary-info{ padding:22px; }
-  .it-actions{ flex-direction:column; }
-  .btn-edit,.btn-delete{ width:100%; }
+  .itinerary-info{ 
+    padding:22px; 
+  }
+  .it-actions{ 
+    flex-direction:column; 
+  }
+  .btn-edit,.btn-delete{ 
+    width:100%; 
+  }
 }

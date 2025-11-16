@@ -3,14 +3,13 @@
   min-height: 100vh; 
   padding: 60px 20px;
   background: url('/dominik-schroder-FIKD9t5_5zQ-unsplash.jpg') center / cover no-repeat fixed;
-  color: var(--font-color, #07494F);
 }
 
 .trip-form-container{
   max-width: 980px;
   margin: 10vh auto;
   padding: 28px 24px 24px;
-  background: var(--bg-glass, rgba(255, 255, 255, 0.9));
+  background: var(--bg-glass);
   backdrop-filter: blur(18px);
   -webkit-backdrop-filter: blur(18px);
   border: 1px solid rgba(255,255,255,.45);
@@ -352,7 +351,7 @@
   cursor: pointer;
   font-size: 14px;
   font-weight: 700;
-  color: var(--font-color, #07494F);
+  color: var(--font-color);
   display: flex;
   align-items: center;
   justify-content: center;
@@ -362,8 +361,6 @@
 .help-icon-inline:hover {
   background: rgba(7, 73, 79, 0.1);
 }
-
-
 
 @media (max-width: 768px) {
   :host {

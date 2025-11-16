@@ -3,14 +3,14 @@
   min-height: 100vh;
   padding: 40px 16px 60px;
   background: url('/eduard-pretsi-tXP7S07hDaY-unsplash.jpg') center/cover no-repeat fixed;
-  color: var(--font-color, #07494F);
+  color: var(--font-color);
 }
 
 .reservations {
   max-width: 1000px;
   margin: 0 auto;
   margin-top: 100px;
-  background: var(--bg-glass, rgba(255, 255, 255, 0.9));
+  background: var(--bg-glass);
   backdrop-filter: blur(18px);
   -webkit-backdrop-filter: blur(18px);
   border-radius: 18px;

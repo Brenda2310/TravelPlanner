@@ -2,7 +2,6 @@
   display: flex;
   flex-direction: column;
   min-height: 100vh;
-  color: var(--font-color);
   background: url('/bailey-zindel-NRQV-hBF10M-unsplash.jpg');
 }
 
@@ -196,7 +195,7 @@ hr {
 
 .empty-icon {
   font-size: 60px;
-  color: var(--primary-color, #0ea5e9);
+  color: var(--primary-color);
   background: radial-gradient(rgba(14,165,233,.12), rgba(7,73,79,.08));
   border-radius: 50%;
   padding: 16px;

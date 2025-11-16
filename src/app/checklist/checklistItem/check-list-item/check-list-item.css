@@ -2,7 +2,6 @@
   display: block;
   min-height: 100vh;
   padding: 40px 20px;
-  color: var(--font-color, #07494F);
 }
 
 .checklist-items-container {
@@ -42,7 +41,7 @@
   padding: 8px 16px;
   font-weight: 600;
   cursor: pointer;
-  background: var(--primary-color, #0ea5e9);
+  background: var(--primary-color);
   color: #fff;
   transition: filter 0.15s ease, transform 0.03s ease;
 }
@@ -83,7 +82,7 @@
   gap: 12px;
   padding: 10px 14px;
   border-radius: 14px;
-  background: var(--bg-glass, rgba(248, 252, 252, 0.95));
+  background: var(--bg-glass);
   border: 1px solid rgba(7, 73, 79, 0.12);
   box-shadow: 0 6px 16px rgba(0, 0, 0, 0.08);
 }
@@ -98,7 +97,7 @@
 .item-checkbox {
   width: 18px;
   height: 18px;
-  accent-color: var(--primary-color, #0ea5e9);
+  accent-color: var(--primary-color);
   cursor: pointer;
 }
 
@@ -163,7 +162,7 @@
   width: 100%;
   padding: 12px 16px;
 
-  background: var(--primary-color, #0ea5e9);
+  background: var(--primary-color);
   color: #fff;
   font-weight: 700;
   border: none;

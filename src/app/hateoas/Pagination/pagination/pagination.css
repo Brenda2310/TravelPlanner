@@ -12,7 +12,7 @@
 }
 
 .pagination-button {
-  background-color: var(--footer-color, #13233A);
+  background-color: #13233A;
   color: #fff;
   border: none;
   padding: 10px 16px;
@@ -25,12 +25,12 @@
 }
 
 .pagination-button:hover {
-  background-color: var(--font-color, #07494F);
+  background-color: var(--font-color);
   transform: translateY(-2px);
 }
 
 .pagination-button.active {
-  background-color: var(--primary-color, #0ea5e9);
+  background-color: var(--primary-color);
   color: #fff;
   font-weight: 600;
   transform: scale(1.05);

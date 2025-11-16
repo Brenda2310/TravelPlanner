@@ -3,7 +3,6 @@
   min-height: 100vh;
   padding: 100px 20px 40px; 
   background: url('/dominik-schroder-ivieBAESVWM-unsplash.jpg') center/cover no-repeat fixed;
-  color: var(--font-color, #07494F);
 }
 
 .checklist-form-page {
@@ -26,7 +25,7 @@
   justify-content: center;
   font-size: clamp(1.4rem, 1.2rem + .6vw, 1.9rem);
   font-weight: 700;
-  color: var(--font-color, #07494F);
+  color: var(--font-color);
 }
 
 form {
@@ -43,7 +42,7 @@ form {
 .field-label {
   font-weight: 600;
   font-size: 0.95rem;
-  color: var(--font-color, #07494F);
+  color: var(--font-color);
 }
 
 .text-input {
@@ -57,7 +56,7 @@ form {
 }
 
 .text-input:focus {
-  border-color: var(--color1, #008C9E);
+  border-color: var(--color1);
   box-shadow: 0 0 0 2px rgba(0, 140, 158, .18);
   background: #ffffff;
 }
@@ -99,11 +98,11 @@ form {
 .trip-card:hover {
   transform: translateY(-2px);
   box-shadow: 0 10px 24px rgba(0, 0, 0, .16);
-  border-color: var(--color1, #008C9E);
+  border-color: var(--color1);
 }
 
 .trip-card.selected {
-  border-color: var(--color1, #008C9E);
+  border-color: var(--color1);
   background: rgba(0, 140, 158, .06);
   box-shadow: 0 10px 26px rgba(0, 140, 158, .20);
 }
@@ -112,7 +111,7 @@ form {
   margin: 0 0 4px;
   font-size: 1rem;
   font-weight: 700;
-  color: var(--font-color, #07494F);
+  color: var(--font-color);
 }
 
 .trip-destination {
@@ -157,7 +156,7 @@ form {
   padding: 10px 20px;
   font-weight: 600;
   cursor: pointer;
-  background: var(--font-color, #07494F);
+  background: var(--font-color);
   color: #fff;
   box-shadow: 0 8px 20px rgba(0,0,0,.16);
   transition: transform .06s ease, box-shadow .2s ease, background .2s ease;

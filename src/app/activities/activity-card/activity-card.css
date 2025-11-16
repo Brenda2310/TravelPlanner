@@ -1,13 +1,12 @@
 .activity-card.card {
   width: 100%;
-  max-width: 260px;         /* 👉 tamaño real de la card */
+  max-width: 260px;        
   padding: 18px 18px 14px;
   border-radius: 16px;
   background: rgba(255, 255, 255, 0.98);
   box-shadow: 0 6px 18px rgba(0, 0, 0, 0.18);
 }
 
-/* textos */
 .activity-title {
   font-size: 1rem;
   font-weight: 600;
@@ -30,7 +29,6 @@
   color: #07494F;
 }
 
-/* botones más compactos */
 .reservate-btn,
 .details-btn {
   display: block;
@@ -43,21 +41,18 @@
   font-weight: 600;
 }
 
-/* botón reservar */
 .reservate-btn {
   background-color: #0C7489;
   color: #ffffff;
   margin-bottom: 8px;
 }
 
-/* botón ver detalles */
 .details-btn {
   background-color: #ffffff;
   color: #07494F;
   box-shadow: 0 4px 10px rgba(0, 0, 0, 0.16);
 }
 
-/* pequeños efectos hover */
 .reservate-btn:hover {
   filter: brightness(1.05);
 }

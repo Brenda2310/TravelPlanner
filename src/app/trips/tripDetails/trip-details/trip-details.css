@@ -3,7 +3,6 @@
   min-height: 100vh;
   padding: 40px 20px;
   background: url('/dominik-schroder-FIKD9t5_5zQ-unsplash.jpg') center / cover no-repeat fixed;
-  color: var(--font-color, #07494F);
 }
 
 .trip-detail-container {
@@ -12,7 +11,7 @@
 }
 
 .trip-info {
-  background: var(--bg-glass, rgba(255, 255, 255, 0.85));
+  background: var(--bg-glass);
   border: 1px solid rgba(255, 255, 255, 0.4);
   border-radius: 18px;
   padding: 28px 30px;
@@ -32,7 +31,7 @@
   font-size: clamp(1.6rem, 2vw, 2.1rem);
   font-weight: 700;
   margin: 0 0 16px 0;
-  color: var(--font-color, #07494F);
+  color: var(--font-color);
 }
 
 .trip-info p {
@@ -53,7 +52,7 @@
 }
 
 .btn-edit {
-  background: var(--primary-color, #0ea5e9);
+  background: var(--primary-color);
   color: #fff;
   border: none;
   border-radius: 12px;
@@ -66,7 +65,7 @@
 }
 
 .btn-edit:hover {
-  background: var(--primary-hover, #0284c7);
+  background: var(--primary-hover);
   box-shadow: 0 6px 20px rgba(14, 165, 233, 0.35);
   transform: translateY(-1px);
 }
@@ -90,7 +89,7 @@
 }
 
 .expenses-section {
-  background: var(--bg-glass, rgba(255, 255, 255, 0.85));
+  background: var(--bg-glass);
   border: 1px solid rgba(255, 255, 255, 0.4);
   border-radius: 18px;
   padding: 22px 28px;
@@ -104,7 +103,7 @@
   margin: 0 0 14px;
   font-weight: 700;
   font-size: 1.4rem;
-  color: var(--font-color, #07494F);
+  color: var(--font-color);
 }
 
 @media (max-width: 600px) {

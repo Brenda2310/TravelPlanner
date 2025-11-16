@@ -3,7 +3,6 @@
   min-height: 100vh;
   padding: 60px 20px 40px;
   background: url('/golden-yg9cG9vJGW0-unsplash.jpg') center/cover no-repeat fixed;
-  color: var(--font-color, #07494F);
 }
 
 .title {
@@ -155,7 +154,7 @@
 .expense-list-container {
   margin-top: 4px;
   padding: 24px 22px 20px;
-  background: var(--bg-glass, rgba(255, 255, 255, 0.9));
+  background: var(--bg-glass);
   backdrop-filter: blur(18px);
   -webkit-backdrop-filter: blur(18px);
   border-radius: 18px;
@@ -203,7 +202,7 @@
   padding: 10px 18px;
   border-radius: 999px;
   border: none;
-  background: var(--primary-color, #0ea5e9);
+  background: var(--primary-color);
   color: #ffffff;
   font-weight: 600;
   font-size: 0.95rem;
@@ -214,7 +213,7 @@
 
 .no-expenses .btn-primary {
   padding: 10px;
-  background: var(--primary-color, #0ea5e9);
+  background: var(--primary-color);
 }
 
 .loading-text {

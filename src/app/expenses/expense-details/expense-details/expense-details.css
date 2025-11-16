@@ -3,7 +3,6 @@
   min-height: 100vh;
   padding: 60px 20px 40px;
   background: url('/golden-yg9cG9vJGW0-unsplash.jpg') center/cover no-repeat fixed;
-  color: var(--font-color, #07494F);
 }
 
 .expense-detail-container {
@@ -54,7 +53,7 @@ strong {
   padding: 10px 16px;
   border-radius: 999px;
   border: none;
-  background: #0ea5e9;
+  background: var(--primary-color);
   color: white;
   font-weight: 600;
   cursor: pointer;
@@ -101,7 +100,6 @@ strong {
   background: rgba(240, 240, 240, 0.98);
 }
 
-/* Animación suave */
 @keyframes fadeIn {
   from {
     opacity: 0;
@@ -113,7 +111,6 @@ strong {
   }
 }
 
-/* 📱 Mobile */
 @media (max-width: 768px) {
   .expense-card {
     padding: 22px 18px;

@@ -10,7 +10,7 @@
   max-width: 880px;
   margin: 70px auto 40px;
   padding: 26px 24px 24px;
-  background: var(--bg-glass, rgba(255,255,255,0.9));
+  background: var(--bg-glass);
   backdrop-filter: blur(18px);
   -webkit-backdrop-filter: blur(18px);
   border-radius: 18px;
@@ -23,7 +23,7 @@
   text-align: center;
   font-size: clamp(1.5rem, 1.2rem + 0.6vw, 2rem);
   font-weight: 700;
-  color: var(--font-color, #07494F);
+  color: var(--font-color);
 }
 
 .loading-container {
