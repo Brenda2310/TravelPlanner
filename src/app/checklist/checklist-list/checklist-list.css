@@ -121,10 +121,7 @@ h2 {
   transition: transform .18s ease, box-shadow .22s ease;
   display: grid;
   grid-template-rows: auto auto 1fr auto;
-  gap: 10px;
-  max-width: 500px;      
-  min-height: 150px;      
-  margin: 0 auto;         
+  gap: 10px;        
 }
 
 .checklist-card:hover {
@@ -144,6 +141,9 @@ h2 {
   font-size: 1.15rem;
   font-weight: 800;
   color: var(--font-color);
+  flex: 1 1 auto;      
+  min-width: 0;      
+  word-break: break-word;
 }
 
 .trip-ref {
