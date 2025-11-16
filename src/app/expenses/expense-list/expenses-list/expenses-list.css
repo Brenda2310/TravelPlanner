@@ -127,6 +127,7 @@
   background: linear-gradient(135deg, #07494f, #33696f);
   color: white;
   border: none;
+  font-size: medium;
 }
 
 .btn-secondary {
