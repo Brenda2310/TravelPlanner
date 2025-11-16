@@ -5,6 +5,16 @@
   background: url('/eduard-pretsi-tXP7S07hDaY-unsplash.jpg') center/cover no-repeat fixed;
 }
 
+.alert-error {
+  margin-bottom: 16px;
+  padding: 10px 12px;
+  border-radius: 10px;
+  background: rgba(220, 38, 38, 0.08);
+  border: 1px solid rgba(220, 38, 38, 0.3);
+  color: #991b1b;
+  font-size: 0.9rem;
+}
+
 .activity-detail-page {
   max-width: 900px;
   margin: 0 auto;

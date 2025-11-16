@@ -54,7 +54,8 @@
 
     @if (store.companyActivities().list.length === 0) {
     <p class="empty-subtitle">No hay actividades disponibles de empresas.</p>
-    } @else { @if (!security.auth().isCompany) {
+    } @else {
+       @if (!security.auth().isCompany) {
     <p class="section-description">
       ¿Buscás reservar una actividad? Mirá estas opciones disponibles para vos.
     </p>

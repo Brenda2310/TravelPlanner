@@ -3,6 +3,10 @@
   <p>Cargando detalles de la actividad...</p>
   } @else if (currentActivityDetail()) {
 
+    @if (errorMessage) {
+    <div class="alert-error">{{ errorMessage }}</div>
+    }
+
   <header>
     <h1>{{ currentActivityDetail()!.name }}</h1>
     <span class="category">{{ currentActivityDetail()!.category }}</span>

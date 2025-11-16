@@ -1,4 +1,4 @@
-import { Component, inject, OnInit } from '@angular/core';
+import { ChangeDetectorRef, Component, inject, OnInit } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
 import { ActivityStore } from '../services/activity-store';
 import { CommonModule } from '@angular/common';
@@ -19,6 +19,10 @@ export class ActivityDetails implements OnInit {
   public readonly store = inject(ActivityStore);
   public readonly security = inject(SecurityStore);
   public readonly reservationStore = inject(ReservationStore);
+  private readonly cdr = inject(ChangeDetectorRef);
+
+  private loading = this.reservationStore.loading();
+  public errorMessage = this.reservationStore.error();
 
   public currentActivityDetail = this.store.currentActivity;
 
@@ -59,8 +63,21 @@ export class ActivityDetails implements OnInit {
     this.reservationStore.createReservation(dto).subscribe({
       next: (reservation) => {
         window.location.href = reservation.urlPayment;
+        this.cdr.detectChanges();
       },
-      error: (err) => console.error('Error al crear reserva:', err),
+      error: (err: any) => {
+        this.loading = false;
+
+        console.error('Error del Store:', err);
+
+        this.errorMessage =
+          err.userMessage ||
+          err.original?.error?.message ||
+          err.original?.message ||
+          err.original?.toString() ||
+          'Error desconocido.';
+        this.cdr.detectChanges();
+      },
     });
   }
 
