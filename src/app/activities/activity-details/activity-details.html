@@ -38,6 +38,7 @@
   }
    @if (security.auth().companyId! === currentActivityDetail()!.companyId || currentActivityDetail()?.userIds?.includes(security.auth().userId!)) {
   <button (click)="toEdit()">Editar</button>
+  <button (click)="onDelete()">Eliminar</button>
   }
 } @else {
   <p>No se pudo encontrar el detalle de la actividad.</p>
