@@ -54,6 +54,7 @@ export interface ActivityCreateResponseDTO {
 }
 
 export interface ActivityResumeDTO {
+  name: string;
   description: string;
 }
 
