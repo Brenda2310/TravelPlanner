@@ -31,7 +31,7 @@
   </div>
 
   <div class="filter-item">
-    <span class="filter-label">Desde: </span>
+    <span class="filter-label">Desde:</span>
     <input type="date" formControlName="startDate">
   </div>
 
@@ -96,7 +96,7 @@
 @if (!store.loading() && store.expense().list.length === 0) {
   <div class="no-expenses">
     <p>No hay gastos registrados.</p>
-    <a routerLink="/expenses/create" class="btn-primary">Agregar Nuevo Gasto</a>
+    <a routerLink="/expenses/create" class="btn-primary">Crear Nuevo Gasto</a>
   </div>
 }
 
