@@ -4,11 +4,13 @@ import { ActivityStore } from '../services/activity-store';
 import { SecurityStore } from '../../security/services/security-store';
 import {
   ActivityCategory,
+  ActivityUpdateDTO,
   CompanyActivityCreateDTO,
+  CompanyActivityUpdateDTO,
   UserActivityCreateDTO,
 } from '../activity-models';
 import { finalize, Observable } from 'rxjs';
-import { Router } from '@angular/router';
+import { ActivatedRoute, Router } from '@angular/router';
 
 @Component({
   selector: 'app-activity-create-edit',
@@ -22,10 +24,12 @@ export class ActivityCreateEdit implements OnInit {
   private readonly store = inject(ActivityStore);
   private readonly security = inject(SecurityStore);
   private readonly router = inject(Router);
+  private readonly route = inject(ActivatedRoute);
   private readonly cdr = inject(ChangeDetectorRef);
 
   @Input() mode: 'user' | 'company' | 'edit' = 'user';
-  @Input() activityId?: number;
+
+  public activityId: number | undefined;
 
   public loading: boolean = false;
   public errorMessage: string | null = null;
@@ -57,11 +61,36 @@ export class ActivityCreateEdit implements OnInit {
   });
 
   ngOnInit(): void {
+    const idParam = this.route.snapshot.paramMap.get('id');
+
+    console.log("activityId:" + idParam);
     if (this.security.auth().isCompany) {
       this.mode = 'company';
     } else {
       this.mode = 'user';
     }
+
+    if (idParam) {
+      this.activityId = +idParam;
+      this.mode = 'edit';
+
+      this.store.findById(this.activityId).subscribe((entityModel: any) => {
+        const activity = entityModel.content || entityModel;
+        this.activityForm.patchValue({
+          name: activity.name,
+          description: activity.description,
+          category: activity.category,
+          date: activity.date,
+          startTime: activity.startTime,
+          endTime: activity.endTime,
+          price: activity.price,
+          available_quantity: activity.available_quantity,
+          sharedUserIds: activity.sharedUserIds ?? [],
+        });
+      });
+    }
+
+     console.log("mode:" + this.mode);
 
     this.setConditionalValidators();
   }
@@ -97,10 +126,35 @@ export class ActivityCreateEdit implements OnInit {
       endTime: formValue.endTime!,
       price: formValue.price!,
     };
+    if (this.mode === 'edit' && this.activityId) {
+      if (this.security.auth().isCompany) {
+        const dto: CompanyActivityUpdateDTO = {
+          ...baseActivityDto,
+          available_quantity: formValue.available_quantity!,
+        } as CompanyActivityUpdateDTO;
+
+        action$ = this.store.updateCompanyActivity(
+          this.security.auth().companyId!,
+          this.activityId,
+          dto
+        );
+      }
+      else{
+        const dto: ActivityUpdateDTO = {
+          ...baseActivityDto,
+          sharedUserIds: formValue.sharedUserIds!,
+        } as ActivityUpdateDTO;
+
+        action$ = this.store.updateUserActivity(
+          this.activityId,
+          dto
+        );
+      }
+    }
     if (this.mode === 'company') {
       const companyDto: CompanyActivityCreateDTO = {
         ...baseActivityDto,
-        companyId: this.security.auth().userId,
+        companyId: this.security.auth().companyId,
         available_quantity: formValue.available_quantity!,
       } as CompanyActivityCreateDTO;
       action$ = this.store.createActivityFromCompany(companyDto);
@@ -136,7 +190,7 @@ export class ActivityCreateEdit implements OnInit {
           err.original?.message ||
           err.original?.toString() ||
           'Error desconocido.';
-          this.cdr.detectChanges();
+        this.cdr.detectChanges();
       },
     });
   }

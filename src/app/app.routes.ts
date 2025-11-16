@@ -178,6 +178,7 @@ export const routes: Routes = [
                 'ROLE_USER',
               ]),
             ],
+            data: { mode: 'edit' }
           },
           {
             path: ':id',

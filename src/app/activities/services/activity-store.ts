@@ -142,6 +142,22 @@ export class ActivityStore extends BaseStore {
     });
   }
 
+  findById(id: number) {
+    this._loading.set(true);
+    return this.client.getActivityById(id).pipe(
+    tap((entityModel) => {
+      const activity = (entityModel as any).content || entityModel;
+      this._currentActivity.set(activity);
+      this._loading.set(false);
+    }),
+    catchError((err) => {
+      console.error(`Store Error: Failed to load activity with id ${id}`, err);
+      this._loading.set(false);
+      return throwError(() => err);
+    })
+  );
+  }
+
   loadById(id: number) {
     this._loading.set(true);
     this.client.getActivityById(id).subscribe({

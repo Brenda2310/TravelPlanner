@@ -1,7 +1,7 @@
 <div class="activity-create-edit">
     
     <h2 class="title">
-        @if (activityId) {
+        @if (mode === 'edit') {
             Editar Actividad
         } @else if (mode === 'company') {
             Crear Actividad para la Compañía
