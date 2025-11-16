@@ -42,6 +42,9 @@ export class ChecklistCreateEdit implements OnInit{
 
   public effect = effect(() => {
     const checklist = this.store.currentChecklist();
+    const isEditing = this.isEditing;
+
+    if (!isEditing || !checklist) return;
 
     if (checklist) {
       this.checklistForm.patchValue({
