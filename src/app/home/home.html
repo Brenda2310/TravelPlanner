@@ -28,5 +28,11 @@
     }
 </div>
 </section>
+@if(!isCompany()){
 <app-features></app-features>
+}
+
+@if(isCompany()){
+    <app-testimonials></app-testimonials>
+}
 
