@@ -57,6 +57,9 @@ export class ExpensesCreateEdit implements OnInit{
 
   public effect = effect(() => {
     const expense = this.store.currentExpenseDetail();
+    const isEditing = this.isEditing; 
+
+    if (!isEditing) return;
 
     if(expense){
       this.expenseForm.patchValue({
