@@ -6,6 +6,16 @@
   color: var(--font-color, #07494F);
 }
 
+.alert-error {
+  margin-bottom: 16px;
+  padding: 10px 12px;
+  border-radius: 10px;
+  background: rgba(220, 38, 38, 0.08);
+  border: 1px solid rgba(220, 38, 38, 0.3);
+  color: #991b1b;
+  font-size: 0.9rem;
+}
+
 .browser-title {
   display: flex;
   justify-content: center;

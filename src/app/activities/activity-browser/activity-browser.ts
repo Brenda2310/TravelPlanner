@@ -1,4 +1,4 @@
-import { Component, inject, OnInit } from '@angular/core';
+import { ChangeDetectorRef, Component, inject, OnInit } from '@angular/core';
 import { ActivityStore } from '../services/activity-store';
 import { FormBuilder, ReactiveFormsModule } from '@angular/forms';
 import { Pageable } from '../../hateoas/hateoas-models';
@@ -25,8 +25,11 @@ export class ActivityBrowser implements OnInit{
   private readonly router = inject(Router);
   private readonly reservationStore = inject(ReservationStore);
   public readonly security = inject(SecurityStore);
+  private readonly cdr = inject(ChangeDetectorRef);
 
   public pageable: Pageable = { page: 0, size: 12, sort: 'date,asc' };
+  private loading = this.reservationStore.loading();
+  public errorMessage = this.reservationStore.error();
 
   public readonly category: ActivityCategory[] = ['AVENTURA', 'CULTURA', 'RELAX', 'GASTRONOMIA', 'NATURALEZA', 'NIGHTLIFE', 'SHOPPING', 
   'DEPORTES', 'HISTORIA', 'FAMILIA'];
@@ -80,9 +83,19 @@ export class ActivityBrowser implements OnInit{
             console.log('Reserva creada con éxito:', reservation);
             this.router.navigateByUrl('/reservaciones');
         },
-        error: (err) => {
-            console.error('Error al intentar crear reserva:', err); 
-        }
+        error: (err: any) => {
+        this.loading = false;
+
+        console.error('Error del Store:', err);
+
+        this.errorMessage =
+          err.userMessage ||
+          err.original?.error?.message ||
+          err.original?.message ||
+          err.original?.toString() ||
+          'Error desconocido.';
+        this.cdr.detectChanges();
+      },
     });
     }
 }

@@ -1,4 +1,4 @@
-import { Component, effect, inject, OnInit } from '@angular/core';
+import { ChangeDetectorRef, Component, effect, inject, OnInit } from '@angular/core';
 import { ExpenseStore } from '../../services/expense-store';
 import { FormBuilder, ReactiveFormsModule, Validators } from '@angular/forms';
 import { ActivatedRoute, Router } from '@angular/router';
@@ -6,7 +6,7 @@ import { TripStore } from '../../../trips/services/trip-store';
 import { SecurityStore } from '../../../security/services/security-store';
 import { Pageable } from '../../../hateoas/hateoas-models';
 import { ExpenseCategory, ExpenseCreateDTO, ExpenseUpdateDTO } from '../../expense-models';
-import { Observable } from 'rxjs';
+import { finalize, Observable } from 'rxjs';
 
 @Component({
   selector: 'app-expenses-create-edit',
@@ -22,6 +22,7 @@ export class ExpensesCreateEdit implements OnInit{
   private readonly route = inject(ActivatedRoute);
   private readonly tripStore = inject(TripStore);
   private readonly securityStore = inject(SecurityStore);
+  private readonly cdr = inject(ChangeDetectorRef);
 
   public isEditing = false;
   public loading = false;
@@ -125,15 +126,32 @@ export class ExpensesCreateEdit implements OnInit{
       action$ = this.store.createExpense(dto);
     }
 
+    const observable$ = action$.pipe(
+          finalize(() => {
+            this.loading = false;
+            this.cdr.detectChanges();
+          })
+        );
+
     action$.subscribe({
       next: () => {
         alert(`Gasto ${this.isEditing ? 'actualizado' : 'creado'} con exito.`);
         this.router.navigateByUrl("/expenses");
+        this.cdr.detectChanges();
       }, 
-      error: (err) => {
-        this.errorMessage = err.error?.message || "Error al guardar el gasto";
+      error: (err: any) => {
         this.loading = false;
-      }
+
+        console.error('Error del Store:', err);
+
+        this.errorMessage =
+          err.userMessage ||
+          err.original?.error?.message ||
+          err.original?.message ||
+          err.original?.toString() ||
+          'Error desconocido.';
+          this.cdr.detectChanges();
+      },
     });
   }
 
