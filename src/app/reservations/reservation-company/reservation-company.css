@@ -6,6 +6,11 @@
   color: var(--font-color, #07494F);
 }
 
+.title{
+    text-align: center;
+    font-weight: 700;
+}
+
 .reservation-company {
   max-width: 980px;
   margin: 60px auto 40px;

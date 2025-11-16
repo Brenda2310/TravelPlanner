@@ -67,7 +67,6 @@ export class TripCreateEdit implements OnInit {
   public readonly patchEffect = effect(() => {
     const trip = this.store.currentTrip();
     if (trip && trip.id === this.tripId) {
-      console.log('🌀 Parchando formulario con datos del viaje:', trip);
       this.tripForm.patchValue({
         name: trip.name,
         destination: trip.destination,

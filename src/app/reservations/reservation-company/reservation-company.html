@@ -6,13 +6,14 @@
 } @if (error()) {
 <p class="error">{{ error() }}</p>
 } @else {
+<h2 class="title">Reservas de usuarios</h2>
 <table class="table">
   <thead>
     <tr>
       <th>Fecha</th>
       <th>Estado</th>
       <th>Pagado</th>
-      <th>Acciones</th>
+      <th>TravelCode</th>  
     </tr>
   </thead>
   <tbody>
@@ -21,6 +22,7 @@
       <td>{{ r.reservationDate | date }}</td>
       <td>{{ r.status }}</td>
       <td>{{ r.paid ? 'Sí' : 'No' }}</td>
+      <td>{{ r.userId }}</td>
     </tr>
     }
   </tbody>

@@ -45,7 +45,7 @@
 .filter-form {
   display: grid;
   grid-template-columns:
-    minmax(160px, 1.2fr)   
+    minmax(180px, 1.2fr)   
     minmax(180px, 1.2fr)   
     minmax(170px, auto)    
     minmax(170px, auto)    
