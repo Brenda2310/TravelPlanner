@@ -151,7 +151,7 @@ export class ActivityCreateEdit implements OnInit {
         );
       }
     }
-    if (this.mode === 'company') {
+    else if (this.mode === 'company') {
       const companyDto: CompanyActivityCreateDTO = {
         ...baseActivityDto,
         companyId: this.security.auth().companyId,
