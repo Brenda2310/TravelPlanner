@@ -10,19 +10,21 @@ interface SessionState {
   userId: number | null;
   isAdmin: boolean;
   isCompany: boolean;
+  companyId: number | null;
 }
 
 @Injectable({
   providedIn: 'root',
 })
 export class SecurityStore {
-  private readonly client = inject(SecurityService);
+  public readonly client = inject(SecurityService);
   private readonly _auth = signal<SessionState>({
     isAuthenticated: this.client.isAuthenticated(),
-    userRoles: [],
+    userRoles: this.client.getRoles(),
     userId: this.client.getUserId(),
     isAdmin: this.client.isAdmin(),
-    isCompany: this.client.isCompany()
+    isCompany: this.client.isCompany(),
+    companyId: this.client.getCompanyId()
   });
 
   private readonly _loading = signal<boolean>(false);
@@ -39,7 +41,8 @@ export class SecurityStore {
       userRoles: this.client.getRoles(),
       userId: this.client.getUserId(),
       isAdmin: this.client.isAdmin(),
-      isCompany: this.client.isCompany()
+      isCompany: this.client.isCompany(),
+      companyId: this.client.getCompanyId()
     });
   }
 
