@@ -108,6 +108,8 @@ h2 {
   grid-template-columns: repeat(auto-fit, minmax(320px, 1fr));
   gap: 22px;
   margin-top: 12px;
+  grid-auto-rows: 230px;
+  align-items: stretch;
 }
 
 .checklist-card {
