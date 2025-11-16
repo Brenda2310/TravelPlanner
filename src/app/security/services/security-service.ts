@@ -137,7 +137,7 @@ export class SecurityService {
     return token;
   }
 
-  public decodeJwt(token: string): any {
+  private decodeJwt(token: string): any {
     if (!token) return null;
 
     try {

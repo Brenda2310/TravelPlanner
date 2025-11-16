@@ -17,7 +17,7 @@ interface SessionState {
   providedIn: 'root',
 })
 export class SecurityStore {
-  public readonly client = inject(SecurityService);
+  private readonly client = inject(SecurityService);
   private readonly _auth = signal<SessionState>({
     isAuthenticated: this.client.isAuthenticated(),
     userRoles: this.client.getRoles(),

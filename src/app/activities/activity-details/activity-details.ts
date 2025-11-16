@@ -26,8 +26,6 @@ export class ActivityDetails implements OnInit {
     const idParam = this.route.snapshot.paramMap.get('id');
     if (idParam) {
       const activityId = +idParam;
-      console.log("DECODED TOKEN", this.security.client.decodeJwt(this.security.client.getAccessToken()!));
-      console.log("userId: " + this.security.auth().userId + " CompanyId: " + this.security.auth().companyId);
       this.store.loadById(activityId);
     }
   }
