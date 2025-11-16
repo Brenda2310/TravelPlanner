@@ -72,41 +72,44 @@
     </div>
 
     <div class="form-things">
-      <div class="form-group">
-        <label for="date" class="form-label">Fecha (*)</label>
-        <input id="date" type="date" formControlName="date" class="form-input">
-        @if (expenseForm.get('date')?.invalid && expenseForm.get('date')?.touched) {
-          <small class="validation-error">La fecha es obligatoria.</small>
-        }
-      </div>
+  <div class="form-group full-width">
+    
+    <div class="share-label-row">
+      <label class="form-label">
+        Compartir gasto con otros usuarios (TravelCode):
+        <button
+          type="button"
+          class="help-icon-inline-inline"
+          (click)="openTravelCodeInfo()"
+          aria-label="¿Qué es el TravelCode?"
+        >?</button>
+      </label>
     </div>
 
-    <div class="form-things">
-      <div class="form-group full-width">
-        <label class="form-label">Compartir gasto con otros usuarios (TravelCode):</label>
-
-        <div class="share-list">
-          @for (id of expenseForm.get('sharedUserIds')?.value; track $index) {
-            <div class="share-item">
-              <span>{{ id }}</span>
-              <button type="button" (click)="removeUserId(id)">×</button>
-            </div>
-          }
-
-          <div class="share-input">
-            <input
-              type="number"
-              placeholder="Agregar TravelCode..."
-              formControlName="newUserId"
-              (keydown.enter)="addUserId()"
-            />
-            <button type="button" (click)="addUserId()">
-              <img src="/person_add_24dp_33696F_FILL0_wght400_GRAD0_opsz24.svg" class="add-icon" alt="agregar">
-            </button>
-          </div>
+    <div class="share-list">
+      @for (id of expenseForm.get('sharedUserIds')?.value; track $index) {
+        <div class="share-item">
+          <span>{{ id }}</span>
+          <button type="button" (click)="removeUserId(id)">×</button>
         </div>
+      }
+
+      <div class="share-input">
+        <input
+          type="number"
+          placeholder="Agregar TravelCode..."
+          formControlName="newUserId"
+          (keydown.enter)="addUserId()"
+        />
+        <button type="button" (click)="addUserId()">
+          <img src="/person_add_24dp_33696F_FILL0_wght400_GRAD0_opsz24.svg" class="add-icon" alt="agregar">
+        </button>
       </div>
     </div>
+
+  </div>
+</div>
+
 
     <div class="actions">
       <button
@@ -124,3 +127,24 @@
     </div>
   </form>
 </div>
+
+@if (showTravelCodeInfo()) {
+  <div class="modal-overlay" (click)="closeTravelCodeInfo()">
+    <div class="modal-card" (click)="$event.stopPropagation()">
+      <h3>¿Qué es el TravelCode?</h3>
+      <p>
+        El <strong>TravelCode</strong> es un código único que identifica a cada usuario
+        en TravelPlanner. Si lo agregás acá, podrás asociar este gasto a otros usuarios
+        que estén compartiendo el viaje con vos.
+      </p>
+      <p>
+        Podés encontrar tu propio TravelCode en la sección
+        <strong>"Mi perfil"</strong>, y compartirlo con quien quieras.
+      </p>
+
+      <button type="button" class="modal-close-btn" (click)="closeTravelCodeInfo()">
+        Entendido
+      </button>
+    </div>
+  </div>
+}
