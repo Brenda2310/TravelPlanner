@@ -6,6 +6,7 @@ import {
   ReservationCreateDTO }
    from '../reservation-models'; 
 import { BaseService } from '../../BaseService';
+import { catchError, throwError } from 'rxjs';
 
 @Injectable({
   providedIn: 'root'
@@ -16,7 +17,11 @@ export class ReservationService extends BaseService{
   private readonly api = 'http://localhost:8080/reservation';
 
   createReservation(dto: ReservationCreateDTO){
-    return this.http.post<ReservationResponseDTO>(`${this.api}`, dto);
+    return this.http.post<ReservationResponseDTO>(`${this.api}`, dto).pipe(
+          catchError((err) => {
+            return throwError(() => err);
+          })
+        );;
   }
 
   confirmPayment(externalReference: number, paymentId: number, pageable: Pageable) {

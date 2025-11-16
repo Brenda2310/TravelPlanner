@@ -1,106 +1,85 @@
 <div class="browser-title">
-<h2>Actividades</h2>
+  <h2>Actividades</h2>
 </div>
 
 <div class="top-controls">
-
   <div class="create-wrapper">
     @if (security.auth().isCompany) {
-      <a
-        routerLink="/activities/create/company"
-        class="btn-primary">
-        + Crear Nueva Actividad
-      </a>
-    }
-    @else {
-      <a
-        routerLink="/activities/create"
-        class="btn-primary">
-        + Crear Nueva Actividad
-      </a>
+    <a routerLink="/activities/create/company" class="btn-primary"> + Crear Nueva Actividad </a>
+    } @else {
+    <a routerLink="/activities/create" class="btn-primary"> + Crear Nueva Actividad </a>
     }
   </div>
 
-  <app-activity-filters 
+  <app-activity-filters
     class="filters-outside"
     [categoryList]="category"
     [form]="filterForm"
-    (filtersApplied)="onApplyFilters($event)">
+    (filtersApplied)="onApplyFilters($event)"
+  >
   </app-activity-filters>
-
 </div>
 
 <div class="activity-browser-container browser">
-
   @if (store.loading()) {
-    <p class="loading-message loading">Buscando actividades...</p>
-  }
-  @else {
+  <p class="loading-message loading">Buscando actividades...</p>
+  } @else { @if (!security.auth().isCompany) {
+  <div class="my-activities-section">
+    <h3 class="section-title">Tus actividades creadas</h3>
 
-    @if (!security.auth().isCompany) {
-    <div class="my-activities-section">
+    @if (store.userActivities().list.length === 0) {
+    <p class="empty-subtitle">Aún no creaste actividades propias.</p>
+    } @else {
 
-      <h3 class="section-title">Tus actividades creadas</h3>
+    <p class="section-description">
+      Estas son las actividades que vos mismo registraste. Podés editarlas, ver sus detalles o
+      actualizarlas cuando quieras.
+    </p>
 
-      @if (store.userActivities().list.length === 0) {
-        <p class="empty-subtitle">
-          Aún no creaste actividades propias. 
-        </p>
-      }
-      @else {
-
-        <p class="section-description">
-          Estas son las actividades que vos mismo registraste.
-          Podés editarlas, ver sus detalles o actualizarlas cuando quieras.
-        </p>
-
-        <app-activity-list 
-          class="activity-list-section"
-          [activities]="store.userActivities().list"
-          type="user"
-          (reservate)="reservate($event)">
-        </app-activity-list>
-      }
-    
-
-    </div>
+    <app-activity-list
+      class="activity-list-section"
+      [activities]="store.userActivities().list"
+      type="user"
+      (reservate)="reservate($event)"
+    >
+    </app-activity-list>
+    }
+  </div>
   }
 
-    <hr>
+  <hr />
 
-    <div class="company-activities-section">
+  <div class="company-activities-section">
+    <h3 class="section-title">Actividades de empresas</h3>
 
-      <h3 class="section-title">Actividades de empresas</h3>
+    @if (store.companyActivities().list.length === 0) {
+    <p class="empty-subtitle">No hay actividades disponibles de empresas.</p>
+    } @else { @if (!security.auth().isCompany) {
+    <p class="section-description">
+      ¿Buscás reservar una actividad? Mirá estas opciones disponibles para vos.
+    </p>
+    } @if (errorMessage) {
+    <div class="alert-error">{{ errorMessage }}</div>
+    }
 
-      @if (store.companyActivities().list.length === 0) {
-        <p class="empty-subtitle">No hay actividades disponibles de empresas.</p>
-      }
-      @else {
+    <app-activity-list
+      class="activity-list-section"
+      [activities]="store.companyActivities().list"
+      type="company"
+      (reservate)="reservate($event)"
+    >
+    </app-activity-list>
 
-        
-        @if (!security.auth().isCompany) {
-        <p class="section-description">
-          ¿Buscás reservar una actividad?  
-          Mirá estas opciones disponibles para vos.
-        </p>
-      }
+    <app-pagination
+      class="pagination-section"
+      [currentPage]="store.companyActivities().pageInfo.currentPage"
+      [totalPages]="store.companyActivities().pageInfo.totalPages"
+      (pageChange)="onPageChange($event)"
+    >
+    </app-pagination>
 
-        <app-activity-list 
-          class="activity-list-section"
-          [activities]="store.companyActivities().list"
-          type="company"
-          (reservate)="reservate($event)">
-        </app-activity-list>
-
-        <app-pagination 
-          class="pagination-section"
-          [currentPage]="store.companyActivities().pageInfo.currentPage"
-          [totalPages]="store.companyActivities().pageInfo.totalPages"
-          (pageChange)="onPageChange($event)">
-        </app-pagination>
-
-      }
-    </div>
+    }
+  </div>
 
   }
 </div>

@@ -10,6 +10,7 @@ import {
   ExpenseCategory } 
   from '../expense-models';
 import { BaseService } from '../../BaseService';
+import { catchError, throwError } from 'rxjs';
 
 @Injectable({
   providedIn: 'root'
@@ -19,7 +20,11 @@ export class ExpenseService extends BaseService{
   private readonly api = 'http://localhost:8080/expenses';
 
   createExpense(dto: ExpenseCreateDTO){
-    return this.http.post<ExpenseResponseDTO>(`${this.api}`, dto);
+    return this.http.post<ExpenseResponseDTO>(`${this.api}`, dto).pipe(
+          catchError((err) => {
+            return throwError(() => err);
+          })
+        );;
   }
 
   getAllExpenses(pageable: Pageable, category?: ExpenseCategory){
@@ -43,7 +48,11 @@ export class ExpenseService extends BaseService{
   }
 
   updateExpense(id: number, dto: ExpenseUpdateDTO){
-    return this.http.put<ExpenseResumeDTO>(`${this.api}/${id}`, dto);
+    return this.http.put<ExpenseResumeDTO>(`${this.api}/${id}`, dto).pipe(
+      catchError((err) => {
+        return throwError(() => err);
+      })
+    );;
   }
 
   deleteExpense(id: number){
