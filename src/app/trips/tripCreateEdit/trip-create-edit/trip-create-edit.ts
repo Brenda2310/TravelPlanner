@@ -119,7 +119,10 @@ export class TripCreateEdit implements OnInit {
     };
 
     if (this.isEditing) {
-      const updateDto: TripUpdateDTO = tripDto;
+      const updateDto: TripUpdateDTO = {
+        ...tripDto, 
+        sharedUserIds: formValue.sharedUserIds || []
+      };
       action$ = this.store.updateTrip(this.tripId!, updateDto);
     } else {
       const createDto: TripCreateDTO = {
