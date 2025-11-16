@@ -82,6 +82,7 @@ export class ActivityBrowser implements OnInit{
         next: (reservation) => {
             console.log('Reserva creada con éxito:', reservation);
             this.router.navigateByUrl('/reservaciones');
+            this.cdr.detectChanges();
         },
         error: (err: any) => {
         this.loading = false;
