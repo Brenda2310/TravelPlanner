@@ -2,6 +2,7 @@ import { Component, EventEmitter, inject, Input, Output } from '@angular/core';
 import { ActivityCompanyResponseDTO } from '../activity-models';
 import { CommonModule } from '@angular/common';
 import { Router } from '@angular/router';
+import { SecurityStore } from '../../security/services/security-store';
 
 @Component({
   selector: 'app-activity-card',
@@ -12,6 +13,7 @@ import { Router } from '@angular/router';
 })
 export class ActivityCard {
   private readonly router = inject(Router);
+  public readonly security = inject(SecurityStore);
   @Input() activity!: ActivityCompanyResponseDTO;
   @Output() reservate = new EventEmitter<number>();
   @Input() type: 'user' | 'company' = 'user';

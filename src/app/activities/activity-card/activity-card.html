@@ -4,7 +4,9 @@
   <p class="activity-price">{{ activity.price | currency:'ARS' }}</p>
 
   @if (type === 'company') {
-    <button class="btn-primary reservate-btn" (click)="onAdd()">Reservar</button>
+    @if (!security.auth().isCompany) {
+      <button class="btn-primary reservate-btn" (click)="onAdd()">Reservar</button>
+    }
   }
 
   <button class="btn-secondary details-btn" (click)="toDetails()">Ver Detalles</button>
