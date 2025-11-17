@@ -1,4 +1,4 @@
-import { Component, inject, Input, OnInit } from '@angular/core';
+import { Component, inject, Input, OnChanges, OnInit, SimpleChanges } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { FormBuilder, ReactiveFormsModule, Validators } from '@angular/forms';
 import { ChecklistItemStore } from '../../services/checklistItem/checklist-item-store';
@@ -12,7 +12,7 @@ import { Router } from '@angular/router';
   templateUrl: './check-list-item.html',
   styleUrl: './check-list-item.css'
 })
-export class CheckListItem implements OnInit {
+export class CheckListItem implements OnChanges {
 
   public readonly store = inject(ChecklistItemStore);
   private readonly service = inject(ChecklistItemService);
@@ -27,12 +27,14 @@ export class CheckListItem implements OnInit {
 
   public errorMessage: string | null = null;
 
-  ngOnInit(): void {
-      console.log('Checklist ID recibido:', this.checklistId);
-    if (this.checklistId) {
-      this.store.loadItemsByChecklistId(this.checklistId, { page: 0, size: 10 });
-    }
+  ngOnChanges(changes: SimpleChanges): void {
+  if (changes['checklistId'] && this.checklistId) {
+    console.log('Checklist ID cambió a:', this.checklistId);
+
+    this.store.resetItems();
+    this.store.loadItemsByChecklistId(this.checklistId, { page: 0, size: 10 });
   }
+}
 
   createItem() {
     if (this.itemForm.invalid) return;
