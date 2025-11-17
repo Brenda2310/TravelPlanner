@@ -3,6 +3,7 @@
     
         @if(!isAuthenticated()){
         <h1>Bienvenido a TravelPlanner</h1>
+        <p>Tu solución definitiva para organizar viajes y controlar presupuestos sin complicaciones</p>
         }@else {
             @if (isCompany()) {
                 <h1>Bienvenido/a,  {{  currentCompany()?.username || 'viajer@' }}</h1>
