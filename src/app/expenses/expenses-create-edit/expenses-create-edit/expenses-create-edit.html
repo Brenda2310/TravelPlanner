@@ -64,12 +64,22 @@
       </div>
     </div>
 
+    <div class="form-group">
+    <label for="date" class="form-label">Fecha (*)</label>
+    <input type="date" id="date" formControlName="date" class="form-input">
+
+    @if (expenseForm.get('date')?.invalid && expenseForm.get('date')?.touched) {
+      <small class="validation-error">La fecha es obligatoria.</small>
+    }
+  </div>
+
     <div class="form-things">
       <div class="form-group full-width">
         <label for="description" class="form-label">Descripción:</label>
         <textarea id="description" formControlName="description" class="form-input h-20"></textarea>
       </div>
     </div>
+
 
     <div class="form-things">
   <div class="form-group full-width">
