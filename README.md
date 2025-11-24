@@ -119,14 +119,14 @@ TravelPlanner implementa un diseño limpio con:
                    ├── La reserva queda asociada al viaje
 
 7. Crear una Checklist
-   └── En el viaje: sección "Checklist"
+   └── Sección "Checklist"
        └── + Nueva lista
            ├── Título de la checklist
            └── Ítems (agregar, marcar, editar)
                └── Se muestra la checklist completa del viaje
 
 8. Registrar Gastos
-   └── En el viaje: sección "Gastos"
+   └── Sección "Gastos"
        └── + Crear gasto
            ├── Categoría
            ├── Monto
@@ -134,6 +134,11 @@ TravelPlanner implementa un diseño limpio con:
            └── Quién participó del gasto
                └── Se actualizan los totales y métricas del viaje
 ```
+
+# TravelCode (Código único del usuario)
+Cada usuario de TravelPlanner cuenta con un **TravelCode**, un identificador único y personal que puede compartir con otros usuarios.  
+Este código permite vincular actividades, gastos y viajes entre personas de manera rápida y sencilla para mejorar la experiencia. 
+
 # Instalación
 
 Este proyecto requiere el **backend de TravelPlanner** para funcionar correctamente.  
