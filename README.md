@@ -47,7 +47,7 @@ src/app/
   security/          # Autenticación, login, register, stores y JWT interceptor
   trips/             # Viajes (CRUD)
   users/             # Gestión de perfil del usuario
-...
+```
 
 # Tech Stack
 - Angular 20
