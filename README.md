@@ -2,7 +2,7 @@
 
 
 Este es el proyecto frontend de TravelPlanner, desarrollado en Angular, que funciona como cliente del backend en Spring Boot.
-Permite a los usuarios gestionar sus viajes, itinerarios diarios, gastos y listas personalizadas a través de una interfaz moderna, modular y responsive.
+Permite a los usuarios gestionar sus viajes, itinerarios diarios, gastos y actividades a través de una interfaz moderna, modular y responsive.
 
 
 ---
