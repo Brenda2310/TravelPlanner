@@ -133,6 +133,11 @@ TravelPlanner implementa un diseño limpio con:
            └── Quién participó del gasto
                └── Se actualizan los totales y métricas del viaje
 ```
+# Instalación
+
+Este proyecto requiere el **backend de TravelPlanner** para funcionar correctamente.  
+El frontend depende de la API REST del backend para gestionar viajes, itinerarios, actividades, gastos y reservas.
+
 # Tech Stack
 
 - Angular 20
@@ -142,3 +147,13 @@ TravelPlanner implementa un diseño limpio con:
 - HTML + CSS / SCSS
 - Angular Material
 - REST API integration con HttpClient
+
+# Equipo
+
+- **Melina Di Meglio** 
+- **Lucía Castagnino** 
+- **Brenda Fernández**
+
+# Licencia
+Este proyecto es de código abierto y fue desarrollado como parte de la materia Programación IV de la Universidad Tecnológica Nacional – Facultad Regional Mar del Plata (UTN-FRMDP).
+Su finalidad es exclusivamente académica y formativa.
