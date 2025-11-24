@@ -1,4 +1,4 @@
-# TravelPlanner
+# ✈️ TravelPlanner
 
 
 Este es el proyecto frontend de TravelPlanner, desarrollado en Angular, que funciona como cliente del backend en Spring Boot.
