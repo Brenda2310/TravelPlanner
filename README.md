@@ -72,6 +72,7 @@ TravelPlanner implementa un diseño limpio con:
 - Headers transparentes con blur, que mantienen visibilidad del contenido sin perder navegación.
 - Tarjetas con bordes redondeados y sombras suaves (box-shadow) para resaltar información.
 - Layout responsive basado en Flex y Grid.
+- Fondos con imágenes de alta calidad, seleccionadas de bancos gratuitos y de licencia libre, optimizadas para mantener una estética visual agradable sin comprometer la legibilidad.
 
 # Flujo de Uso en TravelPlanner
 ```md
