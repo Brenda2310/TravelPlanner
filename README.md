@@ -1,59 +1,46 @@
 # TravelPlanner
 
-This project was generated using [Angular CLI](https://github.com/angular/angular-cli) version 20.3.4.
 
-## Development server
+Este es el proyecto frontend de TravelPlanner, desarrollado en Angular, que funciona como cliente del backend en Spring Boot.
+Permite a los usuarios gestionar sus viajes, itinerarios diarios, gastos y listas personalizadas a través de una interfaz moderna, modular y responsive.
 
-To start a local development server, run:
 
-```bash
-ng serve
-```
+---
 
-Once the server is running, open your browser and navigate to `http://localhost:4200/`. The application will automatically reload whenever you modify any of the source files.
+# Key Features
 
-## Code scaffolding
+Gestión de usuarios con autenticación y perfiles individuales.
 
-Angular CLI includes powerful code scaffolding tools. To generate a new component, run:
+Planificación de viajes: destino, fechas, presupuesto y participantes.
 
-```bash
-ng generate component component-name
-```
+Itinerarios diarios con actividades, horarios y notas.
 
-For a complete list of available schematics (such as `components`, `directives`, or `pipes`), run:
+Registro de gastos por categoría, monto y fecha.
 
-```bash
-ng generate --help
-```
+Checklists personalizadas para cada viaje.
 
-## Building
+Gestión de estado con stores por feature.
 
-To build the project run:
+Consumo de API REST del backend (Spring Boot).
 
-```bash
-ng build
-```
+Manejo centralizado de errores, loading y autenticación.
 
-This will compile your project and store the build artifacts in the `dist/` directory. By default, the production build optimizes your application for performance and speed.
+Rutas protegidas mediante guards.
 
-## Running unit tests
+---
 
-To execute unit tests with the [Karma](https://karma-runner.github.io) test runner, use the following command:
+# Tech Stack
 
-```bash
-ng test
-```
+Angular 20
 
-## Running end-to-end tests
+TypeScript
 
-For end-to-end (e2e) testing, run:
+RxJS
 
-```bash
-ng e2e
-```
+Angular Signals / Stores
 
-Angular CLI does not come with an end-to-end testing framework by default. You can choose one that suits your needs.
+HTML + CSS / SCSS
 
-## Additional Resources
+Angular Material
 
-For more information on using the Angular CLI, including detailed command references, visit the [Angular CLI Overview and Command Reference](https://angular.dev/tools/cli) page.
+REST API integration con HttpClient
