@@ -9,15 +9,15 @@ La aplicación está diseñada con una arquitectura modular, escalable y 100% re
 
 # Key Features
 
-Gestión de usuarios con autenticación y perfiles individuales.
-Planificación de viajes: destino, fechas, presupuesto y participantes.
-Itinerarios diarios con actividades, horarios y notas.
-Registro de gastos por categoría, monto y fecha.
-Checklists personalizadas para cada viaje.
-Gestión de estado con stores por feature.
-Consumo de API REST del backend (Spring Boot).
-Manejo centralizado de errores, loading y autenticación.
-Rutas protegidas mediante guards.
+- Gestión de usuarios con autenticación y perfiles individuales.
+- Planificación de viajes: destino, fechas, presupuesto y participantes.
+- Itinerarios diarios con actividades, horarios y notas.
+- Registro de gastos por categoría, monto y fecha.
+- Checklists personalizadas para cada viaje.
+- Gestión de estado con stores por feature.
+- Consumo de API REST del backend (Spring Boot).
+- Manejo centralizado de errores, loading y autenticación.
+- Rutas protegidas mediante guards.
 
 ---
 
