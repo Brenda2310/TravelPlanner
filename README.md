@@ -47,19 +47,13 @@ src/app/
   security/          # Autenticación, login, register, stores y JWT interceptor
   trips/             # Viajes (CRUD)
   users/             # Gestión de perfil del usuario
+...
 
 # Tech Stack
-
-Angular 20
-
-TypeScript
-
-RxJS
-
-Angular Signals / Stores
-
-HTML + CSS / SCSS
-
-Angular Material
-
-REST API integration con HttpClient
+- Angular 20
+- TypeScript
+- RxJS
+- Angular Signals / Stores
+- HTML + CSS / SCSS
+- Angular Material
+- REST API integration con HttpClient
