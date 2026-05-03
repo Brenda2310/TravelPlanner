@@ -1,8 +1,8 @@
-import { inject, Injectable, signal } from '@angular/core';
-import { SecurityService } from './security-service';
-import { Observable, tap, catchError, EMPTY, throwError } from 'rxjs';
-import { AuthResponse, AuthRequest } from '../security-models';
 import { HttpErrorResponse } from '@angular/common/http';
+import { inject, Injectable, signal } from '@angular/core';
+import { catchError, EMPTY, Observable, tap, throwError } from 'rxjs';
+import { AuthRequest, AuthResponse } from '../security-models';
+import { SecurityService } from './security-service';
 
 interface SessionState {
   isAuthenticated: boolean;
@@ -24,7 +24,7 @@ export class SecurityStore {
     userId: this.client.getUserId(),
     isAdmin: this.client.isAdmin(),
     isCompany: this.client.isCompany(),
-    companyId: this.client.getCompanyId()
+    companyId: this.client.getCompanyId(),
   });
 
   private readonly _loading = signal<boolean>(false);
@@ -34,7 +34,6 @@ export class SecurityStore {
   public readonly loading = this._loading.asReadonly();
   public readonly error = this._error.asReadonly();
 
-
   private updateSessionState(): void {
     this._auth.set({
       isAuthenticated: this.client.isAuthenticated(),
@@ -42,14 +41,14 @@ export class SecurityStore {
       userId: this.client.getUserId(),
       isAdmin: this.client.isAdmin(),
       isCompany: this.client.isCompany(),
-      companyId: this.client.getCompanyId()
+      companyId: this.client.getCompanyId(),
     });
   }
 
-  getId(){
+  getId() {
     return this.client.getUserId();
   }
-  
+
   authenticateUser(authRequest: AuthRequest): Observable<AuthResponse> {
     this._loading.set(true);
     this._error.set(null);
@@ -59,21 +58,20 @@ export class SecurityStore {
         this.updateSessionState();
         this._loading.set(false);
       }),
-      catchError((err: HttpErrorResponse) => { 
-            let errorMessage = 'Error de conexión con el servidor.';
-            
-            if (err.status === 401 || err.status === 403) {
+      catchError((err: HttpErrorResponse) => {
+        let errorMessage = 'Error de conexión con el servidor.';
 
-                errorMessage = 'Credenciales inválidas. Verifique su email y contraseña.'; 
-            } else if (err.error && err.error.message) {
-                errorMessage = err.error.message;
-            }
+        if (err.status === 401 || err.status === 403) {
+          errorMessage = 'Credenciales inválidas. Verifique su email y contraseña.';
+        } else if (err.error && err.error.message) {
+          errorMessage = err.error.message;
+        }
 
-            this._error.set(errorMessage);
-            this._loading.set(false);
-            
-            return throwError(() => new Error(errorMessage)); 
-        })
+        this._error.set(errorMessage);
+        this._loading.set(false);
+
+        return throwError(() => new Error(errorMessage));
+      }),
     );
   }
 
@@ -90,11 +88,11 @@ export class SecurityStore {
         this.updateSessionState();
         this._loading.set(false);
         return EMPTY;
-      })
+      }),
     );
   }
 
-  clearTokens(){
+  clearTokens() {
     this.client.clearTokens();
   }
 
@@ -111,7 +109,7 @@ export class SecurityStore {
         this.updateSessionState();
         this._loading.set(false);
         return EMPTY;
-      })
+      }),
     );
   }
 }

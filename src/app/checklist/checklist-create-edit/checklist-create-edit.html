@@ -9,20 +9,17 @@
     }
 
     <form [formGroup]="checklistForm" (ngSubmit)="onSubmit()">
-      
       @if (!isEditing) {
         <div class="form-group">
           <label class="field-label">Seleccioná el viaje asociado:</label>
 
           @if (userTrips().loading) {
             <p class="loading-trips">Cargando tus viajes...</p>
-          } 
-          @else if (userTrips().list.length === 0) {
+          } @else if (userTrips().list.length === 0) {
             <p class="no-trips-msg">
               No tenés viajes creados todavía. Creá un viaje para asociarlo a esta checklist.
             </p>
-          } 
-          @else {
+          } @else {
             <div class="trip-grid">
               @for (trip of userTrips().list; track trip.id) {
                 <div
@@ -31,9 +28,7 @@
                   (click)="selectTrip(trip.id)"
                 >
                   <h4 class="trip-name">{{ trip.name }}</h4>
-                  <p class="trip-destination">
-                    <strong>Destino:</strong> {{ trip.destination }}
-                  </p>
+                  <p class="trip-destination"><strong>Destino:</strong> {{ trip.destination }}</p>
                   <p class="trip-dates">
                     <span><strong>Inicio:</strong> {{ trip.startDate }}</span>
                     <span><strong>Fin:</strong> {{ trip.endDate }}</span>
@@ -72,11 +67,7 @@
       </div>
 
       <div class="form-actions">
-        <button
-          type="submit"
-          [disabled]="checklistForm.invalid || loading"
-          class="btn-primary"
-        >
+        <button type="submit" [disabled]="checklistForm.invalid || loading" class="btn-primary">
           @if (loading) {
             Guardando...
           } @else {

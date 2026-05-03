@@ -1,6 +1,6 @@
 export interface EntityModel<T> {
   content: T;
-  _links: any; 
+  _links: any;
 }
 
 export interface PageMetadata {
@@ -32,7 +32,7 @@ export interface PaginationInfo {
 }
 
 export interface CollectionState<T> {
-  list: T[]; 
+  list: T[];
   loading: boolean;
   pageInfo: PaginationInfo;
 }

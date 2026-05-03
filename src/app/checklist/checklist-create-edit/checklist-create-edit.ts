@@ -1,23 +1,21 @@
 import { CommonModule } from '@angular/common';
 import { ChangeDetectorRef, Component, effect, inject, OnInit } from '@angular/core';
 import { FormBuilder, ReactiveFormsModule, Validators } from '@angular/forms';
-import { ChecklistStore } from '../services/checklist-store';
-import { ChecklistService } from '../services/checklist-service';
 import { ActivatedRoute, Router } from '@angular/router';
-import { TripStore } from '../../trips/services/trip-store';
-import { SecurityStore } from '../../security/services/security-store';
 import { finalize, Observable } from 'rxjs';
-import { CheckListCreateDTO, CheckListUpdateDTO } from '../checklist-models';
 import { Pageable } from '../../hateoas/hateoas-models';
+import { SecurityStore } from '../../security/services/security-store';
+import { TripStore } from '../../trips/services/trip-store';
+import { CheckListCreateDTO, CheckListUpdateDTO } from '../checklist-models';
+import { ChecklistStore } from '../services/checklist-store';
 
 @Component({
   selector: 'app-checklist-create-edit',
   imports: [CommonModule, ReactiveFormsModule],
   templateUrl: './checklist-create-edit.html',
-  styleUrl: './checklist-create-edit.css'
+  styleUrl: './checklist-create-edit.css',
 })
-export class ChecklistCreateEdit implements OnInit{
-
+export class ChecklistCreateEdit implements OnInit {
   private readonly store = inject(ChecklistStore);
   private readonly formBuilder = inject(FormBuilder);
   private readonly router = inject(Router);
@@ -33,12 +31,11 @@ export class ChecklistCreateEdit implements OnInit{
 
   public userTrips = this.tripStore.trips;
 
-  public checklistForm = this.formBuilder.group ({
-    name: ["", [Validators.required, Validators.maxLength(50)]], 
-    tripId: [null as (number | null), [Validators.required, Validators.min(1)]], 
-    items: this.formBuilder.array([])
+  public checklistForm = this.formBuilder.group({
+    name: ['', [Validators.required, Validators.maxLength(50)]],
+    tripId: [null as number | null, [Validators.required, Validators.min(1)]],
+    items: this.formBuilder.array([]),
   });
-
 
   public effect = effect(() => {
     const checklist = this.store.currentChecklist();
@@ -49,7 +46,7 @@ export class ChecklistCreateEdit implements OnInit{
     if (checklist) {
       this.checklistForm.patchValue({
         name: checklist.name,
-        tripId: checklist.tripId
+        tripId: checklist.tripId,
       });
     }
   });
@@ -67,19 +64,18 @@ export class ChecklistCreateEdit implements OnInit{
     if (userId) {
       this.tripStore.loadTripsByUserId(userId, {}, { page: 0, size: 10 } as Pageable);
     }
-  
   }
 
-  selectTrip(tripId: number): void{
+  selectTrip(tripId: number): void {
     this.checklistForm.patchValue({ tripId });
   }
 
-  isSelected(tripId: number): boolean{
+  isSelected(tripId: number): boolean {
     return this.checklistForm.get('tripId')?.value === tripId;
   }
 
-  onSubmit(): void{
-    if(this.checklistForm.invalid){
+  onSubmit(): void {
+    if (this.checklistForm.invalid) {
       this.checklistForm.markAllAsTouched();
       return;
     }
@@ -91,29 +87,29 @@ export class ChecklistCreateEdit implements OnInit{
     let action$: Observable<any>;
 
     const dto = {
-      name: checklist.name!, 
-      tripId: checklist.tripId!
+      name: checklist.name!,
+      tripId: checklist.tripId!,
     };
 
-    if(this.isEditing){
+    if (this.isEditing) {
       action$ = this.store.update(this.checklistId!, dto as CheckListUpdateDTO);
     } else {
       action$ = this.store.create(dto as CheckListCreateDTO);
     }
 
     const observable$ = action$.pipe(
-          finalize(() => {
-            this.loading = false;
-            this.cdr.detectChanges();
-          })
-        );
+      finalize(() => {
+        this.loading = false;
+        this.cdr.detectChanges();
+      }),
+    );
 
     observable$.subscribe({
       next: () => {
         alert(`Checklist ${this.isEditing ? 'actualizada' : 'creada'} con exito.`);
-        this.router.navigateByUrl("/checklists");
+        this.router.navigateByUrl('/checklists');
         this.cdr.detectChanges();
-      }, 
+      },
       error: (err: any) => {
         this.loading = false;
 
@@ -125,11 +121,8 @@ export class ChecklistCreateEdit implements OnInit{
           err.original?.message ||
           err.original?.toString() ||
           'Error desconocido.';
-          this.cdr.detectChanges();
+        this.cdr.detectChanges();
       },
     });
-
   }
-  
-
 }

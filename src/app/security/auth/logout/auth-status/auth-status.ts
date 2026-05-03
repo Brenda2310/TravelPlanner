@@ -1,13 +1,13 @@
 import { Component, inject } from '@angular/core';
-import { SecurityStore } from '../../../services/security-store';
 import { Router } from '@angular/router';
+import { SecurityStore } from '../../../services/security-store';
 
 @Component({
   selector: 'app-auth-status',
   imports: [],
   standalone: true,
   templateUrl: './auth-status.html',
-  styleUrls: ['./auth-status.css']
+  styleUrls: ['./auth-status.css'],
 })
 export class AuthStatus {
   public readonly store = inject(SecurityStore);
@@ -21,16 +21,16 @@ export class AuthStatus {
     this.store.logout().subscribe({
       next: () => {
         this.router.navigate(['/login']).then(() => {
-            setTimeout(() => window.location.reload(), 100);
-          }); 
+          setTimeout(() => window.location.reload(), 100);
+        });
       },
       error: (err) => {
         this.router.navigate(['/login']);
-      }
+      },
     });
   }
 
-  onLogin():void{
+  onLogin(): void {
     this.router.navigateByUrl('/login');
   }
 }

@@ -1,15 +1,15 @@
 import { Component, inject } from '@angular/core';
-import { Router, RouterLink, RouterLinkActive } from "@angular/router";
-import { SecurityStore } from '../security/services/security-store';
-import { AuthStatus } from "../security/auth/logout/auth-status/auth-status";
+import { Router, RouterLink, RouterLinkActive } from '@angular/router';
 import { CompanyStore } from '../companies/services/company-store';
+import { AuthStatus } from '../security/auth/logout/auth-status/auth-status';
+import { SecurityStore } from '../security/services/security-store';
 
 @Component({
   selector: 'app-header',
   standalone: true,
   imports: [RouterLink, RouterLinkActive, AuthStatus],
   templateUrl: './header.html',
-  styleUrls: ['./header.css']
+  styleUrls: ['./header.css'],
 })
 export class Header {
   private readonly store = inject(SecurityStore);
@@ -19,31 +19,29 @@ export class Header {
   currentCompany = this.company.currentCompany;
 
   public isAuthenticated() {
-        return this.store.auth().isAuthenticated;
+    return this.store.auth().isAuthenticated;
   }
 
-  public isAdmin(){
+  public isAdmin() {
     return this.store.auth().isAdmin;
   }
 
-  public isCompany(){
+  public isCompany() {
     return this.store.auth().isCompany;
   }
 
-  public toProfile(){
-    if(this.isCompany()){
+  public toProfile() {
+    if (this.isCompany()) {
       this.router.navigateByUrl(`/companies/profile/${this.currentCompany()?.id}`);
-    }
-    else{
+    } else {
       this.router.navigateByUrl('/profile/me');
     }
   }
 
-  public toReservations(){
-    if(this.isCompany()){
+  public toReservations() {
+    if (this.isCompany()) {
       this.router.navigateByUrl(`/reservaciones/company/${this.currentCompany()?.id}`);
-    }
-    else{
+    } else {
       this.router.navigateByUrl(`/reservaciones`);
     }
   }
@@ -51,7 +49,7 @@ export class Header {
   public onLogout(): void {
     this.store.logout().subscribe({
       next: () => this.router.navigate(['/login']),
-      error: () => this.router.navigate(['/login'])
+      error: () => this.router.navigate(['/login']),
     });
   }
 }

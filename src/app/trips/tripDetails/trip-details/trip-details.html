@@ -1,41 +1,42 @@
 <div class="trip-detail-container">
   @if (store.loading()) {
-  <p>Cargando detalles del viaje...</p>
+    <p>Cargando detalles del viaje...</p>
   } @else if (currentTrip$()?.id === tripId) {
-
-  <section class="trip-info">
-    <h1>{{ currentTrip$()?.name }} - {{ currentTrip$()?.destination }}</h1>
-    <p><strong>Presupuesto estimado:</strong> {{ currentTrip$()?.estimatedBudget | currency }}</p>
-    <p><strong>Fechas:</strong> {{ currentTrip$()?.startDate }} / {{ currentTrip$()?.endDate }}</p>
-    <p><strong>Cantidad de Acompañantes:</strong> {{ currentTrip$()?.companions }} - <strong>TravelCodes: </strong> {{ currentTrip$()?.userIds }}</p>
-    <div class="buttons">
-      <button (click)="router.navigate([`/trips/${tripId}/edit`])" class="btn-edit">
-        Editar Datos del Viaje
-      </button>
-      <button (click)="onDeleteTrip()" class="btn-delete">Eliminar Viaje</button>
-    </div>
-  </section>
-
-  <section class="expenses-section">
-    <h2>Gestión de Gastos</h2>
-    <div class="trip-expenses">
-      <div class="expenses-grid">
-        <div class="expense-card">
-          <h3>Total gastado</h3>
-          <p class="expense-value"> {{ calculations().realTotal | currency }}</p>
-        </div>
-
-        <div class="expense-card">
-          <h3>Promedio de gastos</h3>
-          <p class="expense-value">{{ calculations().average| currency }}</p>
-        </div>
-
+    <section class="trip-info">
+      <h1>{{ currentTrip$()?.name }} - {{ currentTrip$()?.destination }}</h1>
+      <p><strong>Presupuesto estimado:</strong> {{ currentTrip$()?.estimatedBudget | currency }}</p>
+      <p>
+        <strong>Fechas:</strong> {{ currentTrip$()?.startDate }} / {{ currentTrip$()?.endDate }}
+      </p>
+      <p>
+        <strong>Cantidad de Acompañantes:</strong> {{ currentTrip$()?.companions }} -
+        <strong>TravelCodes: </strong> {{ currentTrip$()?.userIds }}
+      </p>
+      <div class="buttons">
+        <button (click)="router.navigate([`/trips/${tripId}/edit`])" class="btn-edit">
+          Editar Datos del Viaje
+        </button>
+        <button (click)="onDeleteTrip()" class="btn-delete">Eliminar Viaje</button>
       </div>
-    </div>
+    </section>
 
-  </section>
+    <section class="expenses-section">
+      <h2>Gestión de Gastos</h2>
+      <div class="trip-expenses">
+        <div class="expenses-grid">
+          <div class="expense-card">
+            <h3>Total gastado</h3>
+            <p class="expense-value">{{ calculations().realTotal | currency }}</p>
+          </div>
 
+          <div class="expense-card">
+            <h3>Promedio de gastos</h3>
+            <p class="expense-value">{{ calculations().average | currency }}</p>
+          </div>
+        </div>
+      </div>
+    </section>
   } @else {
-  <p>No se encontró el viaje o no tienes permiso.</p>
+    <p>No se encontró el viaje o no tienes permiso.</p>
   }
 </div>

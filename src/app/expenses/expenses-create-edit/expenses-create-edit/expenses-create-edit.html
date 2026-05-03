@@ -1,5 +1,4 @@
 <div class="expense-create-edit">
-
   <h2 class="title">
     @if (expenseId) {
       Editar Gasto
@@ -13,7 +12,6 @@
   }
 
   <form [formGroup]="expenseForm" (ngSubmit)="onSubmit()" class="form-create-edit">
-
     <div class="form-things">
       <div class="form-group">
         <label for="tripId" class="form-label">Viaje (*)</label>
@@ -22,9 +20,7 @@
           <option [ngValue]="null" disabled>Selecciona un viaje</option>
 
           @for (trip of userTrips().list; track trip.id) {
-            <option [value]="trip.id">
-              {{ trip.name }} — {{ trip.destination }}
-            </option>
+            <option [value]="trip.id">{{ trip.name }} — {{ trip.destination }}</option>
           }
         </select>
 
@@ -34,30 +30,25 @@
       </div>
 
       <div class="form-group">
-    <label for="category" class="form-label">Categoría (*)</label>
-    <select
-      id="category"
-      formControlName="category"
-      class="form-input"
-    >
-      <option [ngValue]="null" disabled>Selecciona una categoría</option>
+        <label for="category" class="form-label">Categoría (*)</label>
+        <select id="category" formControlName="category" class="form-input">
+          <option [ngValue]="null" disabled>Selecciona una categoría</option>
 
-      @for (cat of categories; track cat) {
-        <option [ngValue]="cat">
-          {{ cat }}
-        </option>
-      }
-    </select>
+          @for (cat of categories; track cat) {
+            <option [ngValue]="cat">
+              {{ cat }}
+            </option>
+          }
+        </select>
 
-    @if (expenseForm.get('category')?.invalid && expenseForm.get('category')?.touched) {
-      <small class="validation-error">La categoría es obligatoria.</small>
-    }
-  </div>
-
+        @if (expenseForm.get('category')?.invalid && expenseForm.get('category')?.touched) {
+          <small class="validation-error">La categoría es obligatoria.</small>
+        }
+      </div>
 
       <div class="form-group">
         <label for="amount" class="form-label">Monto (*)</label>
-        <input id="amount" type="number" formControlName="amount" class="form-input">
+        <input id="amount" type="number" formControlName="amount" class="form-input" />
         @if (expenseForm.get('amount')?.invalid && expenseForm.get('amount')?.touched) {
           <small class="validation-error">El monto debe ser mayor a 0.</small>
         }
@@ -65,13 +56,13 @@
     </div>
 
     <div class="form-group">
-    <label for="date" class="form-label">Fecha (*)</label>
-    <input type="date" id="date" formControlName="date" class="form-input">
+      <label for="date" class="form-label">Fecha (*)</label>
+      <input type="date" id="date" formControlName="date" class="form-input" />
 
-    @if (expenseForm.get('date')?.invalid && expenseForm.get('date')?.touched) {
-      <small class="validation-error">La fecha es obligatoria.</small>
-    }
-  </div>
+      @if (expenseForm.get('date')?.invalid && expenseForm.get('date')?.touched) {
+        <small class="validation-error">La fecha es obligatoria.</small>
+      }
+    </div>
 
     <div class="form-things">
       <div class="form-group full-width">
@@ -80,53 +71,51 @@
       </div>
     </div>
 
-
     <div class="form-things">
-  <div class="form-group full-width">
-    
-    <div class="share-label-row">
-      <label class="form-label">
-        Compartir gasto con otros usuarios (TravelCode):
-        <button
-          type="button"
-          class="help-icon-inline-inline"
-          (click)="openTravelCodeInfo()"
-          aria-label="¿Qué es el TravelCode?"
-        >?</button>
-      </label>
-    </div>
-
-    <div class="share-list">
-      @for (id of expenseForm.get('sharedUserIds')?.value; track $index) {
-        <div class="share-item">
-          <span>{{ id }}</span>
-          <button type="button" (click)="removeUserId(id)">×</button>
+      <div class="form-group full-width">
+        <div class="share-label-row">
+          <label class="form-label">
+            Compartir gasto con otros usuarios (TravelCode):
+            <button
+              type="button"
+              class="help-icon-inline-inline"
+              (click)="openTravelCodeInfo()"
+              aria-label="¿Qué es el TravelCode?"
+            >
+              ?
+            </button>
+          </label>
         </div>
-      }
 
-      <div class="share-input">
-        <input
-          type="number"
-          placeholder="Agregar TravelCode..."
-          formControlName="newUserId"
-          (keydown.enter)="addUserId()"
-        />
-        <button type="button" (click)="addUserId()">
-          <img src="/person_add_24dp_33696F_FILL0_wght400_GRAD0_opsz24.svg" class="add-icon" alt="agregar">
-        </button>
+        <div class="share-list">
+          @for (id of expenseForm.get('sharedUserIds')?.value; track $index) {
+            <div class="share-item">
+              <span>{{ id }}</span>
+              <button type="button" (click)="removeUserId(id)">×</button>
+            </div>
+          }
+
+          <div class="share-input">
+            <input
+              type="number"
+              placeholder="Agregar TravelCode..."
+              formControlName="newUserId"
+              (keydown.enter)="addUserId()"
+            />
+            <button type="button" (click)="addUserId()">
+              <img
+                src="/person_add_24dp_33696F_FILL0_wght400_GRAD0_opsz24.svg"
+                class="add-icon"
+                alt="agregar"
+              />
+            </button>
+          </div>
+        </div>
       </div>
     </div>
 
-  </div>
-</div>
-
-
     <div class="actions">
-      <button
-        type="submit"
-        [disabled]="expenseForm.invalid || loading"
-        class="btn-submit"
-      >
+      <button type="submit" [disabled]="expenseForm.invalid || loading" class="btn-submit">
         @if (loading) {
           Guardando...
         } @else {
@@ -143,9 +132,9 @@
     <div class="modal-card" (click)="$event.stopPropagation()">
       <h3>¿Qué es el TravelCode?</h3>
       <p>
-        El <strong>TravelCode</strong> es un código único que identifica a cada usuario
-        en TravelPlanner. Si lo agregás acá, podrás asociar este gasto a otros usuarios
-        que estén compartiendo el viaje con vos.
+        El <strong>TravelCode</strong> es un código único que identifica a cada usuario en
+        TravelPlanner. Si lo agregás acá, podrás asociar este gasto a otros usuarios que estén
+        compartiendo el viaje con vos.
       </p>
       <p>
         Podés encontrar tu propio TravelCode en la sección

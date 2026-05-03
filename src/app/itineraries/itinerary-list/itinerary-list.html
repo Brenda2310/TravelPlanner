@@ -1,56 +1,54 @@
 <div class="itinerary-list">
-    <div class="title">
+  <div class="title">
     <h2>Mis Itinerarios</h2>
-    </div>
+  </div>
 
-    @if (store.itinerary().list.length !== 0) {
+  @if (store.itinerary().list.length !== 0) {
     <div class="create">
-        <a routerLink="/itineraries/create" class="btn-primary">+ Crear Nuevo Itinerario</a>
+      <a routerLink="/itineraries/create" class="btn-primary">+ Crear Nuevo Itinerario</a>
     </div>
-    }
-    
-    <form [formGroup]="filterForm" (ngSubmit)="onApplyFilters()" class="filter-bar">
-        <input type="date" formControlName="dateFrom" placeholder="Desde">
-        <input type="date" formControlName="dateTo" placeholder="Hasta">
-        <select class="trip-select" formControlName="tripId" class="trip-select">
-            <option value="">Todos los viajes</option>
-            @for (trip of userTrips().list; track trip.id) {
-            <option [value]="trip.id">{{ trip.name }} - {{ trip.destination }}</option>
-    }
-  </select>
-        <button type="button" class="submit">Filtrar</button>
-        <button type="button" class="reset" (click)="clearFilters()">Limpiar</button>
-    </form>
+  }
 
-    @if (store.loading()) {
-        <p>Cargando itinerarios...</p>
+  <form [formGroup]="filterForm" (ngSubmit)="onApplyFilters()" class="filter-bar">
+    <input type="date" formControlName="dateFrom" placeholder="Desde" />
+    <input type="date" formControlName="dateTo" placeholder="Hasta" />
+    <select class="trip-select" formControlName="tripId" class="trip-select">
+      <option value="">Todos los viajes</option>
+      @for (trip of userTrips().list; track trip.id) {
+        <option [value]="trip.id">{{ trip.name }} - {{ trip.destination }}</option>
+      }
+    </select>
+    <button type="button" class="submit">Filtrar</button>
+    <button type="button" class="reset" (click)="clearFilters()">Limpiar</button>
+  </form>
+
+  @if (store.loading()) {
+    <p>Cargando itinerarios...</p>
+  } @else {
+    @if (store.itinerary().list.length === 0) {
+      <div class="no-itineraries">
+        <p>Aún no tienes itinerarios registrados. ¡Crea uno para empezar a planificar!</p>
+        <a routerLink="/itineraries/create" class="btn btn-primary">Crear Nuevo Itinerario</a>
+      </div>
     } @else {
-        @if (store.itinerary().list.length === 0) {
-            <div class="no-itineraries">
-                <p>Aún no tienes itinerarios registrados. ¡Crea uno para empezar a planificar!</p>
-                <a routerLink="/itineraries/create" class="btn btn-primary">Crear Nuevo Itinerario</a>
-            </div>
-        } 
-        @else {
-            <div class="itinerary-grid">
-            @for (item of store.itinerary().list; track item.id) {
-            <div class="itinerary-card">
-                <h3>Día: {{ item.itineraryDate }}</h3>
-                <p><strong>Notas:</strong> {{ item.notes }}</p>
-                <p><strong>Actividades:</strong> {{ item.activities.length }}</p>
-                
-                <button (click)="toDetails(item.id)">Ver Detalle</button>
-            </div>
+      <div class="itinerary-grid">
+        @for (item of store.itinerary().list; track item.id) {
+          <div class="itinerary-card">
+            <h3>Día: {{ item.itineraryDate }}</h3>
+            <p><strong>Notas:</strong> {{ item.notes }}</p>
+            <p><strong>Actividades:</strong> {{ item.activities.length }}</p>
 
+            <button (click)="toDetails(item.id)">Ver Detalle</button>
+          </div>
         }
-        </div>
-        }
-        
-
-        <app-pagination 
-            [currentPageSetter]="store.itinerary().pageInfo.currentPage"
-            [totalPagesSetter]="store.itinerary().pageInfo.totalPages"
-            (pageChange)="onPageChange($event)">
-        </app-pagination>
+      </div>
     }
+
+    <app-pagination
+      [currentPageSetter]="store.itinerary().pageInfo.currentPage"
+      [totalPagesSetter]="store.itinerary().pageInfo.totalPages"
+      (pageChange)="onPageChange($event)"
+    >
+    </app-pagination>
+  }
 </div>

@@ -1,15 +1,13 @@
-import { Component, inject, Input, OnInit } from '@angular/core';
+import { DecimalPipe } from '@angular/common';
+import { Component, inject, OnInit } from '@angular/core';
 import { FormBuilder, ReactiveFormsModule } from '@angular/forms';
 import { Router, RouterLink } from '@angular/router';
+import { Pageable } from '../../../hateoas/hateoas-models';
 import { Pagination } from '../../../hateoas/Pagination/pagination/pagination';
-import { ExpenseStore } from '../../services/expense-store';
 import { SecurityStore } from '../../../security/services/security-store';
 import { TripStore } from '../../../trips/services/trip-store';
-import { Pageable } from '../../../hateoas/hateoas-models';
 import { ExpenseCategory, ExpenseFilterDTO } from '../../expense-models';
-import { filter } from 'rxjs';
-import { routes } from '../../../app.routes';
-import { DecimalPipe } from '@angular/common';
+import { ExpenseStore } from '../../services/expense-store';
 
 @Component({
   selector: 'app-expenses-list',
@@ -42,17 +40,13 @@ export class ExpensesList implements OnInit {
     category: [''],
     startDate: [''],
     endDate: [''],
-    tripId: ['']
+    tripId: [''],
   });
 
   ngOnInit(): void {
-      const userId = this.security.getId();
+    const userId = this.security.getId();
     if (userId) {
-      this.tripStore.loadTripsByUserId(
-      userId,
-      {},                    
-      { page: 0, size: 100 }  
-    );
+      this.tripStore.loadTripsByUserId(userId, {}, { page: 0, size: 100 });
       this.store.loadExpensesByUserId(userId, {}, { page: 0, size: 100 } as Pageable);
       this.store.loadAverageExpensesByUser(userId);
       this.store.loadRealAverageExpenseByUser(userId);
@@ -63,14 +57,14 @@ export class ExpensesList implements OnInit {
   }
 
   loadExpenses(): void {
-      const userId = this.security.getId();
-      if (!userId) {
-        console.error('Usuario no autenticado para cargar las expensas.');
-        return;
-      }
+    const userId = this.security.getId();
+    if (!userId) {
+      console.error('Usuario no autenticado para cargar las expensas.');
+      return;
+    }
 
-      const filters: ExpenseFilterDTO = this.filtersForm.value as ExpenseFilterDTO;
-      this.store.loadExpensesByUserId(userId, filters, this.pageable);
+    const filters: ExpenseFilterDTO = this.filtersForm.value as ExpenseFilterDTO;
+    this.store.loadExpensesByUserId(userId, filters, this.pageable);
   }
 
   onApplyFilters(): void {
@@ -85,21 +79,20 @@ export class ExpensesList implements OnInit {
   }
 
   onDelete(id: number): void {
-  if (confirm('¿Desea eliminar el gasto?')) {
-    this.store.deleteExpense(id).subscribe({
-      next: () => {
-        const { list, pageInfo } = this.store.expense();
-        if (list.length === 1 && pageInfo.currentPage > 0) {
-          this.pageable.page = pageInfo.currentPage - 1;
-        }
-        this.loadExpenses();
-        this.loadMetrics();
-      },
-      error: (err) => console.error('Error al eliminar el gasto: ', err),
-    });
+    if (confirm('¿Desea eliminar el gasto?')) {
+      this.store.deleteExpense(id).subscribe({
+        next: () => {
+          const { list, pageInfo } = this.store.expense();
+          if (list.length === 1 && pageInfo.currentPage > 0) {
+            this.pageable.page = pageInfo.currentPage - 1;
+          }
+          this.loadExpenses();
+          this.loadMetrics();
+        },
+        error: (err) => console.error('Error al eliminar el gasto: ', err),
+      });
+    }
   }
-}
-
 
   toDetails(id: number): void {
     this.router.navigateByUrl(`/expenses/${id}`);
@@ -113,20 +106,19 @@ export class ExpensesList implements OnInit {
   }
 
   private loadMetrics(): void {
-  const userId = this.security.getId();
-  if (!userId) return;
+    const userId = this.security.getId();
+    if (!userId) return;
 
-  const filters = this.filtersForm.value as any;
-  const tripId = filters.tripId ? Number(filters.tripId) : null;
+    const filters = this.filtersForm.value as any;
+    const tripId = filters.tripId ? Number(filters.tripId) : null;
 
-  if (tripId) {
-    this.store.loadAverageExpensesByTrip(tripId);
-    this.store.loadTotalExpensesByTrip(tripId);   
-  } else {
-    this.store.loadAverageExpensesByUser(userId);
-    this.store.loadRealAverageExpenseByUser(userId);
-    this.store.loadTotalRealExpensesByUser(userId);
+    if (tripId) {
+      this.store.loadAverageExpensesByTrip(tripId);
+      this.store.loadTotalExpensesByTrip(tripId);
+    } else {
+      this.store.loadAverageExpensesByUser(userId);
+      this.store.loadRealAverageExpenseByUser(userId);
+      this.store.loadTotalRealExpensesByUser(userId);
+    }
   }
-}
-
 }

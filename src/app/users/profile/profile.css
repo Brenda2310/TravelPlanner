@@ -18,7 +18,7 @@
   box-shadow: 0 12px 40px rgba(0, 0, 0, .12);
 }
 
-.profile-container > h2 {
+.profile-container>h2 {
   margin: 0 0 16px;
   font-size: clamp(1.4rem, 1.2rem + .8vw, 2rem);
   letter-spacing: .3px;
@@ -55,10 +55,12 @@ h3 {
 .preferences-list {
   margin-top: 8px;
 }
-.preferences-list > strong {
+
+.preferences-list>strong {
   display: block;
   margin-bottom: 6px;
 }
+
 .preferences-list ul {
   list-style: none;
   padding: 0;
@@ -67,6 +69,7 @@ h3 {
   flex-wrap: wrap;
   gap: 8px;
 }
+
 .preferences-list li {
   padding: 6px 10px;
   border: 1px solid rgba(7, 73, 79, 0.15);
@@ -112,7 +115,7 @@ a.btn-primary:hover {
 
 button.btn-primary:focus-visible,
 a.btn-primary:focus-visible {
-  outline: 3px solid rgba(0, 140, 158, .35); 
+  outline: 3px solid rgba(0, 140, 158, .35);
   outline-offset: 2px;
 }
 
@@ -186,24 +189,24 @@ hr {
 .no-trips {
   text-align: center;
   padding: 30px 20px;
-  background: rgba(255,255,255,0.85);
-  border: 1px dashed rgba(7,73,79,0.2);
+  background: rgba(255, 255, 255, 0.85);
+  border: 1px dashed rgba(7, 73, 79, 0.2);
   border-radius: 16px;
-  box-shadow: 0 6px 18px rgba(0,0,0,.06);
+  box-shadow: 0 6px 18px rgba(0, 0, 0, .06);
   color: var(--font-color);
 }
 
 .empty-icon {
   font-size: 60px;
   color: var(--primary-color);
-  background: radial-gradient(rgba(14,165,233,.12), rgba(7,73,79,.08));
+  background: radial-gradient(rgba(14, 165, 233, .12), rgba(7, 73, 79, .08));
   border-radius: 50%;
   padding: 16px;
   display: inline-flex;
   align-items: center;
   justify-content: center;
   margin-bottom: 12px;
-  box-shadow: inset 0 2px 6px rgba(255,255,255,.6);
+  box-shadow: inset 0 2px 6px rgba(255, 255, 255, .6);
 }
 
 .no-trips h4 {
@@ -222,6 +225,7 @@ hr {
   .profile-details {
     grid-template-columns: 1fr 1fr;
   }
+
   .preferences-list {
     grid-column: 1 / -1;
   }
@@ -235,6 +239,7 @@ hr {
   .profile-container {
     padding: 34px 36px 30px;
   }
+
   .trip-list {
     grid-template-columns: repeat(3, minmax(0, 1fr));
   }
@@ -253,4 +258,3 @@ hr {
   display: block;
   width: 100%;
 }
-

@@ -1,31 +1,34 @@
 <div class="reservation-company">
-@if (loading()) {
-<p>Cargando reservas...</p>
-} @else { @if (!reservations().list.length && !loading()) {
-<p>No tienes reservas registradas.</p>
-} @if (error()) {
-<p class="error">{{ error() }}</p>
-} @else {
-<h2 class="title">Reservas de usuarios</h2>
-<table class="table">
-  <thead>
-    <tr>
-      <th>Fecha</th>
-      <th>Estado</th>
-      <th>Pagado</th>
-      <th>TravelCode</th>  
-    </tr>
-  </thead>
-  <tbody>
-    @for (r of reservations().list; track r.id) {
-    <tr>
-      <td>{{ r.reservationDate | date }}</td>
-      <td>{{ r.status }}</td>
-      <td>{{ r.paid ? 'Sí' : 'No' }}</td>
-      <td>{{ r.userId }}</td>
-    </tr>
+  @if (loading()) {
+    <p>Cargando reservas...</p>
+  } @else {
+    @if (!reservations().list.length && !loading()) {
+      <p>No tienes reservas registradas.</p>
     }
-  </tbody>
-</table>
-} }
+    @if (error()) {
+      <p class="error">{{ error() }}</p>
+    } @else {
+      <h2 class="title">Reservas de usuarios</h2>
+      <table class="table">
+        <thead>
+          <tr>
+            <th>Fecha</th>
+            <th>Estado</th>
+            <th>Pagado</th>
+            <th>TravelCode</th>
+          </tr>
+        </thead>
+        <tbody>
+          @for (r of reservations().list; track r.id) {
+            <tr>
+              <td>{{ r.reservationDate | date }}</td>
+              <td>{{ r.status }}</td>
+              <td>{{ r.paid ? 'Sí' : 'No' }}</td>
+              <td>{{ r.userId }}</td>
+            </tr>
+          }
+        </tbody>
+      </table>
+    }
+  }
 </div>

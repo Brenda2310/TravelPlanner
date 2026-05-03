@@ -1,143 +1,168 @@
 <div class="trip-page">
-<div class="trip-form-container">
-  <h2 class="trip-title">
-    @if (isEditing) {
-      <p>Editar Viaje: {{ store.currentTrip()?.name }}</p>
-    } @else {
-      <h2>Crear Nuevo Viaje</h2>
+  <div class="trip-form-container">
+    <h2 class="trip-title">
+      @if (isEditing) {
+        <p>Editar Viaje: {{ store.currentTrip()?.name }}</p>
+      } @else {
+        <h2>Crear Nuevo Viaje</h2>
+      }
+    </h2>
+
+    @if (errorMessage) {
+      <div class="trip-error">
+        {{ errorMessage }}
+      </div>
     }
-  </h2>
 
-  @if (errorMessage) {
-    <div class="trip-error">
-      {{ errorMessage }}
-    </div>
-  }
+    <form [formGroup]="tripForm" (ngSubmit)="onSubmit()">
+      <!-- Nombre y destino -->
+      <div class="trip-row">
+        <div class="trip-field">
+          <label for="name">Nombre del viaje (*)</label>
+          <input id="name" type="text" formControlName="name" />
+          @if (
+            tripForm.get('name')?.invalid &&
+            (tripForm.get('name')?.touched || tripForm.get('name')?.dirty)
+          ) {
+            <small class="trip-error-msg">El nombre es obligatorio.</small>
+          }
+        </div>
 
-  <form [formGroup]="tripForm" (ngSubmit)="onSubmit()">
-
-    <!-- Nombre y destino -->
-    <div class="trip-row">
-      <div class="trip-field">
-        <label for="name">Nombre del viaje (*)</label>
-        <input id="name" type="text" formControlName="name" />
-        @if (tripForm.get('name')?.invalid && (tripForm.get('name')?.touched || tripForm.get('name')?.dirty)){
-          <small class="trip-error-msg">El nombre es obligatorio.</small>
-        }
+        <div class="trip-field">
+          <label for="destination">Destino (*)</label>
+          <input id="destination" type="text" formControlName="destination" />
+          @if (
+            tripForm.get('destination')?.invalid &&
+            (tripForm.get('destination')?.touched || tripForm.get('destination')?.dirty)
+          ) {
+            <small class="trip-error-msg">El destino es obligatorio.</small>
+          }
+        </div>
       </div>
 
-      <div class="trip-field">
-        <label for="destination">Destino (*)</label>
-        <input id="destination" type="text" formControlName="destination" />
-        @if (tripForm.get('destination')?.invalid && (tripForm.get('destination')?.touched || tripForm.get('destination')?.dirty)) {
-          <small class="trip-error-msg">El destino es obligatorio.</small>
-        }
-      </div>
-    </div>
+      <!-- Fechas -->
+      <div class="trip-row">
+        <div class="trip-field">
+          <label for="startDate">Fecha de inicio (*)</label>
+          <input id="startDate" type="date" formControlName="startDate" />
+          @if (
+            tripForm.get('startDate')?.invalid &&
+            (tripForm.get('startDate')?.touched || tripForm.get('startDate')?.dirty)
+          ) {
+            <small class="trip-error-msg">La fecha de inicio es obligatoria.</small>
+          }
+        </div>
 
-    <!-- Fechas -->
-    <div class="trip-row">
-      <div class="trip-field">
-        <label for="startDate">Fecha de inicio (*)</label>
-        <input id="startDate" type="date" formControlName="startDate" />
-        @if (tripForm.get('startDate')?.invalid && (tripForm.get('startDate')?.touched || tripForm.get('startDate')?.dirty)){
-          <small class="trip-error-msg">La fecha de inicio es obligatoria.</small>
-        }
-      </div>
-
-    <div class="trip-field">
-      <label for="endDate">Fecha de fin (*)</label>
-        <input id="endDate" type="date" formControlName="endDate" />
-        @if (tripForm.get('endDate')?.hasError('required') && (tripForm.get('endDate')?.touched || tripForm.get('endDate')?.dirty)) {
-      <small class="trip-error-msg">La fecha de fin es obligatoria.</small>
-    }
-    @if (tripForm.hasError('dateMismatch') && (tripForm.get('endDate')?.value)) {
-      <small class="trip-error-msg">La fecha de fin debe ser posterior a la de inicio.</small>
-    }
-  </div>
-  </div>
-
-    <div class="trip-row">
-      <div class="trip-field">
-        <label for="estimatedBudget">Presupuesto estimado (*)</label>
-        <input id="estimatedBudget" type="number" formControlName="estimatedBudget" />
-        @if (tripForm.get('estimatedBudget')?.invalid && (tripForm.get('estimatedBudget')?.touched || tripForm.get('estimatedBudget')?.dirty)) {
-          <small class="trip-error-msg">Ingrese un valor positivo o cero.</small>
-        }
+        <div class="trip-field">
+          <label for="endDate">Fecha de fin (*)</label>
+          <input id="endDate" type="date" formControlName="endDate" />
+          @if (
+            tripForm.get('endDate')?.hasError('required') &&
+            (tripForm.get('endDate')?.touched || tripForm.get('endDate')?.dirty)
+          ) {
+            <small class="trip-error-msg">La fecha de fin es obligatoria.</small>
+          }
+          @if (tripForm.hasError('dateMismatch') && tripForm.get('endDate')?.value) {
+            <small class="trip-error-msg">La fecha de fin debe ser posterior a la de inicio.</small>
+          }
+        </div>
       </div>
 
-      <div class="trip-field">
-        <label for="companions">Cantidad de acompañantes (opcional)</label>
-        <input id="companions" type="number" formControlName="companions" />
-        @if (tripForm.get('companions')?.invalid && (tripForm.get('companions')?.touched || tripForm.get('companions')?.dirty)){
-          <small class="trip-error-msg">Debe ser cero o más.</small>
-        }
+      <div class="trip-row">
+        <div class="trip-field">
+          <label for="estimatedBudget">Presupuesto estimado (*)</label>
+          <input id="estimatedBudget" type="number" formControlName="estimatedBudget" />
+          @if (
+            tripForm.get('estimatedBudget')?.invalid &&
+            (tripForm.get('estimatedBudget')?.touched || tripForm.get('estimatedBudget')?.dirty)
+          ) {
+            <small class="trip-error-msg">Ingrese un valor positivo o cero.</small>
+          }
+        </div>
+
+        <div class="trip-field">
+          <label for="companions">Cantidad de acompañantes (opcional)</label>
+          <input id="companions" type="number" formControlName="companions" />
+          @if (
+            tripForm.get('companions')?.invalid &&
+            (tripForm.get('companions')?.touched || tripForm.get('companions')?.dirty)
+          ) {
+            <small class="trip-error-msg">Debe ser cero o más.</small>
+          }
+        </div>
       </div>
-    </div>
 
-    <div class="trip-share">
+      <div class="trip-share">
+        <div class="share-label-row">
+          <label>Compartir con usuarios (TravelCode):</label>
 
-  <div class="share-label-row">
-    <label>Compartir con usuarios (TravelCode):</label>
+          <button
+            type="button"
+            class="help-icon-inline"
+            (click)="openTravelCodeInfo()"
+            aria-label="¿Qué es el TravelCode?"
+          >
+            ?
+          </button>
+        </div>
 
-    <button 
-      type="button"
-      class="help-icon-inline"
-      (click)="openTravelCodeInfo()"
-      aria-label="¿Qué es el TravelCode?"
-    >
-      ?
-    </button>
-  </div>
+        <div class="share-list">
+          @for (id of sharedUserIdsArray; track $index) {
+            <div class="share-item">
+              <span>{{ id }}</span>
+              <button type="button" (click)="removeUserId(id)">×</button>
+            </div>
+          }
 
-
-      <div class="share-list">
-        @for (id of sharedUserIdsArray; track $index) {
-          <div class="share-item">
-            <span>{{ id }}</span>
-            <button type="button" (click)="removeUserId(id)">×</button>
+          <div class="share-input">
+            <input
+              type="number"
+              placeholder="Agregar TravelCode..."
+              formControlName="newUserId"
+              (keydown.enter)="addUserId()"
+            />
+            <button type="button" (click)="addUserId()">
+              <img
+                src="/person_add_24dp_33696F_FILL0_wght400_GRAD0_opsz24.svg"
+                class="add-icon"
+                alt="agregar"
+              />
+            </button>
           </div>
-        }
+        </div>
+      </div>
 
-        <div class="share-input">
-          <input type="number" placeholder="Agregar TravelCode..." formControlName="newUserId" (keydown.enter)="addUserId()" />
-          <button type="button" (click)="addUserId()">
-            <img src="/person_add_24dp_33696F_FILL0_wght400_GRAD0_opsz24.svg" class="add-icon" alt="agregar">
+      <div class="buttons">
+        <button type="submit" [disabled]="tripForm.invalid || loading" class="trip-button">
+          @if (loading) {
+            Guardando...
+          } @else {
+            {{ isEditing ? 'Actualizar viaje' : 'Crear viaje' }}
+          }
+        </button>
+        <button type="reset" class="trip-button">Borrar</button>
+      </div>
+    </form>
+
+    @if (showTravelCodeInfo()) {
+      <div class="modal-overlay" (click)="closeTravelCodeInfo()">
+        <div class="modal-card" (click)="$event.stopPropagation()">
+          <h3>¿Qué es el TravelCode?</h3>
+          <p>
+            El <strong>TravelCode</strong> es un código único que identifica a cada usuario en
+            TravelPlanner. Si lo agregás, vas a poder compartir este viaje, y tambien sus
+            actividades y gastos con esa/s persona/s si asi lo deseas.
+          </p>
+          <p>
+            Podés encontrar tu propio TravelCode en la sección
+            <strong>"Mi perfil"</strong>, y compartirlo con otros para que te agreguen.
+          </p>
+
+          <button type="button" class="modal-close-btn" (click)="closeTravelCodeInfo()">
+            Entendido
           </button>
         </div>
       </div>
-    </div>
-
-     <div class="buttons">
-    <button type="submit" [disabled]="tripForm.invalid || loading" class="trip-button">
-      @if (loading) { Guardando... } @else {
-        {{ isEditing ? 'Actualizar viaje' : 'Crear viaje' }}
-      }
-    </button>
-    <button type="reset" class="trip-button">Borrar</button>
-    </div>
-  </form>
-
-
-  @if(showTravelCodeInfo()) {
-  <div class="modal-overlay" (click)="closeTravelCodeInfo()">
-    <div class="modal-card" (click)="$event.stopPropagation()">
-      <h3>¿Qué es el TravelCode?</h3>
-      <p>
-        El <strong>TravelCode</strong> es un código único que identifica a cada usuario
-        en TravelPlanner. Si lo agregás, vas a poder compartir este viaje, y tambien sus actividades
-        y gastos con esa/s persona/s si asi lo deseas. 
-      </p>
-      <p>
-        Podés encontrar tu propio TravelCode en la sección
-        <strong>"Mi perfil"</strong>, y compartirlo con otros para que te agreguen.
-      </p>
-
-      <button type="button" class="modal-close-btn" (click)="closeTravelCodeInfo()">
-        Entendido
-      </button>
-    </div>
+    }
   </div>
-}
-</div>
 </div>

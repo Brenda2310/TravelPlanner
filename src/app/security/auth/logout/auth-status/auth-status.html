@@ -1,13 +1,12 @@
 <div class="auth-status-container">
-    @if (store.auth().isAuthenticated) {
-        <button class="logout-btn" (click)="onLogout()" [disabled]="store.loading()">
-            Cerrar Sesión
-        </button>
-    } @else {
-        <button class="login-btn" (click)="onLogin()">
-        <i class="fa-regular fa-user"></i>
-            Acceder
-        </button>
-    }
-
+  @if (store.auth().isAuthenticated) {
+    <button class="logout-btn" (click)="onLogout()" [disabled]="store.loading()">
+      Cerrar Sesión
+    </button>
+  } @else {
+    <button class="login-btn" (click)="onLogin()">
+      <i class="fa-regular fa-user"></i>
+      Acceder
+    </button>
+  }
 </div>

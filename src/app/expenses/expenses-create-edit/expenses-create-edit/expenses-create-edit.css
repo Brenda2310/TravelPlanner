@@ -193,7 +193,8 @@ select.form-input {
   justify-content: space-around;
 }
 
-.btn-submit, .btn-reset {
+.btn-submit,
+.btn-reset {
   min-width: 190px;
   padding: 10px 22px;
   border-radius: 999px;
@@ -247,16 +248,16 @@ select.form-input {
   display: inline-flex;
   align-items: center;
   justify-content: center;
-  box-shadow: 0 2px 6px rgba(0,0,0,0.15);
+  box-shadow: 0 2px 6px rgba(0, 0, 0, 0.15);
   transition: transform 0.1s ease, box-shadow 0.15s ease;
 }
 
 .help-icon-inline-inline:hover {
   transform: translateY(-1px);
-  box-shadow: 0 3px 8px rgba(0,0,0,0.22);
+  box-shadow: 0 3px 8px rgba(0, 0, 0, 0.22);
 }
 
-.modal-overlay {  
+.modal-overlay {
   position: fixed;
   inset: 0;
   background: rgba(7, 7, 7, 0.45);
@@ -272,7 +273,7 @@ select.form-input {
   padding: 22px;
   border-radius: 18px;
   background: rgba(255, 255, 255, 0.96);
-  box-shadow: 0 18px 45px rgba(0,0,0,0.32);
+  box-shadow: 0 18px 45px rgba(0, 0, 0, 0.32);
   backdrop-filter: blur(14px);
   text-align: justify;
 }

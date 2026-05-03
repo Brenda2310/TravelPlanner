@@ -1,17 +1,17 @@
+import { HttpErrorResponse } from '@angular/common/http';
 import { inject, Injectable, signal } from '@angular/core';
-import { Observable, tap, catchError, EMPTY, finalize, throwError } from 'rxjs';
+import { catchError, EMPTY, finalize, Observable, tap, throwError } from 'rxjs';
 import { BaseStore } from '../../BaseStore';
-import { Pageable, CollectionState, PaginationInfo } from '../../hateoas/hateoas-models';
+import { CollectionState, Pageable, PaginationInfo } from '../../hateoas/hateoas-models';
 import {
+  ExpenseCategory,
+  ExpenseCreateDTO,
+  ExpenseFilterDTO,
   ExpenseResponseDTO,
   ExpenseResumeDTO,
-  ExpenseCreateDTO,
   ExpenseUpdateDTO,
-  ExpenseFilterDTO,
-  ExpenseCategory,
 } from '../expense-models';
 import { ExpenseService } from './expense-service';
-import { HttpErrorResponse } from '@angular/common/http';
 
 @Injectable({
   providedIn: 'root',
@@ -216,7 +216,7 @@ export class ExpenseStore extends BaseStore {
       }),
       finalize(() => {
         this._loading.set(false);
-      })
+      }),
     );
   }
 
@@ -250,20 +250,20 @@ export class ExpenseStore extends BaseStore {
       }),
       finalize(() => {
         this._loading.set(false);
-      })
+      }),
     );
   }
 
   deleteExpense(id: number): Observable<void> {
     this._loading.set(true);
-  return this.client.deleteExpense(id).pipe(
-    catchError((err) => {
-      this._error.set(err.message ?? 'Store Error: Failed to delete expense.');
-      this._loading.set(false);
-      return EMPTY;
-    }),
-    finalize(() => this._loading.set(false))
-  );
+    return this.client.deleteExpense(id).pipe(
+      catchError((err) => {
+        this._error.set(err.message ?? 'Store Error: Failed to delete expense.');
+        this._loading.set(false);
+        return EMPTY;
+      }),
+      finalize(() => this._loading.set(false)),
+    );
   }
 
   restoreExpense(id: number): Observable<void> {
@@ -277,7 +277,7 @@ export class ExpenseStore extends BaseStore {
         this._error.set(err.message ?? 'Store Error: Failed to restore expense.');
         this._loading.set(false);
         return EMPTY;
-      })
+      }),
     );
   }
 }

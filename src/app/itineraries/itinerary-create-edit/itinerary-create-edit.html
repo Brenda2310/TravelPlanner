@@ -1,58 +1,58 @@
 <div class="form-container">
-    <h2>{{ isEditing ? 'Editar Itinerario' : 'Crear Nuevo Itinerario' }}</h2>
+  <h2>{{ isEditing ? 'Editar Itinerario' : 'Crear Nuevo Itinerario' }}</h2>
 
-    @if (errorMessage) {
-        <div class="alert-error">{{ errorMessage }}</div>
-    }
+  @if (errorMessage) {
+    <div class="alert-error">{{ errorMessage }}</div>
+  }
 
-    <form [formGroup]="itineraryForm" (ngSubmit)="onSubmit()">
-        
-            <div class="form-group">
-            <label for="tripId">Seleccioná el viaje asociado:</label>
-            <select id="tripId" formControlName="tripId" [disabled]="isEditing">
-                <option value="">-- Elegí un viaje --</option>
-                @for (trip of userTrips().list; track trip.id) {
-                <option [value]="trip.id">{{ trip.name }} - {{ trip.destination }} - {{trip.startDate}} / {{trip.endDate}}</option>
-                }
-            </select>
+  <form [formGroup]="itineraryForm" (ngSubmit)="onSubmit()">
+    <div class="form-group">
+      <label for="tripId">Seleccioná el viaje asociado:</label>
+      <select id="tripId" formControlName="tripId" [disabled]="isEditing">
+        <option value="">-- Elegí un viaje --</option>
+        @for (trip of userTrips().list; track trip.id) {
+          <option [value]="trip.id">
+            {{ trip.name }} - {{ trip.destination }} - {{ trip.startDate }} / {{ trip.endDate }}
+          </option>
+        }
+      </select>
 
-            @if (itineraryForm.get('tripId')?.invalid && itineraryForm.get('tripId')?.touched) {
-                <div class="validation-error">Debes seleccionar un viaje.</div>
-            }
-            </div>
-    
+      @if (itineraryForm.get('tripId')?.invalid && itineraryForm.get('tripId')?.touched) {
+        <div class="validation-error">Debes seleccionar un viaje.</div>
+      }
+    </div>
 
-        <div class="form-group">
-            <label for="itineraryDate">Fecha:</label>
-            <input id="itineraryDate" type="date" formControlName="itineraryDate">
+    <div class="form-group">
+      <label for="itineraryDate">Fecha:</label>
+      <input id="itineraryDate" type="date" formControlName="itineraryDate" />
 
-            @if (itineraryForm.get('itineraryDate')?.touched) {
-                @if (itineraryForm.get('itineraryDate')?.errors?.['required']) {
-                    <div class="validation-error">La fecha es obligatoria.</div>
-                }
+      @if (itineraryForm.get('itineraryDate')?.touched) {
+        @if (itineraryForm.get('itineraryDate')?.errors?.['required']) {
+          <div class="validation-error">La fecha es obligatoria.</div>
+        }
 
-                @if (itineraryForm.errors?.['dateOutOfRange']) {
-                    <div class="validation-error">
-                        La fecha debe estar dentro del rango del viaje seleccionado.
-                    </div>
-                }
-            }
-        </div>
+        @if (itineraryForm.errors?.['dateOutOfRange']) {
+          <div class="validation-error">
+            La fecha debe estar dentro del rango del viaje seleccionado.
+          </div>
+        }
+      }
+    </div>
 
-        <div class="form-group">
-            <label for="notes">Notas / Descripción:</label>
-            <textarea id="notes" formControlName="notes"></textarea>
-        </div>
+    <div class="form-group">
+      <label for="notes">Notas / Descripción:</label>
+      <textarea id="notes" formControlName="notes"></textarea>
+    </div>
 
-        <div class="actions">
-        <button type="submit" [disabled]="itineraryForm.invalid || loading">
-            @if (loading) {
-                Guardando...
-            } @else {
-                {{ isEditing ? 'Actualizar' : 'Crear Itinerario' }}
-            }
-        </button>
-        <button type="reset" class="reset">Borrar</button>
-        </div>
-    </form>
+    <div class="actions">
+      <button type="submit" [disabled]="itineraryForm.invalid || loading">
+        @if (loading) {
+          Guardando...
+        } @else {
+          {{ isEditing ? 'Actualizar' : 'Crear Itinerario' }}
+        }
+      </button>
+      <button type="reset" class="reset">Borrar</button>
+    </div>
+  </form>
 </div>

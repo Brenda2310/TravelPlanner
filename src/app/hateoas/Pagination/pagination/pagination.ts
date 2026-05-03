@@ -4,7 +4,7 @@ import { Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
   selector: 'app-pagination',
   imports: [],
   templateUrl: './pagination.html',
-  styleUrl: './pagination.css'
+  styleUrl: './pagination.css',
 })
 export class Pagination implements OnInit {
   @Input() currentPage: number = 0;
@@ -27,7 +27,7 @@ export class Pagination implements OnInit {
     let endPage = Math.min(this.totalPages - 1, startPage + this.maxPagesToShow - 1);
 
     if (endPage - startPage + 1 < this.maxPagesToShow) {
-        startPage = Math.max(0, endPage - this.maxPagesToShow + 1);
+      startPage = Math.max(0, endPage - this.maxPagesToShow + 1);
     }
 
     for (let i = startPage; i <= endPage; i++) {
@@ -41,15 +41,14 @@ export class Pagination implements OnInit {
     }
   }
 
-  @Input() 
+  @Input()
   set totalPagesSetter(value: number) {
-      this.totalPages = value;
-      this.generatePageArray();
+    this.totalPages = value;
+    this.generatePageArray();
   }
-  @Input() 
+  @Input()
   set currentPageSetter(value: number) {
-      this.currentPage = value;
-      this.generatePageArray();
+    this.currentPage = value;
+    this.generatePageArray();
   }
-
 }

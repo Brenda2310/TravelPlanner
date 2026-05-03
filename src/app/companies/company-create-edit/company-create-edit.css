@@ -26,7 +26,7 @@
   margin: 0;
 }
 
-.form-header h1.title{
+.form-header h1.title {
   font-size: clamp(1.5rem, 1.2rem + 0.8vw, 2rem);
   font-weight: 700;
   color: #07494F;
@@ -44,7 +44,7 @@
   gap: 18px;
 }
 
-.description{
+.description {
   margin-top: 15px;
 }
 
@@ -119,9 +119,11 @@
 .text-sm {
   font-size: 0.85rem;
 }
+
 .text-gray-500 {
   color: rgba(107, 114, 128, 1);
 }
+
 .mb-2 {
   margin-bottom: 0.5rem;
 }

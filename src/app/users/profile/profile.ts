@@ -1,10 +1,10 @@
+import { CommonModule } from '@angular/common';
 import { Component, inject, Input, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
-import { UserStore } from '../services/user-store';
-import { SecurityStore } from '../../security/services/security-store';
-import { CommonModule } from '@angular/common';
-import { TripStore } from '../../trips/services/trip-store';
 import { Pageable } from '../../hateoas/hateoas-models';
+import { SecurityStore } from '../../security/services/security-store';
+import { TripStore } from '../../trips/services/trip-store';
+import { UserStore } from '../services/user-store';
 
 @Component({
   selector: 'app-profile',

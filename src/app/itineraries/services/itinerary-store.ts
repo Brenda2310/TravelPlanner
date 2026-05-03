@@ -1,15 +1,15 @@
+import { HttpErrorResponse } from '@angular/common/http';
 import { inject, Injectable, signal } from '@angular/core';
+import { catchError, EMPTY, finalize, Observable, tap, throwError } from 'rxjs';
 import { BaseStore } from '../../BaseStore';
-import { ItineraryService } from './itinerary-service';
-import { Observable, tap, catchError, EMPTY, throwError, finalize } from 'rxjs';
-import { CollectionState, PaginationInfo, Pageable } from '../../hateoas/hateoas-models';
+import { CollectionState, Pageable, PaginationInfo } from '../../hateoas/hateoas-models';
 import {
   ItineraryCreateDTO,
   ItineraryFilterDTO,
   ItineraryResponseDTO,
   ItineraryUpdateDTO,
 } from '../itinerary-models';
-import { HttpErrorResponse } from '@angular/common/http';
+import { ItineraryService } from './itinerary-service';
 
 @Injectable({
   providedIn: 'root',
@@ -99,7 +99,7 @@ export class ItineraryStore extends BaseStore {
       },
       error: (err) => {
         this._error.set(
-          err.message ?? `Store Error: Failed to load itineraries for user ${userId}.`
+          err.message ?? `Store Error: Failed to load itineraries for user ${userId}.`,
         );
         this._loading.set(false);
       },
@@ -134,8 +134,9 @@ export class ItineraryStore extends BaseStore {
       }),
       finalize(() => {
         this._loading.set(false);
-      })
-  )}
+      }),
+    );
+  }
 
   updateItinerary(id: number, dto: ItineraryUpdateDTO): Observable<ItineraryResponseDTO> {
     this._loading.set(true);
@@ -167,20 +168,20 @@ export class ItineraryStore extends BaseStore {
       }),
       finalize(() => {
         this._loading.set(false);
-      })
+      }),
     );
   }
 
   deleteItinerary(id: number): Observable<void> {
     this._loading.set(true);
-  return this.client.deleteItinerary(id).pipe(
-    catchError((err) => {
-      this._error.set(err.message ?? 'Store Error: Failed to delete itinerary.');
-      this._loading.set(false);
-      return EMPTY;
-    }),
-    finalize(() => this._loading.set(false))
-  );
+    return this.client.deleteItinerary(id).pipe(
+      catchError((err) => {
+        this._error.set(err.message ?? 'Store Error: Failed to delete itinerary.');
+        this._loading.set(false);
+        return EMPTY;
+      }),
+      finalize(() => this._loading.set(false)),
+    );
   }
 
   restoreItinerary(id: number): Observable<void> {
@@ -194,7 +195,7 @@ export class ItineraryStore extends BaseStore {
         this._error.set(err.message ?? 'Store Error: Failed to restore itinerary.');
         this._loading.set(false);
         return EMPTY;
-      })
+      }),
     );
   }
 }

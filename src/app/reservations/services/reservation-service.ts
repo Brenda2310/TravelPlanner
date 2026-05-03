@@ -1,27 +1,23 @@
-import { inject, Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
-import { PagedModel, Pageable } from '../../hateoas/hateoas-models';
-import { 
-  ReservationResponseDTO,
-  ReservationCreateDTO }
-   from '../reservation-models'; 
-import { BaseService } from '../../BaseService';
+import { inject, Injectable } from '@angular/core';
 import { catchError, throwError } from 'rxjs';
+import { BaseService } from '../../BaseService';
+import { Pageable, PagedModel } from '../../hateoas/hateoas-models';
+import { ReservationCreateDTO, ReservationResponseDTO } from '../reservation-models';
 
 @Injectable({
-  providedIn: 'root'
+  providedIn: 'root',
 })
-
-export class ReservationService extends BaseService{
+export class ReservationService extends BaseService {
   private readonly http = inject(HttpClient);
   private readonly api = 'http://localhost:8080/reservation';
 
-  createReservation(dto: ReservationCreateDTO){
+  createReservation(dto: ReservationCreateDTO) {
     return this.http.post<ReservationResponseDTO>(`${this.api}`, dto).pipe(
-          catchError((err) => {
-            return throwError(() => err);
-          })
-        );;
+      catchError((err) => {
+        return throwError(() => err);
+      }),
+    );
   }
 
   confirmPayment(externalReference: number, paymentId: number, pageable: Pageable) {
@@ -33,12 +29,14 @@ export class ReservationService extends BaseService{
   }
 
   cancelReservation(id: number) {
-    return this.http.put<void>(`${this.api}/${id}/cancel`, null); 
+    return this.http.put<void>(`${this.api}/${id}/cancel`, null);
   }
 
   payReservation(reservationId: number) {
-  return this.http.post<string>(`${this.api}/${reservationId}/pay`, null, { responseType: 'text' as 'json' });
-}
+    return this.http.post<string>(`${this.api}/${reservationId}/pay`, null, {
+      responseType: 'text' as 'json',
+    });
+  }
 
   getAllReservations(pageable: Pageable) {
     const params = this.buildParams(pageable);
@@ -52,6 +50,8 @@ export class ReservationService extends BaseService{
 
   getReservationsByCompany(companyId: number, pageable: Pageable) {
     const params = this.buildParams(pageable);
-    return this.http.get<PagedModel<ReservationResponseDTO>>(`${this.api}/company/${companyId}`, { params });
+    return this.http.get<PagedModel<ReservationResponseDTO>>(`${this.api}/company/${companyId}`, {
+      params,
+    });
   }
 }

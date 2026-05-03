@@ -1,4 +1,4 @@
-import { ActivityResumeDTO } from "../activities/activity-models";
+import { ActivityResumeDTO } from '../activities/activity-models';
 
 export interface CompanyResponseDTO {
   id: number;
@@ -14,7 +14,7 @@ export interface CompanyResponseDTO {
 export interface CompanyCreateDTO {
   username: string;
   email: string;
-  password?: string; 
+  password?: string;
   taxId: string;
   location: string;
   phone: string;
@@ -24,7 +24,7 @@ export interface CompanyCreateDTO {
 export interface CompanyUpdateDTO {
   username: string;
   email: string;
-  password?: string; 
+  password?: string;
   location?: string;
   taxId: string;
   phone: string;

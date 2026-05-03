@@ -14,8 +14,8 @@
   backdrop-filter: blur(18px);
   -webkit-backdrop-filter: blur(18px);
   border-radius: 18px;
-  border: 1px solid rgba(255,255,255,0.45);
-  box-shadow: 0 10px 35px rgba(0,0,0,0.18);
+  border: 1px solid rgba(255, 255, 255, 0.45);
+  box-shadow: 0 10px 35px rgba(0, 0, 0, 0.18);
 }
 
 .company-list-container h2 {
@@ -46,7 +46,7 @@
 
 .btn-primary:hover {
   transform: translateY(-1px);
-  box-shadow: 0 6px 18px rgba(0,0,0,0.2);
+  box-shadow: 0 6px 18px rgba(0, 0, 0, 0.2);
 }
 
 .empty-state {
@@ -61,7 +61,7 @@
 
 .no-trips p {
   margin-top: 8px;
-  color: rgba(7,73,79,0.8);
+  color: rgba(7, 73, 79, 0.8);
   font-size: 0.95rem;
 }
 
@@ -85,15 +85,15 @@
 
 .company-table th {
   font-weight: 600;
-  color: rgba(7,73,79,0.95);
+  color: rgba(7, 73, 79, 0.95);
 }
 
 .company-table tbody tr:nth-child(even) {
-  background: rgba(7,73,79,0.03);
+  background: rgba(7, 73, 79, 0.03);
 }
 
 .company-table tbody tr:hover {
-  background: rgba(7,73,79,0.08);
+  background: rgba(7, 73, 79, 0.08);
 }
 
 .company-table td button {
@@ -133,7 +133,8 @@ app-pagination {
     padding: 20px 16px;
   }
 
-  .company-table th, .company-table td {
+  .company-table th,
+  .company-table td {
     padding: 8px 6px;
     font-size: 0.85rem;
   }

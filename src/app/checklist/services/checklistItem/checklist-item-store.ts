@@ -82,7 +82,6 @@ export class ChecklistItemStore extends BaseStore {
   }
 
   loadItemsByChecklistId(checklistId: number, pageable: Pageable): void {
-
     this._loading.set(true);
     this.client.getByChecklistId(checklistId, pageable).subscribe({
       next: (pagedResponse) => {
@@ -108,7 +107,7 @@ export class ChecklistItemStore extends BaseStore {
             totalElements: state.pageInfo.totalElements + 1,
           },
         }));
-      })
+      }),
     );
   }
 
@@ -119,7 +118,7 @@ export class ChecklistItemStore extends BaseStore {
           ...state,
           list: state.list.map((item) => (item.id === id ? updatedItem : item)),
         }));
-      })
+      }),
     );
   }
 
@@ -129,7 +128,7 @@ export class ChecklistItemStore extends BaseStore {
         this._checklistItem.update((state) => ({
           ...state,
           list: state.list.map((i) =>
-            i.id === item.id ? { ...i, status: updatedItem.status } : i
+            i.id === item.id ? { ...i, status: updatedItem.status } : i,
           ),
         }));
       },
@@ -138,10 +137,6 @@ export class ChecklistItemStore extends BaseStore {
       },
     });
   }
-
-
-
-
 
   deleteItem(id: number): Observable<void> {
     return this.client.delete(id).pipe(
@@ -154,20 +149,20 @@ export class ChecklistItemStore extends BaseStore {
             totalElements: state.pageInfo.totalElements - 1,
           },
         }));
-      })
+      }),
     );
   }
 
   resetItems() {
-  this._checklistItem.set({
-    list: [],
-    loading: false,
-    pageInfo: { 
-      totalElements: 0,
-      totalPages: 0,
-      currentPage: 0,
-      pageSize: 10
-    }
-  });
-}
+    this._checklistItem.set({
+      list: [],
+      loading: false,
+      pageInfo: {
+        totalElements: 0,
+        totalPages: 0,
+        currentPage: 0,
+        pageSize: 10,
+      },
+    });
+  }
 }

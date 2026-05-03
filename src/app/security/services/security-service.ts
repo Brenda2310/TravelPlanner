@@ -1,5 +1,5 @@
-import { Injectable, inject } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
+import { inject, Injectable } from '@angular/core';
 import {
   BehaviorSubject,
   catchError,
@@ -46,7 +46,7 @@ export class SecurityService {
       return this.refreshTokenSubject.pipe(
         filter((token) => token !== null),
         take(1),
-        map(() => this.getValidAccessToken())
+        map(() => this.getValidAccessToken()),
       );
     }
 
@@ -73,7 +73,7 @@ export class SecurityService {
         this.isRefreshing = false;
         this.refreshTokenSubject.next(null);
         return throwError(() => error);
-      })
+      }),
     );
   }
 
@@ -99,12 +99,12 @@ export class SecurityService {
   }
 
   getCompanyId(): number | null {
-  const token = this.getAccessToken();
-  if (!token) return null;
+    const token = this.getAccessToken();
+    if (!token) return null;
 
-  const decoded: any = this.decodeJwt(token);
-  return decoded.companyId ?? null;
-}
+    const decoded: any = this.decodeJwt(token);
+    return decoded.companyId ?? null;
+  }
 
   getUserId(): number | null {
     const token = this.getAccessToken();
@@ -149,7 +149,7 @@ export class SecurityService {
           .map(function (c) {
             return '%' + ('00' + c.charCodeAt(0).toString(16)).slice(-2);
           })
-          .join('')
+          .join(''),
       );
       return JSON.parse(jsonPayload);
     } catch (e) {

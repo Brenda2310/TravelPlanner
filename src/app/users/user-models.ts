@@ -1,4 +1,3 @@
-
 export type UserPreference =
   | 'CULTURAL'
   | 'HISTORIC'
@@ -36,10 +35,10 @@ export interface UserResponseDTO {
   username: string;
   dni: string;
   email: string;
-  fechaRegistro: string; 
-  preferencias: UserPreference[]; 
+  fechaRegistro: string;
+  preferencias: UserPreference[];
   active: boolean;
-  destinos: TripResumeDTO[]; 
+  destinos: TripResumeDTO[];
 }
 
 /**
@@ -51,7 +50,7 @@ export interface UserCreateDTO {
   email: string;
   password: string;
   dni: string;
-  preferencias: UserPreference[]; 
+  preferencias: UserPreference[];
 }
 
 /**
@@ -65,5 +64,5 @@ export interface UserUpdateDTO {
   email?: string;
   password?: string;
   dni?: string;
-  preferencias?: UserPreference[]; 
+  preferencias?: UserPreference[];
 }

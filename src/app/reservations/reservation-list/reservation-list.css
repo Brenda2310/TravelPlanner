@@ -19,13 +19,13 @@
   padding: 24px 22px 26px;
 }
 
-.title h2{
-    display: flex;
-    justify-content: center;
-    font-weight: 700;
+.title h2 {
+  display: flex;
+  justify-content: center;
+  font-weight: 700;
 }
 
-.reservations > p {
+.reservations>p {
   margin: 0;
   font-size: 0.95rem;
   color: rgba(7, 73, 79, 0.9);
@@ -40,7 +40,7 @@
 .table {
   width: 100%;
   border-collapse: collapse;
-  margin-top: 30px;  
+  margin-top: 30px;
   font-size: 0.92rem;
 }
 

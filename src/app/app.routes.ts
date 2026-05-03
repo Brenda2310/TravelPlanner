@@ -1,32 +1,31 @@
 import { Routes } from '@angular/router';
-import { NotFound } from './not-found/not-found';
-import { Home } from './home/home';
-import { Login } from './security/auth/login/login';
-import { UserRegister } from './users/userRegister/user-register/user-register';
-import { TripList } from './trips/TripList/trip-list/trip-list';
-import { authGuard } from './guards/auth/auth-guard';
-import { TripCreateEdit } from './trips/tripCreateEdit/trip-create-edit/trip-create-edit';
-import { TripDetails } from './trips/tripDetails/trip-details/trip-details';
-import { Layout } from './AppLayout/layout/layout';
-import { ItineraryList } from './itineraries/itinerary-list/itinerary-list';
 import { ActivityBrowser } from './activities/activity-browser/activity-browser';
-import { ItineraryCreateEdit } from './itineraries/itinerary-create-edit/itinerary-create-edit';
-import { Profile } from './users/profile/profile';
-import { ItineraryDetails } from './itineraries/itinerary-details/itinerary-details';
-import { ChecklistList } from './checklist/checklist-list/checklist-list';
-import { ChecklistCreateEdit } from './checklist/checklist-create-edit/checklist-create-edit';
-import { ChecklistDetails } from './checklist/checklist-details/checklist-details';
 import { ActivityCreateEdit } from './activities/activity-create-edit/activity-create-edit';
 import { ActivityDetails } from './activities/activity-details/activity-details';
+import { ChecklistCreateEdit } from './checklist/checklist-create-edit/checklist-create-edit';
+import { ChecklistDetails } from './checklist/checklist-details/checklist-details';
+import { ChecklistList } from './checklist/checklist-list/checklist-list';
+import { CompanyCreateEdit } from './companies/company-create-edit/company-create-edit';
 import { CompanyList } from './companies/company-list/company-list';
 import { CompanyProfile } from './companies/company-profile/company-profile';
-import { ReservationList } from './reservations/reservation-list/reservation-list';
-import { ReservationReturn } from './reservations/reservation-return/reservation-return';
-import { ReservationCompany } from './reservations/reservation-company/reservation-company';
-import { CompanyCreateEdit } from './companies/company-create-edit/company-create-edit';
+import { ExpenseDetails } from './expenses/expense-details/expense-details/expense-details';
 import { ExpensesList } from './expenses/expense-list/expenses-list/expenses-list';
 import { ExpensesCreateEdit } from './expenses/expenses-create-edit/expenses-create-edit/expenses-create-edit';
-import { ExpenseDetails } from './expenses/expense-details/expense-details/expense-details';
+import { authGuard } from './guards/auth/auth-guard';
+import { Home } from './home/home';
+import { ItineraryCreateEdit } from './itineraries/itinerary-create-edit/itinerary-create-edit';
+import { ItineraryDetails } from './itineraries/itinerary-details/itinerary-details';
+import { ItineraryList } from './itineraries/itinerary-list/itinerary-list';
+import { NotFound } from './not-found/not-found';
+import { ReservationCompany } from './reservations/reservation-company/reservation-company';
+import { ReservationList } from './reservations/reservation-list/reservation-list';
+import { ReservationReturn } from './reservations/reservation-return/reservation-return';
+import { Login } from './security/auth/login/login';
+import { TripCreateEdit } from './trips/tripCreateEdit/trip-create-edit/trip-create-edit';
+import { TripDetails } from './trips/tripDetails/trip-details/trip-details';
+import { TripList } from './trips/TripList/trip-list/trip-list';
+import { Profile } from './users/profile/profile';
+import { UserRegister } from './users/userRegister/user-register/user-register';
 
 export const routes: Routes = [
   { path: '', component: Home, title: 'Inicio' },
@@ -149,14 +148,9 @@ export const routes: Routes = [
             component: ActivityCreateEdit,
             title: 'Agregar Actividad',
             canActivate: [
-              authGuard([
-                'CREAR_ACTIVIDAD_USUARIO',
-                'ROLE_ADMIN',
-                'ROLE_COMPANY',
-                'ROLE_USER',
-              ]),
+              authGuard(['CREAR_ACTIVIDAD_USUARIO', 'ROLE_ADMIN', 'ROLE_COMPANY', 'ROLE_USER']),
             ],
-            data: {mode: 'user'}
+            data: { mode: 'user' },
           },
           {
             path: 'create/company',
@@ -178,7 +172,7 @@ export const routes: Routes = [
                 'ROLE_USER',
               ]),
             ],
-            data: { mode: 'edit' }
+            data: { mode: 'edit' },
           },
           {
             path: ':id',
@@ -216,7 +210,7 @@ export const routes: Routes = [
             path: ':id/edit',
             component: ChecklistCreateEdit,
             title: 'Editar Checklist',
-            canActivate: [authGuard(['ROLE_ADMIN','ROLE_USER'])],
+            canActivate: [authGuard(['ROLE_ADMIN', 'ROLE_USER'])],
           },
           {
             path: ':id',
@@ -262,19 +256,19 @@ export const routes: Routes = [
             path: '',
             component: ReservationList,
             title: 'Mis Reservaciones',
-            canActivate: [authGuard(['ROLE_USER','ROLE_ADMIN', 'ROLE_COMPANY'])]
+            canActivate: [authGuard(['ROLE_USER', 'ROLE_ADMIN', 'ROLE_COMPANY'])],
           },
           {
             path: 'payment-return',
             component: ReservationReturn,
             title: 'Pago',
-            canActivate: [authGuard(['ROLE_USER', 'ROLE_ADMIN', 'ROLE_COMPANY'])]
+            canActivate: [authGuard(['ROLE_USER', 'ROLE_ADMIN', 'ROLE_COMPANY'])],
           },
           {
             path: 'company/:companyId',
             component: ReservationCompany,
             title: 'Reservas',
-            canActivate: [authGuard(['ROLE_USER', 'ROLE_ADMIN', 'ROLE_COMPANY'])]
+            canActivate: [authGuard(['ROLE_USER', 'ROLE_ADMIN', 'ROLE_COMPANY'])],
           },
         ],
       },
@@ -297,7 +291,7 @@ export const routes: Routes = [
             path: ':id/edit',
             component: ExpensesCreateEdit,
             title: 'Editar Gasto',
-            canActivate: [authGuard(['ROLE_ADMIN','ROLE_USER'])],
+            canActivate: [authGuard(['ROLE_ADMIN', 'ROLE_USER'])],
           },
           {
             path: ':id',

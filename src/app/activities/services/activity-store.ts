@@ -1,25 +1,24 @@
+import { HttpErrorResponse } from '@angular/common/http';
 import { inject, Injectable, signal, WritableSignal } from '@angular/core';
-import { ActivityService } from './activity-service';
 import { catchError, finalize, Observable, tap, throwError } from 'rxjs';
+import { BaseStore } from '../../BaseStore';
 import {
-  Pageable,
   CollectionState,
-  EntityModel,
-  PaginationInfo,
+  Pageable,
+  PaginationInfo
 } from '../../hateoas/hateoas-models';
 import {
-  ActivityResponseDTO,
-  ActivityCreateResponseDTO,
   ActivityCompanyResponseDTO,
-  UserActivityCreateDTO,
-  CompanyActivityCreateDTO,
-  ActivityUpdateDTO,
-  CompanyActivityUpdateDTO,
+  ActivityCreateResponseDTO,
   ActivityFilterDTO,
+  ActivityResponseDTO,
+  ActivityUpdateDTO,
+  CompanyActivityCreateDTO,
   CompanyActivityFilterParams,
+  CompanyActivityUpdateDTO,
+  UserActivityCreateDTO,
 } from '../activity-models';
-import { BaseStore } from '../../BaseStore';
-import { HttpErrorResponse } from '@angular/common/http';
+import { ActivityService } from './activity-service';
 
 @Injectable({
   providedIn: 'root',
@@ -145,17 +144,17 @@ export class ActivityStore extends BaseStore {
   findById(id: number) {
     this._loading.set(true);
     return this.client.getActivityById(id).pipe(
-    tap((entityModel) => {
-      const activity = (entityModel as any).content || entityModel;
-      this._currentActivity.set(activity);
-      this._loading.set(false);
-    }),
-    catchError((err) => {
-      console.error(`Store Error: Failed to load activity with id ${id}`, err);
-      this._loading.set(false);
-      return throwError(() => err);
-    })
-  );
+      tap((entityModel) => {
+        const activity = (entityModel as any).content || entityModel;
+        this._currentActivity.set(activity);
+        this._loading.set(false);
+      }),
+      catchError((err) => {
+        console.error(`Store Error: Failed to load activity with id ${id}`, err);
+        this._loading.set(false);
+        return throwError(() => err);
+      }),
+    );
   }
 
   loadById(id: number) {
@@ -175,7 +174,7 @@ export class ActivityStore extends BaseStore {
 
   createFromUser(
     dto: UserActivityCreateDTO,
-    pageable: Pageable
+    pageable: Pageable,
   ): Observable<ActivityCreateResponseDTO> {
     this._loading.set(true);
     return this.client.createFromUser(dto, pageable).pipe(
@@ -204,7 +203,7 @@ export class ActivityStore extends BaseStore {
       }),
       finalize(() => {
         this._loading.set(false);
-      })
+      }),
     );
   }
 
@@ -236,7 +235,7 @@ export class ActivityStore extends BaseStore {
       }),
       finalize(() => {
         this._loading.set(false);
-      })
+      }),
     );
   }
 
@@ -249,14 +248,14 @@ export class ActivityStore extends BaseStore {
           list: state.list.map((a) => (a.id === id ? updatedActivity : a)),
           loading: false,
         }));
-      })
+      }),
     );
   }
 
   updateCompanyActivity(
     id: number,
     idActivity: number,
-    dto: CompanyActivityUpdateDTO
+    dto: CompanyActivityUpdateDTO,
   ): Observable<ActivityResponseDTO> {
     this._loading.set(true);
     return this.client.updateCompanyActivity(id, idActivity, dto).pipe(
@@ -266,76 +265,87 @@ export class ActivityStore extends BaseStore {
           list: state.list.map((a) => (a.id === idActivity ? (updatedActivity as any) : a)),
           loading: false,
         }));
-      })
+      }),
     );
   }
 
-  deleteUserActivity(id: number, userId: number, filters: ActivityFilterDTO, pageable: Pageable): Observable<void> {
+  deleteUserActivity(
+    id: number,
+    userId: number,
+    filters: ActivityFilterDTO,
+    pageable: Pageable,
+  ): Observable<void> {
     this._loading.set(true);
     return this.client.deleteUserActivity(id).pipe(
       tap(() => {
         const state = this._userActivities();
-      const isLastItemOnPage = state.list.length === 1;
-      const isNotFirstPage   = state.pageInfo.currentPage > 0;
- 
-      const nextPage = isLastItemOnPage && isNotFirstPage
-        ? state.pageInfo.currentPage - 1
-        : state.pageInfo.currentPage;
- 
-      this.loadActivitiesByUserId(userId, filters, { ...pageable, page: nextPage });
-    }),
-    catchError((err) => {
-      this._error.set('Error al eliminar la actividad.');
-      this._loading.set(false);
-      return throwError(() => err);
-      })
+        const isLastItemOnPage = state.list.length === 1;
+        const isNotFirstPage = state.pageInfo.currentPage > 0;
+
+        const nextPage =
+          isLastItemOnPage && isNotFirstPage
+            ? state.pageInfo.currentPage - 1
+            : state.pageInfo.currentPage;
+
+        this.loadActivitiesByUserId(userId, filters, { ...pageable, page: nextPage });
+      }),
+      catchError((err) => {
+        this._error.set('Error al eliminar la actividad.');
+        this._loading.set(false);
+        return throwError(() => err);
+      }),
     );
   }
 
-  deleteCompanyActivity(companyId: number, activityId: number, filters: CompanyActivityFilterParams, pageable: Pageable): Observable<void> {
+  deleteCompanyActivity(
+    companyId: number,
+    activityId: number,
+    filters: CompanyActivityFilterParams,
+    pageable: Pageable,
+  ): Observable<void> {
     this._loading.set(true);
     return this.client.deleteCompanyActivity(companyId, activityId).pipe(
       tap(() => {
         const state = this._companyActivities();
-      const isLastItemOnPage = state.list.length === 1;
-      const isNotFirstPage   = state.pageInfo.currentPage > 0;
- 
-      const nextPage = isLastItemOnPage && isNotFirstPage
-        ? state.pageInfo.currentPage - 1
-        : state.pageInfo.currentPage;
- 
-      this.loadAllCompanyActivities({ ...pageable, page: nextPage }, filters);
-    }),
-    catchError((err) => {
-      this._error.set('Error al eliminar la actividad.');
-      this._loading.set(false);
-      return throwError(() => err);
-      })
+        const isLastItemOnPage = state.list.length === 1;
+        const isNotFirstPage = state.pageInfo.currentPage > 0;
+
+        const nextPage =
+          isLastItemOnPage && isNotFirstPage
+            ? state.pageInfo.currentPage - 1
+            : state.pageInfo.currentPage;
+
+        this.loadAllCompanyActivities({ ...pageable, page: nextPage }, filters);
+      }),
+      catchError((err) => {
+        this._error.set('Error al eliminar la actividad.');
+        this._loading.set(false);
+        return throwError(() => err);
+      }),
     );
   }
 
- 
-deleteUserActivityOnly(id: number): Observable<void> {
-  this._loading.set(true);
-  return this.client.deleteUserActivity(id).pipe(
-    tap(() => this._loading.set(false)),
-    catchError((err) => {
-      this._error.set('Error al eliminar la actividad.');
-      this._loading.set(false);
-      return throwError(() => err);
-    })
-  );
-}
+  deleteUserActivityOnly(id: number): Observable<void> {
+    this._loading.set(true);
+    return this.client.deleteUserActivity(id).pipe(
+      tap(() => this._loading.set(false)),
+      catchError((err) => {
+        this._error.set('Error al eliminar la actividad.');
+        this._loading.set(false);
+        return throwError(() => err);
+      }),
+    );
+  }
 
-deleteCompanyActivityOnly(companyId: number, activityId: number): Observable<void> {
-  this._loading.set(true);
-  return this.client.deleteCompanyActivity(companyId, activityId).pipe(
-    tap(() => this._loading.set(false)),
-    catchError((err) => {
-      this._error.set('Error al eliminar la actividad.');
-      this._loading.set(false);
-      return throwError(() => err);
-    })
-  );
-}
+  deleteCompanyActivityOnly(companyId: number, activityId: number): Observable<void> {
+    this._loading.set(true);
+    return this.client.deleteCompanyActivity(companyId, activityId).pipe(
+      tap(() => this._loading.set(false)),
+      catchError((err) => {
+        this._error.set('Error al eliminar la actividad.');
+        this._loading.set(false);
+        return throwError(() => err);
+      }),
+    );
+  }
 }

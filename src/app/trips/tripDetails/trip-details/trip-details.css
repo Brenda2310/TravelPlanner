@@ -47,8 +47,8 @@
   margin-top: 18px;
 }
 
-.buttons{
-    margin-top: 20px;
+.buttons {
+  margin-top: 20px;
 }
 
 .btn-edit {
@@ -107,7 +107,9 @@
 }
 
 @media (max-width: 600px) {
-  .trip-info, .expenses-section {
+
+  .trip-info,
+  .expenses-section {
     padding: 20px;
   }
 
@@ -116,7 +118,8 @@
     align-items: stretch;
   }
 
-  .btn-edit, .btn-delete {
+  .btn-edit,
+  .btn-delete {
     width: 100%;
     text-align: center;
   }

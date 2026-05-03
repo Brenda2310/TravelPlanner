@@ -10,21 +10,20 @@ export type ActivityCategory =
   | 'HISTORIA'
   | 'FAMILIA';
 
-
 export interface ActivityResponseDTO {
   id: number;
-  price: number; 
+  price: number;
   available: boolean;
   name: string;
   description: string;
   category: ActivityCategory;
-  date: string; 
-  startTime: string; 
-  endTime: string; 
-  itineraryId: number | null; 
-  userIds: number[]; 
-  companyId: number | null; 
-  available_quantity: number | null; 
+  date: string;
+  startTime: string;
+  endTime: string;
+  itineraryId: number | null;
+  userIds: number[];
+  companyId: number | null;
+  available_quantity: number | null;
 }
 
 export interface ActivityCompanyResponseDTO {
@@ -36,7 +35,7 @@ export interface ActivityCompanyResponseDTO {
   date: string;
   startTime: string;
   endTime: string;
-  available_quantity: number; 
+  available_quantity: number;
 }
 
 export interface ActivityCreateResponseDTO {
@@ -59,14 +58,14 @@ export interface ActivityResumeDTO {
 }
 
 export interface UserActivityCreateDTO {
-  price?: number; 
+  price?: number;
   name: string;
   description: string;
   category: ActivityCategory;
   date: string;
   startTime: string;
   endTime: string;
-  sharedUserIds?: number[]; 
+  sharedUserIds?: number[];
 }
 
 export interface CompanyActivityCreateDTO {
@@ -78,19 +77,19 @@ export interface CompanyActivityCreateDTO {
   startTime: string;
   endTime: string;
   companyId: number;
-  available_quantity: number; 
+  available_quantity: number;
 }
 
 export interface ActivityUpdateDTO {
-  price?: number; 
+  price?: number;
   name: string;
   description: string;
   category: ActivityCategory;
   date: string;
-  startTime?: string; 
-  endTime?: string; 
+  startTime?: string;
+  endTime?: string;
   available?: boolean;
-  itineraryId?: number; 
+  itineraryId?: number;
 }
 
 export interface CompanyActivityUpdateDTO {
@@ -101,13 +100,13 @@ export interface CompanyActivityUpdateDTO {
   date: string;
   startTime: string;
   endTime: string;
-  available_quantity: number; 
+  available_quantity: number;
 }
 
 export interface ActivityFilterDTO {
   category?: ActivityCategory;
-  startDate?: string; 
-  endDate?: string; 
+  startDate?: string;
+  endDate?: string;
 }
 
 export interface CompanyActivityFilterParams extends ActivityFilterDTO {

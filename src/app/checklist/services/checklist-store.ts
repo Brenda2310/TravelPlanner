@@ -1,30 +1,34 @@
-import { inject, Injectable, signal } from '@angular/core';
-import { ChecklistService } from './checklist-service';
-import { catchError, finalize, Observable, tap, throwError } from 'rxjs';
-import { CollectionState, EntityModel, PaginationInfo, Pageable} from '../../hateoas/hateoas-models';
-import { 
-  CheckListResponseDTO,
-  CheckListCreateDTO,
-  CheckListUpdateDTO,
-  CheckListFilterDTO } from '../checklist-models';
-import { BaseStore } from '../../BaseStore';
 import { HttpErrorResponse } from '@angular/common/http';
+import { inject, Injectable, signal } from '@angular/core';
+import { catchError, finalize, Observable, tap, throwError } from 'rxjs';
+import { BaseStore } from '../../BaseStore';
+import {
+  CollectionState,
+  Pageable,
+  PaginationInfo
+} from '../../hateoas/hateoas-models';
+import {
+  CheckListCreateDTO,
+  CheckListFilterDTO,
+  CheckListResponseDTO,
+  CheckListUpdateDTO,
+} from '../checklist-models';
+import { ChecklistService } from './checklist-service';
 
 @Injectable({
-  providedIn: 'root'
+  providedIn: 'root',
 })
-export class ChecklistStore extends BaseStore{
+export class ChecklistStore extends BaseStore {
   private readonly client = inject(ChecklistService);
   private readonly _checklist = signal<CollectionState<CheckListResponseDTO>>({
-      list: [], 
-      loading: false, 
-      pageInfo: { totalElements: 0, totalPages: 0, currentPage: 0, pageSize: 10 }
-  });;
+    list: [],
+    loading: false,
+    pageInfo: { totalElements: 0, totalPages: 0, currentPage: 0, pageSize: 10 },
+  });
 
   private readonly _loading = signal<boolean>(false);
   private readonly _error = signal<string | null>(null);
   private readonly _currentChecklist = signal<CheckListResponseDTO | null>(null);
-  
 
   public readonly checklist = this._checklist.asReadonly();
   public readonly loading = this._loading.asReadonly();
@@ -40,7 +44,7 @@ export class ChecklistStore extends BaseStore{
         totalPages: page.totalPages,
         currentPage: page.number,
         pageSize: page.size,
-      } as PaginationInfo
+      } as PaginationInfo,
     });
   }
 
@@ -65,7 +69,7 @@ export class ChecklistStore extends BaseStore{
     this._loading.set(true);
     this.client.getAllActive(pageable).subscribe({
       next: (pagedResponse) => {
-        console.log(pagedResponse); 
+        console.log(pagedResponse);
         const list = this.unwrapEntities<CheckListResponseDTO>(pagedResponse);
         this.setChecklist(list, pagedResponse.page);
         this._loading.set(false);
@@ -73,10 +77,9 @@ export class ChecklistStore extends BaseStore{
       error: (err) => {
         this._error.set(err.message ?? 'Store Error: Failed to load active checklists.');
         this._loading.set(false);
-      }
+      },
     });
   }
-
 
   loadByUser(userId: number, filters: CheckListFilterDTO, pageable: Pageable): void {
     this._loading.set(true);
@@ -87,7 +90,9 @@ export class ChecklistStore extends BaseStore{
         this._loading.set(false);
       },
       error: (err) => {
-        this._error.set(err.message ?? `Store Error: Failed to load checklists for user ${userId}.`);
+        this._error.set(
+          err.message ?? `Store Error: Failed to load checklists for user ${userId}.`,
+        );
         this._loading.set(false);
       },
     });
@@ -134,7 +139,7 @@ export class ChecklistStore extends BaseStore{
       }),
       finalize(() => {
         this._loading.set(false);
-      })
+      }),
     );
   }
 
@@ -145,7 +150,8 @@ export class ChecklistStore extends BaseStore{
           ...state,
           list: state.list.map((c) => (c.id === id ? updated : c)),
         }));
-      }), catchError((err: HttpErrorResponse) => {
+      }),
+      catchError((err: HttpErrorResponse) => {
         let userMessage = 'Error desconocido al actualizar la checklist.';
         if (err.error && typeof err.error === 'object') {
           userMessage = err.error.message || err.error.error || userMessage;
@@ -162,35 +168,35 @@ export class ChecklistStore extends BaseStore{
       }),
       finalize(() => {
         this._loading.set(false);
-      })
+      }),
     );
   }
 
   delete(id: number): Observable<void> {
     return this.client.delete(id).pipe(
       catchError((err: HttpErrorResponse) => {
-      let userMessage = 'Error desconocido al eliminar la checklist.';
-      if (err.error && typeof err.error === 'object') {
-        userMessage = err.error.message || err.error.error || userMessage;
-      } else if (typeof err.error === 'string') {
-        userMessage = err.error;
-      } else if (err.status) {
-        if (err.status === 404) userMessage = 'El recurso solicitado no fue encontrado.';
-        else if (err.status === 403)
-          userMessage = 'Acceso denegado. No tiene permisos para esta acción.';
-      }
-      this._error.set(userMessage);
-      return throwError(() => ({ userMessage, original: err }));
-    }),
-    finalize(() => this._loading.set(false))
-  );
+        let userMessage = 'Error desconocido al eliminar la checklist.';
+        if (err.error && typeof err.error === 'object') {
+          userMessage = err.error.message || err.error.error || userMessage;
+        } else if (typeof err.error === 'string') {
+          userMessage = err.error;
+        } else if (err.status) {
+          if (err.status === 404) userMessage = 'El recurso solicitado no fue encontrado.';
+          else if (err.status === 403)
+            userMessage = 'Acceso denegado. No tiene permisos para esta acción.';
+        }
+        this._error.set(userMessage);
+        return throwError(() => ({ userMessage, original: err }));
+      }),
+      finalize(() => this._loading.set(false)),
+    );
   }
 
   restore(id: number): Observable<void> {
     return this.client.restore(id).pipe(
       tap(() => {
         this.loadAll({ page: 0, size: 10 });
-      })
+      }),
     );
   }
 }

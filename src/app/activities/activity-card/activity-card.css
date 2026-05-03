@@ -1,6 +1,6 @@
-.activity-card.card {
+S.activity-card.card {
   width: 100%;
-  max-width: 260px;        
+  max-width: 260px;
   padding: 18px 18px 14px;
   border-radius: 16px;
   background: rgba(255, 255, 255, 0.98);
@@ -30,7 +30,8 @@
   margin-left: auto;
 }
 
-.activity-price, .activity-date{
+.activity-price,
+.activity-date {
   font-size: 0.9rem;
   font-weight: 600;
   margin-bottom: 10px;

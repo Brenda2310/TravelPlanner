@@ -117,7 +117,7 @@ button {
   box-shadow: 0 7px 18px rgba(0, 0, 0, 0.22);
 }
 
-.activity-detail-page > button:not(.btn-primary) {
+.activity-detail-page>button:not(.btn-primary) {
   padding: 8px 18px;
   border-radius: 999px;
   border: 1px solid rgba(7, 73, 79, 0.25);
@@ -128,17 +128,17 @@ button {
   box-shadow: 0 6px 16px rgba(0, 0, 0, 0.18);
 }
 
-.activity-detail-page > button:not(.btn-primary):hover {
+.activity-detail-page>button:not(.btn-primary):hover {
   background: rgba(255, 255, 255, 0.9);
 }
 
-.activity-detail-page > p {
+.activity-detail-page>p {
   font-size: 0.95rem;
   color: rgba(7, 73, 79, 0.9);
 }
 
-.actions{
-    display: flex;
+.actions {
+  display: flex;
 }
 
 .editar {
@@ -195,9 +195,8 @@ button {
     margin-bottom: 8px;
   }
 
-  .activity-detail-page > button:not(.btn-primary) {
+  .activity-detail-page>button:not(.btn-primary) {
     width: 100%;
     text-align: center;
   }
 }
-

@@ -1,14 +1,11 @@
 @if (checklist()) {
   <div class="checklist-detail-container">
-
-    <h2 class="checklist-title"> Agregar items a 
+    <h2 class="checklist-title">
+      Agregar items a
       {{ checklist()!.name }}
     </h2>
 
-    <app-check-list-item
-      [checklistId]="checklist()!.id">
-    </app-check-list-item>
-
+    <app-check-list-item [checklistId]="checklist()!.id"> </app-check-list-item>
   </div>
 } @else {
   <p class="loading">Cargando checklist...</p>

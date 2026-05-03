@@ -18,17 +18,17 @@ export interface CheckListItemUpdateDTO {
 }
 
 export interface CheckListItemFilterDTO {
-  checklistId?: number; 
-  status?: boolean;   
+  checklistId?: number;
+  status?: boolean;
 }
 
 export interface CheckListResponseDTO {
   id: number;
   name: string;
-  completed: boolean; 
+  completed: boolean;
   tripId: number;
   userId: number;
-  items: CheckListItemResponseDTO[]; 
+  items: CheckListItemResponseDTO[];
 }
 
 export interface CheckListCreateDTO {
@@ -38,7 +38,7 @@ export interface CheckListCreateDTO {
 
 export interface CheckListUpdateDTO {
   name: string;
-  completed?: boolean; 
+  completed?: boolean;
   tripId: number;
 }
 

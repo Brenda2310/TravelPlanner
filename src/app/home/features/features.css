@@ -16,7 +16,7 @@ section.container h1 {
 }
 
 .features {
-display: flex;
+  display: flex;
   gap: 24px;
   overflow-x: auto;
   scroll-snap-type: x mandatory;
@@ -25,7 +25,7 @@ display: flex;
 }
 
 .card {
-    flex: 0 0 280px;
+  flex: 0 0 280px;
   scroll-snap-align: center;
   background-color: #FFFFFA;
   padding: 24px;
@@ -50,7 +50,7 @@ display: flex;
 }
 
 .card img {
-background: linear-gradient(135deg, #e6eded, #b3dbde);
+  background: linear-gradient(135deg, #e6eded, #b3dbde);
   width: 84px;
   height: 84px;
   margin: 10px auto 16px;
@@ -99,6 +99,7 @@ background: linear-gradient(135deg, #e6eded, #b3dbde);
     padding: 18px;
     min-height: 300px;
   }
+
   .card img {
     width: 68px;
     height: 68px;
@@ -109,8 +110,8 @@ background: linear-gradient(135deg, #e6eded, #b3dbde);
   .card {
     transition: none;
   }
+
   .card:hover {
     transform: none;
   }
 }
-

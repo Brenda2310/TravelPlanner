@@ -1,10 +1,10 @@
+import { CommonModule } from '@angular/common';
 import { ChangeDetectorRef, Component, inject, OnInit } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
-import { ActivityStore } from '../services/activity-store';
-import { CommonModule } from '@angular/common';
-import { SecurityStore } from '../../security/services/security-store';
 import { ReservationCreateDTO } from '../../reservations/reservation-models';
 import { ReservationStore } from '../../reservations/services/reservation-store';
+import { SecurityStore } from '../../security/services/security-store';
+import { ActivityStore } from '../services/activity-store';
 
 @Component({
   selector: 'app-activity-details',
@@ -34,7 +34,7 @@ export class ActivityDetails implements OnInit {
     }
   }
 
-    onBookActivity(): void {
+  onBookActivity(): void {
     const activity = this.currentActivityDetail();
     if (!activity) return;
 
@@ -66,36 +66,34 @@ export class ActivityDetails implements OnInit {
   }
 
   onDelete() {
-  if (!confirm("¿Seguro que querés eliminar esta actividad?")) return;
+    if (!confirm('¿Seguro que querés eliminar esta actividad?')) return;
 
-  const activity = this.currentActivityDetail();
-  if (!activity) return;
+    const activity = this.currentActivityDetail();
+    if (!activity) return;
 
-  const id = activity.id;
+    const id = activity.id;
 
-  if (activity.companyId) {
-    this.store.deleteCompanyActivityOnly(activity.companyId, id).subscribe({
+    if (activity.companyId) {
+      this.store.deleteCompanyActivityOnly(activity.companyId, id).subscribe({
+        next: () => {
+          alert('Actividad eliminada con éxito.');
+          this.router.navigateByUrl('/activities');
+        },
+        error: (err) => {
+          this.errorMessage = err.userMessage || 'Error al eliminar actividad.';
+        },
+      });
+
+      return;
+    }
+    this.store.deleteUserActivityOnly(id).subscribe({
       next: () => {
-        alert("Actividad eliminada con éxito.");
+        alert('Actividad eliminada con éxito.');
         this.router.navigateByUrl('/activities');
       },
       error: (err) => {
         this.errorMessage = err.userMessage || 'Error al eliminar actividad.';
-      }
+      },
     });
-
-    return;
   }
-  this.store.deleteUserActivityOnly(id).subscribe({
-    next: () => {
-      alert("Actividad eliminada con éxito.");
-      this.router.navigateByUrl('/activities');
-    },
-    error: (err) => {
-      this.errorMessage = err.userMessage || 'Error al eliminar actividad.';
-    }
-  });
-}
-
-
 }

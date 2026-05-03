@@ -1,12 +1,12 @@
 @import url('https://fonts.googleapis.com/css2?family=Raleway:wght@400;600&display=swap');
 
 
-*{
+* {
     box-sizing: border-box;
     margin: 0;
 }
 
-:root{
+:root {
     --background-color: #FFFFFA;
     --font-color: #07494F;
     --bg-glass: rgba(255, 255, 255, 0.9);
@@ -14,20 +14,23 @@
     --primary-color: #0ea5e9;
     --color1: #008C9E;
     --color2: #EAF4F4;
-    --color3: #EAF4F4; 
+    --color3: #EAF4F4;
     --font-primary: 'Poppins', sans-serif;
     --font-secondary: 'Playfair Display', serif;
     --primary-hover: #0284c7;
 }
 
-body{
+body {
     background-color: var(--background-color);
     font-family: var(--font-primary);
 }
-html, body { 
+
+html,
+body {
     height: 100%;
 }
 
-body { 
-    margin: 0; font-family: Roboto, "Helvetica Neue", sans-serif; 
+body {
+    margin: 0;
+    font-family: Roboto, "Helvetica Neue", sans-serif;
 }

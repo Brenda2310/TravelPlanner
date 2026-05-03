@@ -12,7 +12,7 @@ export const authGuard = (allowedRoles: string[]): CanActivateFn => {
     }
 
     const roles = authService.getRoles();
-    const hasRole = roles.some(r => allowedRoles.includes(r));
+    const hasRole = roles.some((r) => allowedRoles.includes(r));
 
     if (hasRole) return true;
 

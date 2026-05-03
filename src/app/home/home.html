@@ -1,39 +1,39 @@
 <section class="hero">
-    <div class="hero-card">
-    
-        @if(!isAuthenticated()){
-        <h1>Bienvenido a TravelPlanner</h1>
-        <p>Tu solución definitiva para organizar viajes y controlar presupuestos sin complicaciones</p>
-        }@else {
-            @if (isCompany()) {
-                <h1>Bienvenido/a,  {{  currentCompany()?.username || 'viajer@' }}</h1>
-                <p>Impulsá tu negocio ofreciendo experiencias únicas con una gestión simple y eficiente.</p>
-
-            }
-            @else {
-                <h1>Bienvenido/a,  {{  currentUser()?.username || 'viajer@' }}</h1>
-                <p>Tu solución definitiva para organizar viajes y controlar presupuestos sin complicaciones</p>
-
-            }
-        }
-        
-    @if(!isAuthenticated()){
-        <a class="cta" routerLink="/login">Empezá a planificar tu próxima aventura</a>
-    }@else {
-        @if (isCompany()) {
-            <a class="cta" routerLink="/activities" routerLinkActive="active">Empezá a ofrecer experiencias únicas.</a>
-        }
-        @else {
-            <a class="cta" routerLink="/trips/create">Empezá a planificar tu próxima aventura</a>
-        }
+  <div class="hero-card">
+    @if (!isAuthenticated()) {
+      <h1>Bienvenido a TravelPlanner</h1>
+      <p>
+        Tu solución definitiva para organizar viajes y controlar presupuestos sin complicaciones
+      </p>
+    } @else {
+      @if (isCompany()) {
+        <h1>Bienvenido/a, {{ currentCompany()?.username || 'viajer@' }}</h1>
+        <p>Impulsá tu negocio ofreciendo experiencias únicas con una gestión simple y eficiente.</p>
+      } @else {
+        <h1>Bienvenido/a, {{ currentUser()?.username || 'viajer@' }}</h1>
+        <p>
+          Tu solución definitiva para organizar viajes y controlar presupuestos sin complicaciones
+        </p>
+      }
     }
-</div>
+
+    @if (!isAuthenticated()) {
+      <a class="cta" routerLink="/login">Empezá a planificar tu próxima aventura</a>
+    } @else {
+      @if (isCompany()) {
+        <a class="cta" routerLink="/activities" routerLinkActive="active"
+          >Empezá a ofrecer experiencias únicas.</a
+        >
+      } @else {
+        <a class="cta" routerLink="/trips/create">Empezá a planificar tu próxima aventura</a>
+      }
+    }
+  </div>
 </section>
-@if(!isCompany()){
-<app-features></app-features>
+@if (!isCompany()) {
+  <app-features></app-features>
 }
 
-@if(isCompany()){
-    <app-testimonials></app-testimonials>
+@if (isCompany()) {
+  <app-testimonials></app-testimonials>
 }
-

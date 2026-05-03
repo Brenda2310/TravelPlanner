@@ -1,7 +1,7 @@
 import { Component, inject, OnInit } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
-import { ReservationStore } from '../services/reservation-store';
 import { Pageable } from '../../hateoas/hateoas-models';
+import { ReservationStore } from '../services/reservation-store';
 
 @Component({
   selector: 'app-reservation-return',

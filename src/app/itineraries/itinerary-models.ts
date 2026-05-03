@@ -1,8 +1,8 @@
-import { ActivityResumeDTO } from "../activities/activity-models";
+import { ActivityResumeDTO } from '../activities/activity-models';
 
 export interface ItineraryResponseDTO {
   id: number;
-  itineraryDate: string; 
+  itineraryDate: string;
   notes?: string;
   activities: ActivityResumeDTO[];
   userId: number;
@@ -10,17 +10,17 @@ export interface ItineraryResponseDTO {
 }
 
 export interface ItineraryCreateDTO {
-  itineraryDate: string; 
+  itineraryDate: string;
   notes?: string;
   tripId: number;
 }
 
 export interface ItineraryUpdateDTO {
-  itineraryDate?: string; 
+  itineraryDate?: string;
   notes?: string;
 }
 
 export interface ItineraryFilterDTO {
-  dateFrom?: string; 
-  dateTo?: string; 
+  dateFrom?: string;
+  dateTo?: string;
 }

@@ -1,13 +1,15 @@
 <div class="checklist-items-container">
-
   @if (loading) {
     <p class="loading">Cargando ítems...</p>
   } @else {
-
-    <form
-      [formGroup]="itemForm" (ngSubmit)="createItem()" class="item-form">
-      <input type="text" formControlName="description" placeholder="Nuevo ítem..." class="item-input" />
-      <button type="submit" [disabled]="itemForm.invalid" class="btn-add-item"> Agregar </button>
+    <form [formGroup]="itemForm" (ngSubmit)="createItem()" class="item-form">
+      <input
+        type="text"
+        formControlName="description"
+        placeholder="Nuevo ítem..."
+        class="item-input"
+      />
+      <button type="submit" [disabled]="itemForm.invalid" class="btn-add-item">Agregar</button>
     </form>
 
     @if (errorMessage) {
@@ -20,11 +22,18 @@
       @for (item of items; track item.id) {
         <li class="item-row">
           <label class="item-label">
-            <input type="checkbox" class="item-checkbox" [checked]="item.status" (change)="store.toggleStatus(item)"/>
+            <input
+              type="checkbox"
+              class="item-checkbox"
+              [checked]="item.status"
+              (change)="store.toggleStatus(item)"
+            />
             <span class="item-text">{{ item.description }}</span>
           </label>
 
-          <button type="button" class="btn-delete-item" (click)="deleteItem(item.id)"> Eliminar ítem </button>
+          <button type="button" class="btn-delete-item" (click)="deleteItem(item.id)">
+            Eliminar ítem
+          </button>
         </li>
       } @empty {
         <li class="empty-state">
@@ -32,7 +41,8 @@
         </li>
       }
     </ul>
-      <button class="btn-finish-checklist" type="button" (click)="router.navigate(['/checklists'])"> Finalizar y volver a mis Checklists
-      </button>
+    <button class="btn-finish-checklist" type="button" (click)="router.navigate(['/checklists'])">
+      Finalizar y volver a mis Checklists
+    </button>
   }
 </div>

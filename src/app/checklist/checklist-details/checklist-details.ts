@@ -1,17 +1,16 @@
+import { CommonModule } from '@angular/common';
 import { Component, inject } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
-import { ChecklistStore } from '../services/checklist-store';
 import { CheckListItem } from '../checklistItem/check-list-item/check-list-item';
-import { CommonModule } from '@angular/common';
+import { ChecklistStore } from '../services/checklist-store';
 
 @Component({
   selector: 'app-checklist-details',
   imports: [CommonModule, CheckListItem],
   templateUrl: './checklist-details.html',
-  styleUrl: './checklist-details.css'
+  styleUrl: './checklist-details.css',
 })
 export class ChecklistDetails {
-
   private readonly route = inject(ActivatedRoute);
   private readonly store = inject(ChecklistStore);
 
@@ -23,5 +22,4 @@ export class ChecklistDetails {
       this.store.loadChecklistById(id);
     }
   }
-
 }

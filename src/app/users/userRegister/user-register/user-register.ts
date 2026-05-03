@@ -1,23 +1,20 @@
 import {
   ChangeDetectorRef,
   Component,
-  computed,
   inject,
   Input,
-  OnInit,
-  signal,
+  OnInit
 } from '@angular/core';
-import { FormBuilder, ReactiveFormsModule, Validators } from '@angular/forms';
-import { ActivatedRoute, Router, RouterLink } from '@angular/router';
-import { UserStore } from '../../services/user-store';
-import { PasswordValidators } from '../../validators/PasswordValidators';
-import { UserCreateDTO, UserPreference, UserResponseDTO, UserUpdateDTO } from '../../user-models';
-import { filter, last, Observable, take } from 'rxjs';
 import { toObservable } from '@angular/core/rxjs-interop';
-import { MatDialogModule } from '@angular/material/dialog';
-import { MatDialog } from '@angular/material/dialog';
-import { PreferenceSelector } from '../../PreferenceSelector/preference-selector/preference-selector';
+import { FormBuilder, ReactiveFormsModule, Validators } from '@angular/forms';
+import { MatDialog, MatDialogModule } from '@angular/material/dialog';
+import { ActivatedRoute, Router, RouterLink } from '@angular/router';
+import { filter, Observable, take } from 'rxjs';
 import { SecurityStore } from '../../../security/services/security-store';
+import { PreferenceSelector } from '../../PreferenceSelector/preference-selector/preference-selector';
+import { UserStore } from '../../services/user-store';
+import { UserCreateDTO, UserPreference, UserResponseDTO, UserUpdateDTO } from '../../user-models';
+import { PasswordValidators } from '../../validators/PasswordValidators';
 
 export const ALL_PREFERENCES: UserPreference[] = [
   'CULTURAL',
@@ -73,7 +70,7 @@ export class UserRegister implements OnInit {
     },
     {
       validators: PasswordValidators.match('password', 'confirmPassword'),
-    }
+    },
   );
 
   ngOnInit(): void {
@@ -168,7 +165,7 @@ export class UserRegister implements OnInit {
     const formValue = this.registerForm.getRawValue();
     const passwordValue = formValue.password!;
     let userDto: UserUpdateDTO | UserCreateDTO;
-    let idToUpdate: number | undefined| null = this.userId;
+    let idToUpdate: number | undefined | null = this.userId;
     let targetRoute: string;
 
     if (this.isEditing) {
@@ -259,7 +256,7 @@ export class UserRegister implements OnInit {
     dataObservable
       .pipe(
         filter((user): user is UserResponseDTO => !!user),
-        take(1)
+        take(1),
       )
       .subscribe((user) => {
         this.registerForm.patchValue({

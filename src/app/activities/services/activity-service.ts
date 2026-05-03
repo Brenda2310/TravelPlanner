@@ -1,19 +1,19 @@
-import { Injectable, inject } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
-import { PagedModel, EntityModel, Pageable } from '../../hateoas/hateoas-models';
+import { Injectable, inject } from '@angular/core';
+import { catchError, throwError } from 'rxjs';
 import {
-  ActivityResponseDTO,
-  ActivityCreateResponseDTO,
   ActivityCompanyResponseDTO,
-  UserActivityCreateDTO,
-  CompanyActivityCreateDTO,
-  ActivityUpdateDTO,
-  CompanyActivityUpdateDTO,
+  ActivityCreateResponseDTO,
   ActivityFilterDTO,
+  ActivityResponseDTO,
+  ActivityUpdateDTO,
+  CompanyActivityCreateDTO,
   CompanyActivityFilterParams,
+  CompanyActivityUpdateDTO,
+  UserActivityCreateDTO,
 } from '../../activities/activity-models';
 import { BaseService } from '../../BaseService';
-import { catchError, throwError } from 'rxjs';
+import { EntityModel, Pageable, PagedModel } from '../../hateoas/hateoas-models';
 
 @Injectable({
   providedIn: 'root',
@@ -27,7 +27,7 @@ export class ActivityService extends BaseService {
     return this.http.post<ActivityCreateResponseDTO>(`${this.api}/user`, dto, { params }).pipe(
       catchError((err) => {
         return throwError(() => err);
-      })
+      }),
     );
   }
 
@@ -35,7 +35,7 @@ export class ActivityService extends BaseService {
     return this.http.post<ActivityCompanyResponseDTO>(`${this.api}/company`, dto).pipe(
       catchError((err) => {
         return throwError(() => err);
-      })
+      }),
     );
   }
 
@@ -53,7 +53,7 @@ export class ActivityService extends BaseService {
     const params = this.buildParams(pageable);
     return this.http.get<PagedModel<ActivityCompanyResponseDTO>>(
       `${this.api}/company/${companyId}`,
-      { params }
+      { params },
     );
   }
 
@@ -80,7 +80,7 @@ export class ActivityService extends BaseService {
   updateCompanyActivity(companyId: number, activityId: number, dto: CompanyActivityUpdateDTO) {
     return this.http.put<ActivityResponseDTO>(
       `${this.api}/company/${companyId}/activities/${activityId}`,
-      dto
+      dto,
     );
   }
 

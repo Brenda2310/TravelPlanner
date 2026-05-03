@@ -1,47 +1,47 @@
 import { Component, inject, OnInit } from '@angular/core';
-import { CompanyStore } from '../services/company-store';
 import { Router, RouterLink } from '@angular/router';
 import { Pageable } from '../../hateoas/hateoas-models';
-import { Pagination } from "../../hateoas/Pagination/pagination/pagination";
+import { Pagination } from '../../hateoas/Pagination/pagination/pagination';
+import { CompanyStore } from '../services/company-store';
 
 @Component({
   selector: 'app-company-list',
-  standalone:true,
+  standalone: true,
   imports: [Pagination, RouterLink],
   templateUrl: './company-list.html',
-  styleUrl: './company-list.css'
+  styleUrl: './company-list.css',
 })
-export class CompanyList implements OnInit{
+export class CompanyList implements OnInit {
   public readonly store = inject(CompanyStore);
   public readonly router = inject(Router);
 
-    public pageable: Pageable = { page: 0, size: 9, sort: 'username,asc' }; 
+  public pageable: Pageable = { page: 0, size: 9, sort: 'username,asc' };
 
-    ngOnInit(): void {
-        this.loadCompanies();
-    }
+  ngOnInit(): void {
+    this.loadCompanies();
+  }
 
-    loadCompanies(): void {
-        this.store.loadAllCompanies(this.pageable);
-    }
+  loadCompanies(): void {
+    this.store.loadAllCompanies(this.pageable);
+  }
 
-    onPageChange(newPage: number): void {
-        this.pageable.page = newPage;
-        this.loadCompanies();
-    }
+  onPageChange(newPage: number): void {
+    this.pageable.page = newPage;
+    this.loadCompanies();
+  }
 
-    onDelete(id: number): void {
-        if (confirm('¿Confirmar eliminación de esta compañía?')) {
-            this.store.deleteCompany(id).subscribe({
-      next: () => {
-        const { list, pageInfo } = this.store.companies();
-        if (list.length === 1 && pageInfo.currentPage > 0) {
-          this.pageable.page = pageInfo.currentPage - 1;
-        }
-        this.loadCompanies();
-      },
-      error: (err) => console.error('Error al eliminar compañía:', err)
-    });
-        }
+  onDelete(id: number): void {
+    if (confirm('¿Confirmar eliminación de esta compañía?')) {
+      this.store.deleteCompany(id).subscribe({
+        next: () => {
+          const { list, pageInfo } = this.store.companies();
+          if (list.length === 1 && pageInfo.currentPage > 0) {
+            this.pageable.page = pageInfo.currentPage - 1;
+          }
+          this.loadCompanies();
+        },
+        error: (err) => console.error('Error al eliminar compañía:', err),
+      });
     }
+  }
 }

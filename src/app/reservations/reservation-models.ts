@@ -1,18 +1,14 @@
-export type ReservationStatus =
-  | 'PENDING'
-  | 'ACTIVE'
-  | 'CANCELLED'
-  | string;
+export type ReservationStatus = 'PENDING' | 'ACTIVE' | 'CANCELLED' | string;
 
 export interface ReservationResponseDTO {
   id: number;
   userId: number;
   activityId: number;
   paid: boolean;
-  amount: number; 
-  reservationDate: string; 
+  amount: number;
+  reservationDate: string;
   status: ReservationStatus;
-  urlPayment: string; 
+  urlPayment: string;
 }
 
 export interface ReservationCreateDTO {

@@ -1,19 +1,18 @@
-import { Component, inject, Input, OnChanges, OnInit, SimpleChanges } from '@angular/core';
 import { CommonModule } from '@angular/common';
+import { Component, inject, Input, OnChanges, SimpleChanges } from '@angular/core';
 import { FormBuilder, ReactiveFormsModule, Validators } from '@angular/forms';
-import { ChecklistItemStore } from '../../services/checklistItem/checklist-item-store';
-import { ChecklistItemService } from '../../services/checklistItem/checklist-item-service';
 import { Router } from '@angular/router';
+import { ChecklistItemService } from '../../services/checklistItem/checklist-item-service';
+import { ChecklistItemStore } from '../../services/checklistItem/checklist-item-store';
 
 @Component({
   selector: 'app-check-list-item',
   standalone: true,
   imports: [CommonModule, ReactiveFormsModule],
   templateUrl: './check-list-item.html',
-  styleUrl: './check-list-item.css'
+  styleUrl: './check-list-item.css',
 })
 export class CheckListItem implements OnChanges {
-
   public readonly store = inject(ChecklistItemStore);
   private readonly service = inject(ChecklistItemService);
   private readonly formBuilder = inject(FormBuilder);
@@ -28,13 +27,13 @@ export class CheckListItem implements OnChanges {
   public errorMessage: string | null = null;
 
   ngOnChanges(changes: SimpleChanges): void {
-  if (changes['checklistId'] && this.checklistId) {
-    console.log('Checklist ID cambió a:', this.checklistId);
+    if (changes['checklistId'] && this.checklistId) {
+      console.log('Checklist ID cambió a:', this.checklistId);
 
-    this.store.resetItems();
-    this.store.loadItemsByChecklistId(this.checklistId, { page: 0, size: 10 });
+      this.store.resetItems();
+      this.store.loadItemsByChecklistId(this.checklistId, { page: 0, size: 10 });
+    }
   }
-}
 
   createItem() {
     if (this.itemForm.invalid) return;
@@ -55,14 +54,13 @@ export class CheckListItem implements OnChanges {
     });
   }
 
-  deleteItem(itemId: number){
-    if(!confirm('¿Desea eliminar este item?')){
+  deleteItem(itemId: number) {
+    if (!confirm('¿Desea eliminar este item?')) {
       return;
     }
 
     this.store.deleteItem(itemId).subscribe();
   }
-
 
   get items() {
     return this.store.checklistItem().list;

@@ -1,9 +1,7 @@
 export interface CheckListItem {
-
   id: number;
   description: string;
-  status: boolean; 
+  status: boolean;
   userId: number;
   checklistId: number;
-
 }

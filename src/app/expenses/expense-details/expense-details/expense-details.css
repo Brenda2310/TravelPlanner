@@ -17,8 +17,8 @@
   backdrop-filter: blur(18px);
   -webkit-backdrop-filter: blur(18px);
   border-radius: 20px;
-  border: 1px solid rgba(255,255,255,0.45);
-  box-shadow: 0 10px 35px rgba(0,0,0,0.18);
+  border: 1px solid rgba(255, 255, 255, 0.45);
+  box-shadow: 0 10px 35px rgba(0, 0, 0, 0.18);
   animation: fadeIn 0.35s ease;
 }
 
@@ -44,7 +44,7 @@ strong {
   margin-top: 20px;
   padding: 12px 14px;
   border-radius: 14px;
-  background: rgba(255,255,255,0.85);
+  background: rgba(255, 255, 255, 0.85);
   border: 1px solid rgba(7, 73, 79, 0.15);
 }
 
@@ -105,6 +105,7 @@ strong {
     opacity: 0;
     transform: translateY(8px);
   }
+
   to {
     opacity: 1;
     transform: translateY(0);

@@ -1,13 +1,13 @@
-import { Injectable, inject } from '@angular/core';
 import { HttpClient, HttpParams } from '@angular/common/http';
-import { PagedModel, EntityModel, Pageable } from '../../hateoas/hateoas-models';
-import {
-  CheckListResponseDTO,
-  CheckListCreateDTO,
-  CheckListUpdateDTO,
-  CheckListFilterDTO,
-} from '../checklist-models';
+import { Injectable, inject } from '@angular/core';
 import { catchError, throwError } from 'rxjs';
+import { EntityModel, Pageable, PagedModel } from '../../hateoas/hateoas-models';
+import {
+  CheckListCreateDTO,
+  CheckListFilterDTO,
+  CheckListResponseDTO,
+  CheckListUpdateDTO,
+} from '../checklist-models';
 
 @Injectable({
   providedIn: 'root',
@@ -20,16 +20,16 @@ export class ChecklistService {
     return this.http.post<CheckListResponseDTO>(this.api, dto).pipe(
       catchError((err) => {
         return throwError(() => err);
-      })
-    );;
+      }),
+    );
   }
 
   update(id: number, dto: CheckListUpdateDTO) {
     return this.http.put<CheckListResponseDTO>(`${this.api}/${id}`, dto).pipe(
       catchError((err) => {
         return throwError(() => err);
-      })
-    );;
+      }),
+    );
   }
 
   getById(id: number) {

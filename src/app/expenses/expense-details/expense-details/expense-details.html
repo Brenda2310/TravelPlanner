@@ -1,33 +1,33 @@
 <div class="expense-detail-container">
-    @if (store.loading()) {
-        <p>Cargando gasto...</p>
-    } @else if (!store.loading() && store.currentExpenseDetail()===null) {
-        <p>No se encontro el gasto.</p>
-    }@else {
-        @let exp = store.currentExpenseDetail();
+  @if (store.loading()) {
+    <p>Cargando gasto...</p>
+  } @else if (!store.loading() && store.currentExpenseDetail() === null) {
+    <p>No se encontro el gasto.</p>
+  } @else {
+    @let exp = store.currentExpenseDetail();
 
-        <div class="expense-card">
-            <h2>Detalles del Gasto</h2>
-            <div class="info-group">
-                <p><strong>Monto: </strong> ${{ exp?.amount }}</p>
-                <p><strong>Categoria: </strong>{{ exp?.category }}</p>
-                <p><strong>Fecha: </strong>{{ exp?.date }}</p>
-                @if(exp?.description){
-                <p><strong>Descripción: </strong>{{ exp?.description }}</p>
-                }
-            </div>
+    <div class="expense-card">
+      <h2>Detalles del Gasto</h2>
+      <div class="info-group">
+        <p><strong>Monto: </strong> ${{ exp?.amount }}</p>
+        <p><strong>Categoria: </strong>{{ exp?.category }}</p>
+        <p><strong>Fecha: </strong>{{ exp?.date }}</p>
+        @if (exp?.description) {
+          <p><strong>Descripción: </strong>{{ exp?.description }}</p>
+        }
+      </div>
 
-            @if (exp?.tripId) {
-                <div class="trip-info">
-                    <p><strong>Viaje asociado: </strong></p>
-                    <button (click)="toTrip(exp?.tripId!)">Ver detalles del viaje</button>
-                </div>
-            }
-
-            <div class="actions">
-                <button (click)="toEdit(expenseId!)">Editar</button>
-                <button (click)="onDeleteExpense()">Eliminar</button>
-            </div>
+      @if (exp?.tripId) {
+        <div class="trip-info">
+          <p><strong>Viaje asociado: </strong></p>
+          <button (click)="toTrip(exp?.tripId!)">Ver detalles del viaje</button>
         </div>
-    }
+      }
+
+      <div class="actions">
+        <button (click)="toEdit(expenseId!)">Editar</button>
+        <button (click)="onDeleteExpense()">Eliminar</button>
+      </div>
+    </div>
+  }
 </div>

@@ -1,12 +1,12 @@
 import { ChangeDetectorRef, Component, inject, Input, OnInit } from '@angular/core';
+import { toObservable } from '@angular/core/rxjs-interop';
 import { FormBuilder, ReactiveFormsModule, Validators } from '@angular/forms';
 import { ActivatedRoute, Router } from '@angular/router';
-import { CompanyStore } from '../services/company-store';
+import { filter, finalize, Observable, take } from 'rxjs';
 import { SecurityStore } from '../../security/services/security-store';
 import { PasswordValidators } from '../../users/validators/PasswordValidators';
-import { toObservable } from '@angular/core/rxjs-interop';
-import { filter, finalize, Observable, take } from 'rxjs';
 import { CompanyCreateDTO, CompanyUpdateDTO } from '../company-models';
+import { CompanyStore } from '../services/company-store';
 
 @Component({
   selector: 'app-company-create-edit',
@@ -42,7 +42,7 @@ export class CompanyCreateEdit implements OnInit {
     },
     {
       validators: PasswordValidators.match('password', 'confirmPassword'),
-    }
+    },
   );
 
   ngOnInit(): void {
@@ -53,7 +53,7 @@ export class CompanyCreateEdit implements OnInit {
       this.mode = 'edit-admin';
       this.loadCompanyData();
       this.removePasswordValidatorsForEdit();
-     // this.cdr.detectChanges();
+      // this.cdr.detectChanges();
     }
   }
 
@@ -76,7 +76,7 @@ export class CompanyCreateEdit implements OnInit {
     this.currentCompany$
       .pipe(
         filter((c) => !!c && c.id === this.companyId),
-        take(1)
+        take(1),
       )
       .subscribe((company) => {
         if (!company) return;
@@ -137,11 +137,11 @@ export class CompanyCreateEdit implements OnInit {
     }
 
     const observable$ = action$.pipe(
-          finalize(() => {
-            this.loading = false;
-            this.cdr.detectChanges();
-          })
-        );
+      finalize(() => {
+        this.loading = false;
+        this.cdr.detectChanges();
+      }),
+    );
 
     action$.subscribe({
       next: () => {
@@ -160,7 +160,7 @@ export class CompanyCreateEdit implements OnInit {
           err.original?.message ||
           err.original?.toString() ||
           'Error desconocido.';
-          this.cdr.detectChanges();
+        this.cdr.detectChanges();
       },
     });
   }

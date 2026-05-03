@@ -1,11 +1,11 @@
 <div class="activity-grid grid">
   @for (activity of activities; track activity.id) {
-
     <app-activity-card
       class="activity-card-wrapper"
       [activity]="activity"
       [type]="type"
-      (reservate)="reservate.emit($event)">
+      (reservate)="reservate.emit($event)"
+    >
     </app-activity-card>
   }
 </div>

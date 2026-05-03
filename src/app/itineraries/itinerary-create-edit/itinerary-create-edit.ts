@@ -1,14 +1,14 @@
-import { ChangeDetectorRef, Component, effect, inject } from '@angular/core';
+import { ChangeDetectorRef, Component, inject } from '@angular/core';
+import { toObservable } from '@angular/core/rxjs-interop';
 import { FormBuilder, ReactiveFormsModule, Validators } from '@angular/forms';
 import { ActivatedRoute, Router } from '@angular/router';
-import { ItineraryStore } from '../services/itinerary-store';
-import { SecurityStore } from '../../security/services/security-store';
 import { filter, finalize, Observable, take } from 'rxjs';
-import { ItineraryCreateDTO, ItineraryUpdateDTO } from '../itinerary-models';
-import { TripStore } from '../../trips/services/trip-store';
 import { Pageable } from '../../hateoas/hateoas-models';
+import { SecurityStore } from '../../security/services/security-store';
+import { TripStore } from '../../trips/services/trip-store';
+import { ItineraryCreateDTO, ItineraryUpdateDTO } from '../itinerary-models';
+import { ItineraryStore } from '../services/itinerary-store';
 import { DateValidator } from '../validators/DateValidator';
-import { toObservable } from '@angular/core/rxjs-interop';
 
 @Component({
   selector: 'app-itinerary-create-edit',
@@ -41,7 +41,7 @@ export class ItineraryCreateEdit {
     },
     {
       validators: [DateValidator.dateWithinTripRange(this.tripStore, 'itineraryDate', 'tripId')],
-    }
+    },
   );
 
   ngOnInit(): void {
@@ -65,7 +65,7 @@ export class ItineraryCreateEdit {
     dataObservable
       .pipe(
         filter((itinerary): itinerary is any => !!itinerary),
-        take(1)
+        take(1),
       )
       .subscribe((itinerary) => {
         this.itineraryForm.patchValue({
@@ -119,7 +119,7 @@ export class ItineraryCreateEdit {
       finalize(() => {
         this.loading = false;
         this.cdr.detectChanges();
-      })
+      }),
     );
 
     observable$.subscribe({

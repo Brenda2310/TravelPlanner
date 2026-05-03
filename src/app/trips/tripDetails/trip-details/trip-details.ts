@@ -1,9 +1,9 @@
+import { CommonModule } from '@angular/common';
 import { Component, inject, OnInit } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
-import { TripStore } from '../../services/trip-store';
 import { ExpenseStore } from '../../../expenses/services/expense-store';
 import { Pageable } from '../../../hateoas/hateoas-models';
-import { CommonModule } from '@angular/common';
+import { TripStore } from '../../services/trip-store';
 
 @Component({
   selector: 'app-trip-details',
@@ -35,15 +35,15 @@ export class TripDetails implements OnInit {
     }
   }
 
-  loadTripExpenses (){
-    if(this.tripId!==null){
+  loadTripExpenses() {
+    if (this.tripId !== null) {
       this.expenses.loadTotalExpensesByTrip(this.tripId);
       this.expenses.loadAverageExpensesByTrip(this.tripId);
     }
   }
 
-  loadExpenses(){
-    if(this.tripId !== null){
+  loadExpenses() {
+    if (this.tripId !== null) {
       this.expenses.loadExpensesByTripId(this.tripId, this.expensePageable);
     }
   }
@@ -63,7 +63,7 @@ export class TripDetails implements OnInit {
     }
   }
 
-  get name(){
+  get name() {
     return this.currentTrip$()?.name;
   }
 }

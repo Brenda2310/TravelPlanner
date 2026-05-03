@@ -1,6 +1,7 @@
 import { ChangeDetectorRef, Component, inject, Input, OnInit, signal } from '@angular/core';
 import { FormBuilder, ReactiveFormsModule, Validators } from '@angular/forms';
-import { ActivityStore } from '../services/activity-store';
+import { ActivatedRoute, Router } from '@angular/router';
+import { finalize, Observable } from 'rxjs';
 import { SecurityStore } from '../../security/services/security-store';
 import {
   ActivityCategory,
@@ -9,8 +10,7 @@ import {
   CompanyActivityUpdateDTO,
   UserActivityCreateDTO,
 } from '../activity-models';
-import { finalize, Observable } from 'rxjs';
-import { ActivatedRoute, Router } from '@angular/router';
+import { ActivityStore } from '../services/activity-store';
 
 @Component({
   selector: 'app-activity-create-edit',
@@ -26,7 +26,7 @@ export class ActivityCreateEdit implements OnInit {
   private readonly router = inject(Router);
   private readonly route = inject(ActivatedRoute);
   private readonly cdr = inject(ChangeDetectorRef);
-   private readonly _showTravelCodeInfo = signal(false);
+  private readonly _showTravelCodeInfo = signal(false);
   public readonly showTravelCodeInfo = this._showTravelCodeInfo.asReadonly();
 
   openTravelCodeInfo(): void {
@@ -73,7 +73,7 @@ export class ActivityCreateEdit implements OnInit {
   ngOnInit(): void {
     const idParam = this.route.snapshot.paramMap.get('id');
 
-    console.log("activityId:" + idParam);
+    console.log('activityId:' + idParam);
     if (this.security.auth().isCompany) {
       this.mode = 'company';
     } else {
@@ -100,7 +100,7 @@ export class ActivityCreateEdit implements OnInit {
       });
     }
 
-     console.log("mode:" + this.mode);
+    console.log('mode:' + this.mode);
 
     this.setConditionalValidators();
   }
@@ -146,22 +146,17 @@ export class ActivityCreateEdit implements OnInit {
         action$ = this.store.updateCompanyActivity(
           this.security.auth().companyId!,
           this.activityId,
-          dto
+          dto,
         );
-      }
-      else{
+      } else {
         const dto: ActivityUpdateDTO = {
           ...baseActivityDto,
           sharedUserIds: formValue.sharedUserIds!,
         } as ActivityUpdateDTO;
 
-        action$ = this.store.updateUserActivity(
-          this.activityId,
-          dto
-        );
+        action$ = this.store.updateUserActivity(this.activityId, dto);
       }
-    }
-    else if (this.mode === 'company') {
+    } else if (this.mode === 'company') {
       const companyDto: CompanyActivityCreateDTO = {
         ...baseActivityDto,
         companyId: this.security.auth().companyId,
@@ -180,7 +175,7 @@ export class ActivityCreateEdit implements OnInit {
       finalize(() => {
         this.loading = false;
         this.cdr.detectChanges();
-      })
+      }),
     );
 
     observable$.subscribe({

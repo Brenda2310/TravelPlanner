@@ -1,61 +1,59 @@
-import { inject, Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
-import { UserResponseDTO, UserCreateDTO, UserUpdateDTO } from '../user-models';
-import { PagedModel, EntityModel, Pageable } from '../../hateoas/hateoas-models';
+import { inject, Injectable } from '@angular/core';
 import { BaseService } from '../../BaseService';
+import { EntityModel, Pageable, PagedModel } from '../../hateoas/hateoas-models';
+import { UserCreateDTO, UserResponseDTO, UserUpdateDTO } from '../user-models';
 
 @Injectable({
-  providedIn: 'root'
+  providedIn: 'root',
 })
-
-export class UserService extends BaseService{
+export class UserService extends BaseService {
   private readonly http = inject(HttpClient);
-  private readonly api = 'http://localhost:8080/users'; 
-  
-getAllUsers(pageable: Pageable) {
-  let params = this.buildParams(pageable);
-  return this.http.get<PagedModel<UserResponseDTO>>(`${this.api}`, { params });
-}
+  private readonly api = 'http://localhost:8080/users';
 
-getAllUsersInactive(pageable: Pageable) {
-  let params = this.buildParams(pageable);
-  return this.http.get<PagedModel<UserResponseDTO>>(`${this.api}/inactive`, { params });
-}
+  getAllUsers(pageable: Pageable) {
+    let params = this.buildParams(pageable);
+    return this.http.get<PagedModel<UserResponseDTO>>(`${this.api}`, { params });
+  }
 
-getProfile(){
-  return this.http.get<EntityModel<UserResponseDTO>>(`${this.api}/me`);
-}
+  getAllUsersInactive(pageable: Pageable) {
+    let params = this.buildParams(pageable);
+    return this.http.get<PagedModel<UserResponseDTO>>(`${this.api}/inactive`, { params });
+  }
 
-getUserById(id: number){
-  return this.http.get<EntityModel<UserResponseDTO>>(`${this.api}/${id}`);
-}
+  getProfile() {
+    return this.http.get<EntityModel<UserResponseDTO>>(`${this.api}/me`);
+  }
 
-createUser(user: UserCreateDTO){
-  return this.http.post<EntityModel<UserResponseDTO>>(`${this.api}`, user);
-}
+  getUserById(id: number) {
+    return this.http.get<EntityModel<UserResponseDTO>>(`${this.api}/${id}`);
+  }
 
-updateUser(id: number, updatedUser: UserUpdateDTO){
-  return this.http.put<EntityModel<UserResponseDTO>>(`${this.api}/${id}`, updatedUser);
-}
+  createUser(user: UserCreateDTO) {
+    return this.http.post<EntityModel<UserResponseDTO>>(`${this.api}`, user);
+  }
 
-updateOwnAccount(updatedUser: UserUpdateDTO){
-  return this.http.put<EntityModel<UserResponseDTO>>(`${this.api}/me/update`, updatedUser);
-}
+  updateUser(id: number, updatedUser: UserUpdateDTO) {
+    return this.http.put<EntityModel<UserResponseDTO>>(`${this.api}/${id}`, updatedUser);
+  }
 
-restoreAccount(id: number) {
-  return this.http.put(`${this.api}/restore/${id}`, null, { responseType: 'text' });
-}
+  updateOwnAccount(updatedUser: UserUpdateDTO) {
+    return this.http.put<EntityModel<UserResponseDTO>>(`${this.api}/me/update`, updatedUser);
+  }
 
-assignRole(id: number) {
-  return this.http.put(`${this.api}/roles/${id}`, null, { responseType: 'text' });
-}
+  restoreAccount(id: number) {
+    return this.http.put(`${this.api}/restore/${id}`, null, { responseType: 'text' });
+  }
 
-deleteOwnAccount() {
-  return this.http.delete(`${this.api}/me/delete`, { responseType: 'text' });
-}
+  assignRole(id: number) {
+    return this.http.put(`${this.api}/roles/${id}`, null, { responseType: 'text' });
+  }
 
+  deleteOwnAccount() {
+    return this.http.delete(`${this.api}/me/delete`, { responseType: 'text' });
+  }
 
-deleteUserAdmin(id: number) {
-  return this.http.delete(`${this.api}/delete/${id}`, { responseType: 'text' });
-}
+  deleteUserAdmin(id: number) {
+    return this.http.delete(`${this.api}/delete/${id}`, { responseType: 'text' });
+  }
 }

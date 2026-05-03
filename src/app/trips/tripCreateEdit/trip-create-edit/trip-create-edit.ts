@@ -1,19 +1,16 @@
 import { ChangeDetectorRef, Component, effect, inject, OnInit, signal } from '@angular/core';
-import { TripStore } from '../../services/trip-store';
-import { ActivatedRoute, Router } from '@angular/router';
 import {
-  FormArray,
   FormBuilder,
-  FormControl,
   FormsModule,
   ReactiveFormsModule,
-  Validators,
+  Validators
 } from '@angular/forms';
-import { TripValidation } from '../../validations/TripValidation';
-import { toObservable } from '@angular/core/rxjs-interop';
-import { filter, finalize, Observable, take } from 'rxjs';
-import { TripCreateDTO, TripResponseDTO, TripUpdateDTO } from '../../trip-models';
+import { ActivatedRoute, Router } from '@angular/router';
+import { finalize, Observable } from 'rxjs';
 import { SecurityStore } from '../../../security/services/security-store';
+import { TripStore } from '../../services/trip-store';
+import { TripCreateDTO, TripUpdateDTO } from '../../trip-models';
+import { TripValidation } from '../../validations/TripValidation';
 
 @Component({
   selector: 'app-trip-create-edit',
@@ -37,9 +34,12 @@ export class TripCreateEdit implements OnInit {
 
   showTravelCodeInfo = signal(false);
 
-  openTravelCodeInfo() { this.showTravelCodeInfo.set(true); }
-  closeTravelCodeInfo() { this.showTravelCodeInfo.set(false); }
-
+  openTravelCodeInfo() {
+    this.showTravelCodeInfo.set(true);
+  }
+  closeTravelCodeInfo() {
+    this.showTravelCodeInfo.set(false);
+  }
 
   newUserId: number | null = null;
 
@@ -49,9 +49,8 @@ export class TripCreateEdit implements OnInit {
     {
       name: ['', [Validators.required, Validators.maxLength(100)]],
       destination: ['', [Validators.required, Validators.maxLength(100)]],
-      estimatedBudget: [null as number | null,
-      [Validators.required, Validators.min(0)]],
-      companions:[null as number | null, Validators.min(0)],
+      estimatedBudget: [null as number | null, [Validators.required, Validators.min(0)]],
+      companions: [null as number | null, Validators.min(0)],
 
       startDate: ['', [Validators.required]],
       endDate: ['', Validators.required],
@@ -61,7 +60,7 @@ export class TripCreateEdit implements OnInit {
     },
     {
       validators: TripValidation.dateRangeValidator,
-    }
+    },
   );
 
   public readonly patchEffect = effect(() => {
@@ -78,7 +77,6 @@ export class TripCreateEdit implements OnInit {
       });
     }
   });
-  
 
   ngOnInit(): void {
     const idFromUrl = this.route.snapshot.paramMap.get('id');
@@ -106,7 +104,6 @@ export class TripCreateEdit implements OnInit {
       formValue.companions = null;
     }
 
-
     let action$: Observable<any>;
 
     const tripDto = {
@@ -120,8 +117,8 @@ export class TripCreateEdit implements OnInit {
 
     if (this.isEditing) {
       const updateDto: TripUpdateDTO = {
-        ...tripDto, 
-        sharedUserIds: formValue.sharedUserIds || []
+        ...tripDto,
+        sharedUserIds: formValue.sharedUserIds || [],
       };
       action$ = this.store.updateTrip(this.tripId!, updateDto);
     } else {
@@ -133,11 +130,11 @@ export class TripCreateEdit implements OnInit {
     }
 
     const observable$ = action$.pipe(
-          finalize(() => {
-            this.loading = false;
-            this.cdr.detectChanges();
-          })
-        );
+      finalize(() => {
+        this.loading = false;
+        this.cdr.detectChanges();
+      }),
+    );
 
     observable$.subscribe({
       next: () => {
@@ -156,7 +153,7 @@ export class TripCreateEdit implements OnInit {
           err.original?.message ||
           err.original?.toString() ||
           'Error desconocido.';
-          this.cdr.detectChanges();
+        this.cdr.detectChanges();
       },
     });
   }
@@ -189,6 +186,4 @@ export class TripCreateEdit implements OnInit {
     const newSharedIds = currentSharedIds.filter((id) => id !== idToRemove);
     sharedIdsControl?.setValue(newSharedIds);
   }
-
-
 }

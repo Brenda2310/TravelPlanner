@@ -1,10 +1,15 @@
-import { inject, Injectable, signal } from '@angular/core';
-import { BaseStore } from '../../BaseStore';
-import { CompanyService } from './company-service';
-import { Observable, tap, catchError, EMPTY, throwError, finalize } from 'rxjs';
-import { CollectionState, PaginationInfo, Pageable, EntityModel } from '../../hateoas/hateoas-models';
-import { CompanyResponseDTO, CompanyCreateDTO, CompanyUpdateDTO } from '../company-models';
 import { HttpErrorResponse } from '@angular/common/http';
+import { inject, Injectable, signal } from '@angular/core';
+import { catchError, EMPTY, finalize, Observable, tap, throwError } from 'rxjs';
+import { BaseStore } from '../../BaseStore';
+import {
+  CollectionState,
+  EntityModel,
+  Pageable,
+  PaginationInfo,
+} from '../../hateoas/hateoas-models';
+import { CompanyCreateDTO, CompanyResponseDTO, CompanyUpdateDTO } from '../company-models';
+import { CompanyService } from './company-service';
 
 @Injectable({
   providedIn: 'root',
@@ -128,7 +133,7 @@ export class CompanyStore extends BaseStore {
       }),
       finalize(() => {
         this._loading.set(false);
-      })
+      }),
     );
   }
 
@@ -164,20 +169,20 @@ export class CompanyStore extends BaseStore {
       }),
       finalize(() => {
         this._loading.set(false);
-      })
+      }),
     );
   }
 
   deleteCompany(id: number): Observable<void> {
     this._loading.set(true);
-  return this.client.deleteCompany(id).pipe(
-    catchError((err) => {
-      this._error.set(err.message ?? 'Store Error: Failed to delete company.');
-      this._loading.set(false);
-      return EMPTY;
-    }),
-    finalize(() => this._loading.set(false))
-  );
+    return this.client.deleteCompany(id).pipe(
+      catchError((err) => {
+        this._error.set(err.message ?? 'Store Error: Failed to delete company.');
+        this._loading.set(false);
+        return EMPTY;
+      }),
+      finalize(() => this._loading.set(false)),
+    );
   }
 
   deleteOwnCompany(): Observable<void> {
@@ -192,7 +197,7 @@ export class CompanyStore extends BaseStore {
         this._error.set(err.message ?? 'Store Error: Failed to delete own company account.');
         this._loading.set(false);
         return EMPTY;
-      })
+      }),
     );
   }
 
@@ -207,7 +212,7 @@ export class CompanyStore extends BaseStore {
         this._error.set(err.message ?? 'Store Error: Failed to restore company.');
         this._loading.set(false);
         return EMPTY;
-      })
+      }),
     );
   }
 }

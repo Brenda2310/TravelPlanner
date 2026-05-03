@@ -4,7 +4,7 @@ export interface RefreshTokenRequest {
 
 export interface AuthRequest {
   username: string;
-  password: string; 
+  password: string;
 }
 
 export interface AuthResponse {

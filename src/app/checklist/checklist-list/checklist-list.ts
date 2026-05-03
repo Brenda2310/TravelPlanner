@@ -1,13 +1,12 @@
-import { Component, inject, Input, OnInit } from '@angular/core';
-import { CheckListResponseDTO } from '../checklist-models';
-import { Pageable } from '../../hateoas/hateoas-models';
-import { ChecklistStore } from '../services/checklist-store';
-import { Router, RouterLink } from '@angular/router';
-import { SecurityStore } from '../../security/services/security-store';
-import { Pagination } from '../../hateoas/Pagination/pagination/pagination';
 import { DecimalPipe } from '@angular/common';
+import { Component, inject, Input, OnInit } from '@angular/core';
+import { Router, RouterLink } from '@angular/router';
+import { Pageable } from '../../hateoas/hateoas-models';
+import { Pagination } from '../../hateoas/Pagination/pagination/pagination';
+import { SecurityStore } from '../../security/services/security-store';
 import { TripStore } from '../../trips/services/trip-store';
 import { CheckListFilterDTO } from '../checklist-models';
+import { ChecklistStore } from '../services/checklist-store';
 
 @Component({
   selector: 'app-checklist-list',
@@ -64,10 +63,10 @@ export class ChecklistList implements OnInit {
       this.store.delete(id).subscribe({
         next: () => {
           const { list, pageInfo } = this.store.checklist();
-        if (list.length === 1 && pageInfo.currentPage > 0) {
-          this.pageable.page = pageInfo.currentPage - 1;
-        }
-        this.loadChecklists();
+          if (list.length === 1 && pageInfo.currentPage > 0) {
+            this.pageable.page = pageInfo.currentPage - 1;
+          }
+          this.loadChecklists();
         },
         error: (err) => console.error('Error al eliminar la checklist: ', err),
       });

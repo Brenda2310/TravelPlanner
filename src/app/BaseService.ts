@@ -1,8 +1,8 @@
 import { HttpParams } from '@angular/common/http';
 import { Pageable } from './hateoas/hateoas-models';
 
-export class BaseService{
-    protected buildParams(pageable: Pageable, filters: any = {}): HttpParams {
+export class BaseService {
+  protected buildParams(pageable: Pageable, filters: any = {}): HttpParams {
     let params = new HttpParams()
       .set('page', pageable.page.toString())
       .set('size', pageable.size.toString());
@@ -13,9 +13,9 @@ export class BaseService{
 
     for (const key in filters) {
       const value = filters[key];
-        if (value !== undefined && value !== null && value !== '') { 
-            params = params.set(key, value.toString());
-        }
+      if (value !== undefined && value !== null && value !== '') {
+        params = params.set(key, value.toString());
+      }
     }
     return params;
   }

@@ -18,7 +18,7 @@
   box-shadow: 0 10px 35px rgba(0, 0, 0, 0.18);
 }
 
-.company-profile-page > h1 {
+.company-profile-page>h1 {
   margin: 0 0 18px;
   text-align: center;
   font-size: clamp(1.5rem, 1.2rem + 0.6vw, 2rem);
@@ -30,7 +30,7 @@
   padding: 40px 0;
   text-align: center;
   font-size: 0.95rem;
-  color: rgba(7,73,79,0.8);
+  color: rgba(7, 73, 79, 0.8);
 }
 
 

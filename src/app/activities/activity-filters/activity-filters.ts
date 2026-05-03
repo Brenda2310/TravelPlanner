@@ -1,13 +1,13 @@
 import { Component, EventEmitter, Input, Output } from '@angular/core';
-import { ActivityCategory, CompanyActivityFilterParams } from '../activity-models';
 import { FormGroup, ReactiveFormsModule } from '@angular/forms';
+import { ActivityCategory, CompanyActivityFilterParams } from '../activity-models';
 
 @Component({
   selector: 'app-activity-filters',
   standalone: true,
   imports: [ReactiveFormsModule],
   templateUrl: './activity-filters.html',
-  styleUrl: './activity-filters.css'
+  styleUrl: './activity-filters.css',
 })
 export class ActivityFilters {
   @Input() categoryList: ActivityCategory[] = [];
@@ -19,14 +19,14 @@ export class ActivityFilters {
   }
 
   clearFilters() {
-  this.form.reset({
-    category: '',
-    minPrice: null,
-    maxPrice: null,
-    startDate: null,
-    endDate: null
-  });
+    this.form.reset({
+      category: '',
+      minPrice: null,
+      maxPrice: null,
+      startDate: null,
+      endDate: null,
+    });
 
-  this.filtersApplied.emit(this.form.value);
-}
+    this.filtersApplied.emit(this.form.value);
+  }
 }

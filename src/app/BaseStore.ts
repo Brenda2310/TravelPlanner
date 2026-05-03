@@ -1,9 +1,7 @@
 import { EntityModel } from './hateoas/hateoas-models';
 
 export class BaseStore {
-  protected unwrapEntities<T>(pagedResponse: {
-    _embedded?: any;
-  }): T[] {
+  protected unwrapEntities<T>(pagedResponse: { _embedded?: any }): T[] {
     const embedded = pagedResponse._embedded;
 
     if (!embedded) {
@@ -19,7 +17,7 @@ export class BaseStore {
     const entityModels: EntityModel<T>[] = embedded[entityListKey] || [];
 
     const pureDTOs = entityModels.map(
-      (entityModel) => (entityModel as any).content || entityModel
+      (entityModel) => (entityModel as any).content || entityModel,
     ) as T[];
 
     if (pureDTOs.length > 0 && typeof (pureDTOs[0] as any).active === 'boolean') {
