@@ -1,45 +1,57 @@
 <div class="reservations">
-@if (loading()) {
-<p>Cargando reservas...</p>
-} @else { @if (!reservations().list.length && !loading()) {
-<p>No tienes reservas registradas.</p>
-} @if (error()) {
-<p class="error">{{ error() }}</p>
-} @else {
-  <div class="title">
-    <h2>Mis reservaciones</h2>
-  </div>
-<table class="table">
-  <thead>
-    <tr>
-      <th>Fecha</th>
-      <th>Estado</th>
-      <th>Pagado</th>
-      <th>Acciones</th>
-    </tr>
-  </thead>
-  <tbody>
-    @for (r of reservations().list; track r.id) {
-    <tr>
-      <td>{{ r.reservationDate | date }}</td>
-      <td>{{ r.status }}</td>
-      <td>{{ r.paid ? 'Sí' : 'No' }}</td>
-      <td>
-        <button (click)="onCancelReservation(r.id)" [disabled]="r.status === 'CANCELLED'">
-          Cancelar
-        </button>
-
-        @if (!r.paid && r.urlPayment && r.status !== 'CANCELLED') {
-        <button class="on-pay" (click)="onPay(r)">Ir a pagar</button>
-
-        <button class="on-confirm" (click)="onConfirmPayment(r.id, pedirPaymentId())">
-        Verificar pago
-      </button>
-        }
-      </td>
-    </tr>
+  @if (loading()) {
+    <p>Cargando reservas...</p>
+  } @else {
+    @if (!reservations().list.length && !loading()) {
+      <p>No tienes reservas registradas.</p>
     }
-  </tbody>
-</table>
-} }
+    @if (error()) {
+      <p class="error">{{ error() }}</p>
+    } @else {
+      <div class="title">
+        <h2>Mis reservaciones</h2>
+      </div>
+      <table class="table">
+        <thead>
+          <tr>
+            <th>Fecha</th>
+            <th>Estado</th>
+            <th>Pagado</th>
+            <th>Acciones</th>
+          </tr>
+        </thead>
+        <tbody>
+          @for (r of reservations().list; track r.id) {
+            <tr>
+              <td>{{ r.reservationDate | date }}</td>
+              <td>{{ r.status }}</td>
+              <td>{{ r.paid ? 'Sí' : 'No' }}</td>
+              <td>
+                <button (click)="onCancelReservation(r.id)" [disabled]="r.status === 'CANCELLED'">
+                  Cancelar
+                </button>
+
+                @if (!r.paid && r.urlPayment && r.status !== 'CANCELLED') {
+                  <button class="on-pay" (click)="onPay(r)">Ir a pagar</button>
+
+                  <button class="on-confirm" (click)="onConfirmPayment(r.id, pedirPaymentId())">
+                    Verificar pago
+                  </button>
+                }
+              </td>
+            </tr>
+          }
+        </tbody>
+      </table>
+
+      @if (reservations().pageInfo.totalPages > 1) {
+        <app-pagination
+          [currentPageSetter]="reservations().pageInfo.currentPage"
+          [totalPagesSetter]="reservations().pageInfo.totalPages"
+          (pageChange)="onPageChange($event)"
+        >
+        </app-pagination>
+      }
+    }
+  }
 </div>

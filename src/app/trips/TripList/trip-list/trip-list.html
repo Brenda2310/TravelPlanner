@@ -1,6 +1,6 @@
 <div class="trip-list-container">
   <div class="title">
-  <h2>Mis Viajes</h2>
+    <h2>Mis Viajes</h2>
   </div>
 
   @if (store.trips().list.length !== 0) {
@@ -10,53 +10,45 @@
   }
 
   <div class="trip-filters">
-  <input
-    type="text"
-    placeholder="Destino..."
-    [(ngModel)]="filters.destination" />
+    <input type="text" placeholder="Destino..." [(ngModel)]="filters.destination" />
 
-  <input
-    type="date"
-    [(ngModel)]="filters.startDate" />
+    <input type="date" [(ngModel)]="filters.startDate" />
 
-  <input
-    type="date"
-    [(ngModel)]="filters.endDate" />
+    <input type="date" [(ngModel)]="filters.endDate" />
 
-  <button type="button" class="btn-primary" (click)="onApplyFilters()">
-    Filtrar
-  </button>
+    <button type="button" class="btn-primary" (click)="onApplyFilters()">Filtrar</button>
 
-  <button type="button" class="btn-secondary" (click)="onClearFilters()">
-    Limpiar
-  </button>
-</div>
-
+    <button type="button" class="btn-secondary" (click)="onClearFilters()">Limpiar</button>
+  </div>
 
   @if (store.loading()) {
     <p class="loading">Cargando viajes...</p>
-  }
-  @else {
+  } @else {
     @if (store.trips().list.length === 0) {
       <div class="no-trips">
         <p>Aún no tienes viajes registrados. ¡Crea uno para empezar a planificar!</p>
         <a routerLink="/trips/create" class="btn-primary">Crear Nuevo Viaje</a>
       </div>
-    }
-    @else {
+    } @else {
       <div class="trip-grid">
         @for (trip of store.trips().list; track trip.id) {
           <div class="trip-card">
-            
             <div class="trip-header">
-              <h3 class="trip-title"> {{ trip.name }}</h3>
+              <h3 class="trip-title">{{ trip.name }}</h3>
               <span class="destination">{{ trip.destination }}</span>
             </div>
 
             <div class="trip-body">
-              <p><img src="/calendar_month_24dp_33696F_FILL0_wght400_GRAD0_opsz24.svg" alt="icon"> {{ trip.startDate }} / {{ trip.endDate }}</p>
+              <p>
+                <img src="/calendar_month_24dp_33696F_FILL0_wght400_GRAD0_opsz24.svg" alt="icon" />
+                {{ trip.startDate }} / {{ trip.endDate }}
+              </p>
               @if (trip.estimatedBudget) {
-                <p><img src="/savings_24dp_33696F_FILL0_wght400_GRAD0_opsz24.svg" alt="icon"> ${{ trip.estimatedBudget }}</p>
+                <p>
+                  <img src="/savings_24dp_33696F_FILL0_wght400_GRAD0_opsz24.svg" alt="icon" /> ${{
+                    trip.estimatedBudget
+                  }}
+                </p>
               }
             </div>
 
@@ -65,9 +57,7 @@
                 Ver Detalle
               </button>
 
-              <span
-                class="status-badge"
-                [ngClass]="isTripFinished(trip) ? 'finished' : 'active'">
+              <span class="status-badge" [ngClass]="isTripFinished(trip) ? 'finished' : 'active'">
                 {{ isTripFinished(trip) ? 'Finalizado' : 'Activo' }}
               </span>
             </div>
@@ -77,9 +67,10 @@
 
       <div class="pagination-container">
         <app-pagination
-          [currentPage]="store.trips().pageInfo.currentPage"
-          [totalPages]="store.trips().pageInfo.totalPages"
-          (pageChange)="onPageChange($event)">
+          [currentPageSetter]="store.trips().pageInfo.currentPage"
+          [totalPagesSetter]="store.trips().pageInfo.totalPages"
+          (pageChange)="onPageChange($event)"
+        >
         </app-pagination>
       </div>
     }

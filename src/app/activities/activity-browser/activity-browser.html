@@ -43,6 +43,14 @@
       (reservate)="reservate($event)"
     >
     </app-activity-list>
+
+    <app-pagination
+      class="pagination-section"
+      [currentPageSetter]="store.userActivities().pageInfo.currentPage"
+      [totalPagesSetter]="store.userActivities().pageInfo.totalPages"
+      (pageChange)="onPageChangeUser($event)"
+    >
+    </app-pagination>
     }
   </div>
   }
@@ -75,8 +83,8 @@
 
     <app-pagination
       class="pagination-section"
-      [currentPage]="store.companyActivities().pageInfo.currentPage"
-      [totalPages]="store.companyActivities().pageInfo.totalPages"
+      [currentPageSetter]="store.companyActivities().pageInfo.currentPage"
+      [totalPagesSetter]="store.companyActivities().pageInfo.totalPages"
       (pageChange)="onPageChange($event)"
     >
     </app-pagination>

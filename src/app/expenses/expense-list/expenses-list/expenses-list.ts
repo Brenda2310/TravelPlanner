@@ -88,11 +88,14 @@ export class ExpensesList implements OnInit {
   if (confirm('¿Desea eliminar el gasto?')) {
     this.store.deleteExpense(id).subscribe({
       next: () => {
+        const { list, pageInfo } = this.store.expense();
+        if (list.length === 1 && pageInfo.currentPage > 0) {
+          this.pageable.page = pageInfo.currentPage - 1;
+        }
+        this.loadExpenses();
         this.loadMetrics();
       },
-      error: (err) => {
-        console.error('Error al eliminar el gasto: ', err);
-      },
+      error: (err) => console.error('Error al eliminar el gasto: ', err),
     });
   }
 }

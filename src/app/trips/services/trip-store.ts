@@ -1,21 +1,21 @@
+import { HttpErrorResponse } from '@angular/common/http';
 import { inject, Injectable, signal } from '@angular/core';
+import { catchError, EMPTY, finalize, Observable, tap, throwError } from 'rxjs';
+import { BaseStore } from '../../BaseStore';
 import {
-  PagedModel,
-  Pageable,
   CollectionState,
+  Pageable,
+  PagedModel,
   PaginationInfo,
 } from '../../hateoas/hateoas-models';
-import { catchError, finalize, Observable, tap, throwError } from 'rxjs';
 import {
+  RecommendationDTO,
   TripCreateDTO,
   TripFilterDTO,
   TripResponseDTO,
   TripUpdateDTO,
-  RecommendationDTO,
 } from '../trip-models';
-import { BaseStore } from '../../BaseStore';
 import { TripService } from './trip-service';
-import { HttpErrorResponse } from '@angular/common/http';
 
 @Injectable({
   providedIn: 'root',
@@ -197,7 +197,7 @@ export class TripStore extends BaseStore {
       }),
       finalize(() => {
         this._loading.set(false);
-      })
+      }),
     );
   }
 
@@ -211,19 +211,19 @@ export class TripStore extends BaseStore {
         if (this._currentTrip()?.id === id) {
           this._currentTrip.set(updatedTrip);
         }
-      })
+      }),
     );
   }
 
   deleteTrip(id: number): Observable<void> {
+    this._loading.set(true);
     return this.client.delete(id).pipe(
-      tap(() => {
-        this._trips.update((state) => ({
-          ...state,
-          list: state.list.filter((t) => t.id !== id),
-          pageInfo: { ...state.pageInfo, totalElements: state.pageInfo.totalElements - 1 },
-        }));
-      })
+      catchError((err) => {
+        this._error.set(err.message ?? 'Store Error: Failed to delete trip.');
+        this._loading.set(false);
+        return EMPTY;
+      }),
+      finalize(() => this._loading.set(false)),
     );
   }
 
@@ -231,7 +231,7 @@ export class TripStore extends BaseStore {
     return this.client.restore(id).pipe(
       tap(() => {
         console.log(`Trip ${id} restored successfully (needs manual state refresh).`);
-      })
+      }),
     );
   }
 

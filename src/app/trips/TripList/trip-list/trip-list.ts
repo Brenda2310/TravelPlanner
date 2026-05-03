@@ -1,19 +1,19 @@
-import { Component, inject, Input, OnInit } from '@angular/core';
-import { TripStore } from '../../services/trip-store';
-import { Pageable } from '../../../hateoas/hateoas-models';
-import { Router, RouterModule } from '@angular/router';
-import { Pagination } from "../../../hateoas/Pagination/pagination/pagination";
-import { SecurityStore } from '../../../security/services/security-store';
 import { CommonModule } from '@angular/common';
-import { FormsModule } from '@angular/forms';               
-import { TripFilterDTO } from '../../trip-models';          
+import { Component, inject, Input, OnInit } from '@angular/core';
+import { FormsModule } from '@angular/forms';
+import { Router, RouterModule } from '@angular/router';
+import { Pageable } from '../../../hateoas/hateoas-models';
+import { Pagination } from '../../../hateoas/Pagination/pagination/pagination';
+import { SecurityStore } from '../../../security/services/security-store';
+import { TripStore } from '../../services/trip-store';
+import { TripFilterDTO } from '../../trip-models';
 
 @Component({
   selector: 'app-trip-list',
   standalone: true,
   imports: [RouterModule, Pagination, CommonModule, FormsModule],
   templateUrl: './trip-list.html',
-  styleUrl: './trip-list.css'
+  styleUrl: './trip-list.css',
 })
 export class TripList implements OnInit {
   public readonly store = inject(TripStore);
@@ -26,7 +26,7 @@ export class TripList implements OnInit {
   public filters: TripFilterDTO = {
     destination: '',
     startDate: '',
-    endDate: ''
+    endDate: '',
   };
 
   ngOnInit(): void {
@@ -60,7 +60,14 @@ export class TripList implements OnInit {
   onDelete(id: number): void {
     if (confirm('¿Estás seguro de eliminar este viaje?')) {
       this.store.deleteTrip(id).subscribe({
-        error: (err) => console.error('Error al eliminar viaje:', err)
+        next: () => {
+          const { list, pageInfo } = this.store.trips();
+          if (list.length === 1 && pageInfo.currentPage > 0) {
+            this.pageable.page = pageInfo.currentPage - 1;
+          }
+          this.loadTrips();
+        },
+        error: (err) => console.error('Error al eliminar viaje:', err),
       });
     }
   }
@@ -80,7 +87,7 @@ export class TripList implements OnInit {
     this.filters = {
       destination: '',
       startDate: '',
-      endDate: ''
+      endDate: '',
     };
     this.pageable.page = 0;
     this.loadTrips();

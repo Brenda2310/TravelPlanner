@@ -50,8 +50,8 @@
         </table>
 
         <app-pagination 
-            [currentPage]="store.companies().pageInfo.currentPage"
-            [totalPages]="store.companies().pageInfo.totalPages"
+            [currentPageSetter]="store.companies().pageInfo.currentPage"
+            [totalPagesSetter]="store.companies().pageInfo.totalPages"
             (pageChange)="onPageChange($event)">
         </app-pagination>
     }

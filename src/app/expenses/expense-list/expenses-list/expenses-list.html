@@ -101,8 +101,8 @@
 }
 
 <app-pagination
-  [currentPage]="store.expense().pageInfo.currentPage"
-  [totalPages]="store.expense().pageInfo.totalPages"
+  [currentPageSetter]="store.expense().pageInfo.currentPage"
+  [totalPagesSetter]="store.expense().pageInfo.totalPages"
   (pageChange)="onPageChange($event)">
 </app-pagination>
   </div>

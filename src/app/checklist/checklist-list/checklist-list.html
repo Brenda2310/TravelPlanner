@@ -31,7 +31,7 @@
                         </div>
 
                         <div class="checklist-body">
-                        <p>Ítems: {{ checklist.items?.length || 0 }}</p>
+                        <p>Ítems: {{ checklist.items.length || 0 }}</p>
                         </div>
 
                         <div class="checklist-actions">
@@ -49,8 +49,8 @@
                 }
             </div>
         <app-pagination
-            [currentPage]="store.checklist().pageInfo.currentPage"
-            [totalPages]="store.checklist().pageInfo.totalPages"
+            [currentPageSetter]="store.checklist().pageInfo.currentPage"
+            [totalPagesSetter]="store.checklist().pageInfo.totalPages"
             (pageChange)="onPageChange($event)">
         </app-pagination>
 

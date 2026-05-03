@@ -23,8 +23,8 @@ export class ActivityFilters {
     category: '',
     minPrice: null,
     maxPrice: null,
-    fromDate: null,
-    toDate: null
+    startDate: null,
+    endDate: null
   });
 
   this.filtersApplied.emit(this.form.value);

@@ -170,21 +170,14 @@ export class CompanyStore extends BaseStore {
 
   deleteCompany(id: number): Observable<void> {
     this._loading.set(true);
-    return this.client.deleteCompany(id).pipe(
-      tap(() => {
-        this._companies.update((state) => ({
-          ...state,
-          list: state.list.filter((c) => c.id !== id),
-          pageInfo: { ...state.pageInfo, totalElements: state.pageInfo.totalElements - 1 },
-        }));
-        this._loading.set(false);
-      }),
-      catchError((err) => {
-        this._error.set(err.message ?? 'Store Error: Failed to delete company.');
-        this._loading.set(false);
-        return EMPTY;
-      })
-    );
+  return this.client.deleteCompany(id).pipe(
+    catchError((err) => {
+      this._error.set(err.message ?? 'Store Error: Failed to delete company.');
+      this._loading.set(false);
+      return EMPTY;
+    }),
+    finalize(() => this._loading.set(false))
+  );
   }
 
   deleteOwnCompany(): Observable<void> {

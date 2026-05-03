@@ -84,8 +84,15 @@ export class ItineraryList implements OnInit{
   onDelete(id: number): void {
       if (confirm('¿Confirmar eliminación de itinerario (borrado lógico)?')) {
           this.store.deleteItinerary(id).subscribe({
-              error: (err) => console.error('Error al eliminar itinerario:', err)
-        });
+      next: () => {
+        const { list, pageInfo } = this.store.itinerary();
+        if (list.length === 1 && pageInfo.currentPage > 0) {
+          this.pageable.page = pageInfo.currentPage - 1;
+        }
+        this.loadItineraries();
+      },
+      error: (err) => console.error('Error al eliminar itinerario:', err)
+    });
       }
     }
 

@@ -48,8 +48,8 @@
         
 
         <app-pagination 
-            [currentPage]="store.itinerary().pageInfo.currentPage"
-            [totalPages]="store.itinerary().pageInfo.totalPages"
+            [currentPageSetter]="store.itinerary().pageInfo.currentPage"
+            [totalPagesSetter]="store.itinerary().pageInfo.totalPages"
             (pageChange)="onPageChange($event)">
         </app-pagination>
     }

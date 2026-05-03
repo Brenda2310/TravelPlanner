@@ -1,7 +1,6 @@
 import { Component, EventEmitter, inject, Input, Output } from '@angular/core';
 import { ActivityCompanyResponseDTO, ActivityCreateResponseDTO, ActivityResponseDTO, ActivityUpdateDTO } from '../activity-models';
 import { ActivityCard } from "../activity-card/activity-card";
-import { Pagination } from "../../hateoas/Pagination/pagination/pagination";
 import { Router } from '@angular/router';
 import { ReservationStore } from '../../reservations/services/reservation-store';
 

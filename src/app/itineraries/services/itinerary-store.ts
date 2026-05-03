@@ -173,21 +173,14 @@ export class ItineraryStore extends BaseStore {
 
   deleteItinerary(id: number): Observable<void> {
     this._loading.set(true);
-    return this.client.deleteItinerary(id).pipe(
-      tap(() => {
-        this._itinerary.update((state) => ({
-          ...state,
-          list: state.list.filter((i) => i.id !== id),
-          pageInfo: { ...state.pageInfo, totalElements: state.pageInfo.totalElements - 1 },
-        }));
-        this._loading.set(false);
-      }),
-      catchError((err) => {
-        this._error.set(err.message ?? 'Store Error: Failed to delete itinerary.');
-        this._loading.set(false);
-        return EMPTY;
-      })
-    );
+  return this.client.deleteItinerary(id).pipe(
+    catchError((err) => {
+      this._error.set(err.message ?? 'Store Error: Failed to delete itinerary.');
+      this._loading.set(false);
+      return EMPTY;
+    }),
+    finalize(() => this._loading.set(false))
+  );
   }
 
   restoreItinerary(id: number): Observable<void> {

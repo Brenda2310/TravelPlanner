@@ -63,7 +63,11 @@ export class ChecklistList implements OnInit {
     if (confirm('¿Estas seguro/a de eliminar esta checklist?')) {
       this.store.delete(id).subscribe({
         next: () => {
-          this.loadChecklists();
+          const { list, pageInfo } = this.store.checklist();
+        if (list.length === 1 && pageInfo.currentPage > 0) {
+          this.pageable.page = pageInfo.currentPage - 1;
+        }
+        this.loadChecklists();
         },
         error: (err) => console.error('Error al eliminar la checklist: ', err),
       });

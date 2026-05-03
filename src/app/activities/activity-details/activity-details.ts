@@ -74,7 +74,7 @@ export class ActivityDetails implements OnInit {
   const id = activity.id;
 
   if (activity.companyId) {
-    this.store.deleteCompanyActivity(activity.companyId, id).subscribe({
+    this.store.deleteCompanyActivityOnly(activity.companyId, id).subscribe({
       next: () => {
         alert("Actividad eliminada con éxito.");
         this.router.navigateByUrl('/activities');
@@ -86,7 +86,7 @@ export class ActivityDetails implements OnInit {
 
     return;
   }
-  this.store.deleteUserActivity(id).subscribe({
+  this.store.deleteUserActivityOnly(id).subscribe({
     next: () => {
       alert("Actividad eliminada con éxito.");
       this.router.navigateByUrl('/activities');

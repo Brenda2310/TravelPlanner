@@ -168,32 +168,22 @@ export class ChecklistStore extends BaseStore{
 
   delete(id: number): Observable<void> {
     return this.client.delete(id).pipe(
-      tap(() => {
-        this._checklist.update((state) => ({
-          ...state,
-          list: state.list.filter((c) => c.id !== id),
-          pageInfo: { ...state.pageInfo, totalElements: state.pageInfo.totalElements - 1 },
-        }));
-      }),
       catchError((err: HttpErrorResponse) => {
-        let userMessage = 'Error desconocido al eliminar la checklist.';
-        if (err.error && typeof err.error === 'object') {
-          userMessage = err.error.message || err.error.error || userMessage;
-        } else if (typeof err.error === 'string') {
-          userMessage = err.error;
-        } else if (err.status) {
-          if (err.status === 404) userMessage = 'El recurso solicitado no fue encontrado.';
-          else if (err.status === 403)
-            userMessage = 'Acceso denegado. No tiene permisos para esta acción.';
-        }
-
-        this._error.set(userMessage);
-        return throwError(() => ({ userMessage, original: err }));
-      }),
-      finalize(() => {
-        this._loading.set(false);
-      })
-    );
+      let userMessage = 'Error desconocido al eliminar la checklist.';
+      if (err.error && typeof err.error === 'object') {
+        userMessage = err.error.message || err.error.error || userMessage;
+      } else if (typeof err.error === 'string') {
+        userMessage = err.error;
+      } else if (err.status) {
+        if (err.status === 404) userMessage = 'El recurso solicitado no fue encontrado.';
+        else if (err.status === 403)
+          userMessage = 'Acceso denegado. No tiene permisos para esta acción.';
+      }
+      this._error.set(userMessage);
+      return throwError(() => ({ userMessage, original: err }));
+    }),
+    finalize(() => this._loading.set(false))
+  );
   }
 
   restore(id: number): Observable<void> {

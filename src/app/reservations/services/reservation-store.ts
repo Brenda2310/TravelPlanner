@@ -1,10 +1,10 @@
-import { inject, Injectable, signal } from '@angular/core';
-import { ReservationService } from './reservation-service';
-import { CollectionState, PaginationInfo, Pageable } from '../../hateoas/hateoas-models';
-import { Observable, tap, catchError, EMPTY, finalize, throwError } from 'rxjs';
-import { ReservationResponseDTO, ReservationCreateDTO } from '../reservation-models';
-import { BaseStore } from '../../BaseStore';
 import { HttpErrorResponse } from '@angular/common/http';
+import { inject, Injectable, signal } from '@angular/core';
+import { catchError, EMPTY, finalize, Observable, tap, throwError } from 'rxjs';
+import { BaseStore } from '../../BaseStore';
+import { CollectionState, Pageable, PaginationInfo } from '../../hateoas/hateoas-models';
+import { ReservationCreateDTO, ReservationResponseDTO } from '../reservation-models';
+import { ReservationService } from './reservation-service';
 
 @Injectable({
   providedIn: 'root',
@@ -110,14 +110,14 @@ export class ReservationStore extends BaseStore {
       }),
       finalize(() => {
         this._loading.set(false);
-      })
+      }),
     );
   }
 
   confirmPayment(
     externalReference: number,
     paymentId: number,
-    pageable: Pageable
+    pageable: Pageable,
   ): Observable<string> {
     this._loading.set(true);
     return this.client.confirmPayment(externalReference, paymentId, pageable).pipe(
@@ -125,7 +125,7 @@ export class ReservationStore extends BaseStore {
         this._reservation.update((state) => ({
           ...state,
           list: state.list.map((r) =>
-            r.id === externalReference ? { ...r, paid: true, status: 'PAID' as any } : r
+            r.id === externalReference ? { ...r, paid: true, status: 'PAID' as any } : r,
           ),
         }));
         this.loadMyReservations(pageable);
@@ -135,7 +135,7 @@ export class ReservationStore extends BaseStore {
         this._error.set(err.message ?? 'Store Error: Payment confirmation failed.');
         this._loading.set(false);
         return EMPTY;
-      })
+      }),
     );
   }
 
@@ -147,7 +147,7 @@ export class ReservationStore extends BaseStore {
         this._reservation.update((state) => ({
           ...state,
           list: state.list.map((r) =>
-            r.id === reservationId ? { ...r, urlPayment: paymentUrl } : r
+            r.id === reservationId ? { ...r, urlPayment: paymentUrl } : r,
           ),
         }));
         // Redirigir al usuario a la URL de pago
@@ -158,10 +158,9 @@ export class ReservationStore extends BaseStore {
         this._error.set(err.message ?? 'Store Error: Failed to generate payment URL.');
         this._loading.set(false);
         return EMPTY;
-      })
+      }),
     );
   }
-
 
   cancelReservation(id: number): Observable<void> {
     this._loading.set(true);
@@ -177,7 +176,7 @@ export class ReservationStore extends BaseStore {
         this._error.set(err.message ?? 'Store Error: Failed to cancel reservation.');
         this._loading.set(false);
         return EMPTY;
-      })
+      }),
     );
   }
 }

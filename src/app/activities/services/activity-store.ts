@@ -270,31 +270,72 @@ export class ActivityStore extends BaseStore {
     );
   }
 
-  deleteUserActivity(id: number): Observable<void> {
+  deleteUserActivity(id: number, userId: number, filters: ActivityFilterDTO, pageable: Pageable): Observable<void> {
     this._loading.set(true);
     return this.client.deleteUserActivity(id).pipe(
       tap(() => {
-        this._userActivities.update((state) => ({
-          ...state,
-          list: state.list.filter((a) => a.id !== id),
-          loading: false,
-        }));
-        this.updateStateTotals(this._userActivities as any, -1);
+        const state = this._userActivities();
+      const isLastItemOnPage = state.list.length === 1;
+      const isNotFirstPage   = state.pageInfo.currentPage > 0;
+ 
+      const nextPage = isLastItemOnPage && isNotFirstPage
+        ? state.pageInfo.currentPage - 1
+        : state.pageInfo.currentPage;
+ 
+      this.loadActivitiesByUserId(userId, filters, { ...pageable, page: nextPage });
+    }),
+    catchError((err) => {
+      this._error.set('Error al eliminar la actividad.');
+      this._loading.set(false);
+      return throwError(() => err);
       })
     );
   }
 
-  deleteCompanyActivity(companyId: number, activityId: number): Observable<void> {
+  deleteCompanyActivity(companyId: number, activityId: number, filters: CompanyActivityFilterParams, pageable: Pageable): Observable<void> {
     this._loading.set(true);
     return this.client.deleteCompanyActivity(companyId, activityId).pipe(
       tap(() => {
-        this._companyActivities.update((state) => ({
-          ...state,
-          list: state.list.filter((a) => a.id !== activityId),
-          loading: false,
-        }));
-        this.updateStateTotals(this._companyActivities as any, -1);
+        const state = this._companyActivities();
+      const isLastItemOnPage = state.list.length === 1;
+      const isNotFirstPage   = state.pageInfo.currentPage > 0;
+ 
+      const nextPage = isLastItemOnPage && isNotFirstPage
+        ? state.pageInfo.currentPage - 1
+        : state.pageInfo.currentPage;
+ 
+      this.loadAllCompanyActivities({ ...pageable, page: nextPage }, filters);
+    }),
+    catchError((err) => {
+      this._error.set('Error al eliminar la actividad.');
+      this._loading.set(false);
+      return throwError(() => err);
       })
     );
   }
+
+ 
+deleteUserActivityOnly(id: number): Observable<void> {
+  this._loading.set(true);
+  return this.client.deleteUserActivity(id).pipe(
+    tap(() => this._loading.set(false)),
+    catchError((err) => {
+      this._error.set('Error al eliminar la actividad.');
+      this._loading.set(false);
+      return throwError(() => err);
+    })
+  );
+}
+
+deleteCompanyActivityOnly(companyId: number, activityId: number): Observable<void> {
+  this._loading.set(true);
+  return this.client.deleteCompanyActivity(companyId, activityId).pipe(
+    tap(() => this._loading.set(false)),
+    catchError((err) => {
+      this._error.set('Error al eliminar la actividad.');
+      this._loading.set(false);
+      return throwError(() => err);
+    })
+  );
+}
 }

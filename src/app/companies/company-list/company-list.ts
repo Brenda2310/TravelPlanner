@@ -33,8 +33,15 @@ export class CompanyList implements OnInit{
     onDelete(id: number): void {
         if (confirm('¿Confirmar eliminación de esta compañía?')) {
             this.store.deleteCompany(id).subscribe({
-                error: (err) => console.error('Error al eliminar compañía:', err)
-            });
+      next: () => {
+        const { list, pageInfo } = this.store.companies();
+        if (list.length === 1 && pageInfo.currentPage > 0) {
+          this.pageable.page = pageInfo.currentPage - 1;
+        }
+        this.loadCompanies();
+      },
+      error: (err) => console.error('Error al eliminar compañía:', err)
+    });
         }
     }
 }

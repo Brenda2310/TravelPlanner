@@ -1,17 +1,18 @@
-import { Component, inject, OnInit } from '@angular/core';
-import { ReservationStore } from '../services/reservation-store';
-import { Pageable } from '../../hateoas/hateoas-models';
 import { CommonModule } from '@angular/common';
+import { Component, inject, OnInit } from '@angular/core';
+import { Pageable } from '../../hateoas/hateoas-models';
+import { Pagination } from '../../hateoas/Pagination/pagination/pagination';
 import { ReservationResponseDTO } from '../reservation-models';
+import { ReservationStore } from '../services/reservation-store';
 
 @Component({
   selector: 'app-reservation-list',
   standalone: true,
-  imports: [CommonModule],
+  imports: [CommonModule, Pagination],
   templateUrl: './reservation-list.html',
-  styleUrl: './reservation-list.css'
+  styleUrl: './reservation-list.css',
 })
-export class ReservationList implements OnInit{
+export class ReservationList implements OnInit {
   private readonly store = inject(ReservationStore);
 
   reservations = this.store.reservation;
@@ -36,19 +37,21 @@ export class ReservationList implements OnInit{
     if (reservation.urlPayment) {
       window.location.href = reservation.urlPayment;
     } else {
-      
       this.store.payReservation(reservation.id).subscribe();
     }
   }
 
   pedirPaymentId(): number {
-    const input = prompt("Pegá acá el ID de la operacion que le dio Mercado Pago:");
+    const input = prompt('Pegá acá el ID de la operacion que le dio Mercado Pago:');
     return input ? Number(input) : 0;
   }
 
-
   onConfirmPayment(reservationId: number, paymentId: number) {
-  this.store.confirmPayment(reservationId, paymentId, this.pageable).subscribe();
-}
+    this.store.confirmPayment(reservationId, paymentId, this.pageable).subscribe();
+  }
 
+  onPageChange(newPage: number): void {
+    this.pageable.page = newPage;
+    this.loadReservations();
+  }
 }
