@@ -1,4 +1,4 @@
-import { ChangeDetectorRef, Component, inject, Input, OnInit } from '@angular/core';
+import { ChangeDetectorRef, Component, inject, Input, OnInit, signal } from '@angular/core';
 import { FormBuilder, ReactiveFormsModule, Validators } from '@angular/forms';
 import { ActivityStore } from '../services/activity-store';
 import { SecurityStore } from '../../security/services/security-store';
@@ -26,6 +26,16 @@ export class ActivityCreateEdit implements OnInit {
   private readonly router = inject(Router);
   private readonly route = inject(ActivatedRoute);
   private readonly cdr = inject(ChangeDetectorRef);
+   private readonly _showTravelCodeInfo = signal(false);
+  public readonly showTravelCodeInfo = this._showTravelCodeInfo.asReadonly();
+
+  openTravelCodeInfo(): void {
+    this._showTravelCodeInfo.set(true);
+  }
+
+  closeTravelCodeInfo(): void {
+    this._showTravelCodeInfo.set(false);
+  }
 
   @Input() mode: 'user' | 'company' | 'edit' = 'user';
 

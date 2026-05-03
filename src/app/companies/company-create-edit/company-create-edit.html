@@ -2,7 +2,7 @@
 <div class="company-form-container">
   
   <header class="form-header">
-    <h1 class="text">
+    <h1 class="title">
       @if (mode === 'create') {
         Registro de Nueva Compañía
       } @else {
@@ -80,7 +80,7 @@
       </div>
 
       <div class="form-group">
-        <label for="description">Descripción de la Compañía (Servicios)</label>
+        <label class="description" for="description">Descripción de la Compañía (Servicios)</label>
         <textarea id="description" formControlName="description" rows="3" placeholder="Describe brevemente los servicios y actividades principales."></textarea>
         @if (profileForm.get('description')?.touched && profileForm.get('description')?.hasError('required')) {
           <p class="error-message">La descripción es obligatoria.</p>

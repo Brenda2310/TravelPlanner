@@ -157,4 +157,17 @@ export class ChecklistItemStore extends BaseStore {
       })
     );
   }
+
+  resetItems() {
+  this._checklistItem.set({
+    list: [],
+    loading: false,
+    pageInfo: { 
+      totalElements: 0,
+      totalPages: 0,
+      currentPage: 0,
+      pageSize: 10
+    }
+  });
+}
 }

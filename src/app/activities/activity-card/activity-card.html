@@ -2,6 +2,7 @@
   <h3 class="activity-title">{{ activity.name }}</h3>
   <p class="activity-category">{{ activity.category }}</p>
   <p class="activity-price">{{ activity.price | currency:'ARS' }}</p>
+  <p class="activity-date"> Fecha: {{activity.date}}</p>
 
   @if (type === 'company') {
     @if (!security.auth().isCompany) {

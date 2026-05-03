@@ -1,4 +1,4 @@
-import { ChangeDetectorRef, Component, effect, inject, OnInit } from '@angular/core';
+import { ChangeDetectorRef, Component, effect, inject, OnInit, signal } from '@angular/core';
 import { ExpenseStore } from '../../services/expense-store';
 import { FormBuilder, ReactiveFormsModule, Validators } from '@angular/forms';
 import { ActivatedRoute, Router } from '@angular/router';
@@ -23,6 +23,16 @@ export class ExpensesCreateEdit implements OnInit{
   private readonly tripStore = inject(TripStore);
   private readonly securityStore = inject(SecurityStore);
   private readonly cdr = inject(ChangeDetectorRef);
+  private readonly _showTravelCodeInfo = signal(false);
+  public readonly showTravelCodeInfo = this._showTravelCodeInfo.asReadonly();
+
+  openTravelCodeInfo() {
+    this._showTravelCodeInfo.set(true);
+  }
+
+  closeTravelCodeInfo() {
+    this._showTravelCodeInfo.set(false);
+  }
 
   public isEditing = false;
   public loading = false;
