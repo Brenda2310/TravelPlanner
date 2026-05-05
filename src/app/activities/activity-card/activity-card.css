@@ -91,3 +91,26 @@
 .details-btn:hover {
   box-shadow: 0 6px 14px rgba(0, 0, 0, 0.2);
 }
+
+.activity-stars {
+  display: flex;
+  align-items: center;
+  gap: 2px;
+  margin-bottom: 6px;
+}
+
+.star {
+  font-size: 1.1rem;
+  color: #d0d0d0;
+  line-height: 1;
+}
+
+.star.filled {
+  color: #f5a623;
+}
+
+.rating-count {
+  font-size: 0.78rem;
+  color: rgba(7, 73, 79, 0.55);
+  margin-left: 4px;
+}

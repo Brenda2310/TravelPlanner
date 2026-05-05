@@ -23,13 +23,13 @@ export enum NotificationType {
   PAYMENT_FAILED = 'PAYMENT_FAILED',
 
   // Activities
-  ACTIVITY_REMINDER = 'ACTIVITY_REMINDER'
+  ACTIVITY_REMINDER = 'ACTIVITY_REMINDER',
 }
 
 export enum NotificationCategory {
   SOCIAL = 'SOCIAL',
   TRIPS = 'TRIPS',
-  PAYMENTS = 'PAYMENTS'
+  PAYMENTS = 'PAYMENTS',
 }
 export interface NotificationCreateDTO {
   userId: number;
@@ -50,8 +50,8 @@ export interface NotificationResponseDTO {
   relatedEntityId: number;
   relatedEntityType: string;
   read: boolean;
-  createdAt: string; 
-  readAt?: string;   
+  createdAt: string;
+  readAt?: string;
 }
 
 export interface Summary {

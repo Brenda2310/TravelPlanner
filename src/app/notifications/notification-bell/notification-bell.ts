@@ -1,9 +1,9 @@
+import { DatePipe } from '@angular/common';
 import { Component, DestroyRef, ElementRef, HostListener, inject, signal } from '@angular/core';
 import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
+import { interval, switchMap } from 'rxjs';
 import { NotificationCategory, NotificationResponseDTO } from '../notifications-models';
 import { NotificationService } from '../services/notification-service';
-import { interval, switchMap } from 'rxjs';
-import { DatePipe } from '@angular/common';
 
 @Component({
   selector: 'app-notification-bell',

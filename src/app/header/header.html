@@ -23,33 +23,35 @@
       }
 
       <div class="nav-right">
-       <app-notification-bell></app-notification-bell>
+        @if (!isCompany()) {
+          <app-notification-bell></app-notification-bell>
+        }
 
-      <div class="dropdown perfil-dropdown">
-        <button
-          class="btn btn-light d-flex align-items-center dropdown-toggle border-0"
-          type="button"
-          id="dropdownPerfil"
-          data-bs-toggle="dropdown"
-          aria-expanded="false"
-        >
-          <img
-            src="/account_circle_24dp_33696F_FILL0_wght400_GRAD0_opsz24.svg"
-            alt="Perfil"
-            class="perfil-img me-2"
-          />
-          <span></span> 
-        </button>
-        <ul class="dropdown-menu dropdown-menu-end shadow" aria-labelledby="dropdownPerfil">
-          <li><a class="dropdown-item" (click)="toProfile()">Mi perfil</a></li>
-          @if (!isCompany()) {
+        <div class="dropdown perfil-dropdown">
+          <button
+            class="btn btn-light d-flex align-items-center dropdown-toggle border-0"
+            type="button"
+            id="dropdownPerfil"
+            data-bs-toggle="dropdown"
+            aria-expanded="false"
+          >
+            <img
+              src="/account_circle_24dp_33696F_FILL0_wght400_GRAD0_opsz24.svg"
+              alt="Perfil"
+              class="perfil-img me-2"
+            />
+            <span></span>
+          </button>
+          <ul class="dropdown-menu dropdown-menu-end shadow" aria-labelledby="dropdownPerfil">
+            <li><a class="dropdown-item" (click)="toProfile()">Mi perfil</a></li>
+            @if (!isCompany()) {
+              <li><hr class="dropdown-divider" /></li>
+              <li><a class="dropdown-item" (click)="toReservations()">Mis Reservaciones</a></li>
+            }
             <li><hr class="dropdown-divider" /></li>
-            <li><a class="dropdown-item" (click)="toReservations()">Mis Reservaciones</a></li>
-          }
-          <li><hr class="dropdown-divider" /></li>
-          <li><a class="dropdown-item text-danger" (click)="onLogout()">Cerrar sesión</a></li>
-        </ul>
-      </div>
+            <li><a class="dropdown-item text-danger" (click)="onLogout()">Cerrar sesión</a></li>
+          </ul>
+        </div>
       </div>
     }
   </nav>

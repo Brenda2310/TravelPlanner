@@ -4,8 +4,8 @@ import { ActivatedRoute, Router } from '@angular/router';
 import { ReservationCreateDTO } from '../../reservations/reservation-models';
 import { ReservationStore } from '../../reservations/services/reservation-store';
 import { SecurityStore } from '../../security/services/security-store';
+import { ActivityReviews } from '../activity-reviews/activity-reviews';
 import { ActivityStore } from '../services/activity-store';
-import { ActivityReviews } from "../activity-reviews/activity-reviews";
 
 @Component({
   selector: 'app-activity-details',
@@ -96,5 +96,18 @@ export class ActivityDetails implements OnInit {
         this.errorMessage = err.userMessage || 'Error al eliminar actividad.';
       },
     });
+  }
+
+  get userTieneAcceso(): boolean {
+    const activity = this.currentActivityDetail();
+    const auth = this.security.auth();
+
+    if (!activity) return false;
+
+    if (auth.isCompany && activity.companyId === auth.companyId) {
+      return true;
+    }
+
+    return !!(auth.userId && activity.userIds?.includes(auth.userId));
   }
 }

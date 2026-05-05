@@ -1,11 +1,11 @@
-import { inject, Injectable } from '@angular/core';
-import { BaseService } from '../../BaseService';
 import { HttpClient, HttpParams } from '@angular/common/http';
+import { inject, Injectable } from '@angular/core';
 import { Observable } from 'rxjs';
+import { BaseService } from '../../BaseService';
 import { NotificationCategory, Summary } from '../notifications-models';
 
 @Injectable({
-  providedIn: 'root'
+  providedIn: 'root',
 })
 export class NotificationService extends BaseService {
   private readonly http = inject(HttpClient);
@@ -13,7 +13,7 @@ export class NotificationService extends BaseService {
 
   getNotifications(category?: NotificationCategory): Observable<Summary> {
     let params = new HttpParams();
-    
+
     if (category) {
       params = params.set('category', category);
     }

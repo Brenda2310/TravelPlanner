@@ -34,8 +34,13 @@
 }
 
 @keyframes bell-ring {
-  0%   { transform: rotate(-10deg); }
-  100% { transform: rotate(10deg); }
+  0% {
+    transform: rotate(-10deg);
+  }
+
+  100% {
+    transform: rotate(10deg);
+  }
 }
 
 .badge {
@@ -74,8 +79,15 @@
 }
 
 @keyframes panel-in {
-  from { opacity: 0; transform: translateY(-8px); }
-  to   { opacity: 1; transform: translateY(0); }
+  from {
+    opacity: 0;
+    transform: translateY(-8px);
+  }
+
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
 }
 
 .panel-header {
@@ -173,7 +185,9 @@
   border-bottom: 1px solid rgba(13, 92, 99, 0.06);
 }
 
-.notif-item:last-child { border-bottom: none; }
+.notif-item:last-child {
+  border-bottom: none;
+}
 
 .notif-item:hover {
   background-color: #EAF4F4;

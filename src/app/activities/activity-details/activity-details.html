@@ -52,9 +52,8 @@
     <section class="reviews-wrapper">
       <app-activity-reviews
         [activityId]="currentActivityDetail()!.id"
-        [tieneReservaCompletada]="
-          currentActivityDetail()!.userIds!.includes(security.auth().userId!)
-        ">
+        [tieneReservaCompletada]="userTieneAcceso"
+      >
       </app-activity-reviews>
     </section>
   } @else {

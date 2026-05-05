@@ -4,8 +4,23 @@
   } @else {
     <div class="no-image">SIN IMAGEN</div>
   }
+
   <h3 class="activity-title">{{ activity.name }}</h3>
   <p class="activity-category">{{ activity.category }}</p>
+
+  <div class="activity-stars">
+    @for (star of stars; track star) {
+      <span class="star" [class.filled]="isFilled(star)">★</span>
+    }
+    <span class="rating-count">
+      @if (rating.total > 0) {
+        ({{ rating.total }})
+      } @else {
+        (Sin reseñas)
+      }
+    </span>
+  </div>
+
   <p class="activity-price">{{ activity.price | currency: 'ARS' }}</p>
   <p class="activity-date">Fecha: {{ activity.date }}</p>
 

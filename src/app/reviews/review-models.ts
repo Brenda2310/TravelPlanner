@@ -8,7 +8,7 @@ export interface ReviewRequest {
   ratingPrice: number;
   ratingSecurity: number;
 }
- 
+
 export interface ReviewResponse {
   id: number;
   username: string;
@@ -22,7 +22,7 @@ export interface ReviewResponse {
   ratingSecurity: number;
   creationDate: string;
 }
- 
+
 export interface ActivityReviewSummary {
   generalAvg: number;
   totalReviews: number;
@@ -30,11 +30,11 @@ export interface ActivityReviewSummary {
   puntualityAvg: number;
   priceAvg: number;
   securityAvg: number;
-  distribution: { [key: number]: number }; 
+  distribution: { [key: number]: number };
   userYaReseno: boolean;
   reviews: ReviewResponse[];
 }
- 
+
 export interface ActivityRatingSimple {
   average: number;
   total: number;
