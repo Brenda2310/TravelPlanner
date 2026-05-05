@@ -49,6 +49,14 @@
         <button class="eliminar" (click)="onDelete()">Eliminar</button>
       </div>
     }
+    <section class="reviews-wrapper">
+      <app-activity-reviews
+        [activityId]="currentActivityDetail()!.id"
+        [tieneReservaCompletada]="
+          currentActivityDetail()!.userIds!.includes(security.auth().userId!)
+        ">
+      </app-activity-reviews>
+    </section>
   } @else {
     <p>No se pudo encontrar el detalle de la actividad.</p>
   }

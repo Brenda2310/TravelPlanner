@@ -5,11 +5,12 @@ import { ReservationCreateDTO } from '../../reservations/reservation-models';
 import { ReservationStore } from '../../reservations/services/reservation-store';
 import { SecurityStore } from '../../security/services/security-store';
 import { ActivityStore } from '../services/activity-store';
+import { ActivityReviews } from "../activity-reviews/activity-reviews";
 
 @Component({
   selector: 'app-activity-details',
   standalone: true,
-  imports: [CommonModule],
+  imports: [CommonModule, ActivityReviews],
   templateUrl: './activity-details.html',
   styleUrl: './activity-details.css',
 })

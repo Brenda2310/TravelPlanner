@@ -1,0 +1,235 @@
+<section class="reviews-container">
+  <div class="reviews-header">
+    <h2>Reseñas de viajeros</h2>
+
+    @if (summary) {
+      <span class="reviews-count">
+        {{ summary.totalReviews }} reseña{{ summary.totalReviews !== 1 ? 's' : '' }}
+      </span>
+    }
+  </div>
+
+  @if (loading) {
+    <div class="reviews-loading">
+      <span class="spinner"></span>
+      <p>Cargando reseñas...</p>
+    </div>
+  } @else {
+
+    @if (error) {
+      <div class="reviews-error">
+        {{ error }}
+      </div>
+    } @else {
+
+      @if (!summary || summary.totalReviews === 0) {
+        <div class="no-reviews">
+          <span class="no-reviews-icon">💬</span>
+          <p>Esta actividad aún no tiene reseñas</p>
+
+          @if (canReview) {
+            <button class="btn-primary" (click)="showForm = true">
+              ✍️ Escribir la primera reseña
+            </button>
+          }
+        </div>
+      } @else {
+
+        <div class="reviews-summary">
+
+          <div class="summary-score">
+            <span class="score-number">{{ summary.generalAvg }}</span>
+
+            <div class="score-stars">
+              @for (s of starsArray; track s) {
+                <span
+                  class="star"
+                  [class.filled]="s <= summary.generalAvg"
+                  [class.half]="s - 0.5 <= summary.generalAvg && s > summary.generalAvg">
+                  ★
+                </span>
+              }
+            </div>
+
+            <span class="score-total">de 5</span>
+          </div>
+
+          <div class="summary-distribution">
+            @for (s of [5,4,3,2,1]; track s) {
+              <div class="dist-row">
+                <span>{{ s }}★</span>
+
+                <div class="dist-bar-track">
+                  <div
+                    class="dist-bar-fill"
+                    [style.width.%]="getDistribucionPct(s)">
+                  </div>
+                </div>
+
+                <span>{{ summary.distribution[s] || 0 }}</span>
+              </div>
+            }
+          </div>
+
+          <div class="summary-aspects">
+            @for (a of aspectosResumen; track a.key) {
+              <div class="aspect-row">
+                <span>{{ a.label }}</span>
+
+                <div class="aspect-bar-track">
+                  <div
+                    class="aspect-bar-fill"
+                    [style.width.%]="(summary[a.key] / 5) * 100">
+                  </div>
+                </div>
+
+                <span>{{ summary[a.key] }}</span>
+              </div>
+            }
+          </div>
+
+        </div>
+
+        <div class="reviews-actions">
+
+          @if (canReview && !summary.userYaReseno && !showForm) {
+            <button class="btn-primary" (click)="showForm = true">
+              ✍️ Escribir reseña
+            </button>
+          }
+
+          @if (summary.userYaReseno) {
+            <div class="already-reviewed">
+              ✔ Ya dejaste tu reseña
+            </div>
+          }
+
+          <select class="sort-select" [(ngModel)]="sortBy">
+            <option value="recientes">Más recientes</option>
+            <option value="mayor">Mayor puntuación</option>
+            <option value="menor">Menor puntuación</option>
+          </select>
+
+        </div>
+
+        @if (submitSuccess) {
+          <div class="alert-success">
+            ✅ Tu reseña fue publicada
+          </div>
+        }
+
+        @if (showForm) {
+          <form [formGroup]="reviewForm" (ngSubmit)="submitReview()" class="review-form">
+
+            <h3>Tu experiencia</h3>
+
+            <div class="form-group">
+              <label>Puntuación general *</label>
+
+              <div class="stars-input">
+                @for (s of starsArray; track s) {
+                  <span
+                    class="star-input"
+                    [class.active]="s <= getStarValue('rating')"
+                    (click)="setRating('rating', s)">
+                    ★
+                  </span>
+                }
+              </div>
+            </div>
+
+            <div class="aspects-grid">
+              @for (a of aspectos; track a.key) {
+                <div class="aspect-input-card">
+                  <span>{{ a.label }}</span>
+
+                  <div class="stars-input sm">
+                    @for (s of starsArray; track s) {
+                      <span
+                        class="star-input"
+                        [class.active]="s <= getStarValue(a.key)"
+                        (click)="setRating(a.key, s)">
+                        ★
+                      </span>
+                    }
+                  </div>
+                </div>
+              }
+            </div>
+
+            <div class="form-group">
+              <input
+                formControlName="title"
+                placeholder="Título"
+                class="form-input" />
+            </div>
+
+            <div class="form-group">
+              <textarea
+                formControlName="comentary"
+                placeholder="Comentario"
+                rows="4"
+                class="form-textarea">
+              </textarea>
+
+              <span class="char-count">
+                {{ comentaryLength }}/500
+              </span>
+            </div>
+
+            @if (submitError) {
+              <div class="alert-error">
+                {{ submitError }}
+              </div>
+            }
+
+            <div class="form-buttons">
+              <button type="submit" class="btn-primary" [disabled]="submitLoading">
+                @if (!submitLoading) {
+                  Publicar reseña
+                } @else {
+                  <span class="spinner-sm"></span>
+                }
+              </button>
+
+              <button type="button" class="btn-outline" (click)="showForm = false">
+                Cancelar
+              </button>
+            </div>
+
+          </form>
+        }
+
+        <div class="reviews-list">
+
+          @for (review of sortedReviews; track review.id) {
+            <div class="review-card">
+
+              <div class="review-card-header">
+                <div class="review-avatar">
+                  {{ review.userAvatar }}
+                </div>
+
+                <div class="review-meta">
+                  <strong>{{ review.username }}</strong>
+                  <span>{{ review.creationDate }}</span>
+                </div>
+
+                <div class="rating-badge">
+                  {{ review.rating }}★
+                </div>
+              </div>
+
+              <p class="review-title">"{{ review.title }}"</p>
+              <p class="review-comment">{{ review.comentary }}</p>
+
+            </div>
+          }
+
+        </div>
+
+      }
+    }
+  }
+
+</section>
