@@ -1,6 +1,10 @@
 <div class="notif-wrapper" (click)="togglePanel()" #bell>
-  <button class="notif-btn" [class.has-unread]="unreadCount() > 0" aria-label="Notificaciones">
-    <svg class="bell-icon" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+  <button
+    class="notif-btn"
+    [class.has-unread]="unreadCount() > 0"
+    aria-label="Notificaciones"
+  >
+    <svg class="bell-icon" viewBox="0 0 24 24" fill="none">
       <path
         d="M12 22c1.1 0 2-.9 2-2h-4c0 1.1.9 2 2 2zm6-6V11c0-3.07-1.64-5.64-4.5-6.32V4c0-.83-.67-1.5-1.5-1.5s-1.5.67-1.5 1.5v.68C7.63 5.36 6 7.92 6 11v5l-2 2v1h16v-1l-2-2z"
         fill="currentColor"
@@ -13,32 +17,33 @@
 
   @if (isOpen()) {
     <div class="notif-panel" (click)="$event.stopPropagation()">
+
       <div class="panel-header">
         <h3>Notificaciones</h3>
         @if (unreadCount() > 0) {
-          <button class="mark-all-btn" (click)="onMarkAllAsRead()">Marcar todas como leídas</button>
+          <button class="mark-all-btn" (click)="onMarkAllAsRead()">
+            Marcar todas como leídas
+          </button>
         }
       </div>
 
       <div class="category-tabs">
         <button
+          [class.active]="activeCategory() === null"
+          (click)="setCategory(null)"
+        >Todos</button>
+        <button
           [class.active]="activeCategory() === NotificationCategory.SOCIAL"
           (click)="setCategory(NotificationCategory.SOCIAL)"
-        >
-          Social
-        </button>
+        >Social</button>
         <button
-          [class.active]="activeCategory() === 'TRIPS'"
+          [class.active]="activeCategory() === NotificationCategory.TRIPS"
           (click)="setCategory(NotificationCategory.TRIPS)"
-        >
-          Viajes
-        </button>
+        >Viajes</button>
         <button
-          [class.active]="activeCategory() === 'PAYMENTS'"
+          [class.active]="activeCategory() === NotificationCategory.PAYMENTS"
           (click)="setCategory(NotificationCategory.PAYMENTS)"
-        >
-          Pagos
-        </button>
+        >Pagos</button>
       </div>
 
       <div class="notif-list">
@@ -56,17 +61,29 @@
           </div>
         } @else {
           @for (notif of notifications(); track notif.id) {
-            <div class="notif-item" [class.unread]="!notif.read" (click)="onMarkAsRead(notif)">
-              <span class="notif-dot"></span>
+            <div
+              class="notif-item"
+              [class.unread]="!notif.read"
+              (click)="onMarkAsRead(notif)"
+            >
+              <div class="notif-icon-wrap" [ngClass]="getIconConfig(notif.type).cssClass">
+                <svg viewBox="0 0 24 24" fill="none" width="16" height="16">
+                  <path [attr.d]="getIconConfig(notif.type).path" fill="currentColor"/>
+                </svg>
+              </div>
+
               <div class="notif-content">
                 <p class="notif-title">{{ notif.title }}</p>
                 <p class="notif-body">{{ notif.body }}</p>
                 <span class="notif-time">{{ notif.createdAt | date: 'dd MMM, HH:mm' }}</span>
               </div>
+
+              <span class="notif-dot"></span>
             </div>
           }
         }
       </div>
+
     </div>
   }
 </div>

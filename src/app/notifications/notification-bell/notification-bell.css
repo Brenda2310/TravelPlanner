@@ -199,17 +199,34 @@
 
 .notif-dot {
   flex-shrink: 0;
-  margin-top: 6px;
-  width: 8px;
-  height: 8px;
+  align-self: center;
+  width: 7px;
+  height: 7px;
   border-radius: 50%;
   background: transparent;
-  transition: background-color 0.2s;
 }
 
 .notif-item.unread .notif-dot {
   background: #008C9E;
 }
+
+.notif-icon-wrap {
+  flex-shrink: 0;
+  width: 34px;
+  height: 34px;
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  margin-top: 1px;
+}
+
+.icon-trip     { background: rgba(12, 116, 137, 0.12); color: #0C7489; }
+.icon-budget   { background: rgba(180, 83, 9,   0.12); color: #b45309; }
+.icon-pay-ok   { background: rgba(21, 128, 61,  0.12); color: #15803d; }
+.icon-pay-fail { background: rgba(220, 38, 38,  0.12); color: #dc2626; }
+.icon-social   { background: rgba(109, 40, 217, 0.12); color: #7c3aed; }
+.icon-activity { background: rgba(220, 38, 38,  0.12); color: #dc2626; }
 
 .notif-content {
   flex: 1;
