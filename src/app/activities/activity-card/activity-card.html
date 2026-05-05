@@ -1,4 +1,7 @@
 <div class="activity-card card">
+  @if (activity.imageUrl) {
+    <img [src]="activity.imageUrl" class="activity-img" alt="imagen actividad" />
+  }
   <h3 class="activity-title">{{ activity.name }}</h3>
   <p class="activity-category">{{ activity.category }}</p>
   <p class="activity-price">{{ activity.price | currency: 'ARS' }}</p>

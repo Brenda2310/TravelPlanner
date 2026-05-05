@@ -32,20 +32,22 @@ export class TripService extends BaseService {
     return this.http.get<EntityModel<TripResponseDTO>>(`${this.api}/${id}`);
   }
 
-  create(dto: TripCreateDTO) {
-    return this.http.post<TripResponseDTO>(this.api, dto).pipe(
-      catchError((err) => {
-        return throwError(() => err);
-      }),
-    );
+  create(dto: TripCreateDTO, file?: File) {
+    const formData = new FormData();
+    formData.append('trip', new Blob([JSON.stringify(dto)], { type: 'application/json' }));
+    if (file) formData.append('file', file);
+    return this.http
+      .post<TripResponseDTO>(this.api, formData)
+      .pipe(catchError((err) => throwError(() => err)));
   }
 
-  update(id: number, dto: TripUpdateDTO) {
-    return this.http.put<TripResponseDTO>(`${this.api}/${id}`, dto).pipe(
-      catchError((err) => {
-        return throwError(() => err);
-      }),
-    );
+  update(id: number, dto: TripUpdateDTO, file?: File) {
+    const formData = new FormData();
+    formData.append('trip', new Blob([JSON.stringify(dto)], { type: 'application/json' }));
+    if (file) formData.append('file', file);
+    return this.http
+      .put<TripResponseDTO>(`${this.api}/${id}`, formData)
+      .pipe(catchError((err) => throwError(() => err)));
   }
 
   delete(id: number) {

@@ -1,10 +1,5 @@
 import { ChangeDetectorRef, Component, effect, inject, OnInit, signal } from '@angular/core';
-import {
-  FormBuilder,
-  FormsModule,
-  ReactiveFormsModule,
-  Validators
-} from '@angular/forms';
+import { FormBuilder, FormsModule, ReactiveFormsModule, Validators } from '@angular/forms';
 import { ActivatedRoute, Router } from '@angular/router';
 import { finalize, Observable } from 'rxjs';
 import { SecurityStore } from '../../../security/services/security-store';
@@ -31,6 +26,8 @@ export class TripCreateEdit implements OnInit {
   public isEditing: boolean = false;
   public loading: boolean = false;
   public errorMessage: string | null = null;
+  public selectedFile: File | null = null;
+  public imagePreview: string | null = null;
 
   showTravelCodeInfo = signal(false);
 
@@ -89,6 +86,15 @@ export class TripCreateEdit implements OnInit {
     }
   }
 
+  onFileSelected(event: Event): void {
+    const file = (event.target as HTMLInputElement).files?.[0];
+    if (!file) return;
+    this.selectedFile = file;
+    const reader = new FileReader();
+    reader.onload = () => (this.imagePreview = reader.result as string);
+    reader.readAsDataURL(file);
+  }
+
   onSubmit(): void {
     if (this.tripForm.invalid) {
       this.tripForm.markAllAsTouched();
@@ -120,13 +126,13 @@ export class TripCreateEdit implements OnInit {
         ...tripDto,
         sharedUserIds: formValue.sharedUserIds || [],
       };
-      action$ = this.store.updateTrip(this.tripId!, updateDto);
+      action$ = this.store.updateTrip(this.tripId!, updateDto, this.selectedFile ?? undefined);
     } else {
       const createDto: TripCreateDTO = {
         ...tripDto,
         sharedUserIds: formValue.sharedUserIds!,
       } as TripCreateDTO;
-      action$ = this.store.createTrip(createDto);
+      action$ = this.store.createTrip(createDto, this.selectedFile ?? undefined);
     }
 
     const observable$ = action$.pipe(

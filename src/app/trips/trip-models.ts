@@ -10,6 +10,7 @@ export interface TripResponseDTO {
   companions: number;
   active: boolean;
   userIds: number[];
+  imageUrl?: string;
 }
 
 export interface TripResumeDTO {
@@ -17,6 +18,7 @@ export interface TripResumeDTO {
   name: string;
   destination: string;
   active: boolean;
+  imageUrl?: string;
 }
 
 export interface RecommendationDTO {
@@ -32,6 +34,7 @@ export interface TripCreateDTO {
   estimatedBudget: number;
   companions: number;
   sharedUserIds?: number[];
+  imageUrl?: string;
 }
 
 export interface TripUpdateDTO {
@@ -42,6 +45,7 @@ export interface TripUpdateDTO {
   estimatedBudget?: number;
   companions?: number;
   sharedUserIds?: number[];
+  imageUrl?: string;
 }
 
 export interface TripFilterDTO {

@@ -2,11 +2,7 @@ import { HttpErrorResponse } from '@angular/common/http';
 import { inject, Injectable, signal, WritableSignal } from '@angular/core';
 import { catchError, finalize, Observable, tap, throwError } from 'rxjs';
 import { BaseStore } from '../../BaseStore';
-import {
-  CollectionState,
-  Pageable,
-  PaginationInfo
-} from '../../hateoas/hateoas-models';
+import { CollectionState, Pageable, PaginationInfo } from '../../hateoas/hateoas-models';
 import {
   ActivityCompanyResponseDTO,
   ActivityCreateResponseDTO,
@@ -175,9 +171,10 @@ export class ActivityStore extends BaseStore {
   createFromUser(
     dto: UserActivityCreateDTO,
     pageable: Pageable,
+    file?: File,
   ): Observable<ActivityCreateResponseDTO> {
     this._loading.set(true);
-    return this.client.createFromUser(dto, pageable).pipe(
+    return this.client.createFromUser(dto, pageable, file).pipe(
       tap((newActivity) => {
         this._userActivities.update((state) => ({
           ...state,
@@ -207,9 +204,12 @@ export class ActivityStore extends BaseStore {
     );
   }
 
-  createActivityFromCompany(dto: CompanyActivityCreateDTO): Observable<ActivityCompanyResponseDTO> {
+  createActivityFromCompany(
+    dto: CompanyActivityCreateDTO,
+    file?: File,
+  ): Observable<ActivityCompanyResponseDTO> {
     this._loading.set(true);
-    return this.client.createActivityFromCompany(dto).pipe(
+    return this.client.createActivityFromCompany(dto, file).pipe(
       tap((newActivity) => {
         this._companyActivities.update((state) => ({
           ...state,
@@ -239,9 +239,13 @@ export class ActivityStore extends BaseStore {
     );
   }
 
-  updateUserActivity(id: number, dto: ActivityUpdateDTO): Observable<ActivityCreateResponseDTO> {
+  updateUserActivity(
+    id: number,
+    dto: ActivityUpdateDTO,
+    file?: File,
+  ): Observable<ActivityCreateResponseDTO> {
     this._loading.set(true);
-    return this.client.updateUserActivity(id, dto).pipe(
+    return this.client.updateUserActivity(id, dto, file).pipe(
       tap((updatedActivity) => {
         this._userActivities.update((state) => ({
           ...state,
@@ -256,9 +260,10 @@ export class ActivityStore extends BaseStore {
     id: number,
     idActivity: number,
     dto: CompanyActivityUpdateDTO,
+    file?: File,
   ): Observable<ActivityResponseDTO> {
     this._loading.set(true);
-    return this.client.updateCompanyActivity(id, idActivity, dto).pipe(
+    return this.client.updateCompanyActivity(id, idActivity, dto, file).pipe(
       tap((updatedActivity) => {
         this._companyActivities.update((state) => ({
           ...state,

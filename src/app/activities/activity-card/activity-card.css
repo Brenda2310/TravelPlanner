@@ -1,10 +1,18 @@
-S.activity-card.card {
+.activity-card.card {
   width: 100%;
   max-width: 260px;
   padding: 18px 18px 14px;
   border-radius: 16px;
   background: rgba(255, 255, 255, 0.98);
   box-shadow: 0 6px 18px rgba(0, 0, 0, 0.18);
+}
+
+.activity-img {
+  width: calc(100% + 36px);
+  margin: -18px -18px 14px -18px;
+  height: 140px;
+  object-fit: cover;
+  border-radius: 16px 16px 0 0;
 }
 
 .activity-title {

@@ -6,6 +6,10 @@
       <div class="alert-error">{{ errorMessage }}</div>
     }
 
+    @if (currentActivityDetail()!.imageUrl) {
+      <img [src]="currentActivityDetail()!.imageUrl" class="detail-img" alt="imagen actividad" />
+    }
+
     <header>
       <h1>{{ currentActivityDetail()!.name }}</h1>
       <span class="category">{{ currentActivityDetail()!.category }}</span>

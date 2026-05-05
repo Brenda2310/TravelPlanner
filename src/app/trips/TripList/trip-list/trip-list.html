@@ -33,6 +33,9 @@
       <div class="trip-grid">
         @for (trip of store.trips().list; track trip.id) {
           <div class="trip-card">
+            @if (trip.imageUrl) {
+              <img [src]="trip.imageUrl" class="trip-img" alt="imagen viaje" />
+            }
             <div class="trip-header">
               <h3 class="trip-title">{{ trip.name }}</h3>
               <span class="destination">{{ trip.destination }}</span>

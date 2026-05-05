@@ -139,6 +139,13 @@
         </div>
       </div>
     }
+    <div class="form-group">
+      <label class="form-label">Imagen (opcional)</label>
+      <input type="file" accept="image/*" (change)="onFileSelected($event)" />
+      @if (imagePreview) {
+        <img [src]="imagePreview" class="image-preview" />
+      }
+    </div>
     <div class="actions">
       <button type="submit" [disabled]="activityForm.invalid || loading" class="btn-submit">
         @if (loading) {

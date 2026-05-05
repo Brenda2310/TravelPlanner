@@ -132,6 +132,14 @@
         </div>
       </div>
 
+      <div class="trip-field">
+        <label>Imagen del viaje (opcional)</label>
+        <input type="file" accept="image/*" (change)="onFileSelected($event)" />
+        @if (imagePreview || store.currentTrip()?.imageUrl) {
+          <img [src]="imagePreview || store.currentTrip()?.imageUrl" class="image-preview" />
+        }
+      </div>
+
       <div class="buttons">
         <button type="submit" [disabled]="tripForm.invalid || loading" class="trip-button">
           @if (loading) {

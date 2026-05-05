@@ -28,6 +28,8 @@ export class ActivityCreateEdit implements OnInit {
   private readonly cdr = inject(ChangeDetectorRef);
   private readonly _showTravelCodeInfo = signal(false);
   public readonly showTravelCodeInfo = this._showTravelCodeInfo.asReadonly();
+  public selectedFile: File | null = null;
+  public imagePreview: string | null = null;
 
   openTravelCodeInfo(): void {
     this._showTravelCodeInfo.set(true);
@@ -116,6 +118,15 @@ export class ActivityCreateEdit implements OnInit {
     quantityControl?.updateValueAndValidity();
   }
 
+  onFileSelected(event: Event): void {
+    const file = (event.target as HTMLInputElement).files?.[0];
+    if (!file) return;
+    this.selectedFile = file;
+    const reader = new FileReader();
+    reader.onload = () => (this.imagePreview = reader.result as string);
+    reader.readAsDataURL(file);
+  }
+
   onSubmit(): void {
     if (this.activityForm.invalid) {
       this.activityForm.markAllAsTouched();
@@ -147,6 +158,7 @@ export class ActivityCreateEdit implements OnInit {
           this.security.auth().companyId!,
           this.activityId,
           dto,
+          this.selectedFile ?? undefined,
         );
       } else {
         const dto: ActivityUpdateDTO = {
@@ -154,7 +166,11 @@ export class ActivityCreateEdit implements OnInit {
           sharedUserIds: formValue.sharedUserIds!,
         } as ActivityUpdateDTO;
 
-        action$ = this.store.updateUserActivity(this.activityId, dto);
+        action$ = this.store.updateUserActivity(
+          this.activityId,
+          dto,
+          this.selectedFile ?? undefined,
+        );
       }
     } else if (this.mode === 'company') {
       const companyDto: CompanyActivityCreateDTO = {
@@ -162,13 +178,17 @@ export class ActivityCreateEdit implements OnInit {
         companyId: this.security.auth().companyId,
         available_quantity: formValue.available_quantity!,
       } as CompanyActivityCreateDTO;
-      action$ = this.store.createActivityFromCompany(companyDto);
+      action$ = this.store.createActivityFromCompany(companyDto, this.selectedFile ?? undefined);
     } else {
       const userDto: UserActivityCreateDTO = {
         ...baseActivityDto,
         sharedUserIds: formValue.sharedUserIds!,
       } as UserActivityCreateDTO;
-      action$ = this.store.createFromUser(userDto, { page: 0, size: 10 });
+      action$ = this.store.createFromUser(
+        userDto,
+        { page: 0, size: 10 },
+        this.selectedFile ?? undefined,
+      );
     }
 
     const observable$ = action$.pipe(

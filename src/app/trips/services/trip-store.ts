@@ -171,8 +171,8 @@ export class TripStore extends BaseStore {
     });
   }
 
-  createTrip(dto: TripCreateDTO): Observable<TripResponseDTO> {
-    return this.client.create(dto).pipe(
+  createTrip(dto: TripCreateDTO, file?: File): Observable<TripResponseDTO> {
+    return this.client.create(dto, file).pipe(
       tap((newTrip) => {
         this._trips.update((state) => ({
           ...state,
@@ -201,8 +201,8 @@ export class TripStore extends BaseStore {
     );
   }
 
-  updateTrip(id: number, dto: TripUpdateDTO): Observable<TripResponseDTO> {
-    return this.client.update(id, dto).pipe(
+  updateTrip(id: number, dto: TripUpdateDTO, file?: File): Observable<TripResponseDTO> {
+    return this.client.update(id, dto, file).pipe(
       tap((updatedTrip) => {
         this._trips.update((state) => ({
           ...state,

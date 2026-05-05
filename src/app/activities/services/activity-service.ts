@@ -22,21 +22,23 @@ export class ActivityService extends BaseService {
   private readonly http = inject(HttpClient);
   private readonly api = 'http://localhost:8080/activities';
 
-  createFromUser(dto: UserActivityCreateDTO, pageable: Pageable) {
+  createFromUser(dto: UserActivityCreateDTO, pageable: Pageable, file?: File) {
     const params = this.buildParams(pageable);
-    return this.http.post<ActivityCreateResponseDTO>(`${this.api}/user`, dto, { params }).pipe(
-      catchError((err) => {
-        return throwError(() => err);
-      }),
-    );
+    const formData = new FormData();
+    formData.append('activity', new Blob([JSON.stringify(dto)], { type: 'application/json' }));
+    if (file) formData.append('file', file);
+    return this.http
+      .post<ActivityCreateResponseDTO>(`${this.api}/user`, formData, { params })
+      .pipe(catchError((err) => throwError(() => err)));
   }
 
-  createActivityFromCompany(dto: CompanyActivityCreateDTO) {
-    return this.http.post<ActivityCompanyResponseDTO>(`${this.api}/company`, dto).pipe(
-      catchError((err) => {
-        return throwError(() => err);
-      }),
-    );
+  createActivityFromCompany(dto: CompanyActivityCreateDTO, file?: File) {
+    const formData = new FormData();
+    formData.append('activity', new Blob([JSON.stringify(dto)], { type: 'application/json' }));
+    if (file) formData.append('file', file);
+    return this.http
+      .post<ActivityCompanyResponseDTO>(`${this.api}/company`, formData)
+      .pipe(catchError((err) => throwError(() => err)));
   }
 
   getAllActivities(pageable: Pageable) {
@@ -73,14 +75,25 @@ export class ActivityService extends BaseService {
     });
   }
 
-  updateUserActivity(id: number, dto: ActivityUpdateDTO) {
-    return this.http.put<ActivityCreateResponseDTO>(`${this.api}/${id}`, dto);
+  updateUserActivity(id: number, dto: ActivityUpdateDTO, file?: File) {
+    const formData = new FormData();
+    formData.append('activity', new Blob([JSON.stringify(dto)], { type: 'application/json' }));
+    if (file) formData.append('file', file);
+    return this.http.put<ActivityCreateResponseDTO>(`${this.api}/${id}`, formData);
   }
 
-  updateCompanyActivity(companyId: number, activityId: number, dto: CompanyActivityUpdateDTO) {
+  updateCompanyActivity(
+    companyId: number,
+    activityId: number,
+    dto: CompanyActivityUpdateDTO,
+    file?: File,
+  ) {
+    const formData = new FormData();
+    formData.append('activity', new Blob([JSON.stringify(dto)], { type: 'application/json' }));
+    if (file) formData.append('file', file);
     return this.http.put<ActivityResponseDTO>(
       `${this.api}/company/${companyId}/activities/${activityId}`,
-      dto,
+      formData,
     );
   }
 

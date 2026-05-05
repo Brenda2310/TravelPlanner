@@ -24,6 +24,7 @@ export interface ActivityResponseDTO {
   userIds: number[];
   companyId: number | null;
   available_quantity: number | null;
+  imageUrl?: string;
 }
 
 export interface ActivityCompanyResponseDTO {
@@ -36,6 +37,7 @@ export interface ActivityCompanyResponseDTO {
   startTime: string;
   endTime: string;
   available_quantity: number;
+  imageUrl?: string;
 }
 
 export interface ActivityCreateResponseDTO {
@@ -50,11 +52,13 @@ export interface ActivityCreateResponseDTO {
   endTime: string;
   itineraryId: number | null;
   userIds: number[];
+  imageUrl?: string;
 }
 
 export interface ActivityResumeDTO {
   name: string;
   description: string;
+  imageUrl?: string;
 }
 
 export interface UserActivityCreateDTO {
@@ -66,6 +70,7 @@ export interface UserActivityCreateDTO {
   startTime: string;
   endTime: string;
   sharedUserIds?: number[];
+  imageUrl?: string;
 }
 
 export interface CompanyActivityCreateDTO {
@@ -78,6 +83,7 @@ export interface CompanyActivityCreateDTO {
   endTime: string;
   companyId: number;
   available_quantity: number;
+  imageUrl?: string;
 }
 
 export interface ActivityUpdateDTO {
@@ -90,6 +96,7 @@ export interface ActivityUpdateDTO {
   endTime?: string;
   available?: boolean;
   itineraryId?: number;
+  imageUrl?: string;
 }
 
 export interface CompanyActivityUpdateDTO {
@@ -101,6 +108,7 @@ export interface CompanyActivityUpdateDTO {
   startTime: string;
   endTime: string;
   available_quantity: number;
+  imageUrl?: string;
 }
 
 export interface ActivityFilterDTO {
