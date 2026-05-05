@@ -2,10 +2,10 @@
   @if (store.loading()) {
     <p>Cargando detalles del viaje...</p>
   } @else if (currentTrip$()?.id === tripId) {
-    @if (currentTrip$()?.imageUrl) {
-      <img [src]="currentTrip$()?.imageUrl" class="trip-detail-img" alt="imagen viaje" />
-    }
     <section class="trip-info">
+      @if (currentTrip$()?.imageUrl) {
+        <img [src]="currentTrip$()?.imageUrl" class="detail-img" alt="imagen viaje" />
+      }
       <h1>{{ currentTrip$()?.name }} - {{ currentTrip$()?.destination }}</h1>
       <p><strong>Presupuesto estimado:</strong> {{ currentTrip$()?.estimatedBudget | currency }}</p>
       <p>

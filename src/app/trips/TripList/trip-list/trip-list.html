@@ -34,7 +34,9 @@
         @for (trip of store.trips().list; track trip.id) {
           <div class="trip-card">
             @if (trip.imageUrl) {
-              <img [src]="trip.imageUrl" class="trip-img" alt="imagen viaje" />
+              <img [src]="trip.imageUrl" class="trip-img" alt="{{ trip.name }}" />
+            } @else {
+              <div class="no-image">SIN IMAGEN</div>
             }
             <div class="trip-header">
               <h3 class="trip-title">{{ trip.name }}</h3>

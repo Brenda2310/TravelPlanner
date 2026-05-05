@@ -1,6 +1,8 @@
 <div class="activity-card card">
   @if (activity.imageUrl) {
-    <img [src]="activity.imageUrl" class="activity-img" alt="imagen actividad" />
+    <img [src]="activity.imageUrl" class="activity-img" alt="{{ activity.name }}" />
+  } @else {
+    <div class="no-image">SIN IMAGEN</div>
   }
   <h3 class="activity-title">{{ activity.name }}</h3>
   <p class="activity-category">{{ activity.category }}</p>
