@@ -3,11 +3,12 @@ import { Router, RouterLink, RouterLinkActive } from '@angular/router';
 import { CompanyStore } from '../companies/services/company-store';
 import { AuthStatus } from '../security/auth/logout/auth-status/auth-status';
 import { SecurityStore } from '../security/services/security-store';
+import { NotificationBell } from "../notifications/notification-bell/notification-bell";
 
 @Component({
   selector: 'app-header',
   standalone: true,
-  imports: [RouterLink, RouterLinkActive, AuthStatus],
+  imports: [RouterLink, RouterLinkActive, AuthStatus, NotificationBell],
   templateUrl: './header.html',
   styleUrls: ['./header.css'],
 })

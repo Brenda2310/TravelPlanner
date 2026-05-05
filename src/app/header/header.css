@@ -147,3 +147,9 @@ nav {
   background-color: #fdecec;
   color: #d00000;
 }
+
+.nav-right {
+  display: flex;
+  align-items: center;
+  gap: 4px;
+}

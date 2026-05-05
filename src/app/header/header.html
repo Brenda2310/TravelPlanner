@@ -22,6 +22,9 @@
         </div>
       }
 
+      <div class="nav-right">
+       <app-notification-bell></app-notification-bell>
+
       <div class="dropdown perfil-dropdown">
         <button
           class="btn btn-light d-flex align-items-center dropdown-toggle border-0"
@@ -35,7 +38,7 @@
             alt="Perfil"
             class="perfil-img me-2"
           />
-          <span>Perfil</span>
+          <span></span> 
         </button>
         <ul class="dropdown-menu dropdown-menu-end shadow" aria-labelledby="dropdownPerfil">
           <li><a class="dropdown-item" (click)="toProfile()">Mi perfil</a></li>
@@ -46,6 +49,7 @@
           <li><hr class="dropdown-divider" /></li>
           <li><a class="dropdown-item text-danger" (click)="onLogout()">Cerrar sesión</a></li>
         </ul>
+      </div>
       </div>
     }
   </nav>
