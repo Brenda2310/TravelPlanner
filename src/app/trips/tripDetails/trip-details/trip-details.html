@@ -16,7 +16,7 @@
         <strong>TravelCodes: </strong> {{ currentTrip$()?.userIds }}
       </p>
       <div class="buttons">
-        <button (click)="router.navigate([`/trips/${tripId}/edit`])" class="btn-edit">
+        <button (click)="router.navigate(['/trips/' + tripId + '/edit'])" class="btn-edit">
           Editar Datos del Viaje
         </button>
         <button (click)="onDeleteTrip()" class="btn-delete">Eliminar Viaje</button>
@@ -25,19 +25,52 @@
 
     <section class="expenses-section">
       <h2>Gestión de Gastos</h2>
-      <div class="trip-expenses">
-        <div class="expenses-grid">
-          <div class="expense-card">
-            <h3>Total gastado</h3>
-            <p class="expense-value">{{ calculations().realTotal | currency }}</p>
-          </div>
-
-          <div class="expense-card">
-            <h3>Promedio de gastos</h3>
-            <p class="expense-value">{{ calculations().average | currency }}</p>
-          </div>
+      <div class="expenses-grid">
+        <div class="expense-card">
+          <h3>Total gastado</h3>
+          <p class="expense-value">{{ calculations().realTotal | currency }}</p>
+        </div>
+        <div class="expense-card">
+          <h3>Promedio de gastos</h3>
+          <p class="expense-value">{{ calculations().average | currency }}</p>
         </div>
       </div>
+    </section>
+
+    <section class="recommendations-section">
+      <div class="rec-header">
+        <div>
+          <h2>Recomendaciones para {{ currentTrip$()?.destination }}</h2>
+          <p class="rec-subtitle">Lugares de interés cercanos al destino</p>
+        </div>
+        <button class="btn-filter" [class.active]="showFiltered()" (click)="toggleFilter()">
+          {{ showFiltered() ? 'Ver todas' : 'Filtrar por mis preferencias' }}
+        </button>
+      </div>
+
+      @if (store.loading()) {
+        <p class="rec-loading">Buscando recomendaciones...</p>
+      } @else if (recommendations().list.length === 0) {
+        <div class="rec-empty">
+          <p>No se encontraron recomendaciones para este destino.</p>
+        </div>
+      } @else {
+        <div class="rec-grid">
+          @for (rec of recommendations().list; track rec.name) {
+            <div class="rec-card">
+              <div class="rec-icon">📍</div>
+              <h3 class="rec-name">{{ rec.name || 'Lugar sin nombre' }}</h3>
+              @if (rec.categories && rec.categories.length > 0) {
+                <div class="rec-categories">
+                  @for (cat of rec.categories.slice(0, 3); track cat.name) {
+                    <span class="rec-badge">{{ cat.name }}</span>
+                  }
+                </div>
+              }
+            </div>
+          }
+        </div>
+      }
     </section>
   } @else {
     <p>No se encontró el viaje o no tienes permiso.</p>

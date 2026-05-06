@@ -63,18 +63,18 @@ export class TripService extends BaseService {
     return this.http.get<PagedModel<TripResponseDTO>>(`${this.api}/user/${userId}`, { params });
   }
 
-  getRecommendations(userId: number, tripId: number, pageable: Pageable) {
+  getRecommendations(tripId: number, userId: number, pageable: Pageable) {
     const params = this.buildParams(pageable);
     return this.http.get<PagedModel<RecommendationDTO>>(
-      `${this.api}/${userId}/${tripId}/recommendations`,
+      `${this.api}/${tripId}/${userId}/recommendations`,
       { params },
     );
   }
 
-  getFilteredRecommendations(userId: number, tripId: number, pageable: Pageable) {
+  getFilteredRecommendations(tripId: number, userId: number, pageable: Pageable) {
     const params = this.buildParams(pageable);
     return this.http.get<PagedModel<RecommendationDTO> | string>(
-      `${this.api}/${userId}/${tripId}/recommendations/filtered`,
+      `${this.api}/${tripId}/${userId}/recommendations/filtered`,
       { params },
     );
   }

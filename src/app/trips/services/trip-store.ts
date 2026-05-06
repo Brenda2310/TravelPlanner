@@ -130,9 +130,9 @@ export class TripStore extends BaseStore {
     });
   }
 
-  loadRecommendations(userId: number, tripId: number, pageable: Pageable): void {
+  loadRecommendations(tripId: number, userId: number, pageable: Pageable): void {
     this._loading.set(true);
-    this.client.getRecommendations(userId, tripId, pageable).subscribe({
+    this.client.getRecommendations(tripId, userId, pageable).subscribe({
       next: (pagedResponse) => {
         const list = this.unwrapEntities<RecommendationDTO>(pagedResponse);
         this.setRecommendations(list, (pagedResponse as PagedModel<RecommendationDTO>).page);
@@ -145,9 +145,9 @@ export class TripStore extends BaseStore {
     });
   }
 
-  loadFilteredRecommendations(userId: number, tripId: number, pageable: Pageable): void {
+  loadFilteredRecommendations(tripId: number, userId: number, pageable: Pageable): void {
     this._loading.set(true);
-    this.client.getFilteredRecommendations(userId, tripId, pageable).subscribe({
+    this.client.getFilteredRecommendations(tripId, userId, pageable).subscribe({
       next: (response) => {
         if (typeof response === 'string') {
           this._error.set(response);
