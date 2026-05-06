@@ -24,7 +24,7 @@ export class ReviewService extends BaseService {
     return this.http.get<ActivityReviewSummary>(`${this.api}/activity/${activityId}`);
   }
 
-  getPromedioSimple(activityId: number): Observable<ActivityRatingSimple> {
+  getSimpleAvg(activityId: number): Observable<ActivityRatingSimple> {
     return this.http.get<ActivityRatingSimple>(`${this.api}/activity/${activityId}/avg`);
   }
 }

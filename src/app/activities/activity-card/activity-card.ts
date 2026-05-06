@@ -1,5 +1,13 @@
 import { CommonModule } from '@angular/common';
-import { Component, EventEmitter, inject, Input, OnInit, Output } from '@angular/core';
+import {
+  ChangeDetectorRef,
+  Component,
+  EventEmitter,
+  inject,
+  Input,
+  OnInit,
+  Output,
+} from '@angular/core';
 import { Router } from '@angular/router';
 import { ActivityRatingSimple } from '../../reviews/review-models';
 import { ReviewService } from '../../reviews/services/review-service';
@@ -16,6 +24,7 @@ import { ActivityCompanyResponseDTO } from '../activity-models';
 export class ActivityCard implements OnInit {
   private readonly router = inject(Router);
   private readonly reviewService = inject(ReviewService);
+  private readonly cdr = inject(ChangeDetectorRef);
   public readonly security = inject(SecurityStore);
   @Input() activity!: ActivityCompanyResponseDTO;
   @Output() reservate = new EventEmitter<number>();
@@ -25,8 +34,11 @@ export class ActivityCard implements OnInit {
   stars = [1, 2, 3, 4, 5];
 
   ngOnInit(): void {
-    this.reviewService.getPromedioSimple(this.activity.id).subscribe({
-      next: (data) => (this.rating = data),
+    this.reviewService.getSimpleAvg(this.activity.id).subscribe({
+      next: (data) => {
+        this.rating = data;
+        this.cdr.detectChanges();
+      },
       error: () => (this.rating = { average: 0, total: 0 }),
     });
   }
