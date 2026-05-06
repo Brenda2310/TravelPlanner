@@ -209,7 +209,7 @@
   display: flex;
   justify-content: space-around;
   gap: 12px;
-  margin-top: 8px;
+  margin-top: 24px;
   flex-wrap: wrap;
 }
 
