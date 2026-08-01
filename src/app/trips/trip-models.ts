@@ -7,9 +7,9 @@ export interface TripResponseDTO {
   startDate: string;
   endDate: string | null;
   estimatedBudget: number;
-  companions: number;
+  //companions: number;
   active: boolean;
-  userIds: number[];
+  users: { id: number; username: string}[];
   imageUrl?: string;
 }
 
@@ -32,7 +32,7 @@ export interface TripCreateDTO {
   startDate: string;
   endDate?: string;
   estimatedBudget: number;
-  companions: number;
+  //companions: number;
   sharedUserIds?: number[];
   imageUrl?: string;
 }
@@ -43,7 +43,7 @@ export interface TripUpdateDTO {
   startDate?: string;
   endDate?: string;
   estimatedBudget?: number;
-  companions?: number;
+  //companions?: number;
   sharedUserIds?: number[];
   imageUrl?: string;
 }

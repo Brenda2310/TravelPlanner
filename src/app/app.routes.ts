@@ -26,6 +26,7 @@ import { TripDetails } from './trips/tripDetails/trip-details/trip-details';
 import { TripList } from './trips/TripList/trip-list/trip-list';
 import { Profile } from './users/profile/profile';
 import { UserRegister } from './users/userRegister/user-register/user-register';
+import { FriendList } from './friends/friend-list/friend-list';
 
 export const routes: Routes = [
   { path: '', component: Home, title: 'Inicio' },
@@ -300,6 +301,12 @@ export const routes: Routes = [
             canActivate: [authGuard(['ROLE_USER', 'ROLE_ADMIN'])],
           },
         ],
+      },
+      {
+        path: 'friends',
+        component: FriendList,
+        title: 'Amigos',
+        canActivate: [authGuard(["ROLE_USER", "ROLE_ADMIN"])],
       },
     ],
   },

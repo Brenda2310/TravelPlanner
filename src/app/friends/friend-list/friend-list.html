@@ -1,0 +1,78 @@
+<div class="friends-page">
+    <h1 class="friends-title">Amigos</h1>
+    @if (errorMessage){
+        <div class="friends-error">{{ errorMessage }}</div>
+    }
+
+    <section class="friends-section">
+    <h2>Buscar usuarios</h2>
+    <div class="search-bar">
+        <input
+        type="text"
+        [(ngModel)]="searchQuery"
+        placeholder="Buscar por username..."
+        (input)="onSearch()"
+        />
+    </div>
+
+    @if (!loading && searchQuery.trim() && searchResults.length === 0) {
+        <p class="empty-msg">No se encontraron resultados para "{{ searchQuery }}".</p>
+        }
+
+    @if (searchResults.length > 0) {
+        <ul class="user-list">
+        @for (user of searchResults; track user.id) {
+            <li class="user-item">
+            <span>{{ user.username }}</span>
+            @if (isFriend(user.id)) {
+                <span class="already-friend">Amigos</span>
+            } @else {
+                <button class="btn-send" (click)="sendRequest(user.id)">
+                Enviar solicitud
+                </button>
+            }
+            </li>
+        }
+        </ul>
+    }
+    </section>
+
+    <section class="friends-section">
+        <h2>Solicitudes pendientes</h2>
+
+        @if(pendingRequests.length === 0){
+            <p class="empty-msg">No hay solicitudes pendientes.</p>
+        } @else {
+            <ul class="user-list">
+                @for(request of pendingRequests; track request.id){
+                    <li class="user-item">
+                        <span>{{ request.senderUsername }}</span>
+                        <div class="request-actions">
+                            <button class="btn-accept" (click)="acceptRequest(request.id)">Aceptar</button>
+                            <button class="btn-reject" (click)="rejectRequest(request.id)">Rechazar</button>
+                        </div>
+                    </li>
+                }
+            </ul>
+        }
+    </section>
+
+    <section class="friends-section">
+        <h2>Mis amigos</h2>
+
+        @if(friends.length === 0){
+            <p class="empty-msg"> Todavia no tenes amigos en TravelPlanner.</p>
+        } @else {
+            <ul class="user-list">
+                @for (friend of friends; track friend.id){
+                    <li class="user-item">
+                        <div class="user-info">
+                            <img src="/account_circle_24dp_33696F_FILL0_wght400_GRAD0_opsz24.svg" alt="perfil" class="user-avatar" />
+                            <span>{{ friend.username }}</span>
+                        </div>
+                    </li>
+                }
+            </ul>
+        }
+    </section>
+</div>

@@ -29,7 +29,9 @@ export class TripCreateEdit implements OnInit {
   public selectedFile: File | null = null;
   public imagePreview: string | null = null;
 
-  showTravelCodeInfo = signal(false);
+  public sharedUserIds: number[] = [];
+
+  /*showTravelCodeInfo = signal(false);
 
   openTravelCodeInfo() {
     this.showTravelCodeInfo.set(true);
@@ -39,7 +41,7 @@ export class TripCreateEdit implements OnInit {
   }
 
   newUserId: number | null = null;
-
+  */
   private tripDetail$ = this.store.currentTrip;
 
   public tripForm = this.fb.group(
@@ -47,13 +49,13 @@ export class TripCreateEdit implements OnInit {
       name: ['', [Validators.required, Validators.maxLength(100)]],
       destination: ['', [Validators.required, Validators.maxLength(100)]],
       estimatedBudget: [null as number | null, [Validators.required, Validators.min(0)]],
-      companions: [null as number | null, Validators.min(0)],
+      //companions: [null as number | null, Validators.min(0)],
 
       startDate: ['', [Validators.required]],
       endDate: ['', Validators.required],
 
-      sharedUserIds: [[] as number[]],
-      newUserId: [''],
+      //sharedUserIds: [[] as number[]],
+      //newUserId: [''],
     },
     {
       validators: TripValidation.dateRangeValidator,
@@ -67,21 +69,22 @@ export class TripCreateEdit implements OnInit {
         name: trip.name,
         destination: trip.destination,
         estimatedBudget: trip.estimatedBudget,
-        companions: trip.companions,
+        //companions: trip.companions,
         startDate: trip.startDate,
         endDate: trip.endDate,
-        sharedUserIds: trip.userIds.filter((id) => id !== this.security.getId()),
+        //sharedUserIds: trip.userIds.filter((id) => id !== this.security.getId()),
       });
+      this.sharedUserIds = trip.users
+        .filter(u => u.id !== this.security.getId())
+        .map(u => u.id);
     }
   });
 
   ngOnInit(): void {
     const idFromUrl = this.route.snapshot.paramMap.get('id');
-
     if (idFromUrl) {
       this.tripId = +idFromUrl;
       this.isEditing = true;
-
       this.store.loadTripById(this.tripId);
     }
   }
@@ -95,6 +98,10 @@ export class TripCreateEdit implements OnInit {
     reader.readAsDataURL(file);
   }
 
+  removeCompanion (idToRemove: number): void {
+    this.sharedUserIds = this.sharedUserIds.filter(id => id !== idToRemove);
+  }
+
   onSubmit(): void {
     if (this.tripForm.invalid) {
       this.tripForm.markAllAsTouched();
@@ -104,11 +111,11 @@ export class TripCreateEdit implements OnInit {
     this.loading = true;
     const formValue = this.tripForm.value;
 
-    const companionsValue = formValue.companions as any;
+    /*const companionsValue = formValue.companions as any;
 
     if (companionsValue === '' || companionsValue === undefined || isNaN(Number(companionsValue))) {
       formValue.companions = null;
-    }
+    }*/
 
     let action$: Observable<any>;
 
@@ -116,7 +123,7 @@ export class TripCreateEdit implements OnInit {
       name: formValue.name!,
       destination: formValue.destination!,
       estimatedBudget: formValue.estimatedBudget!,
-      companions: formValue.companions!,
+      //companions: formValue.companions!,
       startDate: formValue.startDate!,
       endDate: formValue.endDate || undefined,
     };
@@ -124,25 +131,21 @@ export class TripCreateEdit implements OnInit {
     if (this.isEditing) {
       const updateDto: TripUpdateDTO = {
         ...tripDto,
-        sharedUserIds: formValue.sharedUserIds || [],
+        sharedUserIds: this.sharedUserIds,
       };
       action$ = this.store.updateTrip(this.tripId!, updateDto, this.selectedFile ?? undefined);
     } else {
       const createDto: TripCreateDTO = {
         ...tripDto,
-        sharedUserIds: formValue.sharedUserIds!,
-      } as TripCreateDTO;
+        sharedUserIds: [],
+      } 
       action$ = this.store.createTrip(createDto, this.selectedFile ?? undefined);
     }
 
-    const observable$ = action$.pipe(
-      finalize(() => {
-        this.loading = false;
-        this.cdr.detectChanges();
-      }),
-    );
-
-    observable$.subscribe({
+    action$.pipe(finalize(() => {
+      this.loading = false;
+      this.cdr.detectChanges();
+    })).subscribe({
       next: () => {
         alert('Viaje Guardado con exito');
         this.router.navigate(['/trips']);
@@ -150,9 +153,6 @@ export class TripCreateEdit implements OnInit {
       },
       error: (err: any) => {
         this.loading = false;
-
-        console.error('Error del Store:', err);
-
         this.errorMessage =
           err.userMessage ||
           err.original?.error?.message ||
@@ -164,6 +164,7 @@ export class TripCreateEdit implements OnInit {
     });
   }
 
+  /*
   get sharedUserIdsArray(): number[] {
     return this.tripForm.get('sharedUserIds')?.value || [];
   }
@@ -191,5 +192,5 @@ export class TripCreateEdit implements OnInit {
 
     const newSharedIds = currentSharedIds.filter((id) => id !== idToRemove);
     sharedIdsControl?.setValue(newSharedIds);
-  }
+  }*/
 }

@@ -11,10 +11,42 @@
       <p>
         <strong>Fechas:</strong> {{ currentTrip$()?.startDate }} / {{ currentTrip$()?.endDate }}
       </p>
-      <p>
-        <strong>Cantidad de Acompañantes:</strong> {{ currentTrip$()?.companions }} -
-        <strong>TravelCodes: </strong> {{ currentTrip$()?.userIds }}
-      </p>
+      <p><strong>Participantes:</strong></p>
+        <ul>
+          @for (user of currentTrip$()?.users; track user.id) {
+            <li>{{ user.username }}</li>
+          }
+        </ul>
+
+        <div class="invite-section">
+        <p><strong>Invitar amigo al viaje:</strong></p>
+        <div class="invite-search">
+          <input
+            type="text"
+            [(ngModel)]="inviteQuery"
+            placeholder="Buscar amigo por username..."
+            (input)="onInviteSearch()"
+          />
+        </div>
+
+        @if (inviteResults.length > 0) {
+          <ul class="invite-list">
+            @for (friend of inviteResults; track friend.id) {
+              <li class="invite-item">
+                <span>{{ friend.username }}</span>
+                <button class="btn-invite" (click)="sendInvitation(friend.id)">
+                  Invitar
+                </button>
+              </li>
+            }
+          </ul>
+        }
+
+        @if (!inviteLoading && inviteQuery.trim() && inviteResults.length === 0) {
+          <p class="empty-msg">No se encontraron amigos con ese nombre.</p>
+        }
+      </div>
+
       <div class="buttons">
         <button (click)="router.navigate([`/trips/${tripId}/edit`])" class="btn-edit">
           Editar Datos del Viaje

@@ -46,6 +46,8 @@
             <li><a class="dropdown-item" (click)="toProfile()">Mi perfil</a></li>
             @if (!isCompany()) {
               <li><hr class="dropdown-divider" /></li>
+              <li><a class="dropdown-item" routerLink="/friends">Mis Amigos</a></li>
+              <li><hr class="dropdown-divider" /></li>
               <li><a class="dropdown-item" (click)="toReservations()">Mis Reservaciones</a></li>
             }
             <li><hr class="dropdown-divider" /></li>
