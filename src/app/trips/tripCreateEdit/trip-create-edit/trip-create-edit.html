@@ -79,57 +79,6 @@
             <small class="trip-error-msg">Ingrese un valor positivo o cero.</small>
           }
         </div>
-
-        <div class="trip-field">
-          <label for="companions">Cantidad de acompañantes (opcional)</label>
-          <input id="companions" type="number" formControlName="companions" />
-          @if (
-            tripForm.get('companions')?.invalid &&
-            (tripForm.get('companions')?.touched || tripForm.get('companions')?.dirty)
-          ) {
-            <small class="trip-error-msg">Debe ser cero o más.</small>
-          }
-        </div>
-      </div>
-
-      <div class="trip-share">
-        <div class="share-label-row">
-          <label>Compartir con usuarios (TravelCode):</label>
-
-          <button
-            type="button"
-            class="help-icon-inline"
-            (click)="openTravelCodeInfo()"
-            aria-label="¿Qué es el TravelCode?"
-          >
-            ?
-          </button>
-        </div>
-
-        <div class="share-list">
-          @for (id of sharedUserIdsArray; track $index) {
-            <div class="share-item">
-              <span>{{ id }}</span>
-              <button type="button" (click)="removeUserId(id)">×</button>
-            </div>
-          }
-
-          <div class="share-input">
-            <input
-              type="number"
-              placeholder="Agregar TravelCode..."
-              formControlName="newUserId"
-              (keydown.enter)="addUserId()"
-            />
-            <button type="button" (click)="addUserId()">
-              <img
-                src="/person_add_24dp_33696F_FILL0_wght400_GRAD0_opsz24.svg"
-                class="add-icon"
-                alt="agregar"
-              />
-            </button>
-          </div>
-        </div>
       </div>
 
       <div class="trip-field image-upload-field">
@@ -165,26 +114,5 @@
         <button type="reset" class="trip-button">Borrar</button>
       </div>
     </form>
-
-    @if (showTravelCodeInfo()) {
-      <div class="modal-overlay" (click)="closeTravelCodeInfo()">
-        <div class="modal-card" (click)="$event.stopPropagation()">
-          <h3>¿Qué es el TravelCode?</h3>
-          <p>
-            El <strong>TravelCode</strong> es un código único que identifica a cada usuario en
-            TravelPlanner. Si lo agregás, vas a poder compartir este viaje, y tambien sus
-            actividades y gastos con esa/s persona/s si asi lo deseas.
-          </p>
-          <p>
-            Podés encontrar tu propio TravelCode en la sección
-            <strong>"Mi perfil"</strong>, y compartirlo con otros para que te agreguen.
-          </p>
-
-          <button type="button" class="modal-close-btn" (click)="closeTravelCodeInfo()">
-            Entendido
-          </button>
-        </div>
-      </div>
-    }
   </div>
 </div>

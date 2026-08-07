@@ -8,6 +8,9 @@ import {
   NotificationType,
 } from '../notifications-models';
 import { NotificationService } from '../services/notification-service';
+import { TripInvitationService } from '../../trips/services/tripInvitation/trip-invitation-service';
+import { Router } from '@angular/router';
+import { not } from 'rxjs/internal/util/not';
 
 @Component({
   selector: 'app-notification-bell',
@@ -20,6 +23,8 @@ export class NotificationBell {
   private readonly notifService = inject(NotificationService);
   private readonly destroyRef = inject(DestroyRef);
   private readonly elRef = inject(ElementRef);
+  private readonly tripInvitationService = inject(TripInvitationService);
+  private readonly router = inject (Router);
 
   protected readonly NotificationCategory = NotificationCategory;
 
@@ -69,6 +74,9 @@ export class NotificationBell {
     this.loading.set(true);
     this.notifService.getNotifications(this.activeCategory() ?? undefined).subscribe({
       next: ({ notifications, unreadCount }) => {
+        
+        console.log(notifications);
+        
         this.notifications.set(notifications);
         this.unreadCount.set(unreadCount);
         this.loading.set(false);
@@ -91,6 +99,62 @@ export class NotificationBell {
     this.notifService.markAllAsRead().subscribe(() => {
       this.notifications.update((list) => list.map((n) => ({ ...n, read: true })));
       this.unreadCount.set(0);
+    });
+  }
+
+  openNotification(notif: NotificationResponseDTO): void {
+
+    if (!notif.read) {
+      this.onMarkAsRead(notif);
+    }
+
+    switch (notif.type) {
+
+      case NotificationType.TRIP_INVITE:
+        if(notif.tripId){
+          this.router.navigate(["/trips", notif.tripId]);
+        }
+        break;
+
+      case NotificationType.TRIP_INVITE_ACCEPTED:
+        this.router.navigate(['/trips', notif.relatedEntityId]);
+        break;
+
+      case NotificationType.FRIEND_REQUEST:
+      case NotificationType.FRIEND_REQUEST_ACCEPTED:
+        this.router.navigate(['/friends']);
+        break;
+
+      default:
+        break;
+    }
+
+    this.isOpen.set(false);
+  }
+
+  acceptInvitation(notif: NotificationResponseDTO, event: MouseEvent): void {
+    event.stopPropagation();
+    if (!notif.relatedEntityId) return;
+    this.tripInvitationService.acceptInvitation(notif.relatedEntityId).subscribe({
+      next: (tripId) => {
+        this.onMarkAsRead(notif);
+        this.loadNotifications();
+        //this.router.navigate(["/trips", tripId]) NO SE SI DEJARLO O NO...
+      },
+      error: (err) => {
+        alert(err.error.message);}
+    });
+  }
+
+  denyInvitation(notif: NotificationResponseDTO, event: MouseEvent): void {
+    event.stopPropagation();
+    if (!notif.relatedEntityId) return;
+    this.tripInvitationService.denyInvitation(notif.relatedEntityId).subscribe({
+      next: () => {
+        this.onMarkAsRead(notif);
+        this.loadNotifications();
+      },
+      error: () => alert('Error al rechazar la invitación.')
     });
   }
 

@@ -64,7 +64,7 @@
             <div
               class="notif-item"
               [class.unread]="!notif.read"
-              (click)="onMarkAsRead(notif)"
+              (click)="openNotification(notif)"
             >
               <div class="notif-icon-wrap" [ngClass]="getIconConfig(notif.type).cssClass">
                 <svg viewBox="0 0 24 24" fill="none" width="16" height="16">
@@ -77,6 +77,45 @@
                 <p class="notif-body">{{ notif.body }}</p>
                 <span class="notif-time">{{ notif.createdAt | date: 'dd MMM, HH:mm' }}</span>
               </div>
+
+
+              <div class="notif-right">
+                
+              </div>
+
+              @if (notif.type === 'TRIP_INVITE') {
+
+                @if (notif.invitationStatus === 'PENDING') {
+
+                  <div class="notif-actions" (click)="$event.stopPropagation()">
+                    <button
+                      class="btn-accept-notif"
+                      (click)="acceptInvitation(notif, $event)">
+                      Aceptar
+                    </button>
+
+                    <button
+                      class="btn-reject-notif"
+                      (click)="denyInvitation(notif, $event)">
+                      Rechazar
+                    </button>
+                  </div>
+
+                } @else if (notif.invitationStatus === 'ACCEPTED') {
+
+                  <span class="notif-status accepted">
+                    Invitación aceptada
+                  </span>
+
+                } @else if (notif.invitationStatus === 'DENIED') {
+
+                  <span class="notif-status denied">
+                    Invitación rechazada
+                  </span>
+
+                }
+
+              }
 
               <span class="notif-dot"></span>
             </div>

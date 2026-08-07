@@ -10,6 +10,36 @@
   margin: 0 auto;
 }
 
+.trip-header-row {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 16px;
+}
+
+.trip-header-row h1 {
+  margin: 0;
+}
+
+.btn-pdf {
+  background: rgba(7, 73, 79, 0.08);
+  color: #07494F;
+  border: 1px solid rgba(7, 73, 79, 0.25);
+  border-radius: 12px;
+  padding: 10px 20px;
+  font-weight: 600;
+  cursor: pointer;
+  font-size: 0.95rem;
+  transition: all 0.2s ease;
+  margin-left: auto;
+}
+
+.btn-pdf:hover {
+  background: rgba(7, 73, 79, 0.15);
+  box-shadow: 0 6px 20px rgba(7, 73, 79, 0.2);
+  transform: translateY(-1px);
+}
+
 .detail-img {
   width: 100%;
   height: 300px;
@@ -113,6 +143,73 @@
   font-weight: 700;
   font-size: 1.4rem;
   color: var(--font-color);
+}
+
+.invite-section {
+  margin-top: 16px;
+}
+
+.invite-search input {
+  width: 100%;
+  padding: 10px 14px;
+  border-radius: 12px;
+  border: 1px solid rgba(7, 73, 79, 0.22);
+  background: rgba(255, 255, 255, 0.9);
+  outline: none;
+  font-size: 0.95rem;
+  box-sizing: border-box;
+  transition: border-color .2s ease, box-shadow .2s ease;
+  margin-top: 8px;
+}
+
+.invite-search input:focus {
+  border-color: #33696f;
+  box-shadow: 0 0 0 3px rgba(51, 105, 111, 0.25);
+}
+
+.invite-list {
+  list-style: none;
+  padding: 0;
+  margin: 8px 0 0 0;
+}
+
+.invite-item {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 8px 12px;
+  border-radius: 12px;
+  background: rgba(7, 73, 79, 0.05);
+  border: 1px solid rgba(7, 73, 79, 0.10);
+  margin-bottom: 6px;
+  font-weight: 500;
+  color: #0c3b41;
+}
+
+.btn-invite {
+  background: #07494F;
+  color: #fff;
+  border: none;
+  border-radius: 999px;
+  padding: 6px 14px;
+  font-weight: 600;
+  cursor: pointer;
+  font-size: 0.85rem;
+  transition: filter .15s ease;
+}
+
+.btn-invite:hover {
+  filter: brightness(1.1);
+}
+
+.pending-response {
+  font-size: 0.85rem;
+  font-weight: 600;
+  color: #6b7280;
+  padding: 6px 14px;
+  border-radius: 999px;
+  background: rgba(107, 114, 128, 0.1);
+  border: 1px solid rgba(107, 114, 128, 0.2);
 }
 
 @media (max-width: 600px) {

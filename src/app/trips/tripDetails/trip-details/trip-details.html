@@ -6,7 +6,11 @@
       @if (currentTrip$()?.imageUrl) {
         <img [src]="currentTrip$()?.imageUrl" class="detail-img" alt="imagen viaje" />
       }
-      <h1>{{ currentTrip$()?.name }} - {{ currentTrip$()?.destination }}</h1>
+      <div class="trip-header-row">
+        <h1>{{ currentTrip$()?.name }} - {{ currentTrip$()?.destination }}</h1>
+        <button (click)="downloadPdf()" class="btn-pdf">Descargar PDF</button>
+      </div>
+
       <p><strong>Presupuesto estimado:</strong> {{ currentTrip$()?.estimatedBudget | currency }}</p>
       <p>
         <strong>Fechas:</strong> {{ currentTrip$()?.startDate }} / {{ currentTrip$()?.endDate }}
@@ -33,10 +37,14 @@
           <ul class="invite-list">
             @for (friend of inviteResults; track friend.id) {
               <li class="invite-item">
-                <span>{{ friend.username }}</span>
+              <span>{{ friend.username }}</span>
+              @if (isInvited(friend.id)) {
+                <span class="pending-response">Esperando respuesta</span>
+              } @else {
                 <button class="btn-invite" (click)="sendInvitation(friend.id)">
                   Invitar
                 </button>
+              }
               </li>
             }
           </ul>

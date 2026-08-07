@@ -38,6 +38,7 @@ export interface NotificationCreateDTO {
   title: string;
   body: string;
   relatedEntityId?: number;
+  tripId?: number;
   relatedEntityType?: 'RESERVATION' | 'EXPENSE' | 'TRIP' | 'USER';
 }
 
@@ -48,7 +49,9 @@ export interface NotificationResponseDTO {
   title: string;
   body: string;
   relatedEntityId: number;
+  tripId?: number;
   relatedEntityType: string;
+  invitationStatus?: 'PENDING' | 'ACCEPTED' | 'DENIED';
   read: boolean;
   createdAt: string;
   readAt?: string;
