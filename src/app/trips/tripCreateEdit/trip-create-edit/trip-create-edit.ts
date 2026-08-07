@@ -94,7 +94,10 @@ export class TripCreateEdit implements OnInit {
     if (!file) return;
     this.selectedFile = file;
     const reader = new FileReader();
-    reader.onload = () => (this.imagePreview = reader.result as string);
+    reader.onload = () => {
+      this.imagePreview = reader.result as string;
+      this.cdr.detectChanges();
+    };
     reader.readAsDataURL(file);
   }
 
