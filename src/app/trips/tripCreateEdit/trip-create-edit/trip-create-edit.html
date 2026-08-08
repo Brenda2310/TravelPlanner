@@ -68,17 +68,15 @@
         </div>
       </div>
 
-      <div class="trip-row">
-        <div class="trip-field">
-          <label for="estimatedBudget">Presupuesto estimado (*)</label>
-          <input id="estimatedBudget" type="number" formControlName="estimatedBudget" />
-          @if (
-            tripForm.get('estimatedBudget')?.invalid &&
-            (tripForm.get('estimatedBudget')?.touched || tripForm.get('estimatedBudget')?.dirty)
-          ) {
-            <small class="trip-error-msg">Ingrese un valor positivo o cero.</small>
-          }
-        </div>
+      <div class="trip-field">
+        <label for="estimatedBudget">Presupuesto estimado (*)</label>
+        <input id="estimatedBudget" type="number" formControlName="estimatedBudget" />
+        @if (
+          tripForm.get('estimatedBudget')?.invalid &&
+          (tripForm.get('estimatedBudget')?.touched || tripForm.get('estimatedBudget')?.dirty)
+        ) {
+          <small class="trip-error-msg">Ingrese un valor positivo o cero.</small>
+        }
       </div>
 
       <div class="trip-field image-upload-field">

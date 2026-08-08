@@ -48,6 +48,11 @@
   color: rgba(7, 73, 79, 0.9);
 }
 
+.trip-field input[type="number"] {
+  width: 100%;
+  box-sizing: border-box;
+}
+
 .trip-form-container input[type="text"],
 .trip-form-container input[type="number"],
 .trip-form-container input[type="date"],
@@ -386,6 +391,7 @@
 }
 
 .image-upload-field {
+  margin-top: 18px;
   width: 100%;
 }
 
