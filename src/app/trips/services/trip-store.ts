@@ -238,4 +238,9 @@ export class TripStore extends BaseStore {
   get userTripsList() {
     return this._trips.asReadonly();
   }
+
+  clearCurrentTrip(): void {
+  this._currentTrip.set(null);
 }
+}
+

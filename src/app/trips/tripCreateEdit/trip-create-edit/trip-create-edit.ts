@@ -86,7 +86,11 @@ export class TripCreateEdit implements OnInit {
       this.tripId = +idFromUrl;
       this.isEditing = true;
       this.store.loadTripById(this.tripId);
-    }
+    }else {
+    this.store.clearCurrentTrip();
+    this.imagePreview = null;
+    this.selectedFile = null;
+  }
   }
 
   onFileSelected(event: Event): void {
@@ -94,7 +98,10 @@ export class TripCreateEdit implements OnInit {
     if (!file) return;
     this.selectedFile = file;
     const reader = new FileReader();
-    reader.onload = () => (this.imagePreview = reader.result as string);
+    reader.onload = () => {
+      this.imagePreview = reader.result as string;
+      this.cdr.detectChanges();
+    };
     reader.readAsDataURL(file);
   }
 
@@ -148,6 +155,7 @@ export class TripCreateEdit implements OnInit {
     })).subscribe({
       next: () => {
         alert('Viaje Guardado con exito');
+        this.store.clearCurrentTrip();
         this.router.navigate(['/trips']);
         this.cdr.detectChanges();
       },
