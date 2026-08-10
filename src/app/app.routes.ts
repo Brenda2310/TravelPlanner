@@ -27,6 +27,7 @@ import { TripList } from './trips/TripList/trip-list/trip-list';
 import { Profile } from './users/profile/profile';
 import { UserRegister } from './users/userRegister/user-register/user-register';
 import { FriendList } from './friends/friend-list/friend-list';
+import { CompanyPublicProfile } from './companies/company-public-profile/company-public-profile';
 
 export const routes: Routes = [
   { path: '', component: Home, title: 'Inicio' },
@@ -241,6 +242,12 @@ export const routes: Routes = [
             component: CompanyCreateEdit,
             title: 'Agregar Empresa',
             canActivate: [authGuard(['ROLE_ADMIN', 'CREAR_COMPANY'])],
+          },
+          {
+            path: 'public/:id',
+            component: CompanyPublicProfile,
+            title: "Perfil de la empresa",
+            canActivate: [authGuard(['ROLE_USER', 'ROLE_ADMIN', 'ROLE_COMPANY'])],
           },
           {
             path: ':id',

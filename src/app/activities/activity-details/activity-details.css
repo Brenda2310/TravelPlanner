@@ -150,7 +150,7 @@ button {
   display: flex;
 }
 
-.editar {
+.edit {
   background: var(--primary-color);
   color: #fff;
   border: none;
@@ -163,13 +163,13 @@ button {
   margin-right: 10px;
 }
 
-.editar:hover {
+.edit:hover {
   background: var(--primary-hover);
   box-shadow: 0 6px 20px rgba(14, 165, 233, 0.35);
   transform: translateY(-1px);
 }
 
-.eliminar {
+.delete {
   background: #dc3545;
   color: white;
   border: none;
@@ -181,12 +181,44 @@ button {
   transition: all 0.2s ease;
 }
 
-.eliminar:hover {
+.delete:hover {
   background: #b02a37;
   box-shadow: 0 6px 20px rgba(220, 53, 69, 0.35);
   transform: translateY(-1px);
 }
 
+.btn-company {
+  background: rgba(7, 73, 79, 0.08);
+  color: #07494F;
+  border: 1px solid rgba(7, 73, 79, 0.25);
+  border-radius: 999px;
+  padding: 8px 16px;
+  font-weight: 600;
+  cursor: pointer;
+  font-size: 0.9rem;
+  margin-top: 8px;
+  transition: all 0.2s ease;
+  box-shadow: 0 12px 28px rgba(0, 0, 0, 0.1);
+}
+
+.btn-company:hover {
+  transform: translateY(-1px);
+  box-shadow: 0 12px 28px rgba(0, 0, 0, 0.3);
+  filter: brightness(1.05);
+}
+
+.btn-company:active {
+  transform: translateY(0);
+  box-shadow: 0 7px 18px rgba(0, 0, 0, 0.22);
+}
+
+.action-buttons {
+  display: flex;
+  gap: 12px;
+  justify-content: center;
+  margin-top: 20px;
+  flex-wrap: wrap;
+}
 
 @media (max-width: 768px) {
   :host {

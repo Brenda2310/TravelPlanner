@@ -1,0 +1,58 @@
+<div class="company-profile-container">
+  @if (loading) {
+    <p>Cargando perfil...</p>
+  } @else if (errorMessage) {
+    <div class="profile-error">{{ errorMessage }}</div>
+  } @else if (company) {
+    <section class="company-info">
+      <h1 class="company-name">{{ company.companyName }}</h1>
+      <p class="company-desc">{{ company.description }}</p>
+
+      <div class="company-details">
+        <div class="detail-item">
+          <span class="detail-label">Ubicación</span>
+          <span>{{ company.location }}</span>
+        </div>
+        <div class="detail-item">
+          <span class="detail-label">Teléfono</span>
+          <span>{{ company.phone }}</span>
+        </div>
+        <div class="detail-item">
+          <span class="detail-label">Tax ID</span>
+          <span>{{ company.taxId }}</span>
+        </div>
+        <div class="detail-item">
+            <span class="detail-label">Actividades disponibles</span>
+            <span>{{ company.totalActividades }}</span>
+        </div>
+      </div>
+    </section>
+
+    <section class="activities-section">
+      <h2>Actividades disponibles</h2>
+
+      @if (company.activities.length === 0) {
+        <p class="empty-msg">Esta empresa no tiene actividades disponibles.</p>
+      } @else {
+        <div class="activities-grid">
+          @for (activity of company.activities; track activity.id) {
+            <div class="activity-card">
+              @if (activity.imageUrl) {
+                <img [src]="activity.imageUrl" alt="imagen actividad" class="activity-img" />
+              }
+              <div class="activity-body">
+                <h3>{{ activity.name }}</h3>
+                <p class="activity-desc">{{ activity.description }}</p>
+                <div class="activity-footer">
+                  <span class="activity-price">${{ activity.price }}</span>
+                  <span class="activity-category">{{ activity.category }}</span>
+                </div>
+                <p class="activity-date">Fecha: {{ activity.date }}</p>
+              </div>
+            </div>
+          }
+        </div>
+      }
+    </section>
+  }
+</div>

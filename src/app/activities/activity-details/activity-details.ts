@@ -110,4 +110,9 @@ export class ActivityDetails implements OnInit {
 
     return !!(auth.userId && activity.userIds?.includes(auth.userId));
   }
+
+  toCompanyProfile(companyId: number | null): void {
+    if (!companyId) return;
+    this.router.navigate([`/companies/public/${companyId}`]);
+  }
 }

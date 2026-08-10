@@ -57,4 +57,9 @@ export class CompanyService extends BaseService {
   restoreCompany(id: number) {
     return this.http.put<void>(`${this.api}/restore/${id}`, null);
   }
+
+  getPublicProfile(id: number) {
+    return this.http.get<any>(`${this.api}/public/${id}`);
+  }
+  
 }

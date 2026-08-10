@@ -23,6 +23,7 @@ export interface ActivityResponseDTO {
   itineraryId: number | null;
   userIds: number[];
   companyId: number | null;
+  companyName?: string;
   available_quantity: number | null;
   imageUrl?: string;
 }

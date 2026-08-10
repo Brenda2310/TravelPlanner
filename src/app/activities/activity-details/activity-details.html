@@ -25,7 +25,7 @@
         </p>
       }
       @if (currentActivityDetail()!.companyId) {
-        <p><strong>Organiza:</strong> {{ currentActivityDetail()!.companyId }}</p>
+        <p><strong>Organiza:</strong> {{ currentActivityDetail()!.companyName}}</p>
         <p><strong>Cupos Disponibles:</strong> {{ currentActivityDetail()!.available_quantity }}</p>
       }
     </section>
@@ -36,19 +36,26 @@
     </section>
 
     @if (currentActivityDetail()!.companyId) {
-      @if (!security.auth().isCompany) {
-        <button (click)="onBookActivity()" class="btn-primary">Reservar Ahora</button>
-      }
+      <div class="action-buttons">
+        @if (!security.auth().isCompany) {
+          <button (click)="onBookActivity()" class="btn-primary">Reservar Ahora</button>
+        }
+        <button class="btn-company" (click)="toCompanyProfile(currentActivityDetail()!.companyId)">
+          Ver perfil de la empresa
+        </button>
+      </div>
     }
+
     @if (
       security.auth().companyId! === currentActivityDetail()!.companyId ||
       currentActivityDetail()?.userIds?.includes(security.auth().userId!)
     ) {
       <div class="actions">
-        <button class="editar" (click)="toEdit()">Editar</button>
-        <button class="eliminar" (click)="onDelete()">Eliminar</button>
+        <button class="edit" (click)="toEdit()">Editar</button>
+        <button class="delete" (click)="onDelete()">Eliminar</button>
       </div>
     }
+
     <section class="reviews-wrapper">
       <app-activity-reviews
         [activityId]="currentActivityDetail()!.id"
