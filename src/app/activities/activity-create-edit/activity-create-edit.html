@@ -81,62 +81,76 @@
     @if (mode === 'company') {
       <div class="form-things">
         <div class="form-group">
-          <label for="available_quantity" class="form-label">Cupos Disponibles:</label>
+          <label for="available_quantity" class="form-label">
+            Cupos Disponibles:
+          </label>
+
           <input
             id="available_quantity"
             type="number"
             formControlName="available_quantity"
             class="form-input"
           />
+
           @if (
             activityForm.get('available_quantity')?.invalid &&
             activityForm.get('available_quantity')?.touched
           ) {
-            <small class="validation-error">La cantidad de cupos es obligatoria.</small>
+            <small class="validation-error">
+              La cantidad de cupos es obligatoria.
+            </small>
           }
         </div>
       </div>
     } @else if (mode === 'user') {
+
       <div class="activity-share">
+
         <div class="share-label-row">
-          <label>
-            Compartir con usuarios (TravelCode):
-            <button
-              type="button"
-              class="help-icon-inline-inline"
-              (click)="openTravelCodeInfo()"
-              aria-label="¿Qué es el TravelCode?"
-            >
-              ?
-            </button>
-          </label>
+          <label>Compartir con amigos:</label>
         </div>
 
         <div class="share-list">
-          @for (id of sharedUserIdsArray; track $index) {
+          @for (user of sharedUsers; track user.id) {
             <div class="share-item">
-              <span>{{ id }}</span>
-              <button type="button" (click)="removeUserId(id)">×</button>
+              <span>{{ user.username }}</span>
+
+              <button
+                type="button"
+                (click)="removeUserId(user.id)"
+              >
+                ×
+              </button>
             </div>
           }
-
-          <div class="share-input">
-            <input
-              type="number"
-              placeholder="Agregar TravelCode..."
-              formControlName="newUserId"
-              (keydown.enter)="addUserId()"
-            />
-
-            <button type="button" (click)="addUserId()">
-              <img
-                src="/person_add_24dp_33696F_FILL0_wght400_GRAD0_opsz24.svg"
-                class="add-icon"
-                alt="agregar"
-              />
-            </button>
-          </div>
         </div>
+
+        <div class="share-input">
+          <input
+            type="text"
+            placeholder="Buscar amigo por username..."
+            [(ngModel)]="userSearchQuery"
+            [ngModelOptions]="{ standalone: true }"
+            (input)="onInviteSearch()"
+          />
+        </div>
+
+        @if (userSearchResults.length > 0) {
+          <ul class="user-search-results">
+            @for (user of userSearchResults; track user.id) {
+              <li class="user-search-result">
+                <span>{{ user.username }}</span>
+
+                <button
+                  type="button"
+                  (click)="addUserById(user)"
+                >
+                  Agregar
+                </button>
+              </li>
+            }
+          </ul>
+        }
       </div>
     }
     <div class="form-group image-upload-field">

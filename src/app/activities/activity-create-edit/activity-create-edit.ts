@@ -1,7 +1,7 @@
 import { ChangeDetectorRef, Component, inject, Input, OnInit, signal } from '@angular/core';
-import { FormBuilder, ReactiveFormsModule, Validators } from '@angular/forms';
+import { FormBuilder, FormsModule, ReactiveFormsModule, Validators } from '@angular/forms';
 import { ActivatedRoute, Router } from '@angular/router';
-import { finalize, Observable } from 'rxjs';
+import { debounceTime, distinctUntilChanged, finalize, Observable, Subject, switchMap } from 'rxjs';
 import { SecurityStore } from '../../security/services/security-store';
 import {
   ActivityCategory,
@@ -11,11 +11,13 @@ import {
   UserActivityCreateDTO,
 } from '../activity-models';
 import { ActivityStore } from '../services/activity-store';
+import { FriendService } from '../../friends/services/friend-service';
+import { UserResumeDTO } from '../../friends/friend-models';
 
 @Component({
   selector: 'app-activity-create-edit',
   standalone: true,
-  imports: [ReactiveFormsModule],
+  imports: [ReactiveFormsModule, FormsModule],
   templateUrl: './activity-create-edit.html',
   styleUrl: './activity-create-edit.css',
 })
@@ -26,10 +28,17 @@ export class ActivityCreateEdit implements OnInit {
   private readonly router = inject(Router);
   private readonly route = inject(ActivatedRoute);
   private readonly cdr = inject(ChangeDetectorRef);
-  private readonly _showTravelCodeInfo = signal(false);
+  private readonly _showTravelCodeInfo = signal(false)
+  private readonly userSearchSubject = new Subject<string>();;
+  private readonly friendService = inject(FriendService);
+
+
   public readonly showTravelCodeInfo = this._showTravelCodeInfo.asReadonly();
   public selectedFile: File | null = null;
   public imagePreview: string | null = null;
+  public userSearchQuery: string = '';
+  public userSearchResults: UserResumeDTO[] = [];
+  public sharedUsers: UserResumeDTO[] = [];
 
   openTravelCodeInfo(): void {
     this._showTravelCodeInfo.set(true);
@@ -105,6 +114,42 @@ export class ActivityCreateEdit implements OnInit {
     console.log('mode:' + this.mode);
 
     this.setConditionalValidators();
+
+    this.userSearchSubject
+      .pipe(
+        debounceTime(400),
+        distinctUntilChanged(),
+        switchMap((query) => {
+          if (!query.trim()) {
+            this.userSearchResults = [];
+            return [];
+          }
+
+          return this.friendService.getFriends();
+        })
+      )
+      .subscribe({
+        next: (friends: UserResumeDTO[]) => {
+        console.log('AMIGOS RECIBIDOS:', friends);
+
+        const query = this.userSearchQuery.toLowerCase();
+
+        const currentIds =
+          this.activityForm.get('sharedUserIds')?.value || [];
+
+        this.userSearchResults = friends.filter(
+          (f: UserResumeDTO) =>
+            f.username.toLowerCase().includes(query) &&
+            f.id !== this.security.getId() &&
+            !currentIds.includes(f.id)
+        );
+
+        console.log('RESULTADOS:', this.userSearchResults);
+      },
+        error: () => {
+          this.userSearchResults = [];
+        },
+      });
   }
 
   private setConditionalValidators(): void {
@@ -227,6 +272,7 @@ export class ActivityCreateEdit implements OnInit {
     return this.activityForm.get('sharedUserIds')?.value || [];
   }
 
+  /*
   addUserId() {
     const userIdControl = this.activityForm.get('newUserId');
     const sharedIdsControl = this.activityForm.get('sharedUserIds');
@@ -242,13 +288,46 @@ export class ActivityCreateEdit implements OnInit {
 
       userIdControl?.reset();
     }
+  }*/
+
+  removeUserId(idToRemove: number): void {
+    const sharedIdsControl = this.activityForm.get('sharedUserIds');
+
+    const currentSharedIds: number[] =
+      sharedIdsControl?.value || [];
+
+    sharedIdsControl?.setValue(
+      currentSharedIds.filter((id) => id !== idToRemove)
+    );
+
+    this.sharedUsers = this.sharedUsers.filter(
+      user => user.id !== idToRemove
+    );
   }
 
-  removeUserId(idToRemove: number) {
-    const sharedIdsControl = this.activityForm.get('sharedUserIds');
-    const currentSharedIds: number[] = sharedIdsControl?.value || [];
+  onInviteSearch(): void {
+    this.userSearchSubject.next(this.userSearchQuery);
+  }
 
-    const newSharedIds = currentSharedIds.filter((id) => id !== idToRemove);
-    sharedIdsControl?.setValue(newSharedIds);
+  addUserById(user: UserResumeDTO): void {
+    const sharedIdsControl = this.activityForm.get('sharedUserIds');
+
+    const currentSharedIds: number[] =
+      sharedIdsControl?.value || [];
+
+    if (!currentSharedIds.includes(user.id)) {
+      sharedIdsControl?.setValue([
+        ...currentSharedIds,
+        user.id,
+      ]);
+
+      this.sharedUsers = [
+        ...this.sharedUsers,
+        user,
+      ];
+    }
+
+    this.userSearchQuery = '';
+    this.userSearchResults = [];
   }
 }

@@ -89,6 +89,7 @@
 
 .activity-share {
   margin-top: 4px;
+  margin-bottom: 18px;
   padding: 14px 16px;
   border-radius: 14px;
   border: 1px dashed rgba(51, 105, 111, 0.4);
@@ -108,6 +109,7 @@
   flex-wrap: wrap;
   gap: 8px;
   align-items: center;
+  margin-bottom: 8px;
 }
 
 .share-item {
@@ -374,6 +376,64 @@
 .help-icon-inline-inline:active {
   transform: translateY(0);
   box-shadow: 0 2px 4px rgba(0, 0, 0, 0.18);
+}
+
+.user-search-results {
+  list-style: none;
+  padding: 0;
+  margin: 8px 0 0;
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+  width: 100%;
+}
+
+.user-search-result {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 12px;
+  padding: 8px 12px;
+  border-radius: 12px;
+  background: rgba(7, 73, 79, 0.05);
+  border: 1px solid rgba(7, 73, 79, 0.10);
+  color: #0c3b41;
+  font-size: 0.9rem;
+  font-weight: 500;
+  transition: background 0.15s ease, box-shadow 0.15s ease;
+}
+
+.user-search-result:hover {
+  background: rgba(7, 73, 79, 0.09);
+  box-shadow: 0 3px 10px rgba(0, 0, 0, 0.08);
+}
+
+.user-search-result span {
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+.user-search-result button {
+  flex-shrink: 0;
+  background: #07494F;
+  color: #fff;
+  border: none;
+  border-radius: 999px;
+  padding: 6px 14px;
+  font-weight: 600;
+  cursor: pointer;
+  font-size: 0.82rem;
+  transition: all 0.15s ease;
+}
+
+.user-search-result button:hover {
+  filter: brightness(1.1);
+  transform: translateY(-1px);
+}
+
+.user-search-result button:active {
+  transform: translateY(0);
 }
 
 

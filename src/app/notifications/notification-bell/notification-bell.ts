@@ -125,6 +125,33 @@ export class NotificationBell {
         this.router.navigate(['/friends']);
         break;
 
+      case NotificationType.PAYMENT_CONFIRMED:
+      case NotificationType.PAYMENT_FAILED:
+      case NotificationType.RESERVATION_CONFIRMED:
+      case NotificationType.RESERVATION_CANCELLED:
+        this.router.navigate(['/reservaciones']);
+        break;
+
+      case NotificationType.BUDGET_EXCEEDED:
+      case NotificationType.BUDGET_HALF_SPENT:
+      case NotificationType.TRIP_REMINDER:
+        if (notif.relatedEntityId) {
+          this.router.navigate(['/trips', notif.relatedEntityId]);
+        }
+        break;
+
+      case NotificationType.SHARED_EXPENSE_ASSIGNED:
+      case NotificationType.SHARED_EXPENSE_SETTLED:
+        if (notif.relatedEntityId) {
+          this.router.navigate(['/expenses', notif.relatedEntityId]);
+        }
+        break;
+
+      case NotificationType.ACTIVITY_REMINDER:
+        if (notif.relatedEntityId) {
+          this.router.navigate(['/activities', notif.relatedEntityId]);
+        }
+        break;
       default:
         break;
     }
