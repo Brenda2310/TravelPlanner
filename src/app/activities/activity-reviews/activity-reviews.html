@@ -27,7 +27,7 @@
           <span class="no-reviews-icon">💬</span>
           <p>Esta actividad aún no tiene reseñas</p>
 
-          @if (canReview) {
+          @if (canReview && !showForm) {
             <button class="btn-primary" (click)="showForm = true">
               ✍️ Escribir la primera reseña
             </button>
@@ -118,7 +118,36 @@
           </div>
         }
 
-        @if (showForm) {
+        <div class="reviews-list">
+
+          @for (review of sortedReviews; track review.id) {
+            <div class="review-card">
+
+              <div class="review-card-header">
+                <div class="review-avatar">
+                  {{ review.userAvatar }}
+                </div>
+
+                <div class="review-meta">
+                  <strong>{{ review.username }}</strong>
+                  <span>{{ review.creationDate }}</span>
+                </div>
+
+                <div class="rating-badge">
+                  {{ review.rating }}★
+                </div>
+              </div>
+
+              <p class="review-title">"{{ review.title }}"</p>
+              <p class="review-comment">{{ review.comentary }}</p>
+
+            </div>
+          }
+
+        </div>
+
+      }
+      @if (showForm) {
           <form [formGroup]="reviewForm" (ngSubmit)="submitReview()" class="review-form">
 
             <h3>Tu experiencia</h3>
@@ -200,35 +229,6 @@
           </form>
         }
 
-        <div class="reviews-list">
-
-          @for (review of sortedReviews; track review.id) {
-            <div class="review-card">
-
-              <div class="review-card-header">
-                <div class="review-avatar">
-                  {{ review.userAvatar }}
-                </div>
-
-                <div class="review-meta">
-                  <strong>{{ review.username }}</strong>
-                  <span>{{ review.creationDate }}</span>
-                </div>
-
-                <div class="rating-badge">
-                  {{ review.rating }}★
-                </div>
-              </div>
-
-              <p class="review-title">"{{ review.title }}"</p>
-              <p class="review-comment">{{ review.comentary }}</p>
-
-            </div>
-          }
-
-        </div>
-
-      }
     }
   }
 

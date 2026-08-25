@@ -1,4 +1,11 @@
-import { ChangeDetectorRef, Component, Input, OnChanges, OnInit, SimpleChanges } from '@angular/core';
+import {
+  ChangeDetectorRef,
+  Component,
+  Input,
+  OnChanges,
+  OnInit,
+  SimpleChanges,
+} from '@angular/core';
 import {
   FormBuilder,
   FormGroup,
@@ -87,19 +94,19 @@ export class ActivityReviews implements OnInit, OnChanges {
     });
   }
 
-  loadSummary(): void {
-    this.loading = true;
-    console.log('loadSummary called, activityId:', this.activityId);
+  loadSummary(showLoader: boolean = true): void {
+    if (showLoader) {
+      this.loading = true;
+    }
+    this.error = '';
 
     this.reviewService.getSummaryByActivity(this.activityId).subscribe({
       next: (data) => {
-        console.log('next:', data);
         this.summary = data;
         this.loading = false;
         this.cdr.detectChanges();
       },
       error: (err) => {
-        console.log('error:', err);
         this.error = 'No se pudieron cargar las reseñas.';
         this.loading = false;
         this.cdr.detectChanges();
@@ -156,12 +163,7 @@ export class ActivityReviews implements OnInit, OnChanges {
           ratingSecurity: 0,
         });
 
-        if (this.summary) {
-          this.summary.reviews = [newReview, ...this.summary.reviews];
-          this.summary.userYaReseno = true;
-          this.updateDistribution(newReview.rating);
-          this.recalcularPromedio();
-        }
+        this.loadSummary(false);
 
         setTimeout(() => (this.submitSuccess = false), 4000);
       },
@@ -171,7 +173,7 @@ export class ActivityReviews implements OnInit, OnChanges {
           err.status === 409
             ? 'Ya reseñaste esta actividad.'
             : err.status === 403
-              ? 'Solo podés reseñar actividades que hayas completado.'
+              ? 'Solo podés reseñar actividades que hayas reservado y pagado.'
               : 'Ocurrió un error. Intentá de nuevo.';
       },
     });

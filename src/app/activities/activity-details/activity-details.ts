@@ -33,6 +33,10 @@ export class ActivityDetails implements OnInit {
       const activityId = +idParam;
       this.store.loadById(activityId);
     }
+
+    if (!this.security.auth().isCompany) {
+      this.reservationStore.loadMyReservations({ page: 0, size: 100, sort: 'id,desc' });
+    }
   }
 
   onBookActivity(): void {
@@ -102,13 +106,11 @@ export class ActivityDetails implements OnInit {
     const activity = this.currentActivityDetail();
     const auth = this.security.auth();
 
-    if (!activity) return false;
+    if (!activity || !auth.userId) return false;
 
-    if (auth.isCompany && activity.companyId === auth.companyId) {
-      return true;
-    }
-
-    return !!(auth.userId && activity.userIds?.includes(auth.userId));
+    return this.reservationStore
+      .reservation()
+      .list.some((r) => r.activityId === activity.id && r.paid === true);
   }
 
   toCompanyProfile(companyId: number | null): void {
