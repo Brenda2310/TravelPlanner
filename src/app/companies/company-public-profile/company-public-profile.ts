@@ -1,5 +1,5 @@
 import { CommonModule, CurrencyPipe } from '@angular/common';
-import { Component, inject, OnInit } from '@angular/core';
+import { ChangeDetectorRef, Component, inject, OnInit } from '@angular/core';
 import { CompanyService } from '../services/company-service';
 import { ActivatedRoute } from '@angular/router';
 
@@ -12,6 +12,7 @@ import { ActivatedRoute } from '@angular/router';
 export class CompanyPublicProfile implements OnInit {
   private readonly route = inject(ActivatedRoute);
   private readonly companyService = inject(CompanyService);
+  private readonly cdr = inject(ChangeDetectorRef);
 
   public company: any = null;
   public loading: boolean = true;
@@ -19,18 +20,19 @@ export class CompanyPublicProfile implements OnInit {
 
   ngOnInit(): void {
     const id = this.route.snapshot.paramMap.get("id");
-    if(id){
+    if (id) {
       this.companyService.getPublicProfile(+id).subscribe({
         next: (data) => {
           this.company = data;
           this.loading = false;
+          this.cdr.detectChanges();
         },
         error: () => {
-          this.errorMessage = "Eroor al cargar el perfil de la empresa.";
+          this.errorMessage = "Error al cargar el perfil de la empresa.";
           this.loading = false;
+          this.cdr.detectChanges();
         }
       });
     }
   }
-
 }
