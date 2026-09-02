@@ -14,10 +14,24 @@ export class PasswordValidators {
   }
 
   static strongPassword(control: AbstractControl): ValidationErrors | null {
-    const regex = /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[@#$%^&*!()_+=\-]).{8,20}$/;
+    const regex = /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[@#$%^&*!.()_+=\-]).{8,20}$/;
     if (control.value && !regex.test(control.value)) {
       return { weakPassword: true };
     }
     return null;
   }
+
+   static validUsername(control: AbstractControl): ValidationErrors | null {
+    const value: string = control.value;
+    if (!value) return null;
+
+    if (/^\d+$/.test(value)) {
+      return { onlyNumeric: true };
+    }
+    if (/\s/.test(value)) {
+      return { hasSpaces: true };
+    }
+    return null;
+  }
+
 }

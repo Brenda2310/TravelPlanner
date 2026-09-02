@@ -8,6 +8,7 @@
 .trip-detail-container {
   max-width: 900px;
   margin: 0 auto;
+  padding-top: 40px;
 }
 
 .trip-header-row {
@@ -210,6 +211,17 @@
   border-radius: 999px;
   background: rgba(107, 114, 128, 0.1);
   border: 1px solid rgba(107, 114, 128, 0.2);
+}
+
+.not-found-msg {
+  background: rgba(255, 255, 255, 0.85);
+  color: #b02a37;
+  font-weight: 600;
+  padding: 16px 20px;
+  border-radius: 12px;
+  text-align: center;
+  margin-top: 40px;
+  box-shadow: 0 6px 20px rgba(0, 0, 0, 0.1);
 }
 
 @media (max-width: 600px) {

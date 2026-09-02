@@ -61,7 +61,7 @@ export class UserRegister implements OnInit {
 
   public registerForm = this.fb.group(
     {
-      username: ['', [Validators.required, Validators.minLength(5), Validators.maxLength(20)]],
+      username: ['', [Validators.required, Validators.minLength(5), Validators.maxLength(20), PasswordValidators.validUsername]],
       email: ['', [Validators.required, Validators.email]],
       dni: ['', [Validators.required, Validators.pattern(/^[0-9]{7,8}$/)]],
       password: ['', [Validators.required, PasswordValidators.strongPassword]],

@@ -28,6 +28,16 @@
           <div class="form-group">
             <label for="username">Nombre de Usuario:</label>
             <input id="username" type="text" formControlName="username" />
+            @if (registerForm.get('username')?.touched && registerForm.get('username')?.errors) {
+              <div class="validation-error">
+                @if (registerForm.get('username')?.hasError('onlyNumeric')) {
+                  El usuario no puede ser solo números.
+                }
+                @if (registerForm.get('username')?.hasError('hasSpaces')) {
+                  El usuario no puede contener espacios.
+                }
+              </div>
+            }
           </div>
 
           <div class="form-group">
