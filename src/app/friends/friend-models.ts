@@ -1,6 +1,7 @@
 export interface FriendRequestDTO{
     id: number;
     senderUsername: string;
+    receiverId?: number;
     friendRequestStatus: string;
 }
 

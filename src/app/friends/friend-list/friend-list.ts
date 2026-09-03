@@ -23,6 +23,7 @@ export class FriendList implements OnInit {
   public searchQuery: string = '';
   public searchResults: UserResumeDTO[] = [];
   public pendingRequests: FriendRequestDTO[] = [];
+  public sentRequests: FriendRequestDTO[] = [];
   public friends: UserResumeDTO[] = [];
   public loading: boolean = false;
   public errorMessage: string | null = null;
@@ -30,6 +31,7 @@ export class FriendList implements OnInit {
   ngOnInit(): void {
     this.loadPendingRequests();
     this.loadFriends();
+    this.loadSentRequests();
 
     this.searchSubject
       .pipe(
@@ -48,7 +50,7 @@ export class FriendList implements OnInit {
           if (!query) {
             return of({ content: [] as UserResumeDTO[] });
           }
-          return timer(300).pipe(switchMap(() => this.friendService.searchUsers(query)));
+          return timer(200).pipe(switchMap(() => this.friendService.searchUsers(query)));
         }),
       )
       .subscribe({
@@ -87,6 +89,16 @@ export class FriendList implements OnInit {
     });
   }
 
+  loadSentRequests(): void {
+    this.friendService.getSentRequests().subscribe({
+      next: (requests) => {
+        this.sentRequests = requests;
+        this.cdr.detectChanges();
+      },
+      error: () => {}
+    });
+  }
+
   onSearch(): void {
     this.searchSubject.next(this.searchQuery.trim());
   }
@@ -94,9 +106,9 @@ export class FriendList implements OnInit {
   sendRequest(receiverId: number): void {
     this.friendService.sendRequest(receiverId).subscribe({
       next: () => {
-        alert('Solicitud enviada!');
         this.searchResults = [];
         this.searchQuery = '';
+        this.loadSentRequests();
         this.cdr.detectChanges();
       },
       error: () => (this.errorMessage = 'Error al enviar la solicitud.'),
@@ -123,4 +135,10 @@ export class FriendList implements OnInit {
   isFriend(userId: number): boolean {
     return this.friends.some((f) => f.id === userId);
   }
+
+  
+  hasSentRequest(userId: number): boolean {
+    return this.sentRequests.some(r => r.receiverId === userId);
+  }
+
 }

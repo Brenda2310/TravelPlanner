@@ -25,11 +25,13 @@
             <li class="user-item">
             <span>{{ user.username }}</span>
             @if (isFriend(user.id)) {
-                <span class="already-friend">Amigos</span>
+            <span class="already-friend">Amigos ✓</span>
+            } @else if (hasSentRequest(user.id)) {
+            <span class="already-friend">Solicitud enviada</span>
             } @else {
-                <button class="btn-send" (click)="sendRequest(user.id)">
+            <button class="btn-send" (click)="sendRequest(user.id)">
                 Enviar solicitud
-                </button>
+            </button>
             }
             </li>
         }

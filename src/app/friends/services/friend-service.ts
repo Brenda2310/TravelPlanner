@@ -25,6 +25,10 @@ export class FriendService {
     return this.http.get<FriendRequestDTO[]>(`${this.friendApi}`);
   }
 
+  getSentRequests(): Observable<FriendRequestDTO[]> {
+    return this.http.get<FriendRequestDTO[]>(`${this.friendApi}/requests/sent`);
+  }
+
   acceptRequest (requestId: number): Observable<void>{
     return this.http.put<void>(`${this.friendApi}/${requestId}/accept`, null);
   }
