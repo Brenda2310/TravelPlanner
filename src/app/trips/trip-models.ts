@@ -1,5 +1,7 @@
 import { UserPreference } from '../users/user-models';
 
+export type RequestStatus = 'PENDING' | 'ACCEPTED' | 'DENIED';
+
 export interface TripResponseDTO {
   id: number;
   name: string;
@@ -52,4 +54,13 @@ export interface TripFilterDTO {
   destination?: string;
   startDate?: string;
   endDate?: string;
+}
+
+export interface TripInvitationDTO {
+  id: number;
+  senderUsername: string;
+  receiverId: number;
+  tripId: number;
+  destination: string;
+  tripInvitationStatus: RequestStatus;
 }

@@ -33,6 +33,10 @@
           />
         </div>
 
+        @if (inviteErrorMessage) {
+          <p class="invite-error">{{ inviteErrorMessage }}</p>
+        }
+
         @if (inviteResults.length > 0) {
           <ul class="invite-list">
             @for (friend of inviteResults; track friend.id) {

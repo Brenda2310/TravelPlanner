@@ -102,6 +102,9 @@ export class TripStore extends BaseStore {
 
   loadTripById(id: number): void {
     this._loading.set(true);
+    this._error.set(null);
+    this._currentTrip.set(null);
+
     this.client.getById(id).subscribe({
       next: (entityModel) => {
         const trip = (entityModel as any).content || entityModel;
@@ -109,7 +112,10 @@ export class TripStore extends BaseStore {
         this._loading.set(false);
       },
       error: (err) => {
-        this._error.set(err.message ?? `Store Error: Failed to load trip ${id}.`);
+        this._currentTrip.set(null);
+        this._error.set(
+          err.message ?? `Store Error: Failed to load trip ${id}.`
+        );
         this._loading.set(false);
       },
     });
@@ -120,6 +126,9 @@ export class TripStore extends BaseStore {
     this.client.getTripsByUserId(userId, filters, pageable).subscribe({
       next: (pagedResponse) => {
         const list = this.unwrapEntities<TripResponseDTO>(pagedResponse);
+        
+        console.log('TRIPS QUE VIENEN DEL BACKEND:', list);
+        
         this.setTrips(list, pagedResponse.page);
         this._loading.set(false);
       },

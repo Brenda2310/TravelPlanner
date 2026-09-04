@@ -224,6 +224,13 @@
   box-shadow: 0 6px 20px rgba(0, 0, 0, 0.1);
 }
 
+.invite-error {
+  color: #991b1b;
+  font-size: 0.85rem;
+  margin-top: 6px;
+  font-style: italic;
+}
+
 @media (max-width: 600px) {
 
   .trip-info,

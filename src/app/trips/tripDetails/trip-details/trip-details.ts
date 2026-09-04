@@ -6,11 +6,11 @@ import { Pageable } from '../../../hateoas/hateoas-models';
 import { TripStore } from '../../services/trip-store';
 import { FriendService } from '../../../friends/services/friend-service';
 import { FormsModule } from '@angular/forms';
-import { debounceTime, distinctUntilChanged, Subject, switchMap } from 'rxjs';
+import { debounceTime, distinctUntilChanged, Subject, switchMap, of, map } from 'rxjs';
 import { UserResumeDTO } from '../../../friends/friend-models';
 import { TripInvitationService } from '../../services/tripInvitation/trip-invitation-service';
 import { HttpClient } from '@angular/common/http';
-
+import { TripInvitationDTO } from '../../trip-models';
 @Component({
   selector: 'app-trip-details',
   standalone: true,
@@ -32,8 +32,9 @@ export class TripDetails implements OnInit {
   public inviteQuery: string = "";
   public inviteResults: UserResumeDTO[]=[];
   public inviteLoading: boolean = false;
-  public sentInvitations: any[] = [];
+  public sentInvitations: TripInvitationDTO[] = [];
   public expensePageable: Pageable = { page: 0, size: 10, sort: 'date,desc' };
+  public inviteErrorMessage: string | null = null;
 
   public tripId: number | null = null;
   public currentTrip$ = this.store.currentTrip;
@@ -41,40 +42,72 @@ export class TripDetails implements OnInit {
   public calculations = this.expenses.calculations;
 
   ngOnInit(): void {
-    const id = this.route.snapshot.paramMap.get('id');
-    if (id) {
-      this.tripId = +id;
-      this.store.loadTripById(this.tripId);
-      this.tripInvitationService.getSentInvitations(this.tripId).subscribe({
-        next: (invitations) => (this.sentInvitations = invitations),
-        error: () => {}
-      });
-      this.loadExpenses();
-      this.loadTripExpenses();
+    this.route.paramMap.subscribe(params => {
+      const id = params.get('id');
 
-      this.inviteSubject.pipe(
-        debounceTime(400),
-        distinctUntilChanged(),
-        switchMap(query => {
-          if(!query.trim()){
-            this.inviteResults = [];
-            this.inviteLoading = false;
-            return [];
-          }
-          this.inviteLoading = true;
-          return this.friendService.getFriends();
-        })
-      ).subscribe({
-        next: (friends: any) => {
-          const query = this.inviteQuery.toLowerCase();
-          this.inviteResults = friends.filter((f: UserResumeDTO) => 
-            f.username.toLowerCase().includes(query)
-          );
-        },
-        error: () => (this.inviteLoading = false)
-      });
+      if (id) {
+        this.tripId = +id;
 
-    }
+        this.store.loadTripById(this.tripId);
+
+        this.tripInvitationService.getSentInvitations(this.tripId).subscribe({
+          next: (invitations) => (this.sentInvitations = invitations),
+          error: () => {}
+        });
+
+        this.loadExpenses();
+        this.loadTripExpenses();
+      }
+    });
+
+    this.inviteSubject.pipe(
+      debounceTime(200),
+      distinctUntilChanged(),
+      switchMap(query => {
+        if (!query) {
+          this.inviteResults = [];
+          this.inviteLoading = false;
+          return of(null);
+        }
+
+        this.inviteLoading = true;
+
+        return this.friendService.searchUsers(query).pipe(
+          switchMap(response => {
+            return this.friendService.getFriends().pipe(
+              map(friends => ({
+                searchResults: response.content || [],
+                friends
+              }))
+            );
+          })
+        );
+      })
+    ).subscribe({
+      next: result => {
+        if (!result) return;
+
+        const friendIds = new Set(
+          result.friends.map(friend => friend.id)
+        );
+
+        const tripUserIds = new Set(
+          this.currentTrip$()?.users?.map(user => user.id) || []
+        );
+
+        this.inviteResults = result.searchResults.filter(
+          (user: UserResumeDTO) =>
+            friendIds.has(user.id) &&
+            !tripUserIds.has(user.id)
+        );
+
+        this.inviteLoading = false;
+      },
+      error: () => {
+        this.inviteLoading = false;
+        this.inviteResults = [];
+      }
+    });
   }
 
   loadTripExpenses() {
@@ -113,25 +146,27 @@ export class TripDetails implements OnInit {
     this.inviteSubject.next(this.inviteQuery);
   }
 
-  sendInvitation(receiverId: number): void{
-    if(!this.tripId) return;
+  sendInvitation(receiverId: number): void {
+    if (!this.tripId) return;
     this.tripInvitationService.sendInvitation(this.tripId, receiverId).subscribe({
       next: () => {
-        alert("¡Invitacion enviada con exito!");
-        this.inviteQuery = "";
+        this.inviteErrorMessage = null;
+        this.inviteQuery = '';
         this.inviteResults = [];
-      },
-      error: (err) => {
-      const msg = err?.error?.message || 'Error al enviar la invitación.';
-      alert(msg);
-    },
+        this.tripInvitationService.getSentInvitations(this.tripId!).subscribe({
+          next: (invitations) => {
+            this.sentInvitations = invitations;
+          },
+          error: () => {}
+        });
+      }
     });
   }
 
   isInvited(userId: number): boolean {
-    console.log('userId:', userId, 'sentInvitations:', this.sentInvitations);
-    return this.sentInvitations.some(i => 
-      i.receiverId === userId && i.tripInvitationStatus === 'PENDING'
+    return this.sentInvitations.some(i =>
+      i.receiverId === userId &&
+      i.tripInvitationStatus === 'PENDING'
     );
   }
 
