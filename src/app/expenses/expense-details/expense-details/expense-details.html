@@ -2,7 +2,7 @@
   @if (store.loading()) {
     <p>Cargando gasto...</p>
   } @else if (!store.loading() && store.currentExpenseDetail() === null) {
-    <p>No se encontro el gasto.</p>
+    <div class="alert-error">No se encontró el gasto o no tienes permiso.</div>
   } @else {
     @let exp = store.currentExpenseDetail();
 

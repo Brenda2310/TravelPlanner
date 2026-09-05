@@ -1,7 +1,8 @@
 :host {
   display: block;
   min-height: 100vh;
-  padding: 40px 20px;
+  padding: 120px 20px 40px;
+  box-sizing: border-box;
   background: url('/robin-noguier-sydwCr54rf0-unsplash.jpg') center / cover no-repeat fixed;
 }
 
@@ -149,6 +150,17 @@
 .btn-delete:hover {
   background: #b02a37;
   transform: translateY(-1px);
+}
+
+.alert-error {
+  background: rgba(255, 255, 255, 0.85);
+  color: #b02a37;
+  font-weight: 600;
+  padding: 16px 20px;
+  border-radius: 12px;
+  text-align: center;
+  margin-top: 40px;
+  box-shadow: 0 6px 20px rgba(0, 0, 0, 0.1);
 }
 
 @media (max-width: 600px) {

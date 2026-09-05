@@ -53,11 +53,18 @@ export class ItineraryCreateEdit {
       this.store.loadItineraryById(this.itineraryId);
 
       this.handleDataPatching(this.currentItinerary$);
+
+      toObservable(this.store.error)
+        .pipe(filter((err): err is string => !!err), take(1))
+        .subscribe((err) => {
+          this.errorMessage = err;
+          this.cdr.detectChanges();
+        });
     }
 
     const userId = this.securityStore.getId();
     if (userId) {
-      this.tripStore.loadTripsByUserId(userId, {}, { page: 0, size: 100 } as Pageable);
+      this.tripStore.loadTripsByUserId(userId, {}, { page: 0, size: 9 } as Pageable);
     }
   }
 

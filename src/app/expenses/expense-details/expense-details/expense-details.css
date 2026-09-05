@@ -100,6 +100,18 @@ strong {
   background: rgba(240, 240, 240, 0.98);
 }
 
+
+.alert-error {
+  background: rgba(255, 255, 255, 0.85);
+  color: #b02a37;
+  font-weight: 600;
+  padding: 16px 20px;
+  border-radius: 12px;
+  text-align: center;
+  margin-top: 40px;
+  box-shadow: 0 6px 20px rgba(0, 0, 0, 0.1);
+}
+
 @keyframes fadeIn {
   from {
     opacity: 0;
