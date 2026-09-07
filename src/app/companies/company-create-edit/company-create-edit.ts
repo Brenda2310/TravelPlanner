@@ -28,6 +28,7 @@ export class CompanyCreateEdit implements OnInit {
   public loading = false;
   public errorMessage: string | null = null;
   public currentCompany$ = toObservable(this.store.currentCompany);
+  private readonly matchValidator = PasswordValidators.match('password', 'confirmPassword');
 
   public profileForm = this.fb.group(
     {
@@ -41,7 +42,7 @@ export class CompanyCreateEdit implements OnInit {
       description: ['', [Validators.required]],
     },
     {
-      validators: PasswordValidators.match('password', 'confirmPassword'),
+      validators: this.matchValidator,
     },
   );
 
@@ -61,7 +62,7 @@ export class CompanyCreateEdit implements OnInit {
     this.profileForm.get('password')?.setValidators([PasswordValidators.strongPassword]);
 
     this.profileForm.get('confirmPassword')?.setValidators(null);
-    this.profileForm.removeValidators(PasswordValidators.match('password', 'confirmPassword'));
+    this.profileForm.removeValidators(this.matchValidator);
 
     this.profileForm.get('password')?.updateValueAndValidity();
     this.profileForm.get('confirmPassword')?.updateValueAndValidity();
@@ -82,7 +83,7 @@ export class CompanyCreateEdit implements OnInit {
         if (!company) return;
         const patchData: CompanyUpdateDTO = {
           username: company.username || '',
-          email: (company as any).email || '',
+          email: company.email || '',
           taxId: company.taxId || '',
           location: company.location || '',
           phone: company.phone || '',
@@ -100,7 +101,7 @@ export class CompanyCreateEdit implements OnInit {
       if (passwordControl?.value) {
         passwordControl.setValidators([Validators.required, PasswordValidators.strongPassword]);
         this.profileForm.get('confirmPassword')?.setValidators(Validators.required);
-        this.profileForm.setValidators(PasswordValidators.match('password', 'confirmPassword'));
+        this.profileForm.setValidators(this.matchValidator);
       } else {
         passwordControl?.setErrors(null);
       }
@@ -118,7 +119,6 @@ export class CompanyCreateEdit implements OnInit {
     const baseDto = {
       username: formValue.username!,
       email: formValue.email!,
-      taxId: formValue.taxId!,
       location: formValue.location!,
       phone: formValue.phone!,
       description: formValue.description!,

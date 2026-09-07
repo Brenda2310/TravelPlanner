@@ -1,11 +1,11 @@
-import { CommonModule, CurrencyPipe } from '@angular/common';
+import { CommonModule } from '@angular/common';
 import { ChangeDetectorRef, Component, inject, OnInit } from '@angular/core';
 import { CompanyService } from '../services/company-service';
 import { ActivatedRoute } from '@angular/router';
 
 @Component({
   selector: 'app-company-public-profile',
-  imports: [CommonModule, CurrencyPipe],
+  imports: [CommonModule],
   templateUrl: './company-public-profile.html',
   styleUrl: './company-public-profile.css'
 })

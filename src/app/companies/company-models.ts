@@ -3,6 +3,7 @@ import { ActivityResumeDTO } from '../activities/activity-models';
 export interface CompanyResponseDTO {
   id: number;
   username: string;
+  email: string;
   taxId: string;
   location: string;
   description: string;
