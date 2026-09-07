@@ -29,7 +29,7 @@
 
           @if (canReview && !showForm) {
             <button class="btn-primary" (click)="showForm = true">
-              ✍️ Escribir la primera reseña
+              Escribir la primera reseña
             </button>
           }
         </div>
@@ -94,13 +94,13 @@
 
           @if (canReview && !summary.userYaReseno && !showForm) {
             <button class="btn-primary" (click)="showForm = true">
-              ✍️ Escribir reseña
+              Escribir reseña
             </button>
           }
 
           @if (summary.userYaReseno) {
             <div class="already-reviewed">
-              ✔ Ya dejaste tu reseña
+              Ya dejaste tu reseña
             </div>
           }
 
@@ -114,7 +114,7 @@
 
         @if (submitSuccess) {
           <div class="alert-success">
-            ✅ Tu reseña fue publicada
+            Tu reseña fue publicada
           </div>
         }
 

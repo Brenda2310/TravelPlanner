@@ -131,11 +131,17 @@ export class ReservationStore extends BaseStore {
         this.loadMyReservations(pageable);
         this._loading.set(false);
       }),
-      catchError((err) => {
-        this._error.set(err.message ?? 'Store Error: Payment confirmation failed.');
-        this._loading.set(false);
-        return EMPTY;
-      }),
+      catchError((err: HttpErrorResponse) => {
+      const mensaje =
+        typeof err.error === 'string'
+          ? err.error
+          : err.error?.message ?? 'Error al confirmar el pago.';
+
+      this._error.set(mensaje);
+      this._loading.set(false);
+
+      return throwError(() => err);
+    }),
     );
   }
 

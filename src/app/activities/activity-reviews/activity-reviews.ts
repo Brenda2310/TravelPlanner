@@ -137,6 +137,15 @@ export class ActivityReviews implements OnInit, OnChanges {
   submitReview(): void {
     if (this.reviewForm.invalid) {
       this.reviewForm.markAllAsTouched();
+
+      const comentaryCtrl = this.reviewForm.get('comentary');
+      if (comentaryCtrl?.errors?.['minlength']) {
+        this.submitError = 'El comentario debe tener al menos 20 caracteres.';
+      } else if (comentaryCtrl?.errors?.['required']) {
+        this.submitError = 'El comentario es obligatorio.';
+      } else {
+        this.submitError = 'Completá la calificación general y las 4 categorías antes de publicar.';
+      }
       return;
     }
 
@@ -166,15 +175,26 @@ export class ActivityReviews implements OnInit, OnChanges {
         this.loadSummary(false);
 
         setTimeout(() => (this.submitSuccess = false), 4000);
+        this.cdr.detectChanges();
+
       },
-      error: (err) => {
+            error: (err) => {
         this.submitLoading = false;
-        this.submitError =
-          err.status === 409
-            ? 'Ya reseñaste esta actividad.'
-            : err.status === 403
-              ? 'Solo podés reseñar actividades que hayas reservado y pagado.'
-              : 'Ocurrió un error. Intentá de nuevo.';
+
+        if (err.status === 409) {
+          this.submitError = 'Ya reseñaste esta actividad.';
+        } else if (err.status === 403) {
+          this.submitError = 'Solo podés reseñar actividades que hayas reservado y pagado.';
+        } else if (err.status === 400 && err.error && typeof err.error === 'object') {
+          const camposFaltantes = Object.keys(err.error);
+          this.submitError = camposFaltantes.length
+            ? 'Completá todas las categorías de calificación con al menos 1 estrella antes de publicar.'
+            : 'Revisá los datos del formulario e intentá de nuevo.';
+        } else {
+          this.submitError = 'Ocurrió un error. Intentá de nuevo.';
+        }
+
+        this.cdr.detectChanges();
       },
     });
   }

@@ -1,1 +1,21 @@
-<p>Procesando pago...</p>
+<div class="return-container">
+  @if (status() === 'loading') {
+    <div class="spinner"></div>
+    <p>Procesando pago...</p>
+  }
+
+  @if (status() === 'success') {
+    <div class="alert-success">
+      Pago confirmado. Te llevamos a tus reservas...
+    </div>
+  }
+
+  @if (status() === 'error') {
+    <div class="alert-error">
+      {{ errorMessage() }}
+    </div>
+    <button class="btn-outline" (click)="goToReservations()">
+      Ver mis reservas
+    </button>
+  }
+</div>
