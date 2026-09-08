@@ -92,7 +92,7 @@ export class ExpensesCreateEdit implements OnInit {
 
     const userId = this.securityStore.getId();
     if (userId) {
-      this.tripStore.loadTripsByUserId(userId, {}, { page: 0, size: 9 } as Pageable);
+      this.tripStore.loadTripsByUserId(userId, {}, { page: 0, size: 100 } as Pageable);
     }
   }
 
