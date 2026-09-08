@@ -16,13 +16,8 @@ export class BaseStore {
 
     const entityModels: EntityModel<T>[] = embedded[entityListKey] || [];
 
-    const pureDTOs = entityModels.map(
-      (entityModel) => (entityModel as any).content || entityModel,
+    return entityModels.map(
+      entityModel => (entityModel as any).content || entityModel
     ) as T[];
-
-    if (pureDTOs.length > 0 && typeof (pureDTOs[0] as any).active === 'boolean') {
-      return (pureDTOs as any[]).filter((item) => item.active !== false) as T[];
-    }
-    return pureDTOs;
   }
 }
