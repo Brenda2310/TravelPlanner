@@ -81,24 +81,36 @@
 
       <div class="trip-field image-upload-field">
         <label>Imagen del viaje (opcional)</label>
-        <label
-          class="image-upload-box"
-          [class.has-image]="imagePreview || store.currentTrip()?.imageUrl"
-        >
-          <input type="file" accept="image/*" (change)="onFileSelected($event)" hidden />
-          @if (imagePreview || store.currentTrip()?.imageUrl) {
-            <img [src]="imagePreview || store.currentTrip()?.imageUrl" class="image-preview" />
-            <div class="image-overlay">
-              <span>🖼️ Cambiar imagen</span>
-            </div>
-          } @else {
-            <div class="image-placeholder">
-              <span class="upload-icon">🌄</span>
-              <span class="upload-text">Subir imagen del viaje</span>
-              <span class="upload-hint">JPG, PNG · Click para seleccionar</span>
-            </div>
+
+        <div class="image-upload-wrapper">
+          <label class="image-upload-box" [class.has-image]="imagePreview || existingImageUrl">
+            <input #fileInput type="file" accept="image/*" (change)="onFileSelected($event)" hidden />
+
+            @if (imagePreview || existingImageUrl) {
+              <img [src]="imagePreview || existingImageUrl" class="image-preview" />
+
+              <div class="image-overlay">
+                <span>🖼️ Cambiar imagen</span>
+              </div>
+            } @else {
+              <div class="image-placeholder">
+                <span class="upload-icon">🌄</span>
+                <span class="upload-text"> Subir imagen del viaje </span>
+                <span class="upload-hint"> JPG, PNG · Click para seleccionar </span>
+              </div>
+            }
+          </label>
+
+          @if (imagePreview || existingImageUrl) {
+            <button
+              type="button"
+              class="remove-image-btn"
+              (click)="$event.preventDefault(); $event.stopPropagation(); removeImage()"
+            >
+              ✕ Quitar
+            </button>
           }
-        </label>
+        </div>
       </div>
 
       <div class="buttons">

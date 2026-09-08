@@ -81,9 +81,7 @@
     @if (mode === 'company') {
       <div class="form-things">
         <div class="form-group">
-          <label for="available_quantity" class="form-label">
-            Cupos Disponibles:
-          </label>
+          <label for="available_quantity" class="form-label"> Cupos Disponibles: </label>
 
           <input
             id="available_quantity"
@@ -96,16 +94,12 @@
             activityForm.get('available_quantity')?.invalid &&
             activityForm.get('available_quantity')?.touched
           ) {
-            <small class="validation-error">
-              La cantidad de cupos es obligatoria.
-            </small>
+            <small class="validation-error"> La cantidad de cupos es obligatoria. </small>
           }
         </div>
       </div>
     } @else if (mode === 'user') {
-
       <div class="activity-share">
-
         <div class="share-label-row">
           <label>Compartir con amigos:</label>
         </div>
@@ -115,12 +109,7 @@
             <div class="share-item">
               <span>{{ user.username }}</span>
 
-              <button
-                type="button"
-                (click)="removeUserId(user.id)"
-              >
-                ×
-              </button>
+              <button type="button" (click)="removeUserId(user.id)">×</button>
             </div>
           }
         </div>
@@ -141,35 +130,45 @@
               <li class="user-search-result">
                 <span>{{ user.username }}</span>
 
-                <button
-                  type="button"
-                  (click)="addUserById(user)"
-                >
-                  Agregar
-                </button>
+                <button type="button" (click)="addUserById(user)">Agregar</button>
               </li>
             }
           </ul>
         }
       </div>
     }
-    <div class="form-group image-upload-field">
+    <div class="image-upload-field">
       <label class="form-label">Imagen (opcional)</label>
-      <label class="image-upload-box" [class.has-image]="imagePreview">
-        <input type="file" accept="image/*" (change)="onFileSelected($event)" hidden />
-        @if (imagePreview) {
-          <img [src]="imagePreview" class="image-preview" />
-          <div class="image-overlay">
-            <span>🖼️ Cambiar imagen</span>
-          </div>
-        } @else {
-          <div class="image-placeholder">
-            <span class="upload-icon">🏔️</span>
-            <span class="upload-text">Subir imagen de la actividad</span>
-            <span class="upload-hint">JPG, PNG · Click para seleccionar</span>
-          </div>
+
+      <div class="image-upload-wrapper">
+        <label class="image-upload-box" [class.has-image]="imagePreview || existingImageUrl">
+          <input #fileInput type="file" accept="image/*" (change)="onFileSelected($event)" hidden />
+
+          @if (imagePreview || existingImageUrl) {
+            <img [src]="imagePreview || existingImageUrl" class="image-preview" />
+
+            <div class="image-overlay">
+              <span>🖼️ Cambiar imagen</span>
+            </div>
+          } @else {
+            <div class="image-placeholder">
+              <span class="upload-icon">🏔️</span>
+              <span class="upload-text">Subir imagen</span>
+              <span class="upload-hint"> JPG, PNG · Click para seleccionar </span>
+            </div>
+          }
+        </label>
+
+        @if (imagePreview || existingImageUrl) {
+          <button
+            type="button"
+            class="btn-remove-image"
+            (click)="$event.preventDefault(); $event.stopPropagation(); removeImage()"
+          >
+            ✕ Quitar
+          </button>
         }
-      </label>
+      </div>
     </div>
     <div class="actions">
       <button type="submit" [disabled]="activityForm.invalid || loading" class="btn-submit">

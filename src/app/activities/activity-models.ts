@@ -98,6 +98,7 @@ export interface ActivityUpdateDTO {
   available?: boolean;
   itineraryId?: number;
   imageUrl?: string;
+  removeImage?: boolean;
 }
 
 export interface CompanyActivityUpdateDTO {
@@ -110,6 +111,7 @@ export interface CompanyActivityUpdateDTO {
   endTime: string;
   available_quantity: number;
   imageUrl?: string;
+  removeImage?: boolean;
 }
 
 export interface ActivityFilterDTO {

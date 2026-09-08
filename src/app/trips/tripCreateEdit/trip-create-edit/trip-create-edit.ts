@@ -1,4 +1,14 @@
-import { ChangeDetectorRef, Component, effect, inject, OnInit, signal } from '@angular/core';
+import {
+  ChangeDetectorRef,
+  Component,
+  effect,
+  ElementRef,
+  inject,
+  OnInit,
+  signal,
+  ViewChild,
+} from '@angular/core';
+import { DEFAULT_IMAGE_URL } from '../../../image';
 import { FormBuilder, FormsModule, ReactiveFormsModule, Validators } from '@angular/forms';
 import { ActivatedRoute, Router } from '@angular/router';
 import { finalize, Observable } from 'rxjs';
@@ -28,8 +38,11 @@ export class TripCreateEdit implements OnInit {
   public errorMessage: string | null = null;
   public selectedFile: File | null = null;
   public imagePreview: string | null = null;
+  public existingImageUrl: string | null = null;
+  public removeExistingImage = false;
 
   public sharedUserIds: number[] = [];
+  @ViewChild('fileInput') fileInputRef!: ElementRef<HTMLInputElement>;
 
   /*showTravelCodeInfo = signal(false);
 
@@ -64,19 +77,22 @@ export class TripCreateEdit implements OnInit {
 
   public readonly patchEffect = effect(() => {
     const trip = this.store.currentTrip();
+
     if (trip && trip.id === this.tripId) {
       this.tripForm.patchValue({
         name: trip.name,
         destination: trip.destination,
         estimatedBudget: trip.estimatedBudget,
-        //companions: trip.companions,
         startDate: trip.startDate,
         endDate: trip.endDate,
-        //sharedUserIds: trip.userIds.filter((id) => id !== this.security.getId()),
       });
+
       this.sharedUserIds = trip.users
-        .filter(u => u.id !== this.security.getId())
-        .map(u => u.id);
+        .filter((u) => u.id !== this.security.getId())
+        .map((u) => u.id);
+
+      this.existingImageUrl =
+        trip.imageUrl && trip.imageUrl !== DEFAULT_IMAGE_URL ? trip.imageUrl : null;
     }
   });
 
@@ -86,17 +102,29 @@ export class TripCreateEdit implements OnInit {
       this.tripId = +idFromUrl;
       this.isEditing = true;
       this.store.loadTripById(this.tripId);
-    }else {
-    this.store.clearCurrentTrip();
-    this.imagePreview = null;
-    this.selectedFile = null;
+    } else {
+      this.store.clearCurrentTrip();
+      this.imagePreview = null;
+      this.selectedFile = null;
+    }
   }
+
+  removeImage(): void {
+    this.selectedFile = null;
+    this.imagePreview = null;
+    if (this.fileInputRef) this.fileInputRef.nativeElement.value = '';
+    if (this.existingImageUrl) {
+      this.removeExistingImage = true;
+      this.existingImageUrl = null;
+    }
+    this.cdr.detectChanges();
   }
 
   onFileSelected(event: Event): void {
     const file = (event.target as HTMLInputElement).files?.[0];
     if (!file) return;
     this.selectedFile = file;
+    this.removeExistingImage = false;
     const reader = new FileReader();
     reader.onload = () => {
       this.imagePreview = reader.result as string;
@@ -105,8 +133,8 @@ export class TripCreateEdit implements OnInit {
     reader.readAsDataURL(file);
   }
 
-  removeCompanion (idToRemove: number): void {
-    this.sharedUserIds = this.sharedUserIds.filter(id => id !== idToRemove);
+  removeCompanion(idToRemove: number): void {
+    this.sharedUserIds = this.sharedUserIds.filter((id) => id !== idToRemove);
   }
 
   onSubmit(): void {
@@ -139,37 +167,42 @@ export class TripCreateEdit implements OnInit {
       const updateDto: TripUpdateDTO = {
         ...tripDto,
         sharedUserIds: this.sharedUserIds,
+        removeImage: this.removeExistingImage,
       };
       action$ = this.store.updateTrip(this.tripId!, updateDto, this.selectedFile ?? undefined);
     } else {
       const createDto: TripCreateDTO = {
         ...tripDto,
         sharedUserIds: [],
-      } 
+      };
       action$ = this.store.createTrip(createDto, this.selectedFile ?? undefined);
     }
 
-    action$.pipe(finalize(() => {
-      this.loading = false;
-      this.cdr.detectChanges();
-    })).subscribe({
-      next: () => {
-        alert('Viaje Guardado con exito');
-        this.store.clearCurrentTrip();
-        this.router.navigate(['/trips']);
-        this.cdr.detectChanges();
-      },
-      error: (err: any) => {
-        this.loading = false;
-        this.errorMessage =
-          err.userMessage ||
-          err.original?.error?.message ||
-          err.original?.message ||
-          err.original?.toString() ||
-          'Error desconocido.';
-        this.cdr.detectChanges();
-      },
-    });
+    action$
+      .pipe(
+        finalize(() => {
+          this.loading = false;
+          this.cdr.detectChanges();
+        }),
+      )
+      .subscribe({
+        next: () => {
+          alert('Viaje Guardado con exito');
+          this.store.clearCurrentTrip();
+          this.router.navigate(['/trips']);
+          this.cdr.detectChanges();
+        },
+        error: (err: any) => {
+          this.loading = false;
+          this.errorMessage =
+            err.userMessage ||
+            err.original?.error?.message ||
+            err.original?.message ||
+            err.original?.toString() ||
+            'Error desconocido.';
+          this.cdr.detectChanges();
+        },
+      });
   }
 
   /*

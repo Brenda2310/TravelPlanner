@@ -48,6 +48,7 @@ export interface TripUpdateDTO {
   //companions?: number;
   sharedUserIds?: number[];
   imageUrl?: string;
+  removeImage?: boolean;
 }
 
 export interface TripFilterDTO {

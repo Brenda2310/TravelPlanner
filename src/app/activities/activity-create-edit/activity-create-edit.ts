@@ -1,4 +1,14 @@
-import { ChangeDetectorRef, Component, inject, Input, OnInit, signal } from '@angular/core';
+import {
+  ChangeDetectorRef,
+  Component,
+  ElementRef,
+  inject,
+  Input,
+  OnInit,
+  signal,
+  ViewChild,
+} from '@angular/core';
+import { DEFAULT_IMAGE_URL } from '../../image';
 import { FormBuilder, FormsModule, ReactiveFormsModule, Validators } from '@angular/forms';
 import { ActivatedRoute, Router } from '@angular/router';
 import { debounceTime, distinctUntilChanged, finalize, Observable, Subject, switchMap } from 'rxjs';
@@ -28,10 +38,9 @@ export class ActivityCreateEdit implements OnInit {
   private readonly router = inject(Router);
   private readonly route = inject(ActivatedRoute);
   private readonly cdr = inject(ChangeDetectorRef);
-  private readonly _showTravelCodeInfo = signal(false)
-  private readonly userSearchSubject = new Subject<string>();;
+  private readonly _showTravelCodeInfo = signal(false);
+  private readonly userSearchSubject = new Subject<string>();
   private readonly friendService = inject(FriendService);
-
 
   public readonly showTravelCodeInfo = this._showTravelCodeInfo.asReadonly();
   public selectedFile: File | null = null;
@@ -66,6 +75,10 @@ export class ActivityCreateEdit implements OnInit {
     'HISTORIA',
     'FAMILIA',
   ];
+  public existingImageUrl: string | null = null;
+  public removeExistingImage = false;
+
+  @ViewChild('fileInput') fileInputRef!: ElementRef<HTMLInputElement>;
 
   public activityForm = this.fb.group({
     name: ['', [Validators.required, Validators.maxLength(100)]],
@@ -108,6 +121,8 @@ export class ActivityCreateEdit implements OnInit {
           available_quantity: activity.available_quantity,
           sharedUserIds: activity.sharedUserIds ?? [],
         });
+        this.existingImageUrl =
+          activity.imageUrl && activity.imageUrl !== DEFAULT_IMAGE_URL ? activity.imageUrl : null;
       });
     }
 
@@ -126,26 +141,25 @@ export class ActivityCreateEdit implements OnInit {
           }
 
           return this.friendService.getFriends();
-        })
+        }),
       )
       .subscribe({
         next: (friends: UserResumeDTO[]) => {
-        console.log('AMIGOS RECIBIDOS:', friends);
+          console.log('AMIGOS RECIBIDOS:', friends);
 
-        const query = this.userSearchQuery.toLowerCase();
+          const query = this.userSearchQuery.toLowerCase();
 
-        const currentIds =
-          this.activityForm.get('sharedUserIds')?.value || [];
+          const currentIds = this.activityForm.get('sharedUserIds')?.value || [];
 
-        this.userSearchResults = friends.filter(
-          (f: UserResumeDTO) =>
-            f.username.toLowerCase().includes(query) &&
-            f.id !== this.security.getId() &&
-            !currentIds.includes(f.id)
-        );
+          this.userSearchResults = friends.filter(
+            (f: UserResumeDTO) =>
+              f.username.toLowerCase().includes(query) &&
+              f.id !== this.security.getId() &&
+              !currentIds.includes(f.id),
+          );
 
-        console.log('RESULTADOS:', this.userSearchResults);
-      },
+          console.log('RESULTADOS:', this.userSearchResults);
+        },
         error: () => {
           this.userSearchResults = [];
         },
@@ -163,10 +177,22 @@ export class ActivityCreateEdit implements OnInit {
     quantityControl?.updateValueAndValidity();
   }
 
+  removeImage(): void {
+    this.selectedFile = null;
+    this.imagePreview = null;
+    if (this.fileInputRef) this.fileInputRef.nativeElement.value = '';
+    if (this.existingImageUrl) {
+      this.removeExistingImage = true;
+      this.existingImageUrl = null;
+    }
+    this.cdr.detectChanges();
+  }
+
   onFileSelected(event: Event): void {
     const file = (event.target as HTMLInputElement).files?.[0];
     if (!file) return;
     this.selectedFile = file;
+    this.removeExistingImage = false;
     const reader = new FileReader();
     reader.onload = () => {
       this.imagePreview = reader.result as string;
@@ -200,6 +226,7 @@ export class ActivityCreateEdit implements OnInit {
         const dto: CompanyActivityUpdateDTO = {
           ...baseActivityDto,
           available_quantity: formValue.available_quantity!,
+          removeImage: this.removeExistingImage,
         } as CompanyActivityUpdateDTO;
 
         action$ = this.store.updateCompanyActivity(
@@ -212,6 +239,7 @@ export class ActivityCreateEdit implements OnInit {
         const dto: ActivityUpdateDTO = {
           ...baseActivityDto,
           sharedUserIds: formValue.sharedUserIds!,
+          removeImage: this.removeExistingImage,
         } as ActivityUpdateDTO;
 
         action$ = this.store.updateUserActivity(
@@ -293,16 +321,11 @@ export class ActivityCreateEdit implements OnInit {
   removeUserId(idToRemove: number): void {
     const sharedIdsControl = this.activityForm.get('sharedUserIds');
 
-    const currentSharedIds: number[] =
-      sharedIdsControl?.value || [];
+    const currentSharedIds: number[] = sharedIdsControl?.value || [];
 
-    sharedIdsControl?.setValue(
-      currentSharedIds.filter((id) => id !== idToRemove)
-    );
+    sharedIdsControl?.setValue(currentSharedIds.filter((id) => id !== idToRemove));
 
-    this.sharedUsers = this.sharedUsers.filter(
-      user => user.id !== idToRemove
-    );
+    this.sharedUsers = this.sharedUsers.filter((user) => user.id !== idToRemove);
   }
 
   onInviteSearch(): void {
@@ -312,19 +335,12 @@ export class ActivityCreateEdit implements OnInit {
   addUserById(user: UserResumeDTO): void {
     const sharedIdsControl = this.activityForm.get('sharedUserIds');
 
-    const currentSharedIds: number[] =
-      sharedIdsControl?.value || [];
+    const currentSharedIds: number[] = sharedIdsControl?.value || [];
 
     if (!currentSharedIds.includes(user.id)) {
-      sharedIdsControl?.setValue([
-        ...currentSharedIds,
-        user.id,
-      ]);
+      sharedIdsControl?.setValue([...currentSharedIds, user.id]);
 
-      this.sharedUsers = [
-        ...this.sharedUsers,
-        user,
-      ];
+      this.sharedUsers = [...this.sharedUsers, user];
     }
 
     this.userSearchQuery = '';
