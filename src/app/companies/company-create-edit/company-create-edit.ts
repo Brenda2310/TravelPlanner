@@ -119,11 +119,14 @@ export class CompanyCreateEdit implements OnInit {
     const baseDto = {
       username: formValue.username!,
       email: formValue.email!,
-      taxId: formValue.taxId!,
       location: formValue.location!,
       phone: formValue.phone!,
       description: formValue.description!,
     };
+
+    if (this.mode === 'create') {
+      (baseDto as any).taxId = formValue.taxId;
+    }
 
     if (formValue.password) {
       (baseDto as any).password = formValue.password;
