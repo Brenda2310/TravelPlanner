@@ -55,7 +55,7 @@ export class ItineraryList implements OnInit {
 
       const filters: ItineraryFilterDTO = this.filterForm.value as ItineraryFilterDTO;
 
-      this.store.loadAllItineraries(this.pageable);
+      this.store.loadAllItineraries(filters, this.pageable);
     } else {
       const userId = this.security.getId();
       if (!userId) {

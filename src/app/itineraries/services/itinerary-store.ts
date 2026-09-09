@@ -44,9 +44,9 @@ export class ItineraryStore extends BaseStore {
     });
   }
 
-  loadAllItineraries(pageable: Pageable): void {
+  loadAllItineraries(filters: ItineraryFilterDTO, pageable: Pageable): void {
     this._loading.set(true);
-    this.client.getAllItineraries(pageable).subscribe({
+    this.client.getAllItineraries(filters, pageable).subscribe({
       next: (pagedResponse) => {
         const list = this.unwrapEntities<ItineraryResponseDTO>(pagedResponse);
         this.setItinerary(list, pagedResponse.page);

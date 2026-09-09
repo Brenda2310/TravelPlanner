@@ -25,8 +25,8 @@ export class ItineraryService extends BaseService {
     );
   }
 
-  getAllItineraries(pageable: Pageable) {
-    const params = this.buildParams(pageable);
+  getAllItineraries(filters: ItineraryFilterDTO, pageable: Pageable) {
+    const params = this.buildParams(pageable, filters);
     return this.http.get<PagedModel<ItineraryResponseDTO>>(this.api, { params });
   }
 
