@@ -28,6 +28,7 @@
           <input
             type="text"
             [(ngModel)]="inviteQuery"
+            (ngModelChange)="onInviteSearch()"
             placeholder="Buscar amigo por username..."
             (input)="onInviteSearch()"
           />
