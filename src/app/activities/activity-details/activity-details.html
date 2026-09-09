@@ -48,7 +48,8 @@
 
     @if (
       security.auth().companyId! === currentActivityDetail()!.companyId ||
-      currentActivityDetail()?.userIds?.includes(security.auth().userId!)
+      currentActivityDetail()?.userIds?.includes(security.auth().userId!) ||
+      security.auth().isAdmin
     ) {
       <div class="actions">
         <button class="edit" (click)="toEdit()">Editar</button>

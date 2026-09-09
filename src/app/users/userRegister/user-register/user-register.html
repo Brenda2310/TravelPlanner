@@ -58,6 +58,16 @@
           <div class="form-group">
             <label for="dni">DNI:</label>
             <input id="dni" type="text" formControlName="dni" />
+            @if (registerForm.get('dni')?.touched && registerForm.get('dni')?.errors) {
+              <div class="validation-error">
+                @if (registerForm.get('dni')?.hasError('required')) {
+                  El DNI es obligatorio.
+                }
+                @if (registerForm.get('dni')?.hasError('pattern')) {
+                  El DNI debe tener entre 7 y 8 dígitos, sin puntos.
+                }
+              </div>
+            }
           </div>
 
           <div class="form-group">

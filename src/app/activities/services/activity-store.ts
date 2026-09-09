@@ -353,4 +353,19 @@ export class ActivityStore extends BaseStore {
       }),
     );
   }
+
+  deleteActivityByAdmin(activityId: number): Observable<void> {
+    this._loading.set(true);
+    return this.client.deleteActivityAsAdmin(activityId).pipe(
+      tap(() => {
+        this._loading.set(false);
+      }),
+      catchError((err) => {
+        this._error.set('Error al eliminar la actividad.');
+        this._loading.set(false);
+        return throwError(() => err);
+      }),
+    );
+  }
+
 }

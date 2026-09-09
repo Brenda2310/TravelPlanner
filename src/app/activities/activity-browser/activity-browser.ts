@@ -65,8 +65,18 @@ export class ActivityBrowser implements OnInit {
   });
 
   ngOnInit(): void {
-    this.loadCompanyActivities();
-    this.loadUserActivities();
+    if (this.security.auth().isAdmin) {
+      this.loadAdminActivities();
+    } else if (this.security.auth().isCompany) {
+      this.loadCompanyActivities();
+    } else {
+      this.loadCompanyActivities();
+      this.loadUserActivities();
+    }
+  }
+
+  loadAdminActivities(): void {
+    this.store.loadAllActivities(this.pageable);
   }
 
   loadCompanyActivities(): void {
@@ -87,8 +97,15 @@ export class ActivityBrowser implements OnInit {
 
   onApplyFilters(filters: CompanyActivityFilterParams): void {
     this.pageable.page = 0;
-    this.store.loadAllCompanyActivities(this.pageable, filters);
-    this.loadUserActivities();
+
+    if (this.security.auth().isAdmin) {
+      this.loadAdminActivities();
+    } else if (this.security.auth().isCompany) {
+      this.store.loadAllCompanyActivities(this.pageable, filters);
+    } else {
+      this.store.loadAllCompanyActivities(this.pageable, filters);
+      this.loadUserActivities();
+    }
   }
 
   onPageChange(newPage: number): void {
@@ -99,6 +116,11 @@ export class ActivityBrowser implements OnInit {
   onPageChangeUser(newPage: number): void {
     this.pageable.page = newPage;
     this.loadUserActivities();
+  }
+
+  onPageChangeAdmin(newPage: number): void {
+    this.pageable.page = newPage;
+    this.loadAdminActivities();
   }
 
   reservate(activityId: number): void {

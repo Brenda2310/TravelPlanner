@@ -98,60 +98,6 @@ export class UserRegister implements OnInit {
     }
   }
 
-  /*onSubmit(): void {
-    if (this.registerForm.invalid) {
-      this.registerForm.markAllAsTouched();
-      this.errorMessage = 'Por favor, corrija los errores del formulario.';
-      return;
-    }
-
-    this.loading = true;
-    this.errorMessage = null;
-
-    const formValue = this.registerForm.value;
-    const passwordValue = formValue.password;
-
-    const userDto: UserUpdateDTO = {
-        username: formValue.username!,
-        email: formValue.email!,
-        dni: formValue.dni!, 
-    };
-
-    if (!this.isEditing || (this.isEditing && passwordValue)) {
-        userDto.password = passwordValue!;
-    }
-
-    const dialogRef = this.dialog.open(PreferenceSelector, {
-        data: { 
-            selected: formValue.preferences || [],
-        }
-    });
-
-    dialogRef.afterClosed().subscribe(preferences => {
-      if(!preferences){
-        this.loading = false;
-        return;
-      }
-
-      userDto.preferences = preferences;
-
-      this.store.createUser(userDto).subscribe({
-        next: () => {
-          this.loading = false;
-          alert("Usuario registrado con exito.");
-
-          const targetRoute = this.isEditing ? '/users' : '/login';
-          this.router.navigate([targetRoute]);
-        }, 
-        error: (err) => {
-          this.loading=false;
-          this.errorMessage = err.error?.message || 'Error al registrar el usuario.';
-          this.cdr.detectChanges();
-        }
-      });
-    });
-  }*/
-
   onSubmit(): void {
     if (this.registerForm.invalid) {
       this.registerForm.markAllAsTouched();

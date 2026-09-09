@@ -72,11 +72,24 @@ export class ActivityDetails implements OnInit {
 
   onDelete() {
     if (!confirm('¿Seguro que querés eliminar esta actividad?')) return;
-
     const activity = this.currentActivityDetail();
     if (!activity) return;
 
     const id = activity.id;
+
+    if (this.security.auth().isAdmin) {
+      this.store.deleteActivityByAdmin(id).subscribe({
+        next: () => {
+          alert('Actividad eliminada con éxito.');
+          this.router.navigateByUrl('/activities');
+        },
+        error: (err) => {
+          this.errorMessage = err.userMessage || 'Error al eliminar actividad.';
+        },
+      });
+
+      return;
+    }
 
     if (activity.companyId) {
       this.store.deleteCompanyActivityOnly(activity.companyId, id).subscribe({

@@ -109,6 +109,10 @@ export class ActivityService extends BaseService {
     return this.http.delete<void>(`${this.api}/company/${companyId}/${activityId}`);
   }
 
+  deleteActivityAsAdmin(activityId: number) {
+    return this.http.delete<void>(`${this.api}/admin/${activityId}`);
+  }
+
   restoreCompanyActivity(companyId: number, activityId: number) {
     return this.http.put<void>(`${this.api}/company/${companyId}/${activityId}/restore`, null);
   }
